@@ -10,9 +10,9 @@ With Union, you can:
 
 - Categorize and track expenses
 
-- Set and monitor shared saving goals
+- Set and monitor shared saving goals and budgets
 
-- Get notifications when spending exceeds your budget
+- Get internal notifications when spending exceeds your budget
 
 - Gain insights into your shared financial habits
 
