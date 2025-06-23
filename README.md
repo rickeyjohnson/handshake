@@ -1,8 +1,8 @@
-# Union
+# Handshake
 
-Union is a modern finance app designed for couples to manage money—together. Whether you're saving for a trip, tracking shared expenses, or building a budget, Union lets you link accounts, set goals, and stay financially aligned without needing a joint bank account.
+Handshake is a modern finance app designed for couples to manage money—together. Whether you're saving for a trip, tracking shared expenses, or building a budget, Handshake lets you link accounts, set goals, and stay financially aligned without needing a joint bank account.
 
-With Union, you can:
+With Handshake, you can:
 
 - Pair with your partner securely
 
