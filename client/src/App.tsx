@@ -1,11 +1,11 @@
 import React from 'react'
+import { Routes, Route } from 'react-router'
 
 const App = () => {
   return (
-    <div className='flex flex-col'>
-      <h1>Test</h1>
-      <h2>uyen</h2>
-    </div>
+    <Routes>
+      <Route path='/' element={<p>handshake</p>}/>
+    </Routes>
   )
 }
 
