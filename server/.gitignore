@@ -42,3 +42,4 @@ coverage/
 # Optional: ignore uploads or temp files
 uploads/
 tmp/
+/generated/prisma
