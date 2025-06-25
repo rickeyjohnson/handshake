@@ -1,7 +1,6 @@
-const express = require('express')
+const auth = require('express').Router()
 const rateLimit = require('express-rate-limit')
 const bcrypt = require('bcrypt')
-const auth = express.Router()
 const { PrismaClient } = require('../generated/prisma')
 const prisma = new PrismaClient()
 
@@ -57,8 +56,8 @@ auth.post('/login', loginLimiter, async (req, res) => {
         return res.status(400).json({ error: "Invalid email or password "})
     }
 
+    req.session.user = user
     res.json({ message: "Login successful!" })
-
 })
 
 module.exports = auth

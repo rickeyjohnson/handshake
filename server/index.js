@@ -1,17 +1,41 @@
 const express = require('express')
 const cors = require('cors')
+const session = require('express-session')
 const app = express()
+const { PrismaClient } = require('./generated/prisma')
+const prisma = new PrismaClient()
 const port = process.env.PORT | 3000
 
 const authRouter = require('./routes/auth.js')
 
 app.use(express.json())
 app.use(cors())
+app.use(session({
+    name: 'sessionId',
+    secret: 'keyboard cat', // update with env variable
+    cookie: {
+        maxAge: 1000 * 60 * 3,
+        secure: process.env.RENDER ? true : false,
+        httpOnly: false,
+    },
+    resave: false,
+    saveUninitialized: false,
+}))
 
-app.use('/auth', authRouter)
+app.use('/api/auth', authRouter)
 
-app.get('/', (req, res) => {
+app.get('/api/', (req, res) => {
     res.send('Welcome to Handshake')
+})
+
+// Checks if an user is logged in
+app.get('/api/me', async (req, res) => {
+    const user = await prisma.user.findUnique({
+        where: { id: req.session.user.id },
+        select: { name: true },
+    })
+
+    res.json({ id: req.session.user.id, name: user.name})
 })
 
 app.listen(port, () => {
