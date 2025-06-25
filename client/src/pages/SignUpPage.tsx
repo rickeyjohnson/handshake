@@ -3,14 +3,40 @@ import Button from '../components/Button'
 import { Link } from 'react-router'
 
 const SignUpPage = () => {
-	const [name, setName] = useState<string>('')
-	const [email, setEmail] = useState<string>('')
-	const [password, setPassword] = useState<string>('')
+	const api_url = import.meta.env.VITE_API_URL
+	const [signUpData, setSignUpData] = useState({ name: "", email: "", password: "" })
+	const [error, hasError] = useState(false)
+	const [errorMessage, setErrorMessage] = useState('')
+
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const { name, value } = e.target
+		setSignUpData(prev => ({...prev, [name]: value}))
+ 	}
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 		
-		await fetch("http://localhost:3000")
+		try {
+			const response = await fetch(`${api_url}/auth/signup`, {
+				method: 'POST',
+				headers: { "Content-Type" : "application/json" },
+				body: JSON.stringify(signUpData),
+			})
+
+			const data = await response.json()
+
+			if (response.ok) {
+				console.log('Post added successfully')
+				window.location.href = '/dashboard'
+			} else {
+				console.error("Failed to create account: ", data.error)
+				hasError(!error)
+				setErrorMessage(data.error)
+			}
+
+		} catch (error) {
+			console.error("Network error. Please try again", error)
+		}
 	}
 
 	return (
@@ -21,33 +47,40 @@ const SignUpPage = () => {
 				<input
 					type="text"
 					id="name"
+					value={signUpData.name}
 					name="name"
 					required={true}
 					className="border rounded"
-					onChange={(e) => setName(e.target.value)}
+					onChange={handleChange}
 				/>
 
 				<label htmlFor="email">Email</label>
 				<input
 					type="email"
 					id="email"
+					value={signUpData.email}
 					name="email"
 					required={true}
 					className="border rounded"
-					onChange={(e) => setEmail(e.target.value)}
+					onChange={handleChange}
 				/>
 
 				<label htmlFor="password">Password</label>
 				<input
 					type="text"
 					id="password"
+					value={signUpData.password}
 					name="password"
 					required={true}
 					className="border rounded"
-					onChange={(e) => setPassword(e.target.value)}
+					onChange={handleChange}
 				/>
 
 				<Button type="submit">Sign Up</Button>
+
+				{
+					error ? <p>{errorMessage}</p> : <></>
+				}
 			</form>
 			<p>
 				Already have an account?

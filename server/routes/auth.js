@@ -28,15 +28,22 @@ auth.post('/signup', async (req, res) => {
     if (existingUser) {
         return res.status(400).json({ error: "Email already taken."})
     }
+    
+    try {
+        const hashedPassword = await bcrypt.hash(password, 10)
+        const newUser = await prisma.user.create({
+            data: {
+                name,
+                email,
+                password: hashedPassword,
+            }
+        })
 
-    const hashedPassword = await bcrypt.hash(password, 10)
-    const newUser = await prisma.user.create({
-        data: {
-            name,
-            email,
-            password: hashedPassword,
-        }
-    })
+        req.session.user = newUser
+    } catch(error) {
+        console.error('Error creating post: ', error)
+        res.status(500).json({ error: "Something went wrong while creating the post." })
+    }
 
     res.status(201).json({ message: "User created successfully"})
 })
