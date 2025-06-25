@@ -64,7 +64,7 @@ auth.post('/login', loginLimiter, async (req, res) => {
     }
 
     req.session.user = user
-    res.json({ message: "Login successful!" })
+    res.status(200).json({ message: "Login successful!" })
 })
 
 module.exports = auth

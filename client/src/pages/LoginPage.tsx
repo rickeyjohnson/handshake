@@ -3,16 +3,40 @@ import Button from '../components/Button'
 import { useState } from 'react'
 
 const LoginPage = () => {
-	const [email, setEmail] = useState<string>('')
-	const [password, setPassword] = useState<string>('')
+	const api_url = import.meta.env.VITE_API_URL
+	const [loginData, setLoginData] = useState({ email: "", password: "" })
+	const [error, hasError] = useState(false)
+	const [errorMessage, setErrorMessage] = useState('')
 
-	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const { name, value } = e.target
+		setLoginData(prev => ({...prev, [name]: value}))
+ 	}
+
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
-		console.log({
-			page: 'log in',
-			email,
-			password,
-		})
+		
+		try {
+			const response = await fetch(`${api_url}/auth/login`, {
+				method: 'POST',
+				headers: { "Content-Type" : "application/json" },
+				body: JSON.stringify(loginData),
+			})
+
+			const data = await response.json()
+
+			if (response.ok) {
+				console.log('Post added successfully')
+				window.location.href = '/dashboard'
+			} else {
+				console.error("Failed to create account: ", data.error)
+				hasError(!error)
+				setErrorMessage(data.error)
+			}
+
+		} catch (error) {
+			console.error("Network error. Please try again", error)
+		}
 	}
 
 	return (
@@ -26,7 +50,7 @@ const LoginPage = () => {
 					name="email"
 					required={true}
 					className="border rounded"
-					onChange={(e) => setEmail(e.target.value)}
+					onChange={handleChange}
 				/>
 
 				<label htmlFor="password">Password</label>
@@ -36,10 +60,15 @@ const LoginPage = () => {
 					name="password"
 					required={true}
 					className="border rounded"
-					onChange={(e) => setPassword(e.target.value)}
+					onChange={handleChange}
 				/>
 
 				<Button type="submit">Log In</Button>
+
+				{
+					error ? <p>{errorMessage}</p> : <></>
+				}
+				
 			</form>
 			<p>
 				Don't have an account?
