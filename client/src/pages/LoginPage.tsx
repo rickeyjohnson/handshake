@@ -3,7 +3,6 @@ import Button from '../components/Button'
 import { useState } from 'react'
 
 const LoginPage = () => {
-	const api_url = import.meta.env.VITE_API_URL
 	const [loginData, setLoginData] = useState({ email: "", password: "" })
 	const [error, hasError] = useState(false)
 	const [errorMessage, setErrorMessage] = useState('')
@@ -17,7 +16,7 @@ const LoginPage = () => {
 		e.preventDefault()
 		
 		try {
-			const response = await fetch(`${api_url}/auth/login`, {
+			const response = await fetch('/api/auth/login', {
 				method: 'POST',
 				headers: { "Content-Type" : "application/json" },
 				body: JSON.stringify(loginData),
@@ -68,7 +67,7 @@ const LoginPage = () => {
 				{
 					error ? <p>{errorMessage}</p> : <></>
 				}
-				
+
 			</form>
 			<p>
 				Don't have an account?

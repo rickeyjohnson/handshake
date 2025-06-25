@@ -32,10 +32,9 @@ app.get('/api/', (req, res) => {
 app.get('/api/me', async (req, res) => {
     const user = await prisma.user.findUnique({
         where: { id: req.session.user.id },
-        select: { name: true },
     })
 
-    res.json({ id: req.session.user.id, name: user.name})
+    res.json(user)
 })
 
 app.listen(port, () => {

@@ -1,25 +1,30 @@
 import { useState } from 'react'
 import Button from '../components/Button'
 import { Link } from 'react-router'
+import { useUser } from '../contexts/UserContext'
 
 const SignUpPage = () => {
-	const api_url = import.meta.env.VITE_API_URL
-	const [signUpData, setSignUpData] = useState({ name: "", email: "", password: "" })
+	const [signUpData, setSignUpData] = useState({
+		name: '',
+		email: '',
+		password: '',
+	})
 	const [error, hasError] = useState(false)
 	const [errorMessage, setErrorMessage] = useState('')
+	const { setUser } = useUser()
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target
-		setSignUpData(prev => ({...prev, [name]: value}))
- 	}
+		setSignUpData((prev) => ({ ...prev, [name]: value }))
+	}
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
-		
+
 		try {
-			const response = await fetch(`${api_url}/auth/signup`, {
+			const response = await fetch('/api/auth/signup', {
 				method: 'POST',
-				headers: { "Content-Type" : "application/json" },
+				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(signUpData),
 			})
 
@@ -27,15 +32,15 @@ const SignUpPage = () => {
 
 			if (response.ok) {
 				console.log('Post added successfully')
+				setUser(data)
 				window.location.href = '/dashboard'
 			} else {
-				console.error("Failed to create account: ", data.error)
+				console.error('Failed to create account: ', data.error)
 				hasError(!error)
 				setErrorMessage(data.error)
 			}
-
 		} catch (error) {
-			console.error("Network error. Please try again", error)
+			console.error('Network error. Please try again', error)
 		}
 	}
 
@@ -78,9 +83,7 @@ const SignUpPage = () => {
 
 				<Button type="submit">Sign Up</Button>
 
-				{
-					error ? <p>{errorMessage}</p> : <></>
-				}
+				{error ? <p>{errorMessage}</p> : <></>}
 			</form>
 			<p>
 				Already have an account?

@@ -40,12 +40,11 @@ auth.post('/signup', async (req, res) => {
         })
 
         req.session.user = newUser
+        res.status(201).json(newUser)
     } catch(error) {
         console.error('Error creating post: ', error)
         res.status(500).json({ error: "Something went wrong while creating the post." })
     }
-
-    res.status(201).json({ message: "User created successfully"})
 })
 
 auth.post('/login', loginLimiter, async (req, res) => {
@@ -64,7 +63,7 @@ auth.post('/login', loginLimiter, async (req, res) => {
     }
 
     req.session.user = user
-    res.status(200).json({ message: "Login successful!" })
+    res.status(200).json(user)
 })
 
 module.exports = auth

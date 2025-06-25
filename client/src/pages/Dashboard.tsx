@@ -1,6 +1,12 @@
+import { useUser } from "../contexts/UserContext"
+
 const Dashboard = () => {
+  const { user } = useUser()
+
   return (
-    <div>Dashboard</div>
+    <div>
+      Hello, {user?.name ?? 'ERROR'}
+    </div>
   )
 }
 
