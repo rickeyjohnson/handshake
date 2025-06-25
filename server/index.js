@@ -1,8 +1,6 @@
 const express = require('express')
 const cors = require('cors')
 const app = express()
-const { PrismaClient } = require('@prisma/client')
-const prisma = new PrismaClient()
 const port = process.env.PORT | 3000
 
 const authRouter = require('./routes/auth.js')

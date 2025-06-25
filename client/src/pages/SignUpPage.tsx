@@ -7,14 +7,10 @@ const SignUpPage = () => {
 	const [email, setEmail] = useState<string>('')
 	const [password, setPassword] = useState<string>('')
 
-	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
-		console.log({
-			page: 'sign up',
-			name,
-			email,
-			password,
-		})
+		
+		await fetch("http://localhost:3000")
 	}
 
 	return (

@@ -13,6 +13,7 @@
     "bcrypt": "^6.0.0",
     "cors": "^2.8.5",
     "express": "^5.1.0",
+    "express-rate-limit": "^7.5.1",
     "nodemon": "^3.1.10"
   },
   "devDependencies": {
