@@ -2,12 +2,15 @@ import { Link, useNavigate } from 'react-router'
 import { Button } from '../components/Button'
 import { useState } from 'react'
 import { useUser } from '../contexts/UserContext'
+import { Label } from '../components/Label'
+import { Input } from '../components/Input'
 
 const LoginPage = () => {
 	const [loginData, setLoginData] = useState({ email: '', password: '' })
 	const [error, setError] = useState('')
 	const { setUser } = useUser()
 	const navigate = useNavigate()
+	const api_url = import.meta.env.VITE_API_URL
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target
@@ -18,7 +21,8 @@ const LoginPage = () => {
 		e.preventDefault()
 
 		try {
-			const response = await fetch('/api/auth/login', {
+			// REMOVE localhost:3000 during development
+			const response = await fetch(`${api_url}/api/auth/login`, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(loginData),
@@ -40,39 +44,48 @@ const LoginPage = () => {
 	}
 
 	return (
-		<div>
-			<h1 className="text-4xl">Login</h1>
-			<form className="flex flex-col w-fit" onSubmit={handleSubmit}>
-				<label htmlFor="email">Email</label>
-				<input
-					type="email"
-					id="email"
-					name="email"
-					required={true}
-					className="border rounded"
-					onChange={handleChange}
-				/>
+		<div className="flex justify-center items-center h-screen min-h-svh">
+			<div className="bg-white flex flex-col rounded-2xl border border-gray-300 max-w-md min-w-sm items-center p-8 gap-2">
+				<h1 className="text-xl font-semibold self-start">Login</h1>
+				<p className="self-start text-gray-500 font-light text-md">
+					Enter your email below to log into your account
+				</p>
 
-				<label htmlFor="password">Password</label>
-				<input
-					type="text"
-					id="password"
-					name="password"
-					required={true}
-					className="border rounded"
-					onChange={handleChange}
-				/>
+				<form
+					className="flex flex-col w-full mt-3"
+					onSubmit={handleSubmit}
+				>
+					<Label htmlFor="email">Email</Label>
+					<Input
+						type="email"
+						id="email"
+						name="email"
+						required={true}
+						onChange={handleChange}
+					/>
 
-				<Button type="submit">Log In</Button>
+					<Label htmlFor="password">Password</Label>
+					<Input
+						type="password"
+						id="password"
+						name="password"
+						required={true}
+						onChange={handleChange}
+					/>
 
-				{error ? <p>{error}</p> : <></>}
-			</form>
-			<p>
-				Don't have an account?
-				<Link to="/signup" className="underline">
-					Sign Up
-				</Link>
-			</p>
+					<Button type="submit">Log In</Button>
+
+					{error ? <p>{error}</p> : <></>}
+				</form>
+				<p>
+					Don't have an account?{' '}
+					<span>
+						<Link to="/signup" className="underline">
+							Sign Up
+						</Link>
+					</span>
+				</p>
+			</div>
 		</div>
 	)
 }

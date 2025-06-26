@@ -22,7 +22,7 @@ const LandingPage = () => {
 
 				<main className="flex justify-center items-center h-full">
 					<div className="flex flex-col gap-3 items-center">
-						<h1 className="text-7xl font-medium">
+						<h1 className="text-7xl font-medium text-center">
 							Welcome, to Handshake
 						</h1>
 						<p className="text-xl">

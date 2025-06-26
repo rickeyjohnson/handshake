@@ -1,12 +1,11 @@
-import express from 'express'
-import cors from 'cors'
-import session from 'express-session'
+const express = require('express')
+const cors = require('cors')
+const session = require('express-session')
 const app = express()
-import { PrismaClient } from './generated/prisma'
+const { PrismaClient } = require('./generated/prisma')
 const prisma = new PrismaClient()
-const port = 3000
-
-import authRouter from './routes/auth.ts'
+const port = process.env.PORT | 3000
+const authRouter = require('./routes/auth.js')
 
 app.use(express.json())
 app.use(cors())
