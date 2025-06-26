@@ -1,26 +1,26 @@
 import { Link, useNavigate } from 'react-router'
-import {Button} from '../components/Button'
+import { Button } from '../components/Button'
 import { useState } from 'react'
 import { useUser } from '../contexts/UserContext'
 
 const LoginPage = () => {
-	const [loginData, setLoginData] = useState({ email: "", password: "" })
+	const [loginData, setLoginData] = useState({ email: '', password: '' })
 	const [error, setError] = useState('')
 	const { setUser } = useUser()
 	const navigate = useNavigate()
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target
-		setLoginData(prev => ({...prev, [name]: value}))
- 	}
+		setLoginData((prev) => ({ ...prev, [name]: value }))
+	}
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
-		
+
 		try {
 			const response = await fetch('/api/auth/login', {
 				method: 'POST',
-				headers: { "Content-Type" : "application/json" },
+				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(loginData),
 			})
 
@@ -31,12 +31,11 @@ const LoginPage = () => {
 				setUser(data)
 				navigate('/dashboard')
 			} else {
-				console.error("Failed to create account: ", data.error)
+				console.error('Failed to create account: ', data.error)
 				setError(data.error)
 			}
-
 		} catch (error) {
-			console.error("Network error. Please try again", error)
+			console.error('Network error. Please try again', error)
 		}
 	}
 
@@ -66,10 +65,7 @@ const LoginPage = () => {
 
 				<Button type="submit">Log In</Button>
 
-				{
-					error ? <p>{error}</p> : <></>
-				}
-
+				{error ? <p>{error}</p> : <></>}
 			</form>
 			<p>
 				Don't have an account?

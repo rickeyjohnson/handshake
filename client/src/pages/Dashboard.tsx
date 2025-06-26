@@ -1,16 +1,16 @@
-import {LogoutButton} from "../components/LogoutButton"
-import { useUser } from "../contexts/UserContext"
+import { LogoutButton } from '../components/LogoutButton'
+import { useUser } from '../contexts/UserContext'
 
 const Dashboard = () => {
-  const { user } = useUser()
+	const { user } = useUser()
 
-  return (
-    <div>
-      {user ? <p>Hello, {user.name}</p> : <p>Hello, User</p>}
+	return (
+		<div>
+			{user ? <p>Hello, {user.name}</p> : <p>Hello, User</p>}
 
-      <LogoutButton />
-    </div>
-  )
+			<LogoutButton />
+		</div>
+	)
 }
 
 export default Dashboard
