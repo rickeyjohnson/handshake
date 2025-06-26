@@ -30,14 +30,19 @@ app.get('/api/', (req, res) => {
 
 // Checks if an user is logged in
 app.get('/api/me', async (req, res) => {
-    const user = await prisma.user.findUnique({
-        where: { id: req.session.user.id },
-    })
 
-    if (user) {
-        res.json(user)
-    } else {
-        res.status(401).json({ error: "Unauthorized" })
+    try {
+        const user = await prisma.user.findUnique({
+            where: { id: req.session.user.id },
+        })
+
+        if (!user) {
+            throw new Error('Unauthorized')
+        }
+
+        res.status(200).json(user)
+    } catch(error) {
+        res.status(401).json({ error: error.message })
     }
 })
 

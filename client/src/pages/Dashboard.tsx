@@ -1,3 +1,4 @@
+import LogoutButton from "../components/LogoutButton"
 import { useUser } from "../contexts/UserContext"
 
 const Dashboard = () => {
@@ -5,7 +6,9 @@ const Dashboard = () => {
 
   return (
     <div>
-      {user ? <p>Hello, {user.name}</p> : <p>Loading...</p>}
+      {user ? <p>Hello, {user.name}</p> : <p>Hello, User</p>}
+
+      <LogoutButton />
     </div>
   )
 }

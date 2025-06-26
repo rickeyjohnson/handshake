@@ -66,4 +66,15 @@ auth.post('/login', loginLimiter, async (req, res) => {
     res.status(200).json(user)
 })
 
+auth.post('/logout', (req, res) => {
+    req.session.destroy((error) => {
+        if (error) {
+            return res.status(500).json({ error: "Failed to log out" })
+        }
+
+        res.clearCookie("connect.sid")
+        res.json({ message: "Logged out successfully" })
+    })
+})
+
 module.exports = auth
