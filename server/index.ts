@@ -1,12 +1,12 @@
-const express = require('express')
-const cors = require('cors')
-const session = require('express-session')
+import express from 'express'
+import cors from 'cors'
+import session from 'express-session'
 const app = express()
-const { PrismaClient } = require('./generated/prisma')
+import { PrismaClient } from './generated/prisma'
 const prisma = new PrismaClient()
-const port = process.env.PORT | 3000
+const port = 3000
 
-const authRouter = require('./routes/auth.js')
+import authRouter from './routes/auth.ts'
 
 app.use(express.json())
 app.use(cors())
@@ -15,7 +15,7 @@ app.use(session({
     secret: 'keyboard cat', // update with env variable
     cookie: {
         maxAge: 1000 * 60 * 3,
-        secure: process.env.RENDER ? true : false,
+        secure: false,
         httpOnly: false,
     },
     resave: false,

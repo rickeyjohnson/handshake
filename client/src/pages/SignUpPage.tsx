@@ -1,7 +1,9 @@
 import { useState } from 'react'
-import Button from '../components/Button'
+import { Button } from '../components/Button'
 import { Link, useNavigate } from 'react-router'
 import { useUser } from '../contexts/UserContext'
+import { Input } from '../components/Input'
+import { Label } from '../components/Label'
 
 const SignUpPage = () => {
 	const [signUpData, setSignUpData] = useState({
@@ -44,52 +46,53 @@ const SignUpPage = () => {
 	}
 
 	return (
-		<div>
-			<h1 className="text-4xl">Sign Up</h1>
-			<form className="flex flex-col w-fit" onSubmit={handleSubmit}>
-				<label htmlFor="name">Name</label>
-				<input
-					type="text"
-					id="name"
-					value={signUpData.name}
-					name="name"
-					required={true}
-					className="border rounded"
-					onChange={handleChange}
-				/>
-
-				<label htmlFor="email">Email</label>
-				<input
-					type="email"
-					id="email"
-					value={signUpData.email}
-					name="email"
-					required={true}
-					className="border rounded"
-					onChange={handleChange}
-				/>
-
-				<label htmlFor="password">Password</label>
-				<input
-					type="text"
-					id="password"
-					value={signUpData.password}
-					name="password"
-					required={true}
-					className="border rounded"
-					onChange={handleChange}
-				/>
-
-				<Button type="submit">Sign Up</Button>
-
-				{error ? <p>{error}</p> : <></>}
-			</form>
-			<p>
-				Already have an account?
-				<Link to="/login" className="underline">
-					Log in
-				</Link>
-			</p>
+		<div className='flex justify-center items-center h-screen min-h-svh'>
+			<div className='bg-white flex flex-col rounded-2xl border border-gray-300 max-w-md min-w-sm items-center p-8 gap-2'>
+				<h1 className="text-xl font-semibold self-start">Sign Up</h1>
+				<p className='self-start text-gray-500 font-light text-md'>Enter your name and email below to create an account</p>
+				
+				<form className="flex flex-col w-full mt-3" onSubmit={handleSubmit}>
+					<Label htmlFor="name">Name</Label>
+					<Input
+						type="text"
+						id="name"
+						value={signUpData.name}
+						name="name"
+						required={true}
+						onChange={handleChange}
+					/>
+				
+					<Label htmlFor="email">Email</Label>
+					<Input
+						type="email"
+						id="email"
+						value={signUpData.email}
+						name="email"
+						required={true}
+						onChange={handleChange}
+					/>
+				
+					<Label htmlFor="password">Password</Label>
+					<Input
+						type="text"
+						id="password"
+						value={signUpData.password}
+						name="password"
+						required={true}
+						onChange={handleChange}
+					/>
+				
+					<Button type="submit" className='my-2'>Sign Up</Button>
+				
+					{error ? <p>{error}</p> : <></>}
+				</form>
+				<p>
+					Already have an account?
+					<Link to="/login" className="underline">
+						Log in
+					</Link>
+				</p>
+			</div>
 		</div>
 	)
 }

@@ -1,7 +1,7 @@
 import { useUser } from "../contexts/UserContext"
-import Button from "./Button"
+import {Button} from "./Button"
 
-const LogoutButton = () => {
+export const LogoutButton = () => {
     const { setUser } = useUser()
 
     const handleLogout = async () => {
@@ -18,5 +18,3 @@ const LogoutButton = () => {
         <Button onClick={handleLogout}>Log Out</Button>
     )
 }
-
-export default LogoutButton

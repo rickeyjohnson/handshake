@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router'
-import Button from '../components/Button'
+import {Button} from '../components/Button'
 import { useState } from 'react'
 import { useUser } from '../contexts/UserContext'
 

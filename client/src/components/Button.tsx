@@ -6,7 +6,7 @@ type Button = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 	className?: string
 }
 
-const Button = ({ children, variant, className = '', ...props }: Button) => {
+export const Button = ({ children, variant, className = '', ...props }: Button) => {
 	let base = 'px-4 py-2 rounded-md'
 
 	switch (variant) {
@@ -15,7 +15,7 @@ const Button = ({ children, variant, className = '', ...props }: Button) => {
 			break
 
 		default:
-			base += ' bg-slate-900 text-white'
+			base += ' bg-slate-950 text-white'
 			break
 	}
 
@@ -25,7 +25,3 @@ const Button = ({ children, variant, className = '', ...props }: Button) => {
 		</button>
 	)
 }
-
-Button.propTypes = {}
-
-export default Button

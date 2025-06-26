@@ -1,7 +1,8 @@
-const auth = require('express').Router()
-const rateLimit = require('express-rate-limit')
-const bcrypt = require('bcrypt')
-const { PrismaClient } = require('../generated/prisma')
+import express from 'express'
+import rateLimit from 'express-rate-limit'
+import bcrypt from 'bcrypt'
+import { PrismaClient } from '../generated/prisma'
+const auth = express.Router()
 const prisma = new PrismaClient()
 
 const loginLimiter = rateLimit({
@@ -77,4 +78,4 @@ auth.post('/logout', (req, res) => {
     })
 })
 
-module.exports = auth
+export default auth
