@@ -14,7 +14,7 @@ app.use(session({
     name: 'sessionId',
     secret: 'keyboard cat', // update with env variable
     cookie: {
-        maxAge: 1000 * 60 * 20,
+        maxAge: 1000 * 60 * 3,
         secure: process.env.RENDER ? true : false,
         httpOnly: false,
     },
@@ -34,7 +34,11 @@ app.get('/api/me', async (req, res) => {
         where: { id: req.session.user.id },
     })
 
-    res.json(user)
+    if (user) {
+        res.json(user)
+    } else {
+        res.status(401).json({ error: "Unauthorized" })
+    }
 })
 
 app.listen(port, () => {
