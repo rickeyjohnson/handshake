@@ -5,7 +5,7 @@ const Dashboard = () => {
 
   return (
     <div>
-      Hello, {user?.name ?? 'ERROR'}
+      {user ? <p>Hello, {user.name}</p> : <p>Loading...</p>}
     </div>
   )
 }

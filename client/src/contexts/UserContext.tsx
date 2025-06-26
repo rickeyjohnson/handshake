@@ -3,8 +3,8 @@ import { createContext, useState, useContext, useEffect } from "react"
 const UserContext = createContext<any>(undefined)   // Find typing for usercontext
 
 export const UserProvider = ({ children } : { children: React.ReactNode }) => {
-    const api_url = import.meta.env.VITE_API_URL
     const [user, setUser] = useState(null);
+    const [inialized, setInitialized] = useState(false)
 
     useEffect(() => {
         fetch('/api/me', { credentials: "include" })
@@ -12,6 +12,7 @@ export const UserProvider = ({ children } : { children: React.ReactNode }) => {
             .then((data) => {
                 if (data.id) {
                     setUser(data);
+                    setInitialized(true)
                 }
             })
     }, [])

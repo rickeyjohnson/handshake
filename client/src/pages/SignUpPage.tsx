@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import Button from '../components/Button'
-import { Link } from 'react-router'
+import { Link, useNavigate } from 'react-router'
 import { useUser } from '../contexts/UserContext'
 
 const SignUpPage = () => {
@@ -9,9 +9,9 @@ const SignUpPage = () => {
 		email: '',
 		password: '',
 	})
-	const [error, hasError] = useState(false)
-	const [errorMessage, setErrorMessage] = useState('')
+	const [error, setError] = useState('')
 	const { setUser } = useUser()
+	const navigate = useNavigate()
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target
@@ -31,13 +31,12 @@ const SignUpPage = () => {
 			const data = await response.json()
 
 			if (response.ok) {
-				console.log('Post added successfully')
+				console.log('Account creation successfully')
 				setUser(data)
-				window.location.href = '/dashboard'
+				navigate('/dashboard')
 			} else {
 				console.error('Failed to create account: ', data.error)
-				hasError(!error)
-				setErrorMessage(data.error)
+				setError(data.error)
 			}
 		} catch (error) {
 			console.error('Network error. Please try again', error)
@@ -83,7 +82,7 @@ const SignUpPage = () => {
 
 				<Button type="submit">Sign Up</Button>
 
-				{error ? <p>{errorMessage}</p> : <></>}
+				{error ? <p>{error}</p> : <></>}
 			</form>
 			<p>
 				Already have an account?

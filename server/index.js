@@ -14,7 +14,7 @@ app.use(session({
     name: 'sessionId',
     secret: 'keyboard cat', // update with env variable
     cookie: {
-        maxAge: 1000 * 60 * 3,
+        maxAge: 1000 * 60 * 20,
         secure: process.env.RENDER ? true : false,
         httpOnly: false,
     },

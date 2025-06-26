@@ -1,11 +1,13 @@
-import { Link } from 'react-router'
+import { Link, useNavigate } from 'react-router'
 import Button from '../components/Button'
 import { useState } from 'react'
+import { useUser } from '../contexts/UserContext'
 
 const LoginPage = () => {
 	const [loginData, setLoginData] = useState({ email: "", password: "" })
-	const [error, hasError] = useState(false)
-	const [errorMessage, setErrorMessage] = useState('')
+	const [error, setError] = useState('')
+	const { setUser } = useUser()
+	const navigate = useNavigate()
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target
@@ -25,12 +27,12 @@ const LoginPage = () => {
 			const data = await response.json()
 
 			if (response.ok) {
-				console.log('Post added successfully')
-				window.location.href = '/dashboard'
+				console.log('Login successfully')
+				setUser(data)
+				navigate('/dashboard')
 			} else {
 				console.error("Failed to create account: ", data.error)
-				hasError(!error)
-				setErrorMessage(data.error)
+				setError(data.error)
 			}
 
 		} catch (error) {
@@ -65,7 +67,7 @@ const LoginPage = () => {
 				<Button type="submit">Log In</Button>
 
 				{
-					error ? <p>{errorMessage}</p> : <></>
+					error ? <p>{error}</p> : <></>
 				}
 
 			</form>
