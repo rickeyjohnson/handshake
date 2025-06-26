@@ -3,16 +3,25 @@ import Button from '../components/Button'
 
 const LandingPage = () => {
 	return (
-		<div>
-			<h1 className="text-4xl">Welcome, to Handshake</h1>
-			<p>The modern finance app designed for couples</p>
+		<>
+			<nav>
 
-			<Link to="/signup">
-				<Button className="bg-slate-800 px-4 py-2 rounded-md text-white">
-					Get Started
-				</Button>
-			</Link>
-		</div>
+			</nav>
+
+			<main className='flex justify-center items-center h-screen'>
+				<div className='flex flex-col gap-3 items-center'>
+					<h1 className="text-8xl font-medium">Welcome, to Handshake</h1>
+					<p className='text-2xl'>The modern finance app designed for couples</p>
+					
+					<section className='flex gap-10 justify-center'>
+						<Link to="/signup">
+							<Button>Get Started</Button>
+						</Link>
+						<a href='https://github.com/rickeyjohnson/handshake/' target='_blank'><Button variant='ghost'>Github</Button></a>
+					</section>
+				</div>
+			</main>
+		</>
 	)
 }
 
