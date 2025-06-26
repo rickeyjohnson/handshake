@@ -10,7 +10,6 @@ const LoginPage = () => {
 	const [error, setError] = useState('')
 	const { setUser } = useUser()
 	const navigate = useNavigate()
-	const api_url = import.meta.env.VITE_API_URL
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target
@@ -22,7 +21,7 @@ const LoginPage = () => {
 
 		try {
 			// REMOVE localhost:3000 during development
-			const response = await fetch(`${api_url}/api/auth/login`, {
+			const response = await fetch('/api/auth/login', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(loginData),

@@ -4,9 +4,11 @@ import SignUpPage from './pages/SignUpPage'
 import LoginPage from './pages/LoginPage'
 import Dashboard from './pages/Dashboard'
 import { WithAuth } from './components/WithAuth'
+import LinkPlaid from './pages/LinkPlaid'
 
 const App = () => {
 	const ProtectedDashboard = WithAuth(Dashboard)
+	const ProtectedLinkPlaid = WithAuth(LinkPlaid)
 
 	return (
 		<Routes>
@@ -14,6 +16,7 @@ const App = () => {
 			<Route path="/signup" element={<SignUpPage />} />
 			<Route path="/login" element={<LoginPage />} />
       		<Route path="/dashboard" element={<ProtectedDashboard />} />
+			<Route path='/plaid' element={<ProtectedLinkPlaid />} />
 		</Routes>
 	)
 }
