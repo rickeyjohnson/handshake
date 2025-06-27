@@ -72,4 +72,15 @@ plaid.post('/exchange_public_token', async (req, res) => {
 	}
 })
 
+// PLAID API ENDPOINTS FOR FETCHING BANK DATA
+plaid.get('/accounts', async (req, res) => {
+	try {
+		const accountsResponse = await plaidClient.accountsGet({
+			access_token: accessToken
+		})
+	} catch (error) {
+		res.status(500).json({ error: error.message })
+	}
+})
+
 module.exports = plaid
