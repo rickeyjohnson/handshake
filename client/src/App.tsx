@@ -5,6 +5,7 @@ import LoginPage from './pages/LoginPage'
 import Dashboard from './pages/Dashboard'
 import { WithAuth } from './components/WithAuth'
 import LinkPlaid from './pages/LinkPlaid'
+import NotFound from './pages/NotFound'
 
 const App = () => {
 	const ProtectedDashboard = WithAuth(Dashboard)
@@ -16,7 +17,8 @@ const App = () => {
 			<Route path="/signup" element={<SignUpPage />} />
 			<Route path="/login" element={<LoginPage />} />
       		<Route path="/dashboard" element={<ProtectedDashboard />} />
-			<Route path='/plaid' element={<ProtectedLinkPlaid />} />
+			<Route path='/connect-bank' element={<ProtectedLinkPlaid />} />
+			<Route path='/*' element={<NotFound />} />
 		</Routes>
 	)
 }

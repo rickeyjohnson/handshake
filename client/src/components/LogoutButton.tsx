@@ -11,7 +11,6 @@ export const LogoutButton = () => {
 		})
 
 		setUser(null)
-		window.location.href = '/'
 	}
 
 	return <Button onClick={handleLogout}>Log Out</Button>
