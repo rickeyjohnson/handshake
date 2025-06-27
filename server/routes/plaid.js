@@ -66,6 +66,14 @@ plaid.post('/exchange_public_token', async (req, res) => {
 		const accessToken = exchangeTokenResponse.data.access_token
 		const itemId = exchangeTokenResponse.data.item_id
 
+		const updateUser = await prisma.user.update({
+			where: { id: req.session.user.id },
+			data: {
+				plaidToken: accessToken,
+				plaidItemId: itemId,
+			}
+		})
+
 		res.status(200).json({ public_token_exchange: 'complete' })
 	} catch (error) {
 		res.status(500).json({ error: error.message })

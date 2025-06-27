@@ -5,6 +5,7 @@ import { Link } from 'react-router'
 
 const LinkPlaid = () => {
 	const [linkToken, setLinkToken] = useState(null)
+	const [isError, setIsError] = useState(false)
 
 	const generateToken = async () => {
 		console.log('generating link_token')
@@ -23,9 +24,17 @@ const LinkPlaid = () => {
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ public_token: public_token }),
 			})
+			.then(res => res.json())
+			.then(data => {
+				if (data.error) {
+					setIsError(true)
+				}
+			})
 		} catch (error: any) {
 			console.log(error.message)
 		}
+
+		setIsError(false)
 	}, [])
 
 	const config = {
@@ -53,6 +62,9 @@ const LinkPlaid = () => {
 			<h1 className="text-center text-3xl">
 				Connect bank via Plaid to continue creating your account.
 			</h1>
+
+			{isError ? <p className='bg-red-200 py-4 px-8 rounded-md border-red-700 border-4 text-red-700 font-medium text-lg'>Error connecting bank</p> : <></>}
+
 			<Button onClick={() => open()} disabled={!ready}>
 				Connect Bank
 			</Button>
