@@ -35,7 +35,7 @@ const SignUpPage = () => {
 			if (response.ok) {
 				console.log('Account creation successfully')
 				setUser(data)
-				navigate('/plaid')
+				navigate('/connect-bank')
 			} else {
 				console.error('Failed to create account: ', data.error)
 				setError(data.error)
