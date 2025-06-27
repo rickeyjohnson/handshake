@@ -4,8 +4,10 @@ const session = require('express-session')
 const app = express()
 const { PrismaClient } = require('./generated/prisma')
 const prisma = new PrismaClient()
-const port = process.env.PORT | 3000
+const PORT = process.env.PORT | 3000
 const authRouter = require('./routes/auth.js')
+const plaidRouter = require('./routes/plaid.js')
+const { isAuthenticated } = require('./utils/util.js')
 
 app.use(express.json())
 app.use(cors())
@@ -24,13 +26,14 @@ app.use(
 )
 
 app.use('/api/auth', authRouter)
+app.use('/api/plaid', plaidRouter)
 
 app.get('/api/', (req, res) => {
 	res.send('Welcome to Handshake')
 })
 
 // Checks if an user is logged in
-app.get('/api/me', async (req, res) => {
+app.get('/api/me', isAuthenticated, async (req, res) => {
 	try {
 		const user = await prisma.user.findUnique({
 			where: { id: req.session.user.id },
@@ -46,6 +49,6 @@ app.get('/api/me', async (req, res) => {
 	}
 })
 
-app.listen(port, () => {
-	console.log(`Server is running on http://localhost:${port}`)
+app.listen(PORT, () => {
+	console.log(`Server is running on http://localhost:${PORT}`)
 })
