@@ -18,10 +18,10 @@ const LinkPlaid = () => {
 
 	const onSuccess = useCallback((public_token: string) => {
 		try {
-			fetch('/api/plaid/set_access_token', {
+			fetch('/api/plaid/exchange_public_token', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ public_token }),
+				body: JSON.stringify({ public_token: public_token }),
 			})
 		} catch (error: any) {
 			console.log(error.message)

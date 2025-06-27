@@ -38,7 +38,7 @@ plaid.post('/create_link_token', isAuthenticated, async (req, res) => {
 		user: {
 			client_user_id: clientUserId,
 		},
-		client_name: `${req.session.user.name.toUpperCase()} Plaid`,
+		client_name: 'Handshake',
 		products: PLAID_PRODUCTS,
 		country_codes: PLAID_COUNTRY_CODES,
 		redirect_uri: PLAID_REDIRECT_URI,
@@ -50,6 +50,23 @@ plaid.post('/create_link_token', isAuthenticated, async (req, res) => {
 			linkTokenCreateRequest
 		)
 		res.status(200).json(createTokenResponse.data)
+	} catch (error) {
+		res.status(500).json({ error: error.message })
+	}
+})
+
+plaid.post('/exchange_public_token', async (req, res) => {
+	const publicToken = req.body.public_token
+
+	try {
+		const exchangeTokenResponse = await plaidClient.itemPublicTokenExchange({
+			public_token: publicToken,
+		})
+
+		const accessToken = exchangeTokenResponse.data.access_token
+		const itemId = exchangeTokenResponse.data.item_id
+
+		res.status(200).json({ public_token_exchange: 'complete' })
 	} catch (error) {
 		res.status(500).json({ error: error.message })
 	}
