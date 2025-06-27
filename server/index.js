@@ -7,6 +7,7 @@ const prisma = new PrismaClient()
 const PORT = process.env.PORT | 3000
 const authRouter = require('./routes/auth.js')
 const plaidRouter = require('./routes/plaid.js')
+const { isAuthenticated } = require('./utils/util.js')
 
 app.use(express.json())
 app.use(cors())
@@ -32,7 +33,7 @@ app.get('/api/', (req, res) => {
 })
 
 // Checks if an user is logged in
-app.get('/api/me', async (req, res) => {
+app.get('/api/me', isAuthenticated, async (req, res) => {
 	try {
 		const user = await prisma.user.findUnique({
 			where: { id: req.session.user.id },
@@ -49,5 +50,5 @@ app.get('/api/me', async (req, res) => {
 })
 
 app.listen(PORT, () => {
-	console.log(`Server is running on http://localhost:${port}`)
+	console.log(`Server is running on http://localhost:${PORT}`)
 })
