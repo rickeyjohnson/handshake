@@ -47,7 +47,7 @@ const LinkPlaid = () => {
 	}, [])
 
 	return (
-		<div className="flex h-screen w-screen justify-center items-center relative">
+		<div className="flex flex-col gap-5 h-screen w-screen justify-center items-center relative">
       <Link to='/signup' className='absolute left-5 top-5'>
         <Button variant='ghost' className='flex justify-center items-center'>
           <span className="material-icons">
@@ -55,6 +55,8 @@ const LinkPlaid = () => {
           </span>
         </Button>
       </Link>
+
+      <h1 className='text-center text-3xl'>Connect bank via Plaid to continue creating your account.</h1>
       <Button
         onClick={() => {
           setIsLoading(true)
@@ -62,7 +64,7 @@ const LinkPlaid = () => {
         }}
         disabled={!ready}
       >
-        Link Bank
+        Connect Bank
       </Button>
 		</div>
 	)
