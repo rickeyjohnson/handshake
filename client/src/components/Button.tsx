@@ -19,6 +19,10 @@ export const Button = ({
 			base += ' hover:bg-gray-100'
 			break
 
+		case 'clear':
+			base += ' bg-white border-3 border-gray-200 hover:bg-slate-950 hover:text-white hover:border-slate-950'
+			break
+
 		default:
 			base += ' bg-slate-950 text-white'
 			break

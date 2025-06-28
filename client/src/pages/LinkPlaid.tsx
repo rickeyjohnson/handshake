@@ -1,11 +1,13 @@
 import { usePlaidLink } from 'react-plaid-link'
 import { useCallback, useEffect, useState } from 'react'
 import { Button } from '../components/Button'
-import { Link } from 'react-router'
+import { Link, useNavigate } from 'react-router'
 
 const LinkPlaid = () => {
 	const [linkToken, setLinkToken] = useState(null)
 	const [isError, setIsError] = useState(false)
+	const [loading, setLoading] = useState(false)
+	const navigate = useNavigate()
 
 	const generateToken = async () => {
 		console.log('generating link_token')
@@ -18,6 +20,7 @@ const LinkPlaid = () => {
 	}
 
 	const onSuccess = useCallback((public_token: string) => {
+		setLoading(true)
 		try {
 			fetch('/api/plaid/exchange_public_token', {
 				method: 'POST',
@@ -28,13 +31,15 @@ const LinkPlaid = () => {
 			.then(data => {
 				if (data.error) {
 					setIsError(true)
+				} else {
+					navigate('/pair')
 				}
 			})
 		} catch (error: any) {
 			console.log(error.message)
 		}
-
-		setIsError(false)
+		
+		setLoading(false)
 	}, [])
 
 	const config = {
@@ -45,7 +50,9 @@ const LinkPlaid = () => {
 	const { open, ready } = usePlaidLink(config)
 
 	useEffect(() => {
+		setLoading(true)
 		generateToken()
+		setLoading(false)
 	}, [])
 
 	return (
@@ -65,7 +72,7 @@ const LinkPlaid = () => {
 
 			{isError ? <p className='bg-red-200 py-4 px-8 rounded-md border-red-700 border-4 text-red-700 font-medium text-lg'>Error connecting bank</p> : <></>}
 
-			<Button onClick={() => open()} disabled={!ready}>
+			<Button onClick={() => open()} disabled={!ready} className={loading ? 'bg-amber-300' : ''}>
 				Connect Bank
 			</Button>
 		</div>

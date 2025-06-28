@@ -28,17 +28,18 @@ const LoginPage = () => {
 			})
 
 			const data = await response.json()
+			setUser(data)
 
-			if (response.ok) {
-				console.log('Login successfully')
-				setUser(data)
-				navigate('/dashboard')
+			if (!data.plaidToken) {
+				navigate('/connect-bank')
+			} else if (!data.partnerId) {
+				navigate('/pair')
 			} else {
-				console.error('Failed to create account: ', data.error)
-				setError(data.error)
+				navigate('/dashboard')
 			}
+
 		} catch (error) {
-			console.error('Network error. Please try again', error)
+			console.error('Network Error: Please try again', error)
 		}
 	}
 
