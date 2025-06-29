@@ -1,7 +1,7 @@
 import { Button } from './Button'
 import { Input } from './Input'
 
-const GenerateHandshakeCodeModal = ({ onClick }: { onClick: () => void }) => {
+const GenerateHandshakeCodeModal = ({ onClick, handshakeCode }: { onClick: () => void, handshakeCode: string }) => {
 	return (
 		<div className="h-screen w-screen bg-gray-400/10 absolute flex justify-center items-center">
 			<div className="bg-white flex flex-col rounded-2xl border border-gray-300 max-w-md min-w-sm items-center p-8 gap-2 relative">
@@ -14,7 +14,7 @@ const GenerateHandshakeCodeModal = ({ onClick }: { onClick: () => void }) => {
 				</p>
 
 				<Input
-					value={'34567'}
+					value={handshakeCode}
 					readOnly={true}
 					className="mt-2 mb- text-center font-medium text-5xl w-full"
 				/>
