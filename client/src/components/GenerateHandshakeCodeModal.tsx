@@ -10,7 +10,7 @@ const GenerateHandshakeCodeModal = ({ onClick }: { onClick: () => void }) => {
 				</h1>
 				<p className="self-start text-gray-500 font-light text-md">
 					This code allows you to pair with your partner. Give them
-					this code in order to pair.
+					this code in order to pair. This code will expire in 5 minutes.
 				</p>
 
 				<Input

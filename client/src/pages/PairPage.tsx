@@ -2,10 +2,13 @@ import { Link } from 'react-router'
 import { Button } from '../components/Button'
 import { useState } from 'react'
 import GenerateHandshakeCodeModal from '../components/GenerateHandshakeCodeModal'
+import EnterHandshakeCodeModal from '../components/EnterHandshakeCodeModal'
 
 const PairPage = () => {
 	const [showGenerateHandshakeCodeModal, setShowGenerateHandshakeCodeModal] =
 		useState(false)
+    const [showEnterHandshakeCodeModal, setShowEnterHandshakeCodeModal] =
+    useState(false)
 
 	return (
 		<div className="flex justify-center items-center h-screen relative">
@@ -31,13 +34,19 @@ const PairPage = () => {
 					Generate Code
 				</Button>
 
-				<Button variant="" className="w-md">
+				<Button variant="" className="w-md" onClick={() => setShowEnterHandshakeCodeModal(true)}>
 					Enter Code
 				</Button>
 
 				{showGenerateHandshakeCodeModal && (
 					<GenerateHandshakeCodeModal
 						onClick={() => setShowGenerateHandshakeCodeModal(false)}
+					/>
+				)}
+
+                {showEnterHandshakeCodeModal && (
+					<EnterHandshakeCodeModal
+						onClick={() => setShowEnterHandshakeCodeModal(false)}
 					/>
 				)}
 			</div>
