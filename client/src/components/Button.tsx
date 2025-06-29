@@ -12,7 +12,7 @@ export const Button = ({
 	className = '',
 	...props
 }: Button) => {
-	let base = 'px-4 py-2 rounded-md'
+	let base = 'px-4 py-2 rounded-md hover:cursor-pointer'
 
 	switch (variant) {
 		case 'ghost':
@@ -24,7 +24,7 @@ export const Button = ({
 			break
 
 		default:
-			base += ' bg-slate-950 text-white'
+			base += ' bg-slate-950 text-white hover:bg-slate-900'
 			break
 	}
 

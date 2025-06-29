@@ -1,9 +1,14 @@
 import { Link } from 'react-router'
 import { Button } from '../components/Button'
+import { useState } from 'react'
+import GenerateHandshakeCodeModal from '../components/GenerateHandshakeCodeModal'
 
 const PairPage = () => {
+	const [showGenerateHandshakeCodeModal, setShowGenerateHandshakeCodeModal] =
+		useState(false)
+
 	return (
-		<div className="flex flex-col gap-8 h-screen w-screen justify-center items-center relative">
+		<div className="flex justify-center items-center h-screen relative">
 			<Link to="/login" className="absolute left-5 top-5">
 				<Button
 					variant="ghost"
@@ -13,14 +18,28 @@ const PairPage = () => {
 				</Button>
 			</Link>
 
-			<h1 className="text-center text-3xl">
-				It's time to pair with your partner.
-			</h1>
+			<div className="flex flex-col justify-center items-center gap-4 w-md relative">
+				<h1 className="text-center text-3xl">
+					It's time to pair with your partner.
+				</h1>
 
-			<div className="flex gap-10">
-				<Button variant="clear">Generate Code</Button>
+				<Button
+					variant="clear"
+					className="w-md"
+					onClick={() => setShowGenerateHandshakeCodeModal(true)}
+				>
+					Generate Code
+				</Button>
 
-				<Button variant="clear">Enter Code</Button>
+				<Button variant="" className="w-md">
+					Enter Code
+				</Button>
+
+				{showGenerateHandshakeCodeModal && (
+					<GenerateHandshakeCodeModal
+						onClick={() => setShowGenerateHandshakeCodeModal(false)}
+					/>
+				)}
 			</div>
 		</div>
 	)
