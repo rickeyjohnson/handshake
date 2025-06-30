@@ -25,7 +25,7 @@ const isExpired = (startDate, secondsToAdd) => {
 	const date = new Date(startDate)
 	const now = new Date()
 
-	date.setDate(date.getSeconds() + secondsToAdd)
+	date.setSeconds(date.getSeconds() + secondsToAdd)
 	
 	return now > date
 }
