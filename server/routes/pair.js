@@ -38,6 +38,7 @@ pair.post('/enter', isAuthenticated, async(req, res) => {
     const pairRequest = await prisma.pairRequest.findUnique({
         where: {
             code: code,
+            status: 'PENDING',
         },
         select: {
             initiatorUserId: true,
@@ -57,14 +58,26 @@ pair.post('/enter', isAuthenticated, async(req, res) => {
         return
     }
 
-    const user = await prisma.user.update({
+    if (partnerId === userId) {
+        res.status(400).json({ error: 'Pairing with yourself is not allowed.' })
+        return
+    }
+
+    await prisma.user.update({
         where: { id: userId },
         data: { partnerId: partnerId },
     })
 
-    const partner = await prisma.user.update({
+    await prisma.user.update({
         where: { id: partnerId },
         data: { partnerId: userId },
+    })
+
+    await prisma.pairRequest.update({
+        where: { code: code },
+        data: {
+            status: 'COMPLETED'
+        }
     })
 
     res.status(201).json({ message: 'Users successfully paired'})
