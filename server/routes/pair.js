@@ -8,6 +8,11 @@ const EXPIRATION_DURATION = 60 * 10           // seconds
 pair.get('/request', isAuthenticated, async (req, res) => {
     const userId = req.session.user.id
 
+    if (req.session.user.partnerId) {
+        res.status(400).json({ error: 'You are already paired with another user.' })
+        return
+    }
+
     const codeRequest = await prisma.pairRequest.findFirst({
         where: { initiatorUserId: userId },
         orderBy: {
@@ -34,6 +39,11 @@ pair.get('/request', isAuthenticated, async (req, res) => {
 pair.post('/enter', isAuthenticated, async(req, res) => {
     const code = req.body.code
     const userId = req.session.user.id
+
+    if (req.session.user.partnerId) {
+        res.status(400).json({ message: 'You are already paired with another user.' })
+        return
+    }
 
     const pairRequest = await prisma.pairRequest.findUnique({
         where: {
@@ -77,6 +87,13 @@ pair.post('/enter', isAuthenticated, async(req, res) => {
         where: { code: code },
         data: {
             status: 'COMPLETED'
+        }
+    })
+
+    await prisma.pair.create({
+        data: {
+            user1Id: userId,
+            user2Id: partnerId,
         }
     })
 
