@@ -1,13 +1,13 @@
 const pair = require('express').Router()
 const { PrismaClient } = require('../generated/prisma')
-const { generateHandshakeCode } = require('../utils/util')
+const { generateHandshakeCode, isAuthenticated } = require('../utils/util')
 const prisma = new PrismaClient()
 
-pair.get('/request', async (req, res) => {
+pair.get('/request', isAuthenticated, async (req, res) => {
     const userId = req.session.user.id
 
     const code = await prisma.pairRequest.findFirst({
-        where: { id: userId },
+        where: { initiatorUserId: userId },
         orderBy: {
             createdAt: "desc"
         },
@@ -16,9 +16,20 @@ pair.get('/request', async (req, res) => {
         }
     })
 
-    if (code) { return res.status(200).json({ code: code })}
+    if (code) { 
+        res.status(200).json({ message: 'You already initiated a pair request', ...code })
+    } else {
+        const newCode = generateHandshakeCode()
 
-    res.status(200).json({ message : 'you have no pair request pending' })
+        const pairRequest = await prisma.pairRequest.create({
+            data: {
+                code: newCode,
+                initiatorUserId: userId,
+            }
+        })
+
+        res.status(200).json({ message : 'You have initiated a pair request', ...pairRequest })
+    }
 })
 
 module.exports = pair
