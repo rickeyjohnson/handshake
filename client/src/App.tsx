@@ -11,6 +11,7 @@ import PairPage from './pages/PairPage'
 const App = () => {
 	const ProtectedDashboard = WithAuth(Dashboard)
 	const ProtectedLinkPlaid = WithAuth(LinkPlaid)
+	const ProtectedPairPage = WithAuth(PairPage)
 
 	return (
 		<Routes>
@@ -19,7 +20,7 @@ const App = () => {
 			<Route path="/login" element={<LoginPage />} />
       		<Route path="/dashboard" element={<ProtectedDashboard />} />
 			<Route path='/connect-bank' element={<ProtectedLinkPlaid />} />
-			<Route path='/pair' element={<PairPage />} />
+			<Route path='/pair' element={<ProtectedPairPage />} />
 			<Route path='/*' element={<NotFound />} />
 		</Routes>
 	)
