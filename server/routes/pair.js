@@ -18,6 +18,8 @@ pair.get('/request', isAuthenticated, async (req, res) => {
 
     if (code) { 
         res.status(200).json({ message: 'You already initiated a pair request', ...code })
+
+        
     } else {
         const newCode = generateHandshakeCode()
 

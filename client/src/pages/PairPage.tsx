@@ -3,7 +3,6 @@ import { Button } from '../components/Button'
 import { useState } from 'react'
 import GenerateHandshakeCodeModal from '../components/GenerateHandshakeCodeModal'
 import EnterHandshakeCodeModal from '../components/EnterHandshakeCodeModal'
-import { generateHandshakeCode } from '../utils/utils'
 
 const PairPage = () => {
 	const [showGenerateHandshakeCodeModal, setShowGenerateHandshakeCodeModal] =
@@ -75,7 +74,7 @@ const PairPage = () => {
 					variant="clear"
 					className="w-md"
 					onClick={() => {
-                        setHandshakeCode(generateHandshakeCode())
+                        setHandshakeCode('12345')
 						setShowGenerateHandshakeCodeModal(true)
 					}}
 				>
