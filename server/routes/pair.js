@@ -33,6 +33,7 @@ pair.get('/request', isAuthenticated, async (req, res) => {
 
 pair.post('/enter', isAuthenticated, async(req, res) => {
     const code = req.body.code
+    const userId = req.session.user.id
 
     const pairRequest = await prisma.pairRequest.findUnique({
         where: {
@@ -56,9 +57,17 @@ pair.post('/enter', isAuthenticated, async(req, res) => {
         return
     }
 
-    
+    const user = await prisma.user.update({
+        where: { id: userId },
+        data: { partnerId: partnerId },
+    })
 
+    const partner = await prisma.user.update({
+        where: { id: partnerId },
+        data: { partnerId: userId },
+    })
 
+    res.status(201).json({ message: 'Users successfully paired'})
 })
 
 module.exports = pair
