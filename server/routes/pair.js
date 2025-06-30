@@ -3,7 +3,7 @@ const { PrismaClient } = require('../generated/prisma')
 const { generateHandshakeCode, isAuthenticated, isExpired } = require('../utils/util')
 const prisma = new PrismaClient()
 
-const EXPIRATION_DATE_IN_SECONDS = 60 * 5           // 5 minutes
+const EXPIRATION_DURATION = 60 * 10           // seconds
 
 pair.get('/request', isAuthenticated, async (req, res) => {
     const userId = req.session.user.id
@@ -15,7 +15,7 @@ pair.get('/request', isAuthenticated, async (req, res) => {
         }
     })
 
-    if (codeRequest && !isExpired(codeRequest.createdAt, EXPIRATION_DATE_IN_SECONDS)) {
+    if (codeRequest && !isExpired(codeRequest.createdAt, EXPIRATION_DURATION)) {
         res.status(200).json({ message: 'You already initiated a pair request', ...codeRequest })
         return
     }

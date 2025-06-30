@@ -1,7 +1,17 @@
+import { useEffect, useState } from 'react'
 import { Button } from './Button'
 import { Input } from './Input'
 
-const GenerateHandshakeCodeModal = ({ onClick, handshakeCode }: { onClick: () => void, handshakeCode: string }) => {
+const GenerateHandshakeCodeModal = ({ onClick }: { onClick: () => void }) => {
+	const [code, setCode] = useState('')
+
+	useEffect(() => {
+		fetch('/api/pair/request')
+			.then(res => res.json())
+			.then(data => setCode(data.code))
+			.catch(err => console.error(err))
+    }, [])
+
 	return (
 		<div className="h-screen w-screen bg-gray-400/10 absolute flex justify-center items-center">
 			<div className="bg-white flex flex-col rounded-2xl border border-gray-300 max-w-md min-w-sm items-center p-8 gap-2 relative">
@@ -14,7 +24,7 @@ const GenerateHandshakeCodeModal = ({ onClick, handshakeCode }: { onClick: () =>
 				</p>
 
 				<Input
-					value={handshakeCode}
+					value={code || '. . .'}
 					readOnly={true}
 					className="mt-2 mb- text-center font-medium text-5xl w-full"
 				/>
