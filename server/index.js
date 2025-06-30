@@ -7,6 +7,7 @@ const prisma = new PrismaClient()
 const PORT = process.env.PORT | 3000
 const authRouter = require('./routes/auth.js')
 const plaidRouter = require('./routes/plaid.js')
+const pairRouter = require('./routes/pair.js')
 const { isAuthenticated } = require('./utils/util.js')
 
 app.use(express.json())
@@ -16,7 +17,7 @@ app.use(
 		name: 'sessionId',
 		secret: 'keyboard cat', // update with env variable
 		cookie: {
-			maxAge: 1000 * 60 * 3,
+			maxAge: 1000 * 60 * 60,
 			secure: false,
 			httpOnly: false,
 		},
@@ -28,6 +29,7 @@ app.use(
 
 app.use('/api/auth', authRouter)
 app.use('/api/plaid', plaidRouter)
+app.use('/api/pair', pairRouter)
 
 app.get('/api/', (req, res) => {
 	res.send('Welcome to Handshake')

@@ -22,37 +22,37 @@ const PairPage = () => {
         // 2. generate code
         // 3. set show to true
 
-        try {
-            const response = await fetch('/api/pair/generate_code') // this will return only valid codes or no codes
-            const data = await response.json()
+        // try {
+        //     const response = await fetch('/api/pair/generate_code') // this will return only valid codes or no codes
+        //     const data = await response.json()
 
-            if (!data.code) {   // if there is a code
-                setHandshakeCode(data.code)
-                return
-            }
+        //     if (!data.code) {   // if there is a code
+        //         setHandshakeCode(data.code)
+        //         return
+        //     }
 
-        } catch (error: any) {
-            console.error(error.message)
-            return
-        }
+        // } catch (error: any) {
+        //     console.error(error.message)
+        //     return
+        // }
 
-        // if there's no code
-        const code = generateHandshakeCode()
+        // // if there's no code
+        // const code = generateHandshakeCode()
         
-        try {
-            await fetch('/api/pair/generate_code', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    code: code,
-                })
-            })
+        // try {
+        //     await fetch('/api/pair/generate_code', {
+        //         method: 'POST',
+        //         headers: { 'Content-Type': 'application/json' },
+        //         body: JSON.stringify({
+        //             code: code,
+        //         })
+        //     })
 
-            setHandshakeCode(code)
+        //     setHandshakeCode(code)
 
-        } catch (err: any) {
-            console.error(err.message)
-        }
+        // } catch (err: any) {
+        //     console.error(err.message)
+        // }
     }
 
 	return (
