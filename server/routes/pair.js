@@ -31,4 +31,19 @@ pair.get('/request', isAuthenticated, async (req, res) => {
     res.status(200).json({ message : 'You initiated a pair request', ...pairRequest })
 })
 
+pair.post('/enter', isAuthenticated, async(req, res) => {
+    const code = req.body.code
+
+    const pairRequest = await prisma.pairRequest.findUnique({
+        where: {
+            code: code,
+        },
+        select: {
+            initiatorUserId: true,
+        }
+    })
+
+    const partnerId = pairRequest.initiatorUserId
+})
+
 module.exports = pair
