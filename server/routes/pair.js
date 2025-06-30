@@ -40,10 +40,25 @@ pair.post('/enter', isAuthenticated, async(req, res) => {
         },
         select: {
             initiatorUserId: true,
+            createdAt: true,
         }
     })
 
     const partnerId = pairRequest.initiatorUserId
+
+    if (!pairRequest) {
+        res.status(404).json({error: 'Pairing code not found'})
+        return
+    }
+
+    if (isExpired(pairRequest.createdAt, EXPIRATION_DURATION)) {
+        res.status(410).json({error: 'Pairing code expired'})
+        return
+    }
+
+    
+
+
 })
 
 module.exports = pair
