@@ -8,4 +8,17 @@ const isAuthenticated = (req, res, next) => {
 	next()
 }
 
-export { isAuthenticated }
+const generateHandshakeCode = () => {
+	const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
+	let result = ''
+	const codeLength = 5
+
+	for (let i = 0; i < codeLength; i++) {
+		const randomIndex = Math.floor(Math.random() * letters.length)
+		result += letters.charAt(randomIndex);
+	}
+
+	return result
+}
+
+export { isAuthenticated, generateHandshakeCode }
