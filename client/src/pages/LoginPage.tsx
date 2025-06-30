@@ -32,7 +32,7 @@ const LoginPage = () => {
 
 			if (!data.plaidToken) {
 				navigate('/connect-bank')
-			} else if (!data.partnerId) {
+			} else if (1 == 1) {
 				navigate('/pair')
 			} else {
 				navigate('/dashboard')

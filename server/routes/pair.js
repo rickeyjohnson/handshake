@@ -45,12 +45,12 @@ pair.post('/enter', isAuthenticated, async(req, res) => {
         }
     })
 
-    const partnerId = pairRequest.initiatorUserId
-
     if (!pairRequest) {
         res.status(404).json({error: 'Pairing code not found'})
         return
     }
+
+    const partnerId = pairRequest.initiatorUserId
 
     if (isExpired(pairRequest.createdAt, EXPIRATION_DURATION)) {
         res.status(410).json({error: 'Pairing code expired'})
