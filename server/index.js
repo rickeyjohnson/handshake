@@ -20,6 +20,7 @@ app.use(
 			secure: false,
 			httpOnly: false,
 		},
+		rolling: true,
 		resave: false,
 		saveUninitialized: false,
 	})
