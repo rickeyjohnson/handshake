@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router'
 import { Button } from '../components/Button'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useUser } from '../contexts/UserContext'
 import { Label } from '../components/Label'
 import { Input } from '../components/Input'
@@ -8,9 +8,8 @@ import { Input } from '../components/Input'
 const LoginPage = () => {
 	const [loginData, setLoginData] = useState({ email: '', password: '' })
 	const [error, setError] = useState('')
-	const { setUser } = useUser()
+	const { user, setUser } = useUser()
 	const navigate = useNavigate()
-	const TEST_FLAG = true
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target
@@ -31,16 +30,12 @@ const LoginPage = () => {
 			const data = await response.json()
 			setUser(data)
 
-			if (TEST_FLAG) {
+			if (!data.plaidToken) {
+				navigate('/connect-bank')
+			} else if (!data.partnerId) {
 				navigate('/pair')
 			} else {
-				if (!data.plaidToken) {
-					navigate('/connect-bank')
-				} else if (1 === 1) {
-					navigate('/pair')
-				} else {
-					navigate('/dashboard')
-				}
+				navigate('/dashboard')
 			}
 
 		} catch (error) {
