@@ -1,6 +1,7 @@
 import express, { Request, Response, NextFunction } from 'express'
 import cors from 'cors'
 import session from 'express-session'
+import expressWs from 'express-ws'
 import { PrismaClient } from './generated/prisma'
 import authRouter from './routes/auth'
 import plaidRouter from './routes/plaid'
@@ -19,7 +20,14 @@ declare module 'express-session' {
 	}
 }
 
+declare module 'express-serve-static-core' {
+  interface Application {
+    ws(path: string, handler: (ws: any, req: any) => void): Application;
+  }
+}
+
 const app = express()
+const wsInstance = expressWs(app)
 const prisma = new PrismaClient()
 const PORT = process.env.PORT || 3001
 
@@ -64,6 +72,11 @@ app.get('/api/me', isAuthenticated, async (req: Request, res: Response) => {
 		console.error(error)
 		res.status(500).json({ error: 'Internal Server Error' })
 	}
+})
+
+// WEBSOCKET
+app.ws('/', (ws, req) => {
+	console.log('WebSocket connected.')
 })
 
 app.listen(PORT, () => {

@@ -1,6 +1,6 @@
 import { Link } from 'react-router'
 import { Button } from '../components/Button'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import GenerateHandshakeCodeModal from '../components/GenerateHandshakeCodeModal'
 import EnterHandshakeCodeModal from '../components/EnterHandshakeCodeModal'
 import { useUser } from '../contexts/UserContext'
@@ -12,6 +12,10 @@ const PairPage = () => {
 	const [showEnterHandshakeCodeModal, setShowEnterHandshakeCodeModal] =
 		useState(false)
 	const { user } = useUser()
+
+	useEffect(() => {
+		
+	}, [])
 
 	return (
 		<div className="flex justify-center items-center h-screen relative">
