@@ -14,6 +14,7 @@ declare module 'express-session' {
 			name: string
 			email: string
 			plaidToken: string
+			partnerId: string,
 		}
 	}
 }

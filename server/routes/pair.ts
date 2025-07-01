@@ -43,4 +43,68 @@ pair.get('/request', isAuthenticated, async (req: Request, res: Response) => {
 	})
 })
 
+pair.post('/enter', isAuthenticated, async(req, res) => {
+    const code = req.body.code
+    const userId = req.session.user.id
+
+    if (req.session.user.partnerId) {
+        res.status(400).json({ message: 'You are already paired with another user.' })
+        return
+    }
+
+    const pairRequest = await prisma.pairRequest.findUnique({
+        where: {
+            code: code,
+            status: 'PENDING',
+        },
+        select: {
+            initiatorUserId: true,
+            createdAt: true,
+        }
+    })
+
+    if (!pairRequest) {
+        res.status(404).json({error: 'Pairing code not found'})
+        return
+    }
+
+    const partnerId = pairRequest.initiatorUserId
+
+    if (isExpired(pairRequest.createdAt, EXPIRATION_DURATION)) {
+        res.status(410).json({error: 'Pairing code expired'})
+        return
+    }
+
+    if (partnerId === userId) {
+        res.status(400).json({ error: 'Pairing with yourself is not allowed.' })
+        return
+    }
+
+    await prisma.user.update({
+        where: { id: userId },
+        data: { partnerId: partnerId },
+    })
+
+    await prisma.user.update({
+        where: { id: partnerId },
+        data: { partnerId: userId },
+    })
+
+    await prisma.pairRequest.update({
+        where: { code: code },
+        data: {
+            status: 'COMPLETED'
+        }
+    })
+
+    await prisma.pair.create({
+        data: {
+            user1Id: userId,
+            user2Id: partnerId,
+        }
+    })
+
+    res.status(201).json({ message: 'Users successfully paired'})
+})
+
 export default pair
