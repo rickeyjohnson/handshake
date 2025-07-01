@@ -1,7 +1,9 @@
-const auth = require('express').Router()
-const rateLimit = require('express-rate-limit')
-const bcrypt = require('bcrypt')
-const { PrismaClient } = require('../generated/prisma')
+import { Router, Request, Response } from 'express'
+import rateLimit from 'express-rate-limit'
+import bcrypt from 'bcrypt'
+import { PrismaClient } from '../generated/prisma'
+
+const auth = Router()
 const prisma = new PrismaClient()
 
 const loginLimiter = rateLimit({
@@ -10,19 +12,25 @@ const loginLimiter = rateLimit({
 	message: { error: 'Too many failed login attempts. Try again later.' },
 })
 
-auth.post('/signup', async (req, res) => {
-	const { name, email, password } = req.body
+auth.post('/signup', async (req: Request, res: Response) => {
+	const {
+		name,
+		email,
+		password,
+	}: { name: string; email: string; password: string } = req.body
 
 	if (!name || !email || !password) {
-		return res
-			.status(400)
-			.json({ error: 'Name, email, and password are required.' })
+		res.status(400).json({
+			error: 'Name, email, and password are required.',
+		})
+		return
 	}
 
 	if (password.length < 8) {
-		return res
-			.status(400)
-			.json({ error: 'Password must be at least 8 characters long.' })
+		res.status(400).json({
+			error: 'Password must be at least 8 characters long.',
+		})
+		return
 	}
 
 	const existingUser = await prisma.user.findUnique({
@@ -30,7 +38,8 @@ auth.post('/signup', async (req, res) => {
 	})
 
 	if (existingUser) {
-		return res.status(400).json({ error: 'Email already taken.' })
+		res.status(400).json({ error: 'Email already taken.' })
+		return
 	}
 
 	try {
@@ -53,13 +62,12 @@ auth.post('/signup', async (req, res) => {
 	}
 })
 
-auth.post('/login', loginLimiter, async (req, res) => {
-	const { email, password } = req.body
+auth.post('/login', loginLimiter, async (req: Request, res: Response) => {
+	const { email, password }: { email: string; password: string } = req.body
 
 	if (!email || !password) {
-		return res
-			.status(400)
-			.json({ error: 'Email and password are required' })
+		res.status(400).json({ error: 'Email and password are required' })
+		return
 	}
 
 	const user = await prisma.user.findUnique({
@@ -67,17 +75,19 @@ auth.post('/login', loginLimiter, async (req, res) => {
 	})
 
 	if (!user || !(await bcrypt.compare(password, user.password))) {
-		return res.status(400).json({ error: 'Invalid email or password ' })
+		res.status(400).json({ error: 'Invalid email or password ' })
+		return
 	}
 
 	req.session.user = user
 	res.status(200).json(user)
 })
 
-auth.post('/logout', (req, res) => {
-	req.session.destroy((error) => {
+auth.post('/logout', (req: Request, res: Response) => {
+	req.session.destroy((error: Error) => {
 		if (error) {
-			return res.status(500).json({ error: 'Failed to log out' })
+			res.status(500).json({ error: 'Failed to log out' })
+			return
 		}
 
 		res.clearCookie('connect.sid')
@@ -85,4 +95,4 @@ auth.post('/logout', (req, res) => {
 	})
 })
 
-module.exports = auth
+export default auth
