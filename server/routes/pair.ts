@@ -5,6 +5,7 @@ import {
 	isAuthenticated,
 	isExpired,
 } from '../utils/util'
+import { connectedClients } from '../websocket/wsStore'
 
 const pair = Router()
 const prisma = new PrismaClient()
@@ -101,6 +102,12 @@ pair.post('/enter', isAuthenticated, async(req, res) => {
         data: {
             user1Id: userId,
             user2Id: partnerId,
+        }
+    })
+
+    connectedClients.forEach(client => {
+        if (client.readyState === 1) {
+            client.send('Message from /pair after successful pairing!')
         }
     })
 
