@@ -8,17 +8,16 @@ export const UserProvider = ({ children } : { children: React.ReactNode }) => {
 
     useEffect(() => {
         const fetchUser = async () => {
-            await fetch('/api/me', { credentials: "include" })
-                .then((response) => response.json())
-                .then((data) => {
-                    if (data.id) {
-                        setUser(data)
-                    }
-                })
-                .catch(err => {
-                    console.log('Failed to fetch user: ', err)
-                })
-                .finally(() => setLoading(false))
+            try {
+                const response = await fetch('/api/me', { credentials: "include" })
+                const data = await response.json()
+
+                if (data.id) { setUser(data) }
+            } catch (err) {
+                console.error(err)
+            } finally {
+                setLoading(false)
+            }
         }
 
         fetchUser()
