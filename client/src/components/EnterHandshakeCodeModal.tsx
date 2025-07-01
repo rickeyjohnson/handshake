@@ -6,18 +6,21 @@ const EnterHandshakeCodeModal = ({ onClick }: { onClick: () => void }) => {
 	const [code, setCode] = useState('')
 
 	const handlePairing = async () => {
-		await fetch('/api/pair/enter', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({
-				code: code,
-			}),
-		})
-        .then(res => res.json())
-        .then(msg => console.log(msg))
-        .catch(err => console.error(err))
+		try {
+			const response = await fetch('/api/pair/enter', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					code: code,
+				}),
+			})
+			const data = await response.json()
+			console.log(data)
+		} catch (err) {
+			console.error(err)
+		}
 	}
 
 	return (
