@@ -7,7 +7,6 @@ import { WithAuth } from './components/WithAuth'
 import LinkPlaid from './pages/LinkPlaid'
 import NotFound from './pages/NotFound'
 import PairPage from './pages/PairPage'
-import { useEffect } from 'react'
 
 const App = () => {
 	const ProtectedDashboard = WithAuth(Dashboard)

@@ -22,7 +22,7 @@ app.use(
 		name: 'sessionId',
 		secret: 'keyboard cat', // update with env variable
 		cookie: {
-			maxAge: 1000 * 60 * 60,
+			maxAge: 1000 * 60 * 5,		// 5 minutes
 			secure: false,
 			httpOnly: false,
 		},
