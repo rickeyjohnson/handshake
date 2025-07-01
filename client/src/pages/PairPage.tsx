@@ -1,4 +1,4 @@
-import { Link } from 'react-router'
+import { Link, useNavigate } from 'react-router'
 import { Button } from '../components/Button'
 import { useEffect, useState } from 'react'
 import GenerateHandshakeCodeModal from '../components/GenerateHandshakeCodeModal'
@@ -12,6 +12,7 @@ const PairPage = () => {
 	const [showEnterHandshakeCodeModal, setShowEnterHandshakeCodeModal] =
 		useState(false)
 	const { user } = useUser()
+	const navigate = useNavigate()
 
 	useEffect(() => {
 		const socket = new WebSocket("ws://localhost:3000/")
@@ -21,8 +22,11 @@ const PairPage = () => {
 		}
 
 		socket.onmessage = (event) => {
-			console.log('Recieved from server:', event.data)
-		}
+			const { paired } = JSON.parse(event.data)
+			if (paired) {
+				navigate('/dashboard')
+			}
+ 		}
 
 		return () => {
 			socket.close()
