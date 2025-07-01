@@ -10,16 +10,20 @@ export const UserProvider = ({ children } : { children: React.ReactNode }) => {
         const fetchUser = async () => {
             try {
                 const response = await fetch('/api/me', { credentials: "include" })
-                const data = await response.json()
-
-                if (data.id) { setUser(data) }
+                if (response.ok) {
+                    const data = await response.json()
+                    setUser(data)
+                } else {
+                    setUser(null)
+                }
             } catch (err) {
-                console.error(err)
+                setUser(null)
+            } finally {
+                setLoading(false)
             }
         }
 
         fetchUser()
-        setLoading(false)
     }, [])
 
     return (
