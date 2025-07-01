@@ -1,7 +1,14 @@
 // /api/plaid/
 import { Router } from 'express'
 import { PrismaClient } from '../generated/prisma'
-import { Configuration, CountryCode, LinkTokenCreateRequest, PlaidApi, PlaidEnvironments, Products } from 'plaid'
+import {
+	Configuration,
+	CountryCode,
+	LinkTokenCreateRequest,
+	PlaidApi,
+	PlaidEnvironments,
+	Products,
+} from 'plaid'
 import { isAuthenticated } from '../utils/util'
 
 const plaid = Router()
@@ -10,7 +17,11 @@ const prisma = new PrismaClient()
 const PLAID_CLIENT_ID: string = process.env.PLAID_CLIENT_ID || 'unknown'
 const PLAID_SECRET: string = process.env.PLAID_SECRET || 'unknown'
 const PLAID_ENV: string = process.env.PLAID_ENV || 'sandbox'
-const PLAID_PRODUCTS: Products[] = [Products.Auth, Products.Transactions, Products.Balance]
+const PLAID_PRODUCTS: Products[] = [
+	Products.Auth,
+	Products.Transactions,
+	Products.Balance,
+]
 const PLAID_COUNTRY_CODES: CountryCode[] = [CountryCode.Us, CountryCode.Ca]
 const PLAID_REDIRECT_URI: string = process.env.PLAID_REDIRECT_URI || ''
 
@@ -54,9 +65,11 @@ plaid.post('/exchange_public_token', async (req, res) => {
 	const publicToken = req.body.public_token
 
 	try {
-		const exchangeTokenResponse = await plaidClient.itemPublicTokenExchange({
-			public_token: publicToken,
-		})
+		const exchangeTokenResponse = await plaidClient.itemPublicTokenExchange(
+			{
+				public_token: publicToken,
+			}
+		)
 
 		const accessToken = exchangeTokenResponse.data.access_token
 		const itemId = exchangeTokenResponse.data.item_id
@@ -66,7 +79,7 @@ plaid.post('/exchange_public_token', async (req, res) => {
 			data: {
 				plaidToken: accessToken,
 				plaidItemId: itemId,
-			}
+			},
 		})
 
 		res.status(200).json({ public_token_exchange: 'complete' })
@@ -81,7 +94,7 @@ plaid.get('/accounts', async (req, res) => {
 
 	try {
 		const accountsResponse = await plaidClient.accountsGet({
-			access_token: accessToken
+			access_token: accessToken,
 		})
 	} catch (error) {
 		res.status(500).json({ error: error.message })

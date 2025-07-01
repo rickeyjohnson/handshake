@@ -8,14 +8,14 @@ import pairRouter from './routes/pair'
 import { isAuthenticated } from './utils/util'
 
 declare module 'express-session' {
-  interface SessionData {
-    user: { 
-        id: string,
-        name: string,
-        email: string,
-		plaidToken: string,
-    }
-  }
+	interface SessionData {
+		user: {
+			id: string
+			name: string
+			email: string
+			plaidToken: string
+		}
+	}
 }
 
 const app = express()
@@ -55,11 +55,10 @@ app.get('/api/me', isAuthenticated, async (req: Request, res: Response) => {
 		})
 
 		if (!user) {
-			res.status(404).json({ message: "User not found" })
+			res.status(404).json({ message: 'User not found' })
 		}
 
 		res.status(200).json({ message: 'User found!', ...user })
-
 	} catch (error) {
 		console.error(error)
 		res.status(500).json({ error: 'Internal Server Error' })
