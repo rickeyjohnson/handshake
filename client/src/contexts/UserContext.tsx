@@ -15,12 +15,11 @@ export const UserProvider = ({ children } : { children: React.ReactNode }) => {
                 if (data.id) { setUser(data) }
             } catch (err) {
                 console.error(err)
-            } finally {
-                setLoading(false)
             }
         }
 
         fetchUser()
+        setLoading(false)
     }, [])
 
     return (

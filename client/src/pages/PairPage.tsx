@@ -14,7 +14,15 @@ const PairPage = () => {
 	const { user } = useUser()
 
 	useEffect(() => {
-		
+		const socket = new WebSocket("ws://localhost:3000/")
+
+		socket.onopen = () => {
+			console.log('Connected to server!')
+		}
+
+		return () => {
+			socket.close()
+		}
 	}, [])
 
 	return (
@@ -30,7 +38,7 @@ const PairPage = () => {
 
 			<div className="flex flex-col justify-center items-center gap-4 w-md relative">
 				<h1 className="text-center text-3xl">
-					{capitalize(user.name)} it's time to pair with your partner.
+					{capitalize(user.name) || 'User'} it's time to pair with your partner.
 				</h1>
 
 				<Button

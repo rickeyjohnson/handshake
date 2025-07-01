@@ -77,6 +77,10 @@ app.get('/api/me', isAuthenticated, async (req: Request, res: Response) => {
 // WEBSOCKET
 app.ws('/', (ws, req) => {
 	console.log('WebSocket connected.')
+
+	ws.on('close', () => {
+		console.log('WebSocket closed.')
+	})
 })
 
 app.listen(PORT, () => {
