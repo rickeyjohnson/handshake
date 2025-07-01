@@ -11,7 +11,12 @@ const pairRouter = require('./routes/pair.js')
 const { isAuthenticated } = require('./utils/util.js')
 
 app.use(express.json())
-app.use(cors())
+app.use(cors(
+	{
+		origin: 'http://localhost:5173',
+		credentials: true,
+	}
+))
 app.use(
 	session({
 		name: 'sessionId',
@@ -21,7 +26,6 @@ app.use(
 			secure: false,
 			httpOnly: false,
 		},
-		rolling: true,
 		resave: false,
 		saveUninitialized: false,
 	})
@@ -46,12 +50,13 @@ app.get('/api/me', isAuthenticated, async (req, res) => {
 		}
 
 		if (!user) {
-			throw new Error('Unauthorized')
+			throw new Error('Unauthorized, not allowed')
 		}
 
-		res.status(200).json(user)
+		const { id, name, email } = user
+		res.status(200).json({ id, name, email})
 	} catch (error) {
-		res.status(401).json({ error: error.message })
+		res.status(500).json({ error: error.message })
 	}
 })
 
