@@ -1,14 +1,14 @@
 import { Link, useNavigate } from 'react-router'
 import { Button } from '../components/Button'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useUser } from '../contexts/UserContext'
 import { Label } from '../components/Label'
 import { Input } from '../components/Input'
 
 const LoginPage = () => {
 	const [loginData, setLoginData] = useState({ email: '', password: '' })
-	const [error, setError] = useState('')
-	const { user, setUser } = useUser()
+	const [error] = useState('')
+	const { setUser } = useUser()
 	const navigate = useNavigate()
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,7 +37,6 @@ const LoginPage = () => {
 			} else {
 				navigate('/dashboard')
 			}
-
 		} catch (error) {
 			console.error('Network Error: Please try again', error)
 		}

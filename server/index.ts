@@ -28,7 +28,7 @@ declare module 'express-serve-static-core' {
 }
 
 const app = express()
-const wsInstance = expressWs(app)
+expressWs(app)
 const prisma = new PrismaClient()
 const PORT = process.env.PORT || 3001
 

@@ -1,1 +1,1 @@
-export const connectedClients: WebSocket[] = [];
+export const connectedClients: WebSocket[] = []
