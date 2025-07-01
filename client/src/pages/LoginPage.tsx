@@ -10,6 +10,7 @@ const LoginPage = () => {
 	const [error, setError] = useState('')
 	const { setUser } = useUser()
 	const navigate = useNavigate()
+	const TEST_FLAG = true
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target
@@ -30,12 +31,16 @@ const LoginPage = () => {
 			const data = await response.json()
 			setUser(data)
 
-			if (!data.plaidToken) {
-				navigate('/connect-bank')
-			} else if (!data.partnerId) {
+			if (TEST_FLAG) {
 				navigate('/pair')
 			} else {
-				navigate('/dashboard')
+				if (!data.plaidToken) {
+					navigate('/connect-bank')
+				} else if (1 === 1) {
+					navigate('/pair')
+				} else {
+					navigate('/dashboard')
+				}
 			}
 
 		} catch (error) {
