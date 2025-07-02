@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { LogoutButton } from '../components/LogoutButton'
 import { useUser } from '../contexts/UserContext'
 
@@ -13,12 +13,15 @@ const Dashboard = () => {
 			})
 			const data = await response.json()
 
-			console.log(data)
-
+			setAccounts(data)
 		} catch(err) {
 			console.error(err)
 		}
 	}
+
+	useEffect(() => {
+		fetchAccounts()
+	})
 
 	return (
 		<div>

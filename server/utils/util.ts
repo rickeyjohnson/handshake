@@ -19,7 +19,7 @@ export const generateHandshakeCode = () => {
 
 	for (let i = 0; i < codeLength; i++) {
 		const randomIndex = Math.floor(Math.random() * letters.length)
-		result += letters.charAt(randomIndex);
+		result += letters.charAt(randomIndex)
 	}
 
 	return result
@@ -30,13 +30,28 @@ export const isExpired = (startDate, secondsToAdd) => {
 	const now = new Date()
 
 	date.setSeconds(date.getSeconds() + secondsToAdd)
-	
+
 	return now > date
 }
 
-export const getItemInfo = async (user_id) => {
+export const getUserAccessToken = async (user_id) => {
 	const item = await prisma.plaidItem.findUnique({
-		where: { owner_id: user_id }
+		where: { owner_id: user_id },
+	})
+
+	return item.access_token
+}
+
+export const getItemIdsForUser = async (userId) => {
+	const items = await prisma.plaidItem.findMany({
+		where: { owner_id: userId },
+	})
+	return items
+}
+
+export const getItemInfo = async (itemId) => {
+	const item = await prisma.plaidItem.findUnique({
+		where: { id: itemId },
 	})
 
 	return item
