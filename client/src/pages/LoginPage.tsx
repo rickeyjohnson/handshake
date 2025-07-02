@@ -33,7 +33,7 @@ const LoginPage = () => {
 			// TODO: fixed navigation on log in
 			if (!data.plaidToken) {
 				navigate('/connect-bank')
-			} else if (!data.partnerId) {
+			} else if (!data.partner_id) {
 				navigate('/pair')
 			} else {
 				navigate('/dashboard')

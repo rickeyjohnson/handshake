@@ -1,10 +1,24 @@
+import { useState } from 'react'
 import { LogoutButton } from '../components/LogoutButton'
 import { useUser } from '../contexts/UserContext'
 
 const Dashboard = () => {
 	const { user } = useUser()
+	const [accounts, setAccounts] = useState({})
 
-	
+	const fetchAccounts = async () => {
+		try {
+			const response = await fetch('/api/plaid/accounts', {
+				headers: { 'Content-Type' : 'application/json' }
+			})
+			const data = await response.json()
+
+			console.log(data)
+
+		} catch(err) {
+			console.error(err)
+		}
+	}
 
 	return (
 		<div>

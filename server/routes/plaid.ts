@@ -91,12 +91,23 @@ plaid.post('/exchange_public_token', async (req, res) => {
 // PLAID API ENDPOINTS FOR FETCHING BANK DATA
 plaid.get('/accounts', async (req, res) => {
 	const userId = req.session.user.id
+	const partnerId = req.session.user.partner_id
 	const { access_token: accessToken } = await getItemInfo(userId)
+	const { access_token: partnerAccessToken } = await getItemInfo(partnerId)
+	const accounts = {}
 
 	try {
 		const accountsResponse = await plaidClient.accountsGet({
 			access_token: accessToken,
 		})
+		accounts[userId] = accountsResponse.data
+
+		const partnerAccountsResponse = await plaidClient.accountsGet({
+			access_token: partnerAccessToken,
+		})
+		accounts[partnerId] = partnerAccountsResponse.data
+
+		res.status(200).json(accounts)
 	} catch (error) {
 		res.status(500).json({ error: error.message })
 	}
