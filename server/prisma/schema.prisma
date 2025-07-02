@@ -20,22 +20,53 @@ model User {
   email           String    @unique
   password        String    
   name            String
-  plaidToken      String?    @unique
-  plaidItemId     String?    @unique
-  partnerId       String?
+  partner_id      String?   @unique
+  partner         User?   @relation("UserToPartner", fields: [partner_id], references: [id])
+  partnerOf       User?   @relation("UserToPartner")
 }
 
 model PairRequest {
   id                  String    @id @default(uuid())
   code                String    @unique
-  initiatorUserId     String    
+  initiator_user_id     String    
   status              String    @default("PENDING")
-  createdAt           DateTime  @default(now())  
+  created_at           DateTime  @default(now())  
 }
 
 model Pair {
   id        String @id @default(uuid())
-  user1Id   String @unique
-  user2Id   String @unique  
-  pairedAt  DateTime @default(now())
+  user1_id   String @unique
+  user2_id   String @unique  
+  paired_at  DateTime @default(now())
+}
+
+model PlaidItem {
+  id            String  @id
+  access_token  String  @unique
+  owner_id       String  @unique  
+  is_active      Boolean @default(true) 
+  transaction_cursor  String?
+  bank  String?
+  created_at    DateTime  @default(now())
+}
+
+model Accounts {
+  id        String  @id
+  item_id   String
+  name      String?
+  pairId    String?
+}
+
+model Transactions {
+  id              String    @id
+  user_id         String
+  pair_id         String
+  account_id      String
+  category        String
+  date            String
+  authorized_date String
+  name            String
+  amount          Float
+  currency_code   String
+  is_removed      Boolean @default(false)
 }

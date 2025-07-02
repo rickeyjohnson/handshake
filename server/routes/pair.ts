@@ -16,13 +16,13 @@ pair.get('/request', isAuthenticated, async (req: Request, res: Response) => {
 	const userId = req.session.user.id
 
 	const codeRequest = await prisma.pairRequest.findFirst({
-		where: { initiatorUserId: userId },
+		where: { initiator_user_id: userId },
 		orderBy: {
-			createdAt: 'desc',
+			created_at: 'desc',
 		},
 	})
 
-	if (codeRequest && !isExpired(codeRequest.createdAt, EXPIRATION_DURATION)) {
+	if (codeRequest && !isExpired(codeRequest.created_at, EXPIRATION_DURATION)) {
 		res.status(200).json({
 			message: 'You already initiated a pair request',
 			...codeRequest,
@@ -34,7 +34,7 @@ pair.get('/request', isAuthenticated, async (req: Request, res: Response) => {
 	const pairRequest = await prisma.pairRequest.create({
 		data: {
 			code: code,
-			initiatorUserId: userId,
+			initiator_user_id: userId,
 		},
 	})
 
@@ -48,7 +48,7 @@ pair.post('/enter', isAuthenticated, async (req, res) => {
 	const code = req.body.code
 	const userId = req.session.user.id
 
-	if (req.session.user.partnerId) {
+	if (req.session.user.partner_id) {
 		res.status(400).json({
 			message: 'You are already paired with another user.',
 		})
@@ -61,8 +61,8 @@ pair.post('/enter', isAuthenticated, async (req, res) => {
 			status: 'PENDING',
 		},
 		select: {
-			initiatorUserId: true,
-			createdAt: true,
+			initiator_user_id: true,
+			created_at: true,
 		},
 	})
 
@@ -71,9 +71,9 @@ pair.post('/enter', isAuthenticated, async (req, res) => {
 		return
 	}
 
-	const partnerId = pairRequest.initiatorUserId
+	const partnerId = pairRequest.initiator_user_id
 
-	if (isExpired(pairRequest.createdAt, EXPIRATION_DURATION)) {
+	if (isExpired(pairRequest.created_at, EXPIRATION_DURATION)) {
 		res.status(410).json({ error: 'Pairing code expired' })
 		return
 	}
@@ -85,12 +85,12 @@ pair.post('/enter', isAuthenticated, async (req, res) => {
 
 	await prisma.user.update({
 		where: { id: userId },
-		data: { partnerId: partnerId },
+		data: { partner_id: partnerId },
 	})
 
 	await prisma.user.update({
 		where: { id: partnerId },
-		data: { partnerId: userId },
+		data: { partner_id: userId },
 	})
 
 	await prisma.pairRequest.update({
@@ -102,8 +102,8 @@ pair.post('/enter', isAuthenticated, async (req, res) => {
 
 	await prisma.pair.create({
 		data: {
-			user1Id: userId,
-			user2Id: partnerId,
+			user1_id: userId,
+			user2_id: partnerId,
 		},
 	})
 

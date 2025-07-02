@@ -9,7 +9,7 @@ import {
 	PlaidEnvironments,
 	Products,
 } from 'plaid'
-import { isAuthenticated } from '../utils/util'
+import { getItemInfo, isAuthenticated } from '../utils/util'
 
 const plaid = Router()
 const prisma = new PrismaClient()
@@ -20,9 +20,8 @@ const PLAID_ENV: string = process.env.PLAID_ENV || 'sandbox'
 const PLAID_PRODUCTS: Products[] = [
 	Products.Auth,
 	Products.Transactions,
-	Products.Balance,
 ]
-const PLAID_COUNTRY_CODES: CountryCode[] = [CountryCode.Us, CountryCode.Ca]
+const PLAID_COUNTRY_CODES: CountryCode[] = [CountryCode.Us]
 const PLAID_REDIRECT_URI: string = process.env.PLAID_REDIRECT_URI || ''
 
 const configuration = new Configuration({
@@ -57,11 +56,12 @@ plaid.post('/create_link_token', isAuthenticated, async (req, res) => {
 		)
 		res.status(200).json(createTokenResponse.data)
 	} catch (error) {
-		res.status(500).json({ error: error.message })
+		res.status(500).json({ error: error.message, message: 'this is failing' })
 	}
 })
 
 plaid.post('/exchange_public_token', async (req, res) => {
+	const userId = req.session.user.id
 	const publicToken = req.body.public_token
 
 	try {
@@ -74,12 +74,12 @@ plaid.post('/exchange_public_token', async (req, res) => {
 		const accessToken = exchangeTokenResponse.data.access_token
 		const itemId = exchangeTokenResponse.data.item_id
 
-		const updateUser = await prisma.user.update({
-			where: { id: req.session.user.id },
+		const createPlaidItem = await prisma.plaidItem.create({
 			data: {
-				plaidToken: accessToken,
-				plaidItemId: itemId,
-			},
+				id: itemId,
+				access_token: accessToken,
+				owner_id: userId,
+			}
 		})
 
 		res.status(200).json({ public_token_exchange: 'complete' })
@@ -90,7 +90,8 @@ plaid.post('/exchange_public_token', async (req, res) => {
 
 // PLAID API ENDPOINTS FOR FETCHING BANK DATA
 plaid.get('/accounts', async (req, res) => {
-	const accessToken = req.session.user.plaidToken
+	const userId = req.session.user.id
+	const { access_token: accessToken } = await getItemInfo(userId)
 
 	try {
 		const accountsResponse = await plaidClient.accountsGet({

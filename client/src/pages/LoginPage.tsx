@@ -29,7 +29,8 @@ const LoginPage = () => {
 
 			const data = await response.json()
 			setUser(data)
-
+			
+			// TODO: fixed navigation on log in
 			if (!data.plaidToken) {
 				navigate('/connect-bank')
 			} else if (!data.partnerId) {

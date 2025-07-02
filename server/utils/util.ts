@@ -1,4 +1,8 @@
-const isAuthenticated = (req, res, next) => {
+import { PrismaClient } from '../generated/prisma'
+
+const prisma = new PrismaClient()
+
+export const isAuthenticated = (req, res, next) => {
 	if (!req.session.user) {
 		return res
 			.status(401)
@@ -8,7 +12,7 @@ const isAuthenticated = (req, res, next) => {
 	next()
 }
 
-const generateHandshakeCode = () => {
+export const generateHandshakeCode = () => {
 	const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
 	let result = ''
 	const codeLength = 5
@@ -21,7 +25,7 @@ const generateHandshakeCode = () => {
 	return result
 }
 
-const isExpired = (startDate, secondsToAdd) => {
+export const isExpired = (startDate, secondsToAdd) => {
 	const date = new Date(startDate)
 	const now = new Date()
 
@@ -30,4 +34,10 @@ const isExpired = (startDate, secondsToAdd) => {
 	return now > date
 }
 
-export { isAuthenticated, generateHandshakeCode, isExpired }
+export const getItemInfo = async (user_id) => {
+	const item = await prisma.plaidItem.findUnique({
+		where: { owner_id: user_id }
+	})
+
+	return item
+}
