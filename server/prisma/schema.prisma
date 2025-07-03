@@ -24,6 +24,8 @@ model User {
   partner         User?   @relation("UserToPartner", fields: [partner_id], references: [id])
   partnerOf       User?   @relation("UserToPartner")
   transactions    Transactions[]
+  is_plaid_linked Boolean   @default(false)
+  is_paired   Boolean   @default(false)
 }
 
 model PairRequest {

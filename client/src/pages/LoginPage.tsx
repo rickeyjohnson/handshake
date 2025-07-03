@@ -31,9 +31,9 @@ const LoginPage = () => {
 			setUser(data)
 			
 			// TODO: fixed navigation on log in
-			if (!data.plaidToken) {
+			if (!data.is_plaid_link) {
 				navigate('/connect-bank')
-			} else if (!data.partner_id) {
+			} else if (!data.is_paired) {
 				navigate('/pair')
 			} else {
 				navigate('/dashboard')
