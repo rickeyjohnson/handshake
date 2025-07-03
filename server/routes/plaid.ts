@@ -17,6 +17,7 @@ import {
 	getUserAccessToken,
 	isAuthenticated,
 	modifyExistingTransactions,
+	saveCursorForItem,
 	simpleTransactionFromPlaidTransaction,
 } from '../utils/util'
 
@@ -98,6 +99,7 @@ plaid.post('/exchange_public_token', async (req, res) => {
 })
 
 // PLAID API ENDPOINTS FOR FETCHING BANK DATA
+
 const syncTransactions = async (item_id) => {
 	const {
 		access_token: accessToken,
@@ -133,6 +135,8 @@ const syncTransactions = async (item_id) => {
 			await deleteExistingTransaction(txnObj.transaction_id)
 		})
 	)
+
+	await saveCursorForItem(allData.nextCursor, item_id)
 }
 
 const fetchNewSyncData = async (accessToken, initialCursor) => {
@@ -193,11 +197,12 @@ plaid.get('/transactions/sync', async (req, res) => {
 		const userId = req.session.user.id
 		const items = await getItemIdsForUser(userId)
 
-		items.forEach((item) => {
-			syncTransactions(item.id)
-		})
-
-		res.status(200).json({ message: 'transactions get successfully' })
+		const fullResults = await Promise.all(
+			items.map(async (item) => {
+				return await syncTransactions(item.id)
+			})
+		)
+		res.status(200).json({ completedResults: fullResults })
 	} catch (error) {
 		console.log('Running into an error!')
 		res.status(500).json({ error: error.message })

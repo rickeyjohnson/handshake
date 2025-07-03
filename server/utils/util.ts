@@ -144,3 +144,16 @@ export const deleteExistingTransaction = async (transaction_id) => {
 		console.error(error)
 	}
 }
+
+export const saveCursorForItem = async (transactionCursor, itemId) => {
+	try {
+		await prisma.plaidItem.update({
+			where: { id: itemId },
+			data: {
+				transaction_cursor: transactionCursor
+			}
+		})
+	} catch(error) {
+		console.log(`I can't save the cursor ${JSON.stringify(error)}`)
+	}
+}
