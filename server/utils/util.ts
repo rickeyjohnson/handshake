@@ -1,3 +1,4 @@
+import { randomUUID } from 'crypto'
 import { PrismaClient } from '../generated/prisma'
 
 const prisma = new PrismaClient()
@@ -123,6 +124,22 @@ export const modifyExistingTransactions = async (transactionObj) => {
 		})
 
 		return updatedTransaction
+	} catch (error) {
+		console.error(error)
+	}
+}
+
+export const deleteExistingTransaction = async (transaction_id) => {
+	try {
+		const updatedId = transaction_id + '-REMOVED-' + randomUUID()
+		const result = await prisma.transactions.update({
+			where: { id: transaction_id },
+			data: {
+				id: updatedId,
+				is_removed: true,
+			},
+		})
+		return result
 	} catch (error) {
 		console.error(error)
 	}

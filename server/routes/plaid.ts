@@ -11,6 +11,7 @@ import {
 } from 'plaid'
 import {
 	addNewTransaction,
+	deleteExistingTransaction,
 	getItemIdsForUser,
 	getItemInfo,
 	getUserAccessToken,
@@ -124,6 +125,12 @@ const syncTransactions = async (item_id) => {
 			)
 			console.log(simpleTransaction)
 			await modifyExistingTransactions(simpleTransaction)
+		})
+	)
+
+	await Promise.all(
+		allData.removed.map(async (txnObj) => {
+			await deleteExistingTransaction(txnObj.transaction_id)
 		})
 	)
 }
