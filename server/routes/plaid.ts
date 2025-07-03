@@ -14,6 +14,7 @@ import {
 	deleteExistingTransaction,
 	getItemIdsForUser,
 	getItemInfo,
+	getPairedId,
 	getTransactionsForUser,
 	getUserAccessToken,
 	isAuthenticated,
@@ -94,7 +95,7 @@ plaid.post('/exchange_public_token', async (req, res) => {
 		})
 
 		await populateBankName(itemId, accessToken)
-		await populateAccountNames(accessToken)
+		await populateAccountNames(userId, accessToken)
 
 		res.status(200).json({ public_token_exchange: 'complete' })
 	} catch (error) {
@@ -202,7 +203,31 @@ const populateBankName = async (itemId, accessToken) => {
 	}
 }
 
-const populateAccountNames = (accessToken) => {}
+const populateAccountNames = async (userId, accessToken) => {
+	try {
+		const acctsResponse = await plaidClient.accountsGet({
+			access_token: accessToken,
+		})
+		const acctData = acctsResponse.data
+		const itemId = acctData.item.item_id
+		await Promise.all(
+			acctData.accounts.map(async (acct) => {
+				await prisma.accounts.create({
+					data: {
+						user_id: userId,
+						id: acct.account_id,
+						item_id: itemId,
+						name: acct.name,
+					},
+				})
+			})
+		)
+	} catch (error) {
+		console.log(
+			`Ran into error populating bank name! ${JSON.stringify(error)}`
+		)
+	}
+}
 
 // plaid endpoints
 

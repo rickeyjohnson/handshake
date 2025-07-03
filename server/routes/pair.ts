@@ -2,6 +2,7 @@ import { Router, Request, Response } from 'express'
 import { PrismaClient } from '../generated/prisma'
 import {
 	generateHandshakeCode,
+	getPairedId,
 	isAuthenticated,
 	isExpired,
 } from '../utils/util'
@@ -22,7 +23,10 @@ pair.get('/request', isAuthenticated, async (req: Request, res: Response) => {
 		},
 	})
 
-	if (codeRequest && !isExpired(codeRequest.created_at, EXPIRATION_DURATION)) {
+	if (
+		codeRequest &&
+		!isExpired(codeRequest.created_at, EXPIRATION_DURATION)
+	) {
 		res.status(200).json({
 			message: 'You already initiated a pair request',
 			...codeRequest,
@@ -104,6 +108,22 @@ pair.post('/enter', isAuthenticated, async (req, res) => {
 		data: {
 			user1_id: userId,
 			user2_id: partnerId,
+		},
+	})
+
+	const pairId = await getPairedId(userId)
+
+	await prisma.accounts.updateMany({
+		where: { user_id: userId },
+		data: {
+			pair_id: pairId,
+		},
+	})
+
+	await prisma.accounts.updateMany({
+		where: { user_id: partnerId },
+		data: {
+			pair_id: pairId,
 		},
 	})
 

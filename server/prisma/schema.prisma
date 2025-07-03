@@ -16,7 +16,7 @@ datasource db {
 
 model User {
   id              String    @id @default(uuid())
-  createdAt       DateTime  @default(now())
+  created_at       DateTime  @default(now())
   email           String    @unique
   password        String    
   name            String
@@ -54,7 +54,8 @@ model Accounts {
   id        String  @id
   item_id   String
   name      String?
-  pairId    String?
+  pair_id    String?
+  user_id   String
 }
 
 model Transactions {
