@@ -56,3 +56,53 @@ export const getItemInfo = async (itemId) => {
 
 	return item
 }
+
+export const simpleTransactionFromPlaidTransaction = (txnObj, userId) => {
+	return {
+		transaction_id: txnObj.transaction_id,
+		user_id: userId,
+		account_id: txnObj.account_id,
+		category: txnObj.personal_finance_category.primary,
+		date: txnObj.date,
+		authorized_date: txnObj.authorized_date,
+		name: txnObj.merchant_name ?? txnObj.name,
+		amount: txnObj.amount,
+		currency_code: txnObj.iso_currency_code,
+		pending_transactions_id: txnObj.pending_transactions_id,
+	}
+}
+
+export const getPairedId = async (user_id) => {
+	const pair = await prisma.pair.findFirst({
+		where: {
+			OR: [{ user1_id: user_id }, { user2_id: user_id }],
+		},
+	})
+
+	return pair.id
+}
+
+export const addNewTransaction = async (transactionObj) => {
+	try {
+		const userId = transactionObj.user_id
+		const pairId = await getPairedId(userId)
+		const newTransaction = await prisma.transactions.create({
+			data: {
+				id: transactionObj.transaction_id,
+				user_id: userId,
+				pair_id: pairId,
+				account_id: transactionObj.account_id,
+				category: transactionObj.category,
+				date: transactionObj.date,
+				authorized_date: transactionObj.authorized_date,
+				name: transactionObj.name,
+				amount: transactionObj.amount,
+				currency_code: transactionObj.currency_code,
+			},
+		})
+
+		return newTransaction
+	} catch (error) {
+		console.error(error)
+	}
+}

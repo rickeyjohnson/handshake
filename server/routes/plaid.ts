@@ -10,10 +10,12 @@ import {
 	Products,
 } from 'plaid'
 import {
+	addNewTransaction,
 	getItemIdsForUser,
 	getItemInfo,
 	getUserAccessToken,
 	isAuthenticated,
+	simpleTransactionFromPlaidTransaction,
 } from '../utils/util'
 
 const plaid = Router()
@@ -95,14 +97,33 @@ plaid.post('/exchange_public_token', async (req, res) => {
 
 // PLAID API ENDPOINTS FOR FETCHING BANK DATA
 const syncTransactions = async (item_id) => {
-	const { access_token: accessToken } = await getItemInfo(item_id)
-	const allData = await fetchNewSyncData(accessToken)
-	return
+	const {
+		access_token: accessToken,
+		transaction_cursor: transactionCursor,
+		owner_id: userId,
+	} = await getItemInfo(item_id)
+	const allData = await fetchNewSyncData(accessToken, transactionCursor)
+
+	await Promise.all(
+		allData.added.map(async (txnObj) => {
+			const simpleTransaction = simpleTransactionFromPlaidTransaction(
+				txnObj,
+				userId
+			)
+			console.log(simpleTransaction)
+			await addNewTransaction(simpleTransaction)
+		})
+	)
 }
 
-const fetchNewSyncData = async (accessToken) => {
+const fetchNewSyncData = async (accessToken, initialCursor) => {
 	let keepGoing = false
-	const allData = { added: [], modified: [], removed: [], nextCursor: null }
+	const allData = {
+		added: [],
+		modified: [],
+		removed: [],
+		nextCursor: initialCursor,
+	}
 
 	do {
 		const results = await plaidClient.transactionsSync({
@@ -119,7 +140,7 @@ const fetchNewSyncData = async (accessToken) => {
 		allData.nextCursor = allData.nextCursor
 		keepGoing = newData.has_more
 	} while (keepGoing)
-	
+
 	console.log(allData)
 	return allData
 }
