@@ -7,13 +7,14 @@ import { Input } from '../components/Input'
 
 const LoginPage = () => {
 	const [loginData, setLoginData] = useState({ email: '', password: '' })
-	const [error] = useState('')
+	const [error, setError] = useState('')
 	const { setUser } = useUser()
 	const navigate = useNavigate()
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target
 		setLoginData((prev) => ({ ...prev, [name]: value }))
+		setError('')
 	}
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -27,8 +28,14 @@ const LoginPage = () => {
 			})
 
 			const data = await response.json()
-			setUser(data)
 
+			if (!response.ok) {
+				setError(data.error)
+				return
+			} 
+			
+			setUser(data)
+			
 			if (!data.is_plaid_linked) {
 				navigate('/connect-bank')
 			} else if (!data.is_paired) {
@@ -36,6 +43,7 @@ const LoginPage = () => {
 			} else {
 				navigate('/dashboard')
 			}
+
 		} catch (error) {
 			console.error('Network Error: Please try again', error)
 		}
