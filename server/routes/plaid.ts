@@ -96,11 +96,32 @@ plaid.post('/exchange_public_token', async (req, res) => {
 // PLAID API ENDPOINTS FOR FETCHING BANK DATA
 const syncTransactions = async (item_id) => {
 	const { access_token: accessToken } = await getItemInfo(item_id)
-	const result = await plaidClient.transactionsSync({
-		access_token: accessToken,
-	})
-	console.log(result.data)
+	const allData = await fetchNewSyncData(accessToken)
 	return
+}
+
+const fetchNewSyncData = async (accessToken) => {
+	let keepGoing = false
+	const allData = { added: [], modified: [], removed: [], nextCursor: null }
+
+	do {
+		const results = await plaidClient.transactionsSync({
+			access_token: accessToken,
+			cursor: allData.nextCursor,
+			options: {
+				include_personal_finance_category: true,
+			},
+		})
+		const newData = results.data
+		allData.added = allData.added.concat(newData.added)
+		allData.modified = allData.modified.concat(newData.modified)
+		allData.removed = allData.removed.concat(newData.removed)
+		allData.nextCursor = allData.nextCursor
+		keepGoing = newData.has_more
+	} while (keepGoing)
+	
+	console.log(allData)
+	return allData
 }
 
 plaid.get('/accounts', async (req, res) => {
