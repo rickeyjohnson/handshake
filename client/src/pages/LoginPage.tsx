@@ -32,10 +32,10 @@ const LoginPage = () => {
 			if (!response.ok) {
 				setError(data.error)
 				return
-			} 
-			
+			}
+
 			setUser(data)
-			
+
 			if (!data.is_plaid_linked) {
 				navigate('/connect-bank')
 			} else if (!data.is_paired) {
@@ -43,7 +43,6 @@ const LoginPage = () => {
 			} else {
 				navigate('/dashboard')
 			}
-
 		} catch (error) {
 			console.error('Network Error: Please try again', error)
 		}
