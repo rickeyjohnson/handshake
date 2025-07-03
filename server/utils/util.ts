@@ -36,7 +36,7 @@ export const isExpired = (startDate, secondsToAdd) => {
 }
 
 export const getUserAccessToken = async (user_id) => {
-	const item = await prisma.plaidItem.findUnique({
+	const item = await prisma.plaidItem.findFirst({
 		where: { owner_id: user_id },
 	})
 
@@ -163,16 +163,13 @@ export const getTransactionsForUser = async (userId, maxNum) => {
 		where: { user_id: userId, is_removed: false },
 		include: {
 			account: {
-				include: {
+				select: {
+					name: true,
 					item: {
 						select: {
 							bank: true
 						}
 					}
-				},
-
-				select: {
-					name: true
 				}
 			},
 			user: {
@@ -191,6 +188,7 @@ export const getTransactionsForUser = async (userId, maxNum) => {
 		user_name: tx.user.name,
 		account_id: tx.account_id,
 		account_name: tx.account.name,
+		bank_name: tx.account.item.bank,
 		category: tx.category,
 		date: tx.date,
 		authorized_date: tx.authorized_date,
