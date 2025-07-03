@@ -21,6 +21,7 @@ import {
 	isAuthenticated,
 	modifyExistingTransactions,
 	saveCursorForItem,
+	setPlaidLinkToComplete,
 	simpleTransactionFromPlaidTransaction,
 } from '../utils/util'
 
@@ -97,6 +98,7 @@ plaid.post('/exchange_public_token', isAuthenticated, async (req, res) => {
 
 		await populateBankName(itemId, accessToken)
 		await populateAccountNames(userId, accessToken)
+		await setPlaidLinkToComplete(userId)
 
 		res.status(200).json({ public_token_exchange: 'complete' })
 	} catch (error) {
@@ -232,10 +234,11 @@ const populateAccountNames = async (userId, accessToken) => {
 plaid.get('/accounts/get', isAuthenticated, async (req, res) => {
 	const userId = req.session.user.id
 	const partnerId = req.session.user.partner_id
-	const accessToken = await getUserAccessToken(userId)
-	const partnerAccessToken = await getUserAccessToken(partnerId)
 
 	try {
+		const accessToken = await getUserAccessToken(userId)
+		const partnerAccessToken = await getUserAccessToken(partnerId)
+
 		const accountsResponse = await plaidClient.accountsGet({
 			access_token: accessToken,
 		})

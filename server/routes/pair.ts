@@ -5,6 +5,7 @@ import {
 	getPairedId,
 	isAuthenticated,
 	isExpired,
+	setPairedToComplete,
 } from '../utils/util'
 import { connectedClients } from '../websocket/wsStore'
 
@@ -132,6 +133,8 @@ pair.post('/enter', isAuthenticated, async (req, res) => {
 			client.send(JSON.stringify({ paired: true }))
 		}
 	})
+
+	await setPairedToComplete(userId, partnerId)
 
 	res.status(201).json({ message: 'Users successfully paired' })
 })

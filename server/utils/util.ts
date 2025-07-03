@@ -242,3 +242,23 @@ export const getAccountNameFromAccountId = async (account_id) => {
 
 	return account.name
 }
+
+export const setPlaidLinkToComplete = async (user_id) => {
+	await prisma.user.update({
+		where: { id: user_id },
+		data: {
+			is_plaid_linked: true,
+		},
+	})
+}
+
+export const setPairedToComplete = async (user_id, partner_id) => {
+	await prisma.user.updateMany({
+		where: {
+			OR: [{ id: user_id }, { id: partner_id }],
+		},
+		data: {
+			is_paired: true,
+		},
+	})
+}
