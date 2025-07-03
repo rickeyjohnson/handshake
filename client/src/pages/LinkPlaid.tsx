@@ -27,18 +27,18 @@ const LinkPlaid = () => {
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ public_token: public_token }),
 			})
-			.then(res => res.json())
-			.then(data => {
-				if (data.error) {
-					setIsError(true)
-				} else {
-					navigate('/pair')
-				}
-			})
+				.then((res) => res.json())
+				.then((data) => {
+					if (data.error) {
+						setIsError(true)
+					} else {
+						navigate('/pair')
+					}
+				})
 		} catch (error: any) {
 			console.log(error.message)
 		}
-		
+
 		setLoading(false)
 	}, [])
 
@@ -70,9 +70,19 @@ const LinkPlaid = () => {
 				Connect bank via Plaid to continue creating your account.
 			</h1>
 
-			{isError ? <p className='bg-red-200 py-4 px-8 rounded-md border-red-700 border-4 text-red-700 font-medium text-lg'>Error connecting bank</p> : <></>}
+			{isError ? (
+				<p className="bg-red-200 py-4 px-8 rounded-md border-red-700 border-4 text-red-700 font-medium text-lg">
+					Error connecting bank
+				</p>
+			) : (
+				<></>
+			)}
 
-			<Button onClick={() => open()} disabled={!ready} className={loading ? 'bg-amber-300' : ''}>
+			<Button
+				onClick={() => open()}
+				disabled={!ready}
+				className={loading ? 'bg-amber-300' : ''}
+			>
 				Connect Bank
 			</Button>
 		</div>

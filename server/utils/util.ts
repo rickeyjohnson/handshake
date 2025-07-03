@@ -150,10 +150,10 @@ export const saveCursorForItem = async (transactionCursor, itemId) => {
 		await prisma.plaidItem.update({
 			where: { id: itemId },
 			data: {
-				transaction_cursor: transactionCursor
-			}
+				transaction_cursor: transactionCursor,
+			},
 		})
-	} catch(error) {
+	} catch (error) {
 		console.log(`I can't save the cursor ${JSON.stringify(error)}`)
 	}
 }
@@ -167,23 +167,23 @@ export const getTransactionsForUserOrPair = async (id, max_num) => {
 					name: true,
 					item: {
 						select: {
-							bank: true
-						}
-					}
-				}
+							bank: true,
+						},
+					},
+				},
 			},
 			user: {
 				select: {
-					name: true
-				}
-			}
+					name: true,
+				},
+			},
 		},
-		orderBy: [ { authorized_date: 'desc'} ],
-		take: max_num
+		orderBy: [{ authorized_date: 'desc' }],
+		take: max_num,
 	})
 
-	const customTransactions = transactions.map(tx => ({
-		id:	tx.id,
+	const customTransactions = transactions.map((tx) => ({
+		id: tx.id,
 		user_id: tx.user_id,
 		user_name: tx.user.name,
 		account_id: tx.account_id,
@@ -203,7 +203,7 @@ export const getTransactionsForUserOrPair = async (id, max_num) => {
 
 export const extractAccountDetails = async (accounts, item, userId) => {
 	const name = await getUserNameFromUserId(userId)
-	const customAccounts = accounts.map(acc => ({
+	const customAccounts = accounts.map((acc) => ({
 		id: acc.account_id,
 		account_name: acc.name,
 		bank_name: item.institution_name,
@@ -212,8 +212,7 @@ export const extractAccountDetails = async (accounts, item, userId) => {
 		balances: {
 			available: acc.balances.available,
 			current: acc.balances.current,
-			currency_code: acc.balances.iso_currency_code
-
+			currency_code: acc.balances.iso_currency_code,
 		},
 		subtype: acc.subtype,
 		type: acc.type,
@@ -226,8 +225,8 @@ export const getUserNameFromUserId = async (user_id) => {
 	const user = await prisma.user.findUnique({
 		where: { id: user_id },
 		select: {
-			name: true
-		}
+			name: true,
+		},
 	})
 
 	return user.name
@@ -238,7 +237,7 @@ export const getAccountNameFromAccountId = async (account_id) => {
 		where: { id: account_id },
 		select: {
 			name: true,
-		}
+		},
 	})
 
 	return account.name

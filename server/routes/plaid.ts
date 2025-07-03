@@ -245,9 +245,17 @@ plaid.get('/accounts/get', isAuthenticated, async (req, res) => {
 		const partnerAccountsResponse = await plaidClient.accountsGet({
 			access_token: partnerAccessToken,
 		})
-		
-		const userAccount = await extractAccountDetails(accountsResponse.data.accounts, accountsResponse.data.item, userId)
-		const partnerAccount = await extractAccountDetails(partnerAccountsResponse.data.accounts, partnerAccountsResponse.data.item, partnerId)
+
+		const userAccount = await extractAccountDetails(
+			accountsResponse.data.accounts,
+			accountsResponse.data.item,
+			userId
+		)
+		const partnerAccount = await extractAccountDetails(
+			partnerAccountsResponse.data.accounts,
+			partnerAccountsResponse.data.item,
+			partnerId
+		)
 		const accounts = [...userAccount, ...partnerAccount]
 
 		res.status(200).json(accounts)
@@ -278,12 +286,15 @@ plaid.get('/transactions/list', isAuthenticated, async (req, res) => {
 		const userId = req.session.user.id
 		const pairId = getPairedId(userId)
 		const maxCount = 10
-		const transactions = await getTransactionsForUserOrPair(pairId, maxCount)
+		const transactions = await getTransactionsForUserOrPair(
+			pairId,
+			maxCount
+		)
 
 		res.status(200).json(transactions)
 	} catch (error) {
 		console.log(`Error fetching transactions ${JSON.stringify(error)}`)
-		res.status(500).json({error: error.message})
+		res.status(500).json({ error: error.message })
 	}
 })
 

@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react'
 import GenerateHandshakeCodeModal from '../components/GenerateHandshakeCodeModal'
 import EnterHandshakeCodeModal from '../components/EnterHandshakeCodeModal'
 import { useUser } from '../contexts/UserContext'
-import { capitalize } from '../utils/utils'
 
 const PairPage = () => {
 	const [showGenerateHandshakeCodeModal, setShowGenerateHandshakeCodeModal] =
@@ -45,9 +44,8 @@ const PairPage = () => {
 			</Link>
 
 			<div className="flex flex-col justify-center items-center gap-4 w-md relative">
-				<h1 className="text-center text-3xl">
-					{capitalize(user?.name)} it's time to pair with your
-					partner.
+				<h1 className="text-center text-3xl capitalize">
+					{user?.name} it's time to pair with your partner.
 				</h1>
 
 				<Button

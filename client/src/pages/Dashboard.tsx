@@ -11,19 +11,19 @@ const Dashboard = () => {
 	const fetchAccounts = async () => {
 		try {
 			const response = await fetch('/api/plaid/accounts/get', {
-				headers: { 'Content-Type' : 'application/json' }
+				headers: { 'Content-Type': 'application/json' },
 			})
 			const data = await response.json()
 
 			setAccounts(data)
-		} catch(err) {
+		} catch (err) {
 			console.error(err)
 		}
 	}
 
 	const fetchTransactions = async () => {
 		const response = await fetch('/api/plaid/transactions/list', {
-			headers: { 'Content-Type' : 'application/json' }
+			headers: { 'Content-Type': 'application/json' },
 		})
 		const data = await response.json()
 		setTransactions(data)
@@ -32,7 +32,7 @@ const Dashboard = () => {
 	const syncTransactions = async () => {
 		try {
 			await fetch('/api/plaid/transactions/sync', {
-				headers: { 'Content-Type' : 'application/json' }
+				headers: { 'Content-Type': 'application/json' },
 			})
 		} catch (err) {
 			console.error(err)
@@ -49,13 +49,25 @@ const Dashboard = () => {
 
 	return (
 		<div>
-			{user ? <p className='capitalize'>Hello, {user.name}</p> : <p>Hello, User</p>}
+			{user ? (
+				<p className="capitalize">Hello, {user.name}</p>
+			) : (
+				<p>Hello, User</p>
+			)}
 
-			<p className='text-3xl'>Acccounts</p>
-			{loading ? 'loading ...' : <pre>{JSON.stringify(accounts, null, "\t")}</pre>}
+			<p className="text-3xl">Acccounts</p>
+			{loading ? (
+				'loading ...'
+			) : (
+				<pre>{JSON.stringify(accounts, null, '\t')}</pre>
+			)}
 
-			<p className='text-3xl'>Transactions</p>
-			{loading ? 'loading ...' : <pre>{JSON.stringify(transactions, null, 4)}</pre>}
+			<p className="text-3xl">Transactions</p>
+			{loading ? (
+				'loading ...'
+			) : (
+				<pre>{JSON.stringify(transactions, null, 4)}</pre>
+			)}
 
 			<LogoutButton />
 		</div>
