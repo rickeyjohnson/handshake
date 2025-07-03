@@ -4,7 +4,9 @@ import { useUser } from '../contexts/UserContext'
 
 const Dashboard = () => {
 	const { user } = useUser()
-	const [accounts, setAccounts] = useState({})
+	const [accounts, setAccounts] = useState(null)
+	const [transactions, setTransactions] = useState(null)
+	const [loading, setLoading] = useState(true)
 
 	const fetchAccounts = async () => {
 		try {
@@ -19,13 +21,41 @@ const Dashboard = () => {
 		}
 	}
 
+	const fetchTransactions = async () => {
+		const response = await fetch('/api/plaid/transactions/list', {
+			headers: { 'Content-Type' : 'application/json' }
+		})
+		const data = await response.json()
+		setTransactions(data)
+	}
+
+	const syncTransactions = async () => {
+		try {
+			await fetch('/api/plaid/transactions/sync', {
+				headers: { 'Content-Type' : 'application/json' }
+			})
+		} catch (err) {
+			console.error(err)
+		}
+	}
+
 	useEffect(() => {
+		setLoading(true)
 		fetchAccounts()
+		syncTransactions()
+		fetchTransactions()
+		setLoading(false)
 	}, [])
 
 	return (
 		<div>
 			{user ? <p>Hello, {user.name}</p> : <p>Hello, User</p>}
+
+			<p className='text-3xl'>Acccounts</p>
+			{loading ? 'loading ...' : JSON.stringify(accounts)}
+
+			<p className='text-3xl'>Transactions</p>
+			{loading ? 'loading ...' : JSON.stringify(transactions)}
 
 			<LogoutButton />
 		</div>
