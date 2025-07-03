@@ -73,7 +73,7 @@ plaid.post('/create_link_token', isAuthenticated, async (req, res) => {
 	}
 })
 
-plaid.post('/exchange_public_token', async (req, res) => {
+plaid.post('/exchange_public_token', isAuthenticated, async (req, res) => {
 	const userId = req.session.user.id
 	const publicToken = req.body.public_token
 
@@ -232,7 +232,7 @@ const populateAccountNames = async (userId, accessToken) => {
 
 // plaid endpoints
 
-plaid.get('/accounts/get', async (req, res) => {
+plaid.get('/accounts/get', isAuthenticated, async (req, res) => {
 	const userId = req.session.user.id
 	const partnerId = req.session.user.partner_id
 	const accessToken = await getUserAccessToken(userId)
@@ -256,7 +256,7 @@ plaid.get('/accounts/get', async (req, res) => {
 	}
 })
 
-plaid.get('/transactions/sync', async (req, res) => {
+plaid.get('/transactions/sync', isAuthenticated, async (req, res) => {
 	try {
 		const userId = req.session.user.id
 		const items = await getItemIdsForUser(userId)
@@ -273,7 +273,7 @@ plaid.get('/transactions/sync', async (req, res) => {
 	}
 })
 
-plaid.get('/transactions/list', async (req, res) => {
+plaid.get('/transactions/list', isAuthenticated, async (req, res) => {
 	try {
 		const userId = req.session.user.id
 		const pairId = getPairedId(userId)
