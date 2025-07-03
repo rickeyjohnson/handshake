@@ -49,7 +49,7 @@ const Dashboard = () => {
 
 	return (
 		<div>
-			{user ? <p>Hello, {user.name}</p> : <p>Hello, User</p>}
+			{user ? <p className='capitalize'>Hello, {user.name}</p> : <p>Hello, User</p>}
 
 			<p className='text-3xl'>Acccounts</p>
 			{loading ? 'loading ...' : <pre>{JSON.stringify(accounts, null, "\t")}</pre>}
