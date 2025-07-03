@@ -1,11 +1,13 @@
 import express, { Request, Response, NextFunction } from 'express'
 import cors from 'cors'
 import session from 'express-session'
+import expressWs from 'express-ws'
 import { PrismaClient } from './generated/prisma'
 import authRouter from './routes/auth'
 import plaidRouter from './routes/plaid'
 import pairRouter from './routes/pair'
 import { isAuthenticated } from './utils/util'
+import { connectedClients } from './websocket/wsStore'
 
 declare module 'express-session' {
 	interface SessionData {
@@ -14,12 +16,19 @@ declare module 'express-session' {
 			name: string
 			email: string
 			plaidToken: string
-			partnerId: string,
+			partnerId: string
 		}
 	}
 }
 
+declare module 'express-serve-static-core' {
+	interface Application {
+		ws(path: string, handler: (ws: any, req: any) => void): Application
+	}
+}
+
 const app = express()
+expressWs(app)
 const prisma = new PrismaClient()
 const PORT = process.env.PORT || 3001
 
@@ -64,6 +73,18 @@ app.get('/api/me', isAuthenticated, async (req: Request, res: Response) => {
 		console.error(error)
 		res.status(500).json({ error: 'Internal Server Error' })
 	}
+})
+
+// WEBSOCKET
+app.ws('/', (ws, req) => {
+	console.log('WebSocket connected.')
+	connectedClients.push(ws)
+
+	ws.on('close', () => {
+		const index = connectedClients.indexOf(ws)
+		if (index !== -1) connectedClients.splice(index, 1)
+		console.log('WebSocket closed.')
+	})
 })
 
 app.listen(PORT, () => {

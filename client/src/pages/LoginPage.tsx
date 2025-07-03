@@ -7,10 +7,9 @@ import { Input } from '../components/Input'
 
 const LoginPage = () => {
 	const [loginData, setLoginData] = useState({ email: '', password: '' })
-	const [error, setError] = useState('')
+	const [error] = useState('')
 	const { setUser } = useUser()
 	const navigate = useNavigate()
-	const TEST_FLAG = true
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target
@@ -31,18 +30,13 @@ const LoginPage = () => {
 			const data = await response.json()
 			setUser(data)
 
-			if (TEST_FLAG) {
+			if (!data.plaidToken) {
+				navigate('/connect-bank')
+			} else if (!data.partnerId) {
 				navigate('/pair')
 			} else {
-				if (!data.plaidToken) {
-					navigate('/connect-bank')
-				} else if (1 === 1) {
-					navigate('/pair')
-				} else {
-					navigate('/dashboard')
-				}
+				navigate('/dashboard')
 			}
-
 		} catch (error) {
 			console.error('Network Error: Please try again', error)
 		}

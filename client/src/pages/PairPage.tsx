@@ -1,6 +1,6 @@
-import { Link } from 'react-router'
+import { Link, useNavigate } from 'react-router'
 import { Button } from '../components/Button'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import GenerateHandshakeCodeModal from '../components/GenerateHandshakeCodeModal'
 import EnterHandshakeCodeModal from '../components/EnterHandshakeCodeModal'
 import { useUser } from '../contexts/UserContext'
@@ -12,6 +12,26 @@ const PairPage = () => {
 	const [showEnterHandshakeCodeModal, setShowEnterHandshakeCodeModal] =
 		useState(false)
 	const { user } = useUser()
+	const navigate = useNavigate()
+
+	useEffect(() => {
+		const socket = new WebSocket('ws://localhost:3000/')
+
+		socket.onopen = () => {
+			console.log('Connected to server!')
+		}
+
+		socket.onmessage = (event) => {
+			const { paired } = JSON.parse(event.data)
+			if (paired) {
+				navigate('/dashboard')
+			}
+		}
+
+		return () => {
+			socket.close()
+		}
+	}, [])
 
 	return (
 		<div className="flex justify-center items-center h-screen relative">
@@ -26,7 +46,8 @@ const PairPage = () => {
 
 			<div className="flex flex-col justify-center items-center gap-4 w-md relative">
 				<h1 className="text-center text-3xl">
-					{capitalize(user.name)} it's time to pair with your partner.
+					{capitalize(user?.name)} it's time to pair with your
+					partner.
 				</h1>
 
 				<Button
