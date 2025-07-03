@@ -106,3 +106,24 @@ export const addNewTransaction = async (transactionObj) => {
 		console.error(error)
 	}
 }
+
+export const modifyExistingTransactions = async (transactionObj) => {
+	try {
+		const updatedTransaction = await prisma.transactions.update({
+			where: { id: transactionObj.id },
+			data: {
+				account_id: transactionObj.account_id,
+				category: transactionObj.category,
+				date: transactionObj.date,
+				authorized_date: transactionObj.authorized_date,
+				name: transactionObj.name,
+				amount: transactionObj.amount,
+				currency_code: transactionObj.currency_code,
+			},
+		})
+
+		return updatedTransaction
+	} catch (error) {
+		console.error(error)
+	}
+}

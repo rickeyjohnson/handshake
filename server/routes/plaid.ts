@@ -15,6 +15,7 @@ import {
 	getItemInfo,
 	getUserAccessToken,
 	isAuthenticated,
+	modifyExistingTransactions,
 	simpleTransactionFromPlaidTransaction,
 } from '../utils/util'
 
@@ -112,6 +113,17 @@ const syncTransactions = async (item_id) => {
 			)
 			console.log(simpleTransaction)
 			await addNewTransaction(simpleTransaction)
+		})
+	)
+
+	await Promise.all(
+		allData.modified.map(async (txnObj) => {
+			const simpleTransaction = simpleTransactionFromPlaidTransaction(
+				txnObj,
+				userId
+			)
+			console.log(simpleTransaction)
+			await modifyExistingTransactions(simpleTransaction)
 		})
 	)
 }
