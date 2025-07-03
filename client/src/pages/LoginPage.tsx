@@ -14,13 +14,13 @@ const LoginPage = () => {
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target
 		setLoginData((prev) => ({ ...prev, [name]: value }))
+		setError('')
 	}
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 
 		try {
-			// REMOVE localhost:3000 during development
 			const response = await fetch('/api/auth/login', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
@@ -29,16 +29,22 @@ const LoginPage = () => {
 
 			const data = await response.json()
 
-			if (response.ok) {
-				console.log('Login successfully')
-				setUser(data)
-				navigate('/dashboard')
-			} else {
-				console.error('Failed to create account: ', data.error)
+			if (!response.ok) {
 				setError(data.error)
+				return
+			}
+
+			setUser(data)
+
+			if (!data.is_plaid_linked) {
+				navigate('/connect-bank')
+			} else if (!data.is_paired) {
+				navigate('/pair')
+			} else {
+				navigate('/dashboard')
 			}
 		} catch (error) {
-			console.error('Network error. Please try again', error)
+			console.error('Network Error: Please try again', error)
 		}
 	}
 

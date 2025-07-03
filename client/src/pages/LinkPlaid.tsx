@@ -1,12 +1,23 @@
 import { usePlaidLink } from 'react-plaid-link'
 import { useCallback, useEffect, useState } from 'react'
 import { Button } from '../components/Button'
-import { Link } from 'react-router'
+import { Link, useNavigate } from 'react-router'
+import { useUser } from '../contexts/UserContext'
 
 const LinkPlaid = () => {
 	const [linkToken, setLinkToken] = useState(null)
+	const [isError, setIsError] = useState(false)
+	const [loading, setLoading] = useState(false)
+	const navigate = useNavigate()
+	const { user } = useUser()
 
 	const generateToken = async () => {
+
+		if (user?.is_plaid_linked) {
+			navigate('/pair')
+			return
+		}
+
 		console.log('generating link_token')
 		const response = await fetch('/api/plaid/create_link_token', {
 			method: 'POST',
@@ -17,15 +28,26 @@ const LinkPlaid = () => {
 	}
 
 	const onSuccess = useCallback((public_token: string) => {
+		setLoading(true)
 		try {
 			fetch('/api/plaid/exchange_public_token', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ public_token: public_token }),
 			})
+				.then((res) => res.json())
+				.then((data) => {
+					if (data.error) {
+						setIsError(true)
+					} else {
+						navigate('/pair')
+					}
+				})
 		} catch (error: any) {
 			console.log(error.message)
 		}
+
+		setLoading(false)
 	}, [])
 
 	const config = {
@@ -36,7 +58,9 @@ const LinkPlaid = () => {
 	const { open, ready } = usePlaidLink(config)
 
 	useEffect(() => {
+		setLoading(true)
 		generateToken()
+		setLoading(false)
 	}, [])
 
 	return (
@@ -53,7 +77,20 @@ const LinkPlaid = () => {
 			<h1 className="text-center text-3xl">
 				Connect bank via Plaid to continue creating your account.
 			</h1>
-			<Button onClick={() => open()} disabled={!ready}>
+
+			{isError ? (
+				<p className="bg-red-200 py-4 px-8 rounded-md border-red-700 border-4 text-red-700 font-medium text-lg">
+					Error connecting bank
+				</p>
+			) : (
+				<></>
+			)}
+
+			<Button
+				onClick={() => open()}
+				disabled={!ready}
+				className={loading ? 'bg-amber-300' : ''}
+			>
 				Connect Bank
 			</Button>
 		</div>

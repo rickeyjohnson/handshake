@@ -1,25 +1,65 @@
-import { createContext, useState, useContext, useEffect } from "react"
+import {
+	createContext,
+	useState,
+	useContext,
+	useEffect,
+	type SetStateAction,
+	type Dispatch,
+} from 'react'
 
-const UserContext = createContext<any>(undefined)   // Find typing for usercontext
+type User = {
+	id: string
+	name: string
+	email: string
+	is_plaid_linked: boolean
+	is_paired: boolean
+}
 
-export const UserProvider = ({ children } : { children: React.ReactNode }) => {
-    const [user, setUser] = useState(null);
+interface UserContextType {
+	user: User | null
+	loading: boolean
+	setUser: Dispatch<SetStateAction<User | null>>
+}
 
-    useEffect(() => {
-        fetch('/api/me', { credentials: "include" })
-            .then((response) => response.json())
-            .then((data) => {
-                if (data.id) {
-                    setUser(data);
-                }
-            })
-    }, [])
+const defaultUserContext: UserContextType = {
+	user: null,
+	loading: true,
+	setUser: () => {},
+}
 
-    return (
-        <UserContext.Provider value={{ user, setUser }}>
-            {children}
-        </UserContext.Provider>
-    )
+const UserContext = createContext<UserContextType>(defaultUserContext)
+
+export const UserProvider = ({ children }: { children: React.ReactNode }) => {
+	const [user, setUser] = useState<User | null>(null)
+	const [loading, setLoading] = useState(true)
+
+	useEffect(() => {
+		const fetchUser = async () => {
+			try {
+				const response = await fetch('/api/me', {
+					credentials: 'include',
+				})
+				if (response.ok) {
+					const data = await response.json()
+					setUser(data)
+				} else {
+					setUser(null)
+				}
+			} catch (err) {
+				setUser(null)
+			} finally {
+				setLoading(false)
+			}
+		}
+
+		fetchUser()
+	}, [])
+
+	return (
+		<UserContext.Provider value={{ user, loading, setUser }}>
+			{children}
+		</UserContext.Provider>
+	)
 }
 
 export const useUser = () => useContext(UserContext)
