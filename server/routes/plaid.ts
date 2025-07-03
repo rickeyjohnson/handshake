@@ -105,7 +105,6 @@ plaid.post('/exchange_public_token', isAuthenticated, async (req, res) => {
 })
 
 // PLAID API ENDPOINTS FOR FETCHING BANK DATA
-
 const syncTransactions = async (item_id) => {
 	const {
 		access_token: accessToken,
@@ -229,8 +228,6 @@ const populateAccountNames = async (userId, accessToken) => {
 		)
 	}
 }
-
-// plaid endpoints
 
 plaid.get('/accounts/get', isAuthenticated, async (req, res) => {
 	const userId = req.session.user.id

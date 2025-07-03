@@ -25,7 +25,7 @@ const defaultUserContext: UserContextType = {
 	setUser: () => {},
 }
 
-const UserContext = createContext<UserContextType>(defaultUserContext) // Find typing for usercontext
+const UserContext = createContext<UserContextType>(defaultUserContext)
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 	const [user, setUser] = useState<User | null>(null)
