@@ -20,7 +20,8 @@ export const Button = ({
 			break
 
 		case 'clear':
-			base += ' bg-white border-3 border-gray-200 hover:bg-slate-950 hover:text-white hover:border-slate-950'
+			base +=
+				' bg-white border-3 border-gray-200 hover:bg-slate-950 hover:text-white hover:border-slate-950'
 			break
 
 		default:

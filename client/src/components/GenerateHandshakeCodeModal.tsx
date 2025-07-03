@@ -7,10 +7,10 @@ const GenerateHandshakeCodeModal = ({ onClick }: { onClick: () => void }) => {
 
 	useEffect(() => {
 		fetch('/api/pair/request')
-			.then(res => res.json())
-			.then(data => setCode(data.code))
-			.catch(err => console.error(err))
-    }, [])
+			.then((res) => res.json())
+			.then((data) => setCode(data.code))
+			.catch((err) => console.error(err))
+	}, [])
 
 	return (
 		<div className="h-screen w-screen bg-gray-400/10 absolute flex justify-center items-center">
@@ -20,7 +20,8 @@ const GenerateHandshakeCodeModal = ({ onClick }: { onClick: () => void }) => {
 				</h1>
 				<p className="self-start text-gray-500 font-light text-md">
 					This code allows you to pair with your partner. Give them
-					this code in order to pair. This code will expire in 5 minutes.
+					this code in order to pair. This code will expire in 5
+					minutes.
 				</p>
 
 				<Input

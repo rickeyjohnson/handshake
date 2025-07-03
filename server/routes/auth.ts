@@ -71,10 +71,10 @@ auth.post('/login', loginLimiter, async (req: Request, res: Response) => {
 	}
 
 	const user = await prisma.user.findUnique({
-		where: { email },
+		where: { email: email },
 	})
 
-	if (!user || !(await bcrypt.compare(password, user.password))) {
+	if (!user || !(await bcrypt.compare(password, user?.password))) {
 		res.status(400).json({ error: 'Invalid email or password ' })
 		return
 	}
