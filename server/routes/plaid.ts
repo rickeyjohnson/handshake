@@ -12,10 +12,11 @@ import {
 import {
 	addNewTransaction,
 	deleteExistingTransaction,
+	extractAccountDetails,
 	getItemIdsForUser,
 	getItemInfo,
 	getPairedId,
-	getTransactionsForUser,
+	getTransactionsForUserOrPair,
 	getUserAccessToken,
 	isAuthenticated,
 	modifyExistingTransactions,
@@ -231,23 +232,23 @@ const populateAccountNames = async (userId, accessToken) => {
 
 // plaid endpoints
 
-plaid.get('/accounts', async (req, res) => {
+plaid.get('/accounts/get', async (req, res) => {
 	const userId = req.session.user.id
 	const partnerId = req.session.user.partner_id
 	const accessToken = await getUserAccessToken(userId)
 	const partnerAccessToken = await getUserAccessToken(partnerId)
-	const accounts = {}
 
 	try {
 		const accountsResponse = await plaidClient.accountsGet({
 			access_token: accessToken,
 		})
-		accounts[userId] = accountsResponse.data
-
 		const partnerAccountsResponse = await plaidClient.accountsGet({
 			access_token: partnerAccessToken,
 		})
-		accounts[partnerId] = partnerAccountsResponse.data
+		
+		const userAccount = await extractAccountDetails(accountsResponse.data.accounts, accountsResponse.data.item, userId)
+		const partnerAccount = await extractAccountDetails(partnerAccountsResponse.data.accounts, partnerAccountsResponse.data.item, partnerId)
+		const accounts = [...userAccount, ...partnerAccount]
 
 		res.status(200).json(accounts)
 	} catch (error) {
@@ -275,8 +276,9 @@ plaid.get('/transactions/sync', async (req, res) => {
 plaid.get('/transactions/list', async (req, res) => {
 	try {
 		const userId = req.session.user.id
+		const pairId = getPairedId(userId)
 		const maxCount = 10
-		const transactions = await getTransactionsForUser(userId, maxCount)
+		const transactions = await getTransactionsForUserOrPair(pairId, maxCount)
 
 		res.status(200).json(transactions)
 	} catch (error) {

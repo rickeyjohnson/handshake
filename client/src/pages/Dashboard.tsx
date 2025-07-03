@@ -10,7 +10,7 @@ const Dashboard = () => {
 
 	const fetchAccounts = async () => {
 		try {
-			const response = await fetch('/api/plaid/accounts', {
+			const response = await fetch('/api/plaid/accounts/get', {
 				headers: { 'Content-Type' : 'application/json' }
 			})
 			const data = await response.json()
@@ -52,10 +52,10 @@ const Dashboard = () => {
 			{user ? <p>Hello, {user.name}</p> : <p>Hello, User</p>}
 
 			<p className='text-3xl'>Acccounts</p>
-			{loading ? 'loading ...' : JSON.stringify(accounts)}
+			{loading ? 'loading ...' : <pre>{JSON.stringify(accounts, null, "\t")}</pre>}
 
 			<p className='text-3xl'>Transactions</p>
-			{loading ? 'loading ...' : JSON.stringify(transactions)}
+			{loading ? 'loading ...' : <pre>{JSON.stringify(transactions, null, 4)}</pre>}
 
 			<LogoutButton />
 		</div>

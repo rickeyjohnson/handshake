@@ -158,9 +158,9 @@ export const saveCursorForItem = async (transactionCursor, itemId) => {
 	}
 }
 
-export const getTransactionsForUser = async (userId, maxNum) => {
+export const getTransactionsForUserOrPair = async (id, max_num) => {
 	const transactions = await prisma.transactions.findMany({
-		where: { user_id: userId, is_removed: false },
+		where: { user_id: id, is_removed: false },
 		include: {
 			account: {
 				select: {
@@ -179,7 +179,7 @@ export const getTransactionsForUser = async (userId, maxNum) => {
 			}
 		},
 		orderBy: [ { authorized_date: 'desc'} ],
-		take: maxNum
+		take: max_num
 	})
 
 	const customTransactions = transactions.map(tx => ({
@@ -199,4 +199,47 @@ export const getTransactionsForUser = async (userId, maxNum) => {
 	}))
 
 	return customTransactions
+}
+
+export const extractAccountDetails = async (accounts, item, userId) => {
+	const name = await getUserNameFromUserId(userId)
+	const customAccounts = accounts.map(acc => ({
+		id: acc.account_id,
+		account_name: acc.name,
+		bank_name: item.institution_name,
+		user_id: userId,
+		user_name: name,
+		balances: {
+			available: acc.balances.available,
+			current: acc.balances.current,
+			currency_code: acc.balances.iso_currency_code
+
+		},
+		subtype: acc.subtype,
+		type: acc.type,
+	}))
+
+	return customAccounts
+}
+
+export const getUserNameFromUserId = async (user_id) => {
+	const user = await prisma.user.findUnique({
+		where: { id: user_id },
+		select: {
+			name: true
+		}
+	})
+
+	return user.name
+}
+
+export const getAccountNameFromAccountId = async (account_id) => {
+	const account = await prisma.accounts.findUnique({
+		where: { id: account_id },
+		select: {
+			name: true,
+		}
+	})
+
+	return account.name
 }
