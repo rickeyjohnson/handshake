@@ -160,9 +160,9 @@ const fetchNewSyncData = async (accessToken, initialCursor) => {
 		allData.added = allData.added.concat(newData.added)
 		allData.modified = allData.modified.concat(newData.modified)
 		allData.removed = allData.removed.concat(newData.removed)
-		allData.nextCursor = allData.nextCursor
+		allData.nextCursor = newData.next_cursor
 		keepGoing = newData.has_more
-	} while (keepGoing)
+	} while (keepGoing === true)
 
 	console.log(allData)
 	return allData
