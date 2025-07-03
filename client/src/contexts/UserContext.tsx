@@ -11,6 +11,8 @@ type User = {
 	id: string
 	name: string
 	email: string
+	is_plaid_linked: boolean
+	is_paired: boolean
 }
 
 interface UserContextType {

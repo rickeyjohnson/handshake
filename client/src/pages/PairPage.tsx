@@ -14,6 +14,11 @@ const PairPage = () => {
 	const navigate = useNavigate()
 
 	useEffect(() => {
+		if (user?.is_paired) {
+			navigate('/dashboard')
+			return
+		}
+
 		const socket = new WebSocket('ws://localhost:3000/')
 
 		socket.onopen = () => {

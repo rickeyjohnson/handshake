@@ -2,14 +2,22 @@ import { usePlaidLink } from 'react-plaid-link'
 import { useCallback, useEffect, useState } from 'react'
 import { Button } from '../components/Button'
 import { Link, useNavigate } from 'react-router'
+import { useUser } from '../contexts/UserContext'
 
 const LinkPlaid = () => {
 	const [linkToken, setLinkToken] = useState(null)
 	const [isError, setIsError] = useState(false)
 	const [loading, setLoading] = useState(false)
 	const navigate = useNavigate()
+	const { user } = useUser()
 
 	const generateToken = async () => {
+
+		if (user?.is_plaid_linked) {
+			navigate('/pair')
+			return
+		}
+
 		console.log('generating link_token')
 		const response = await fetch('/api/plaid/create_link_token', {
 			method: 'POST',
