@@ -23,6 +23,7 @@ model User {
   partner_id      String?   @unique
   partner         User?   @relation("UserToPartner", fields: [partner_id], references: [id])
   partnerOf       User?   @relation("UserToPartner")
+  transactions    Transactions[]
 }
 
 model PairRequest {
@@ -48,21 +49,26 @@ model PlaidItem {
   transaction_cursor  String?
   bank  String?
   created_at    DateTime  @default(now())
+  accounts    Accounts[]
 }
 
 model Accounts {
   id        String  @id
   item_id   String
+  item      PlaidItem @relation(fields: [item_id], references:[id])
   name      String?
   pair_id    String?
   user_id   String
+  transactions Transactions[]
 }
 
 model Transactions {
   id              String    @id
   user_id         String
+  user            User      @relation(fields:[user_id], references:[id])
   pair_id         String
-  account_id      String
+  account_id      String      
+  account         Accounts   @relation(fields:[account_id], references:[id])
   category        String
   date            String
   authorized_date String

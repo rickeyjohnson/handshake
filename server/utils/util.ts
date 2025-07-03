@@ -160,7 +160,45 @@ export const saveCursorForItem = async (transactionCursor, itemId) => {
 
 export const getTransactionsForUser = async (userId, maxNum) => {
 	const transactions = await prisma.transactions.findMany({
-		where: { user_id: userId },
-		orderBy: {}
+		where: { user_id: userId, is_removed: false },
+		include: {
+			account: {
+				include: {
+					item: {
+						select: {
+							bank: true
+						}
+					}
+				},
+
+				select: {
+					name: true
+				}
+			},
+			user: {
+				select: {
+					name: true
+				}
+			}
+		},
+		orderBy: [ { authorized_date: 'desc'} ],
+		take: maxNum
 	})
+
+	const customTransactions = transactions.map(tx => ({
+		id:	tx.id,
+		user_id: tx.user_id,
+		user_name: tx.user.name,
+		account_id: tx.account_id,
+		account_name: tx.account.name,
+		category: tx.category,
+		date: tx.date,
+		authorized_date: tx.authorized_date,
+		transaction_name: tx.name,
+		amount: tx.amount,
+		currency_code: tx.currency_code,
+		is_removed: tx.is_removed,
+	}))
+
+	return customTransactions
 }

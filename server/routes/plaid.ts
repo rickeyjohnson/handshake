@@ -277,8 +277,11 @@ plaid.get('/transactions/list', async (req, res) => {
 		const userId = req.session.user.id
 		const maxCount = req.params['maxCount'] ?? 10
 		const transactions = await getTransactionsForUser(userId, maxCount)
+
+		res.status(200).json(transactions)
 	} catch (error) {
 		console.log(`Error fetching transactions ${JSON.stringify(error)}`)
+		res.status(500)
 	}
 })
 
