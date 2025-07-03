@@ -157,3 +157,10 @@ export const saveCursorForItem = async (transactionCursor, itemId) => {
 		console.log(`I can't save the cursor ${JSON.stringify(error)}`)
 	}
 }
+
+export const getTransactionsForUser = async (userId, maxNum) => {
+	const transactions = await prisma.transactions.findMany({
+		where: { user_id: userId },
+		orderBy: {}
+	})
+}

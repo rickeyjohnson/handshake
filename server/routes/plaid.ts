@@ -14,6 +14,7 @@ import {
 	deleteExistingTransaction,
 	getItemIdsForUser,
 	getItemInfo,
+	getTransactionsForUser,
 	getUserAccessToken,
 	isAuthenticated,
 	modifyExistingTransactions,
@@ -92,6 +93,9 @@ plaid.post('/exchange_public_token', async (req, res) => {
 			},
 		})
 
+		await populateBankName(itemId, accessToken)
+		await populateAccountNames(accessToken)
+
 		res.status(200).json({ public_token_exchange: 'complete' })
 	} catch (error) {
 		res.status(500).json({ error: error.message })
@@ -168,6 +172,40 @@ const fetchNewSyncData = async (accessToken, initialCursor) => {
 	return allData
 }
 
+const populateBankName = async (itemId, accessToken) => {
+	try {
+		const itemResponse = await plaidClient.itemGet({
+			access_token: accessToken,
+		})
+		const institutionId = itemResponse.data.item.institution_id
+
+		if (!institutionId) {
+			return
+		}
+
+		const institutionResponse = await plaidClient.institutionsGetById({
+			institution_id: institutionId,
+			country_codes: PLAID_COUNTRY_CODES,
+		})
+		const institutionName = institutionResponse.data.institution.name
+
+		await prisma.plaidItem.update({
+			where: { id: itemId },
+			data: {
+				bank: institutionName,
+			},
+		})
+	} catch (error) {
+		console.log(
+			`Ran into error populating bank name! ${JSON.stringify(error)}`
+		)
+	}
+}
+
+const populateAccountNames = (accessToken) => {}
+
+// plaid endpoints
+
 plaid.get('/accounts', async (req, res) => {
 	const userId = req.session.user.id
 	const partnerId = req.session.user.partner_id
@@ -206,6 +244,16 @@ plaid.get('/transactions/sync', async (req, res) => {
 	} catch (error) {
 		console.log('Running into an error!')
 		res.status(500).json({ error: error.message })
+	}
+})
+
+plaid.get('/transactions/list', async (req, res) => {
+	try {
+		const userId = req.session.user.id
+		const maxCount = req.params['maxCount'] ?? 10
+		const transactions = await getTransactionsForUser(userId, maxCount)
+	} catch (error) {
+		console.log(`Error fetching transactions ${JSON.stringify(error)}`)
 	}
 })
 
