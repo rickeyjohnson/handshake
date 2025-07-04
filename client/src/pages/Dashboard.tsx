@@ -3,7 +3,7 @@ import { LogoutButton } from '../components/LogoutButton'
 import { useUser } from '../contexts/UserContext'
 import { useAccount } from '../contexts/AccountContext'
 import { useTransactions } from '../contexts/TransactionsContext'
-import Sidebar from '../components/Sidebar'
+import Sidebar from '../components/Sidebar/Sidebar'
 
 const Dashboard = () => {
 	const { user } = useUser()
@@ -52,7 +52,7 @@ const Dashboard = () => {
 	}, [])
 
 	return (
-		<div className='bg-stone-200 relative w-screen h-screen'>
+		<div className='relative w-screen h-screen'>
 			<Sidebar />
 			<LogoutButton className="absolute right-0 top-0"/>
 		</div>
