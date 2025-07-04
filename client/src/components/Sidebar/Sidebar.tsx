@@ -1,9 +1,10 @@
 import { IconCash, IconDashboard, IconMap, IconMoneybag, IconTable, IconTargetArrow, IconUsers, type Icon } from "@tabler/icons-react"
+import { Button } from "../Button"
 
 type navItem = {
     title: string
     url: string
-    icon?: Icon
+    icon: Icon
 }
 
 const Sidebar = () => {
@@ -41,22 +42,16 @@ const Sidebar = () => {
                 <h1>Handshake</h1>
             </div>
             <div>
-                <div className="flex gap-2 hover:bg-gray-200">
-                    <IconMap />
-                    <h1>Maps</h1>
-                </div>
-                <div className="flex gap-2 hover:bg-gray-200">
-                    <IconMap />
-                    <h1>Maps</h1>
-                </div>
-                <div className="flex gap-2 hover:bg-gray-200">
-                    <IconMap />
-                    <h1>Maps</h1>
-                </div>
-                <div className="flex gap-2 hover:bg-gray-200">
-                    <IconMap />
-                    <h1>Maps</h1>
-                </div>
+                {
+                    nav.map((item) => {
+                        return (
+                            <Button className="flex gap-2" variant="ghost">
+                                {item.icon && <item.icon />}
+                                <span>{item.title}</span>
+                            </Button>
+                        )
+                    })
+                }
             </div>
         </div>
     )
