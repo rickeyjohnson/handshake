@@ -14,7 +14,7 @@ type Account = {
     type: string
 }
 
-const initialAccount: Account = {
+const initialAccounts: Account[] = [{
     id: -1,
     account_name: '',
     bank_name: '',
@@ -26,25 +26,42 @@ const initialAccount: Account = {
     },
     subtype: '',
     type: ''
-}
+}]
 
 type AccountContextType = {
-    account: Account
-    setAccount: Dispatch<SetStateAction<Account>>
+    accounts: Account[]
+    setAccounts: Dispatch<SetStateAction<Account[]>>
 }
 
 const defaultAccountContextType: AccountContextType = {
-    account: initialAccount,
-    setAccount: () => {}
+    accounts: initialAccounts,
+    setAccounts: () => {}
 }
 
 export const AccountContext = createContext<AccountContextType>(defaultAccountContextType)
 
 export const AccountProvider = ({ children }: { children: React.ReactNode }) => {
-    const [account, setAccount] = useState<Account>(initialAccount)
+    const [accounts, setAccounts] = useState<Account[]>(initialAccounts)
+
+    const fetchAccounts = async () => {
+		try {
+			const response = await fetch('/api/plaid/accounts/get', {
+				headers: { 'Content-Type': 'application/json' },
+			})
+			const data = await response.json()
+
+			setAccounts(data)
+		} catch (err) {
+			console.error(err)
+		}
+	}
+
+    useEffect(() => {
+        fetchAccounts()
+    }, [])
 
     return (
-        <AccountContext.Provider value={{ account, setAccount }}>
+        <AccountContext.Provider value={{ accounts, setAccounts }}>
             {children}
         </AccountContext.Provider>
     )
