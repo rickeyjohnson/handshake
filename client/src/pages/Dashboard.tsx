@@ -1,11 +1,26 @@
 import { useEffect, useState } from 'react'
 import { LogoutButton } from '../components/LogoutButton'
 import { useUser } from '../contexts/UserContext'
+import { useAccount } from '../contexts/AccountContext'
 
 const Dashboard = () => {
 	const { user } = useUser()
+	const { accounts, setAccounts } = useAccount()
 	const [transactions, setTransactions] = useState(null)
 	const [loading, setLoading] = useState(true)
+
+	const fetchAccounts = async () => {
+		try {
+			const response = await fetch('/api/plaid/accounts/get', {
+				headers: { 'Content-Type': 'application/json' },
+			})
+			const data = await response.json()
+
+			setAccounts(data)
+		} catch (err) {
+			console.error(err)
+		}
+	}
 
 	const fetchTransactions = async () => {
 		const response = await fetch('/api/plaid/transactions/list', {
@@ -27,6 +42,7 @@ const Dashboard = () => {
 
 	useEffect(() => {
 		setLoading(true)
+		fetchAccounts()
 		syncTransactions()
 		fetchTransactions()
 		setLoading(false)
@@ -44,7 +60,7 @@ const Dashboard = () => {
 			{loading ? (
 				'loading ...'
 			) : (
-				<pre>{JSON.stringify({}, null, 4)}</pre>
+				<pre>{JSON.stringify(accounts, null, 4)}</pre>
 			)}
 
 			<p className="text-3xl">Transactions</p>

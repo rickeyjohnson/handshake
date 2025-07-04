@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, type Dispatch, type SetStateAction } from "react"
+import { createContext, useContext, useState, type Dispatch, type SetStateAction } from "react"
 
 type Account = {
     id: string | number
