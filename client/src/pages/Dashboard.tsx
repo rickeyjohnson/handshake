@@ -4,22 +4,8 @@ import { useUser } from '../contexts/UserContext'
 
 const Dashboard = () => {
 	const { user } = useUser()
-	const [accounts, setAccounts] = useState(null)
 	const [transactions, setTransactions] = useState(null)
 	const [loading, setLoading] = useState(true)
-
-	const fetchAccounts = async () => {
-		try {
-			const response = await fetch('/api/plaid/accounts/get', {
-				headers: { 'Content-Type': 'application/json' },
-			})
-			const data = await response.json()
-
-			setAccounts(data)
-		} catch (err) {
-			console.error(err)
-		}
-	}
 
 	const fetchTransactions = async () => {
 		const response = await fetch('/api/plaid/transactions/list', {
@@ -41,7 +27,6 @@ const Dashboard = () => {
 
 	useEffect(() => {
 		setLoading(true)
-		fetchAccounts()
 		syncTransactions()
 		fetchTransactions()
 		setLoading(false)
@@ -59,7 +44,7 @@ const Dashboard = () => {
 			{loading ? (
 				'loading ...'
 			) : (
-				<pre>{JSON.stringify(accounts, null, '\t')}</pre>
+				<pre>{JSON.stringify({}, null, 4)}</pre>
 			)}
 
 			<p className="text-3xl">Transactions</p>

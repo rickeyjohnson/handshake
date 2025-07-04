@@ -43,23 +43,6 @@ export const AccountContext = createContext<AccountContextType>(defaultAccountCo
 export const AccountProvider = ({ children }: { children: React.ReactNode }) => {
     const [accounts, setAccounts] = useState<Account[]>(initialAccounts)
 
-    const fetchAccounts = async () => {
-		try {
-			const response = await fetch('/api/plaid/accounts/get', {
-				headers: { 'Content-Type': 'application/json' },
-			})
-			const data = await response.json()
-
-			setAccounts(data)
-		} catch (err) {
-			console.error(err)
-		}
-	}
-
-    useEffect(() => {
-        fetchAccounts()
-    }, [])
-
     return (
         <AccountContext.Provider value={{ accounts, setAccounts }}>
             {children}
