@@ -52,9 +52,11 @@ const Dashboard = () => {
 	}, [])
 
 	return (
-		<div className='relative w-screen h-screen'>
+		<div className='w-screen h-screen flex bg-neutral-100'>
 			<Sidebar />
-			<LogoutButton className="absolute right-0 top-0"/>
+			<main className='box-border bg-white m-3 w-full rounded-2xl'>
+				content
+			</main>
 		</div>
 	)
 }
