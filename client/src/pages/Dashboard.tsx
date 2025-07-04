@@ -7,7 +7,6 @@ const Dashboard = () => {
 	const { user } = useUser()
 	const { accounts, setAccounts } = useAccount()
 	const [transactions, setTransactions] = useState(null)
-	const [loading, setLoading] = useState(true)
 
 	const fetchAccounts = async () => {
 		try {
@@ -41,11 +40,9 @@ const Dashboard = () => {
 	}
 
 	useEffect(() => {
-		setLoading(true)
 		fetchAccounts()
 		syncTransactions()
 		fetchTransactions()
-		setLoading(false)
 	}, [])
 
 	return (
@@ -57,18 +54,10 @@ const Dashboard = () => {
 			)}
 
 			<p className="text-3xl">Acccounts</p>
-			{loading ? (
-				'loading ...'
-			) : (
-				<pre>{JSON.stringify(accounts, null, 4)}</pre>
-			)}
+			<pre>{JSON.stringify(accounts, null, 4)}</pre>
 
 			<p className="text-3xl">Transactions</p>
-			{loading ? (
-				'loading ...'
-			) : (
-				<pre>{JSON.stringify(transactions, null, 4)}</pre>
-			)}
+			<pre>{JSON.stringify(transactions, null, 4)}</pre>
 
 			<LogoutButton />
 		</div>
