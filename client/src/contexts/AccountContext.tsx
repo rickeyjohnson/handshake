@@ -20,29 +20,13 @@ type Account = {
 	type: string
 }
 
-const initialAccounts: Account[] = [
-	{
-		id: -1,
-		account_name: '',
-		bank_name: '',
-		user_id: '',
-		balances: {
-			available: 0,
-			current: 0,
-			currency_code: '',
-		},
-		subtype: '',
-		type: '',
-	},
-]
-
 type AccountContextType = {
 	accounts: Account[]
 	setAccounts: Dispatch<SetStateAction<Account[]>>
 }
 
 const defaultAccountContextType: AccountContextType = {
-	accounts: initialAccounts,
+	accounts: [],
 	setAccounts: () => {},
 }
 
@@ -55,7 +39,7 @@ export const AccountProvider = ({
 }: {
 	children: React.ReactNode
 }) => {
-	const [accounts, setAccounts] = useState<Account[]>(initialAccounts)
+	const [accounts, setAccounts] = useState<Account[]>([])
 
 	return (
 		<AccountContext.Provider value={{ accounts, setAccounts }}>

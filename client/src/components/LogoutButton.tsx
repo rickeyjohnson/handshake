@@ -13,19 +13,7 @@ export const LogoutButton = () => {
 		})
 
 		setUser(null)
-		setAccounts([{
-			id: -1,
-			account_name: '',
-			bank_name: '',
-			user_id: '',
-			balances: {
-				available: 0,
-				current: 0,
-				currency_code: '',
-			},
-			subtype: '',
-			type: '',
-		}])
+		setAccounts([])
 	}
 
 	return <Button onClick={handleLogout}>Log Out</Button>
