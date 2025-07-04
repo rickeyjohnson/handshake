@@ -52,9 +52,9 @@ const Dashboard = () => {
 	}, [])
 
 	return (
-		<div>
+		<div className='bg-stone-200 relative w-screen h-screen'>
 			<Sidebar />
-			<LogoutButton />
+			<LogoutButton className="absolute right-0 top-0"/>
 		</div>
 	)
 }
