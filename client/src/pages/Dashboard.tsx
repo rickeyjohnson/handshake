@@ -53,18 +53,7 @@ const Dashboard = () => {
 
 	return (
 		<div>
-			{user ? (
-				<p className="capitalize">Hello, {user.name}</p>
-			) : (
-				<p>Hello, User</p>
-			)}
-
-			<p className="text-3xl">Acccounts</p>
-			<pre>{JSON.stringify(accounts, null, 4)}</pre>
-
-			<p className="text-3xl">Transactions</p>
-			<pre>{JSON.stringify(transactions, null, 4)}</pre>
-
+			<Sidebar />
 			<LogoutButton />
 		</div>
 	)
