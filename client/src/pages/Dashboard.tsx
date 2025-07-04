@@ -3,6 +3,7 @@ import { LogoutButton } from '../components/LogoutButton'
 import { useUser } from '../contexts/UserContext'
 import { useAccount } from '../contexts/AccountContext'
 import { useTransactions } from '../contexts/TransactionsContext'
+import Sidebar from '../components/Sidebar'
 
 const Dashboard = () => {
 	const { user } = useUser()
