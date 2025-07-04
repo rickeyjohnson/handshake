@@ -1,4 +1,4 @@
-import { createContext, useState, type Dispatch, type SetStateAction } from 'react'
+import { createContext, useContext, useState, type Dispatch, type SetStateAction } from 'react'
 
 type Transactions = {
 	id: string | number,
@@ -42,3 +42,5 @@ export const TransactionProvider = ({
 		</TransactionsContext.Provider>
 	)
 }
+
+export const useTransactions = () => useContext(TransactionsContext)

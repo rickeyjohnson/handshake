@@ -2,11 +2,12 @@ import { useEffect, useState } from 'react'
 import { LogoutButton } from '../components/LogoutButton'
 import { useUser } from '../contexts/UserContext'
 import { useAccount } from '../contexts/AccountContext'
+import { useTransactions } from '../contexts/TransactionsContext'
 
 const Dashboard = () => {
 	const { user } = useUser()
 	const { accounts, setAccounts } = useAccount()
-	const [transactions, setTransactions] = useState(null)
+	const { transactions, setTransactions } = useTransactions()
 
 	const fetchAccounts = async () => {
 		try {
@@ -22,11 +23,15 @@ const Dashboard = () => {
 	}
 
 	const fetchTransactions = async () => {
-		const response = await fetch('/api/plaid/transactions/list', {
-			headers: { 'Content-Type': 'application/json' },
-		})
-		const data = await response.json()
-		setTransactions(data)
+		try {
+			const response = await fetch('/api/plaid/transactions/list', {
+				headers: { 'Content-Type': 'application/json' },
+			})
+			const data = await response.json()
+			setTransactions(data)
+		} catch (err) {
+			console.error(err)
+		}
 	}
 
 	const syncTransactions = async () => {
