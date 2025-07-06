@@ -75,7 +75,7 @@ const Sidebar = () => {
 			</div>
 
 			<div className="">
-				<LogoutButton className="hover:bg-stone-200/40" />
+				<LogoutButton className="hover:bg-stone-200/40 my-1" />
 				<div
 					className={`flex gap-2.5 items-center w-full hover:bg-stone-200/50 p-2 rounded-lg relative`}
 				>

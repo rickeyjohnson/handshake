@@ -50,7 +50,7 @@ const Dashboard = () => {
 		fetchTransactions()
 	}, [])
 
-	return <MainLayout>Bye, User</MainLayout>
+	return <MainLayout>Dashboard</MainLayout>
 }
 
 export default Dashboard
