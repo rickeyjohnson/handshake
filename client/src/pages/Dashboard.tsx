@@ -52,7 +52,7 @@ const Dashboard = () => {
 	}, [])
 
 	return (
-		<div className='min-w-screen min-h-dvh bg-stone-100 text-slate-950 grid gap-4 p-4 grid-cols-[auto_1fr]'>
+		<div className='min-w-screen min-h-dvh bg-stone-100 text-slate-950 grid gap-4 p-4 grid-cols-[250px_1fr]'>
 			<Sidebar />
 
 			<main className='box-border bg-white rounded-2xl pb-4 shadow h-[200vh]'>

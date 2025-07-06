@@ -3,7 +3,7 @@ import { useTransactions } from '../contexts/TransactionsContext'
 import { useUser } from '../contexts/UserContext'
 import { Button } from './Button'
 
-export const LogoutButton = ({ className } : { className: string }) => {
+export const LogoutButton = ({ className } : { className?: string }) => {
 	const { setUser } = useUser()
 	const { setAccounts } = useAccount()
 	const { setTransactions } = useTransactions()

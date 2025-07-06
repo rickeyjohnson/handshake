@@ -1,4 +1,6 @@
 import { IconCash, IconDashboard, IconMoneybag, IconTable, IconTargetArrow, IconUsers, type Icon } from "@tabler/icons-react"
+import { LogoutButton } from "../LogoutButton"
+import SidebarAccountInfo from "./SidebarAccountInfo"
 
 type navItem = {
     title: string
@@ -35,22 +37,25 @@ const Sidebar = () => {
         }
     ]
     return (
-        <nav className="">
-            <ul className="">
-                <li className="">
-                    <h1 className="">Handshake</h1>
-                </li>
-                {
-                    nav.map((item) => {
-                        return (
-                            <li className="flex gap-2">
-                                 {item.icon && <item.icon />}
-                                 {item.title}
-                            </li>
-                        )
-                    })
-                }
-            </ul>
+        <nav className="overflow-y-scroll sticky top-4 h-screen flex flex-col">
+            <div className="">
+                <h1>Handshake</h1>
+            </div>
+
+            {
+                nav.map(item => {
+                    return (
+                        <div>
+                            {item.title}
+                        </div>
+                    )
+                })
+            }
+
+            <div className="">
+                <SidebarAccountInfo name={"John Doe"} email={"johndoe@example.com"}/>
+                <LogoutButton />
+            </div>
         </nav>
     )
 }
