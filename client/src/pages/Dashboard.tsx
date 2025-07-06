@@ -3,6 +3,7 @@ import { useUser } from '../contexts/UserContext'
 import { useAccount } from '../contexts/AccountContext'
 import { useTransactions } from '../contexts/TransactionsContext'
 import Sidebar from '../components/Sidebar/Sidebar'
+import MainLayout from '../components/layouts/MainLayout'
 
 const Dashboard = () => {
 	const { user } = useUser()
@@ -51,13 +52,9 @@ const Dashboard = () => {
 	}, [])
 
 	return (
-		<div className='min-w-screen min-h-dvh bg-stone-100 text-slate-950 grid gap-4 p-4 grid-cols-[250px_1fr]'>
-			<Sidebar />
-
-			<main className='box-border bg-white rounded-2xl pb-4 shadow h-[200vh]'>
-				Hi, User
-			</main>
-		</div>
+		<MainLayout>
+			Bye, User
+		</MainLayout>
 	)
 }
 

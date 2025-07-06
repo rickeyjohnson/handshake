@@ -1,4 +1,4 @@
-import { IconCash, IconDashboard, IconMoneybag, IconTable, IconTargetArrow, IconUsers, type Icon } from "@tabler/icons-react"
+import { IconCash, IconDashboard, IconMoneybag, IconTable, IconTargetArrow, type Icon } from "@tabler/icons-react"
 import { LogoutButton } from "../LogoutButton"
 import SidebarAccountInfo from "./SidebarAccountInfo"
 import { Button } from "../Button"
@@ -37,12 +37,11 @@ const Sidebar = () => {
             icon:  IconTargetArrow,
         }
     ]
+
     return (
         <nav className="overflow-y-scroll sticky top-4 h-[calc(100dvh-2rem)] flex flex-col">
             <div className="grow-1">
-                <div className="">
-                    <h1 className="text-lg font-medium px-2 py-2 border-b-1 border-b-stone-300 mb-2">handshake.</h1>
-                </div>
+                <h1 className="text-lg font-medium px-2 py-2 border-b-1 border-b-stone-300 mb-2">Handshake</h1>
                 
                 {
                     nav.map(item => {
