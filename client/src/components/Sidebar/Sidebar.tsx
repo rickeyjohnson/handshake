@@ -54,7 +54,6 @@ const Sidebar = () => {
 
             <div className="">
                 <SidebarAccountInfo name={"John Doe"} email={"johndoe@example.com"}/>
-                <LogoutButton />
             </div>
         </nav>
     )
