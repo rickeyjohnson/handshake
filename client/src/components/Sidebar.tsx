@@ -9,7 +9,7 @@ import {
 } from '@tabler/icons-react'
 import { LogoutButton } from './LogoutButton'
 import { Button } from './Button'
-import { useLocation } from 'react-router'
+import { useLocation, useNavigate } from 'react-router'
 
 type navItem = {
 	title: string
@@ -19,6 +19,7 @@ type navItem = {
 
 const Sidebar = () => {
 	const location = useLocation()
+    const naviagte = useNavigate()
 	const nav: navItem[] = [
 		{
 			title: 'Dashboard',
@@ -37,7 +38,7 @@ const Sidebar = () => {
 		},
 		{
 			title: 'Budget',
-			url: '/budget',
+			url: '/budgets',
 			icon: IconMoneybag,
 		},
 		{
@@ -66,6 +67,7 @@ const Sidebar = () => {
 						<Button
 							variant="dashboard"
 							className={`my-1 ${selectedStyle(item.url)}`}
+                            onClick={() => naviagte(item.url)}
 						>
 							<item.icon size={18} />
 							{item.title}

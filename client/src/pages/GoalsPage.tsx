@@ -1,8 +1,10 @@
-import React from 'react'
+import MainLayout from '../components/MainLayout'
 
 const GoalsPage = () => {
   return (
-    <div>GoalsPage</div>
+    <MainLayout>
+        Goals
+    </MainLayout>
   )
 }
 

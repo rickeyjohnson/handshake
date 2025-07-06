@@ -1,8 +1,10 @@
-import React from 'react'
+import MainLayout from '../components/MainLayout'
 
 const SpendingPage = () => {
   return (
-    <div>SpendingPage</div>
+    <MainLayout>
+        Spending
+    </MainLayout>
   )
 }
 

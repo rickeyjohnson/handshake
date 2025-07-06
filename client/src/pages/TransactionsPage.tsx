@@ -1,8 +1,10 @@
-import React from 'react'
+import MainLayout from '../components/MainLayout'
 
 const TransactionsPage = () => {
   return (
-    <div>TransactionsPage</div>
+    <MainLayout>
+        Transactions
+    </MainLayout>
   )
 }
 
