@@ -21,9 +21,9 @@ export const LogoutButton = ({ className }: { className?: string }) => {
 	}
 
 	return (
-		<button className={`${className} text-xs flex gap-2 text-gray-800 hover:bg-gray-200/50 p-2 w-full rounded-lg`} onClick={handleLogout}>
-			<IconLogout size={16} color='gray'/>
+		<Button className={`${className}`} variant='dashboard' onClick={handleLogout}>
+			<IconLogout size={18}/>
 			Log Out
-		</button>
+		</Button>
 	)
 }

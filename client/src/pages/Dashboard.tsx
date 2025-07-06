@@ -1,5 +1,4 @@
 import { useEffect } from 'react'
-import { LogoutButton } from '../components/LogoutButton'
 import { useUser } from '../contexts/UserContext'
 import { useAccount } from '../contexts/AccountContext'
 import { useTransactions } from '../contexts/TransactionsContext'
@@ -56,7 +55,7 @@ const Dashboard = () => {
 			<Sidebar />
 
 			<main className='box-border bg-white rounded-2xl pb-4 shadow h-[200vh]'>
-				content
+				Hi, User
 			</main>
 		</div>
 	)

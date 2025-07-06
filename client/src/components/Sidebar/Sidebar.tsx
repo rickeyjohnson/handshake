@@ -1,6 +1,7 @@
 import { IconCash, IconDashboard, IconMoneybag, IconTable, IconTargetArrow, IconUsers, type Icon } from "@tabler/icons-react"
 import { LogoutButton } from "../LogoutButton"
 import SidebarAccountInfo from "./SidebarAccountInfo"
+import { Button } from "../Button"
 
 type navItem = {
     title: string
@@ -37,22 +38,26 @@ const Sidebar = () => {
         }
     ]
     return (
-        <nav className="overflow-y-scroll sticky top-4 h-screen flex flex-col">
-            <div className="">
-                <h1>Handshake</h1>
+        <nav className="overflow-y-scroll sticky top-4 h-[calc(100dvh-2rem)] flex flex-col">
+            <div className="grow-1">
+                <div className="">
+                    <h1 className="text-lg font-medium px-2 py-2 border-b-1 border-b-stone-300 mb-2">handshake.</h1>
+                </div>
+                
+                {
+                    nav.map(item => {
+                        return (
+                            <Button variant="dashboard" className="my-0.5">
+                                <item.icon size={18}/>
+                                {item.title}
+                            </Button>
+                        )
+                    })
+                }
             </div>
 
-            {
-                nav.map(item => {
-                    return (
-                        <div>
-                            {item.title}
-                        </div>
-                    )
-                })
-            }
-
             <div className="">
+                <LogoutButton />
                 <SidebarAccountInfo name={"John Doe"} email={"johndoe@example.com"}/>
             </div>
         </nav>
