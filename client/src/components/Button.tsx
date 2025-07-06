@@ -25,11 +25,13 @@ export const Button = ({
 			break
 
 		case 'dashboard':
-			base += ' text-sm flex items-center gap-2 text-slate-950 p-2 pl-3 w-full rounded-lg'
+			base +=
+				' text-sm flex items-center gap-2 text-slate-950 p-2 pl-3 w-full rounded-lg'
 			break
 
 		default:
-			base += ' px-4 py-2 rounded-md bg-slate-950 text-white hover:bg-slate-900'
+			base +=
+				' px-4 py-2 rounded-md bg-slate-950 text-white hover:bg-slate-900'
 			break
 	}
 

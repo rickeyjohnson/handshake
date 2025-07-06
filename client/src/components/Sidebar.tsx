@@ -19,7 +19,7 @@ type navItem = {
 
 const Sidebar = () => {
 	const location = useLocation()
-    const naviagte = useNavigate()
+	const naviagte = useNavigate()
 	const nav: navItem[] = [
 		{
 			title: 'Dashboard',
@@ -67,7 +67,7 @@ const Sidebar = () => {
 						<Button
 							variant="dashboard"
 							className={`my-1 ${selectedStyle(item.url)}`}
-                            onClick={() => naviagte(item.url)}
+							onClick={() => naviagte(item.url)}
 						>
 							<item.icon size={18} />
 							{item.title}

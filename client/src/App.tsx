@@ -29,7 +29,10 @@ const App = () => {
 			<Route path="/dashboard" element={<ProtectedDashboardPage />} />
 			<Route path="/connect-bank" element={<ProtectedLinkPlaid />} />
 			<Route path="/pair" element={<ProtectedPairPage />} />
-			<Route path="/transactions" element={<ProtectedTransactionPage />} />
+			<Route
+				path="/transactions"
+				element={<ProtectedTransactionPage />}
+			/>
 			<Route path="/spending" element={<ProtectedSpendingPage />} />
 			<Route path="/budgets" element={<ProtectedBudgetsPage />} />
 			<Route path="/goals" element={<ProtectedGoalsPage />} />
