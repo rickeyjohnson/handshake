@@ -2,8 +2,7 @@ import { useEffect } from 'react'
 import { useUser } from '../contexts/UserContext'
 import { useAccount } from '../contexts/AccountContext'
 import { useTransactions } from '../contexts/TransactionsContext'
-import Sidebar from '../components/Sidebar/Sidebar'
-import MainLayout from '../components/layouts/MainLayout'
+import MainLayout from '../components/MainLayout'
 
 const Dashboard = () => {
 	const { user } = useUser()
@@ -51,11 +50,7 @@ const Dashboard = () => {
 		fetchTransactions()
 	}, [])
 
-	return (
-		<MainLayout>
-			Bye, User
-		</MainLayout>
-	)
+	return <MainLayout>Bye, User</MainLayout>
 }
 
 export default Dashboard

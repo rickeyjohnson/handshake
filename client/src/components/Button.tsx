@@ -25,7 +25,7 @@ export const Button = ({
 			break
 
 		case 'dashboard':
-			base += ' text-sm flex items-center gap-2 text-slate-950 hover:bg-stone-200/40 p-2 pl-3 w-full rounded-lg'
+			base += ' text-sm flex items-center gap-2 text-slate-950 p-2 pl-3 w-full rounded-lg'
 			break
 
 		default:
