@@ -52,9 +52,10 @@ const Dashboard = () => {
 	}, [])
 
 	return (
-		<div className='w-screen h-screen flex bg-neutral-100'>
+		<div className='min-w-screen min-h-dvh bg-stone-100 text-slate-950 grid gap-4 p-4 grid-cols-[auto_1fr]'>
 			<Sidebar />
-			<main className='box-border bg-white m-3 w-full rounded-2xl'>
+
+			<main className='box-border bg-white rounded-2xl pb-4 shadow h-[200vh]'>
 				content
 			</main>
 		</div>

@@ -35,23 +35,23 @@ const Sidebar = () => {
         }
     ]
     return (
-        <aside className="box-border w-xs mx-6">
-            <div className="flex gap-3 mt-5 mb-2">
-                <h1 className="text-xl font-medium tracking-wide">Handshake</h1>
-            </div>
-            <div className="">
+        <nav className="">
+            <ul className="">
+                <li className="">
+                    <h1 className="">Handshake</h1>
+                </li>
                 {
                     nav.map((item) => {
                         return (
-                            <div className="rounded-xl flex gap-2 hover:bg-neutral-200 p-2 my-1">
-                                {item.icon && <item.icon />}
-                                <span>{item.title}</span>
-                            </div>
+                            <li className="flex gap-2">
+                                 {item.icon && <item.icon />}
+                                 {item.title}
+                            </li>
                         )
                     })
                 }
-            </div>
-        </aside>
+            </ul>
+        </nav>
     )
 }
 
