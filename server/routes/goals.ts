@@ -6,47 +6,58 @@ const goals = Router()
 const prisma = new PrismaClient()
 
 goals.get('/', async (req, res) => {
-    try {
-        const userId = req.session.user.id
-        const pairId = await getPairedId(userId)
-        const goals = await prisma.goals.findMany({
-            where: { pair_id: pairId }
-        })
+	try {
+		const userId = req.session.user.id
+		const pairId = await getPairedId(userId)
+		const goals = await prisma.goals.findMany({
+			where: { pair_id: pairId },
+		})
 
-        res.status(200).json(goals)
-    } catch(error) {
-        res.status(500).json({ error: error.message })
-    }
+		res.status(200).json(goals)
+	} catch (error) {
+		res.status(500).json({ error: error.message })
+	}
 })
 
 goals.post('/', async (req, res) => {
-    try {
-        const userId = req.session.user.id
-        const goal: {
-            title: string
-            description: string
-            target: number
-            current: number
-            deadline: string
+	try {
+		const userId = req.session.user.id
+		const goal: {
+			title: string
+			description: string
+			target: number
+			current: number
+			deadline: string
+		} = req.body
 
-        } = req.body
+		const newGoal = await prisma.goals.create({
+			data: {
+				user_id: userId,
+				pair_id: await getPairedId(userId),
+				title: goal.title,
+				description: goal.description,
+				target: goal.target,
+				current: goal.current,
+				deadline: new Date(goal.deadline),
+			},
+		})
 
-        const newGoal = await prisma.goals.create({
-            data: {
-                user_id: userId,
-                pair_id: await getPairedId(userId),
-                title: goal.title,
-                description: goal.description,
-                target: goal.target,
-                current: goal.current,
-                deadline: new Date(goal.deadline),
-            }
-        })
+		res.status(201).json({ message: 'New goal created' })
+	} catch (error) {
+		res.status(500).json({ error: error.message })
+	}
+})
 
-        res.status(201).json({message: 'New goal created'})
-    } catch (error) {
-        res.status(500).json({error: error.message})
-    }
+goals.delete('/', async (req, res) => {
+	try {
+		const { goalId } = req.body
+		const deletedGoal = await prisma.goals.delete({
+			where: { id: goalId },
+		})
+		res.status(204).json({ message: 'Goal successfully deleted' })
+	} catch (error) {
+		res.status(500).json({ error: error.message })
+	}
 })
 
 export default goals
