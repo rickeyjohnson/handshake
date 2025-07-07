@@ -2,8 +2,9 @@ import { useAccount } from '../contexts/AccountContext'
 import { useTransactions } from '../contexts/TransactionsContext'
 import { useUser } from '../contexts/UserContext'
 import { Button } from './Button'
+import { IconLogout } from '@tabler/icons-react'
 
-export const LogoutButton = () => {
+export const LogoutButton = ({ className }: { className?: string }) => {
 	const { setUser } = useUser()
 	const { setAccounts } = useAccount()
 	const { setTransactions } = useTransactions()
@@ -19,5 +20,10 @@ export const LogoutButton = () => {
 		setTransactions([])
 	}
 
-	return <Button onClick={handleLogout}>Log Out</Button>
+	return (
+		<Button className={`${className}`} variant='dashboard' onClick={handleLogout}>
+			<IconLogout size={18}/>
+			Log Out
+		</Button>
+	)
 }

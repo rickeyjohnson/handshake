@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
-import { LogoutButton } from '../components/LogoutButton'
 import { useUser } from '../contexts/UserContext'
 import { useAccount } from '../contexts/AccountContext'
 import { useTransactions } from '../contexts/TransactionsContext'
+import MainLayout from '../components/MainLayout'
 
 const Dashboard = () => {
 	const { user } = useUser()
@@ -50,23 +50,7 @@ const Dashboard = () => {
 		fetchTransactions()
 	}, [])
 
-	return (
-		<div>
-			{user ? (
-				<p className="capitalize">Hello, {user.name}</p>
-			) : (
-				<p>Hello, User</p>
-			)}
-
-			<p className="text-3xl">Acccounts</p>
-			<pre>{JSON.stringify(accounts, null, 4)}</pre>
-
-			<p className="text-3xl">Transactions</p>
-			<pre>{JSON.stringify(transactions, null, 4)}</pre>
-
-			<LogoutButton />
-		</div>
-	)
+	return <MainLayout>Dashboard</MainLayout>
 }
 
 export default Dashboard
