@@ -19,7 +19,7 @@ const Goal = ({
 				<div className="w-full bg-orange-500 rounded-full h-2.5 dark:bg-gray-700">
 					<div
 						className={'bg-gray-200 h-2.5 rounded-full'}
-						style={{ width: `${(current / target) * 100}%` }}
+						style={{ width: `${((current / target) * 100)}%` }}
 					></div>
 				</div>
 			</div>

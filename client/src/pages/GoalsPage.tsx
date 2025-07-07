@@ -3,7 +3,7 @@ import { Button } from '../components/Button'
 import Goal from '../components/Goal'
 import MainLayout from '../components/MainLayout'
 import { useUser } from '../contexts/UserContext'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 type Goal = {
 	id: string
@@ -20,9 +20,25 @@ const GoalsPage = () => {
 	const { user } = useUser()
 	const [goals, setGoals] = useState<Goal[]>([])
 
+	const fetchGoals = async () => {
+		try {
+			const response = await fetch('/api/goals', {
+				headers: { 'Content-Type': 'application/json' }
+			})
+			const goals = await response.json()
+			setGoals(goals)
+		} catch (err) {
+			console.error(err)
+		}
+	}
+
+	useEffect(() => {
+		fetchGoals()
+	}, [])
+
 	return (
 		<MainLayout>
-			<div>
+			<div className='h-full'>
 				<div className="px-5 p-4 flex w-full">
 					<div className='grow'>
 						<h1 className="semibold text-3xl">Goals</h1>
@@ -45,7 +61,7 @@ const GoalsPage = () => {
 								target={goal.target}
 							/>
 						)
-					})) : (<p>No goals to see here</p>)}
+					})) : (<div className=''>No goals to see here</div>)}
 				</div>
 			</div>
 		</MainLayout>
