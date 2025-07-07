@@ -4,6 +4,7 @@ import Goal from '../components/Goal'
 import MainLayout from '../components/MainLayout'
 import { useUser } from '../contexts/UserContext'
 import { useEffect, useState } from 'react'
+import AddGoalsModal from '../components/AddGoalsModal'
 
 type Goal = {
 	id: string
@@ -38,7 +39,7 @@ const GoalsPage = () => {
 
 	return (
 		<MainLayout>
-			<div className='h-full'>
+			<div className=''>
 				<div className="px-5 p-4 flex w-full">
 					<div className='grow'>
 						<h1 className="semibold text-3xl">Goals</h1>
@@ -64,6 +65,7 @@ const GoalsPage = () => {
 					})) : (<div className=''>No goals to see here</div>)}
 				</div>
 			</div>
+			<AddGoalsModal />
 		</MainLayout>
 	)
 }
