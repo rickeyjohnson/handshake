@@ -104,5 +104,6 @@ model GoalContributions {
   user_id   String
   user    User @relation(fields:[user_id], references:[id])
   amount      Float
+  posted_date   DateTime
   created_at    DateTime @default(now())
 }
