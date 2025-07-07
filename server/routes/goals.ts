@@ -74,34 +74,34 @@ goals.get('/contributions/', async (req, res) => {
 
 goals.post('/contributions/', async (req, res) => {
 	try {
-        const { goalId, amount, date } = req.body
-        const userId = req.session.user.id
+		const { goalId, amount, date } = req.body
+		const userId = req.session.user.id
 
 		const newContribution = await prisma.goalContributions.create({
 			data: {
-                goal_id: goalId,
-                user_id: userId,
-                amount: amount,
-                posted_date: new Date(date),
-            }
+				goal_id: goalId,
+				user_id: userId,
+				amount: amount,
+				posted_date: new Date(date),
+			},
 		})
 
-		res.status(200).json({message: 'New goal contribution added'})
+		res.status(200).json({ message: 'New goal contribution added' })
 	} catch (error) {
 		res.status(500).json({ error: error.message })
 	}
 })
 
 goals.delete('/contributions/', async (req, res) => {
-    try {
-        const { contributionId } = req.body
+	try {
+		const { contributionId } = req.body
 
 		const deletedContribution = await prisma.goalContributions.delete({
-			where: { id: contributionId }
+			where: { id: contributionId },
 		})
 
-		res.status(200).json({message: 'New goal contribution added'})
-    } catch (error) {
+		res.status(200).json({ message: 'New goal contribution added' })
+	} catch (error) {
 		res.status(500).json({ error: error.message })
 	}
 })
