@@ -100,8 +100,8 @@ const GoalsPage = () => {
 			pair_id: 10,
 			title: 'Honeymoon',
 			description: 'Saving for a dream honeymoon trip',
-			target: 5000,
-			current: 1500,
+			target: 2,
+			current: 1,
 			deadline: '2027-9-20',
 		},
 	]
@@ -109,12 +109,11 @@ const GoalsPage = () => {
 	return (
 		<MainLayout>
 			<h1 className="semibold text-3xl pl-5 p-4">Goals</h1>
-			<div className='flex'>
+			<div className='flex flex-wrap gap-7 p-4 pt-0'>
 				{goals.map((goal) => {
-					return <p>{goal.title}</p>
+					return <Goal key={goal.id} title={goal.title} current={goal.current} amount={goal.target}/>
 				})}
 			</div>
-			<Goal />
 		</MainLayout>
 	)
 }
