@@ -72,6 +72,9 @@ auth.post('/login', loginLimiter, async (req: Request, res: Response) => {
 
 	const user = await prisma.user.findUnique({
 		where: { email: email },
+		include: {
+			partner: true
+		}
 	})
 
 	if (!user || !(await bcrypt.compare(password, user?.password))) {
