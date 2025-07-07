@@ -108,13 +108,11 @@ const GoalsPage = () => {
 
 	return (
 		<MainLayout>
-			<div>
-				<h1 className="semibold text-3xl pl-5 p-4">Goals</h1>
-				<div>
-					{goals.map((goal) => {
-						return <p>{goal.title}</p>
-					})}
-				</div>
+			<h1 className="semibold text-3xl pl-5 p-4">Goals</h1>
+			<div className='flex'>
+				{goals.map((goal) => {
+					return <p>{goal.title}</p>
+				})}
 			</div>
 			<Goal />
 		</MainLayout>
