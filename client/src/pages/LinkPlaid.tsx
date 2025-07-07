@@ -12,7 +12,6 @@ const LinkPlaid = () => {
 	const { user } = useUser()
 
 	const generateToken = async () => {
-
 		if (user?.is_plaid_linked) {
 			navigate('/pair')
 			return
