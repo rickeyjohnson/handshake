@@ -10,6 +10,7 @@ import {
 import { LogoutButton } from './LogoutButton'
 import { Button } from './Button'
 import { useLocation, useNavigate } from 'react-router'
+import { useUser } from '../contexts/UserContext'
 
 type navItem = {
 	title: string
@@ -18,6 +19,7 @@ type navItem = {
 }
 
 const Sidebar = () => {
+	const { user } = useUser()
 	const location = useLocation()
 	const naviagte = useNavigate()
 	const nav: navItem[] = [
@@ -87,9 +89,9 @@ const Sidebar = () => {
 						src="https://braverplayers.org/wp-content/uploads/2022/09/blank-pfp.png"
 					/>
 					<div className="flex flex-col gap">
-						<h1 className="font-medium text-sm">John Doe</h1>
+						<h1 className="font-medium text-sm capitalize">{user?.name || 'John Doe'}</h1>
 						<p className="text-gray-500 text-xs">
-							johndoe@example.com
+							{user?.email || 'johndoe@example.com'}
 						</p>
 					</div>
 					<IconDotsVertical className="ml-auto" size={16} />
