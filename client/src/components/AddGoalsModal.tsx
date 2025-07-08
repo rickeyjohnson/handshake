@@ -10,14 +10,37 @@ const AddGoalsModal = ({
 	partner: string
 	handleClose: () => void
 }) => {
-	const [name, setName] = useState('')
-	const [date, setDate] = useState('')
-	const [target, setTarget] = useState('')
-	const [description, setDescription] = useState('')
+    const [newGoalData, setNewGoalData] = useState({
+        title: '',
+        date: '',
+        target: '',
+        description: ''
+    })
 
-	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        let { name, value } = e.target
+
+        if (name === 'target') {
+            value = value.substring(1)
+        }
+
+        setNewGoalData((prev) => ({...prev, [name]: value}))
+    }
+
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
-		console.log('submitted')
+        // if (!target.substring(1)) return
+        // if (target.substring(1) === '0') return
+
+		const response = await fetch('/api/goals/', {
+            method: 'POST',
+			headers: { 'Content-Type ': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify(newGoalData)
+		})
+
+        const data = await response.json()
+        console.log(data)
 	}
 
 	const is_number = (str: string) => {
@@ -43,13 +66,12 @@ const AddGoalsModal = ({
 					className="flex flex-col"
 					onSubmit={(e) => handleSubmit(e)}
 				>
-					<Label>Name</Label>
+					<Label>Title</Label>
 					<Input
 						placeholder=""
-						value={name}
-						onChange={(e) => {
-							setName(e.target.value)
-						}}
+                        name="title"
+						value={newGoalData.title}
+						onChange={handleChange}
 						className=""
 						required={true}
 					/>
@@ -57,26 +79,19 @@ const AddGoalsModal = ({
 					<Label>Date</Label>
 					<Input
 						type="date"
+                        name="date"
 						placeholder="MM/DD/YYYY"
-						value={date}
-						onChange={(e) => {
-							console.log(e.target.value)
-							setDate(e.target.value)
-						}}
+						value={newGoalData.date}
+						onChange={handleChange}
 						className=""
 						required={true}
 					/>
 
 					<Label>Target Amount</Label>
 					<Input
-						placeholder=""
-						value={`$${target}`}
-						onChange={(e) => {
-							const tar = e.target.value.substring(1)
-							if (is_number(tar)) {
-								setTarget(e.target.value.substring(1))
-							}
-						}}
+                        name="target"
+						value={`$${newGoalData.target}`}
+						onChange={handleChange}
 						className="mt-2 mb- text-center font-medium text-5xl w-full"
 						required={true}
 					/>
@@ -84,10 +99,9 @@ const AddGoalsModal = ({
 					<Label>Description</Label>
 					<Input
 						placeholder=""
-						value={description}
-						onChange={(e) => {
-							setDescription(e.target.value)
-						}}
+                        name='description'
+						value={newGoalData.description}
+						onChange={handleChange}
 						className=""
 						required={true}
 					/>

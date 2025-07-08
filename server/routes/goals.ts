@@ -26,7 +26,6 @@ goals.post('/', async (req, res) => {
 			title: string
 			description: string
 			target: number
-			current: number
 			deadline: string
 		} = req.body
 
@@ -37,7 +36,7 @@ goals.post('/', async (req, res) => {
 				title: goal.title,
 				description: goal.description,
 				target: goal.target,
-				current: goal.current,
+				current: 0,
 				deadline: new Date(goal.deadline),
 			},
 		})

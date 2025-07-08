@@ -36,7 +36,7 @@ const GoalsPage = () => {
 
 	useEffect(() => {
 		fetchGoals()
-	}, [])
+	}, [goals])
 
 	return (
 		<MainLayout>
