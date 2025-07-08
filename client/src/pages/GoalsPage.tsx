@@ -6,6 +6,7 @@ import { useUser } from '../contexts/UserContext'
 import { useEffect, useState } from 'react'
 import AddGoalsModal from '../components/AddGoalsModal'
 import { useNavigate } from 'react-router'
+import MainHeader from '../components/MainHeader'
 
 type Goal = {
 	id: string
@@ -47,13 +48,12 @@ const GoalsPage = () => {
 	return (
 		<MainLayout>
 			<div className="">
-				<div className="px-5 p-4 flex w-full">
-					<div className="grow">
-						<h1 className="semibold text-3xl">Goals</h1>
-						<p className="text-gray-500 capitalize">
-							Set goals with {user?.partner?.name || 'partner'}
-						</p>
-					</div>
+				<MainHeader
+					title="Goals"
+					caption={`Set goals with ${
+						user?.partner?.name || 'partner'
+					}`}
+				>
 					<Button
 						className="flex items-center gap-2 self-center"
 						onClick={() => setOpenAddGoalsModal(true)}
@@ -61,7 +61,7 @@ const GoalsPage = () => {
 						<IconCirclePlusFilled size={18} />
 						Add Goal
 					</Button>
-				</div>
+				</MainHeader>
 				<div className="flex flex-wrap gap-7 p-4 pt-0">
 					{goals && goals.length > 0 ? (
 						goals.map((goal) => {
