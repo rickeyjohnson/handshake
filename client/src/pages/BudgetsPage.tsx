@@ -6,7 +6,9 @@ const BudgetsPage = () => {
 	const { user } = useUser()
 
 	return <MainLayout>
-		<MainHeader title={"Budget"} caption={`Create budgets with ${user?.partner?.name}`}></MainHeader>
+		<MainHeader title={"Budget"} caption={`Create budgets with ${user?.partner?.name}`} />
+
+		
 	</MainLayout>
 }
 
