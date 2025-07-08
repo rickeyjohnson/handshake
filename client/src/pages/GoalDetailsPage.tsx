@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import MainLayout from '../components/MainLayout'
 import MainHeader from '../components/MainHeader'
+import { IconCalendarEvent, IconTargetArrow } from '@tabler/icons-react'
 
 type User = {
 	id: string
@@ -80,16 +81,16 @@ const GoalDetailsPage = () => {
 			></MainHeader>
 
 			<div>
-				<div className=" box-border border-2 border-stone-100 shadow rounded-xl w-[50%] p-4 m-4">
-					<h1 className="">${goal.current}</h1>
-					<div>
-						<p>Total Goal</p>
-						<p>{goal.target}</p>
+				<div className="flex flex-col gap-2 box-border border-2 border-stone-100 shadow rounded-xl w-[50%] p-5 m-4">
+					<h1 className="text-7xl font-semibold my-2">${goal.current}</h1>
+					<div className='flex items-center border-t-2 p-2 pb-0 border-stone-200'>
+						<p className='flex grow items-center gap-2 font-normal text-xl'><IconTargetArrow />Total Goal</p>
+						<p className='font-medium text-xl'>${goal.target}</p>
 					</div>
 					{goal.deadline && (
-						<div>
-							<p>Target Completion Date</p>
-							<p>{new Date(goal.deadline).toDateString()}</p>
+						<div className='flex items-center border-y-2 p-2 border-stone-200'>
+							<p className='flex grow items-center gap-2 font-normal text-xl'><IconCalendarEvent />Target Completion Date</p>
+							<p className='font-medium text-xl'>{new Date(goal.deadline).toDateString()}</p>
 						</div>
 					)}
 				</div>
