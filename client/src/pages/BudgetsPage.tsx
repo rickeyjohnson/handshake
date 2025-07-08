@@ -26,20 +26,24 @@ const BudgetsPage = () => {
 
 			<div className="flex items-start justify-center gap-5">
 				<table className="bg-amber-200 flex-3">
-					<tr className="text-left bg-amber-300">
-						<th className="text-lg font-medium w-sm p-1 pl-3">
-							Category
-						</th>
-						<th className="text-lg font-medium w-xs">Budgeted</th>
-						<th className="text-lg font-medium w-2xs">Actual</th>
-						<th className="text-lg font-medium pr-3">Remaining</th>
-					</tr>
-					<tr>
-						<td className="p-1 pl-3">FOOD</td>
-						<td className="p-1">$40</td>
-						<td className="p-1">$30</td>
-						<td className="text-right pr-3">-$10</td>
-					</tr>
+					<thead>
+						<tr className="text-left bg-amber-300">
+							<th className="text-lg font-medium w-sm p-1 pl-3">
+								Category
+							</th>
+							<th className="text-lg font-medium w-xs">Budgeted</th>
+							<th className="text-lg font-medium w-2xs">Actual</th>
+							<th className="text-lg font-medium pr-3">Remaining</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td className="p-1 pl-3">FOOD</td>
+							<td className="p-1">$40</td>
+							<td className="p-1">$30</td>
+							<td className="text-right pr-3">-$10</td>
+						</tr>
+					</tbody>
 				</table>
 				<div className="flex-1 p-10 border-2 border-stone-100 rounded-lg shadow">
 					<h1 className="text-7xl font-semibold my-2">$300</h1>
