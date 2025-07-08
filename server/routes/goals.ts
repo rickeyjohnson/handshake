@@ -25,7 +25,7 @@ goals.post('/', async (req, res) => {
 		const goal: {
 			title: string
 			description: string
-			target: number
+			target: string
 			deadline: string
 		} = req.body
 
@@ -35,7 +35,7 @@ goals.post('/', async (req, res) => {
 				pair_id: await getPairedId(userId),
 				title: goal.title,
 				description: goal.description,
-				target: goal.target,
+				target: parseFloat(goal.target),
 				current: 0,
 				deadline: new Date(goal.deadline),
 			},

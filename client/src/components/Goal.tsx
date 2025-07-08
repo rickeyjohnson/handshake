@@ -14,7 +14,7 @@ const Goal = ({
 				<h1 className="font-medium text-sm uppercase tracking-wider">
 					{title ?? 'Test Goal'}
 				</h1>
-				<p className="text-3xl font-semibold mb-2">${current ?? 0}</p>
+				<p className="text-3xl font-medium mb-2">${current ?? 0}</p>
 
 				<div className="w-full bg-orange-500 rounded-full h-2.5 dark:bg-gray-700">
 					<div

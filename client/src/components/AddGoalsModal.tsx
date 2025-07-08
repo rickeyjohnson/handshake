@@ -10,9 +10,10 @@ const AddGoalsModal = ({
 	partner: string
 	handleClose: () => void
 }) => {
+    const [error, setError] = useState('')
     const [newGoalData, setNewGoalData] = useState({
         title: '',
-        date: '',
+        deadline: '',
         target: '',
         description: ''
     })
@@ -29,18 +30,39 @@ const AddGoalsModal = ({
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
-        // if (!target.substring(1)) return
-        // if (target.substring(1) === '0') return
+        if (!newGoalData.target) {
+            setError("Target money goal needed")
+            return
+        }
 
-		const response = await fetch('/api/goals/', {
-            method: 'POST',
-			headers: { 'Content-Type ': 'application/json' },
-            credentials: 'include',
-            body: JSON.stringify(newGoalData)
-		})
+        if (!is_number(newGoalData.target)) {
+            setError("Target amount cannot be a number")
+            return
+        }
 
-        const data = await response.json()
-        console.log(data)
+        console.log(newGoalData)
+
+        try {
+            const response = await fetch('/api/goals/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify(newGoalData)
+            })
+
+            const data = await response.json()
+            
+            if (response.ok) {
+                console.log('New goal created')
+                handleClose()
+            } else {
+                console.error('Failed to create goal', data.error)
+                setError(data.error)
+            }
+
+        } catch (err) {
+            console.error('Network error. Please try again', err)
+        }
 	}
 
 	const is_number = (str: string) => {
@@ -76,12 +98,12 @@ const AddGoalsModal = ({
 						required={true}
 					/>
 
-					<Label>Date</Label>
+					<Label>Target Date</Label>
 					<Input
 						type="date"
-                        name="date"
+                        name="deadline"
 						placeholder="MM/DD/YYYY"
-						value={newGoalData.date}
+						value={newGoalData.deadline}
 						onChange={handleChange}
 						className=""
 						required={true}
@@ -110,6 +132,8 @@ const AddGoalsModal = ({
 						Create
 					</Button>
 				</form>
+
+                { error ? <p>{error}</p> : <></>}
 
 				<Button
 					variant="ghost"
