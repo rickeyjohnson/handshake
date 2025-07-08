@@ -3,7 +3,14 @@ import { useParams } from 'react-router'
 import MainLayout from '../components/MainLayout'
 import MainHeader from '../components/MainHeader'
 import { IconCalendarEvent, IconTargetArrow } from '@tabler/icons-react'
-import { LineChart, Line, ResponsiveContainer, XAxis, YAxis, ReferenceLine } from 'recharts'
+import {
+	LineChart,
+	Line,
+	ResponsiveContainer,
+	XAxis,
+	YAxis,
+	ReferenceLine,
+} from 'recharts'
 
 type User = {
 	id: string
@@ -154,32 +161,39 @@ const GoalDetailsPage = () => {
 							${goal.current}
 						</h1>
 						<div className="flex gap-2 items-center border-t-2 p-2 pb-0 border-stone-200">
-							<p className="flex grow items-center gap-2 font-normal text-xl">
-								<IconTargetArrow />
+							<p className="flex grow items-center gap-2 font-normal text-lg">
+								<IconTargetArrow size={18} />
 								Total Goal
 							</p>
-							<p className="font-medium text-xl text-right">
+							<p className="font-medium text-lg text-right">
 								${goal.target}
 							</p>
 						</div>
 						{goal.deadline && (
 							<div className="flex gap-2 items-center border-y-2 p-2 border-stone-200">
-								<p className="flex grow items-center gap-2 font-normal text-xl">
-									<IconCalendarEvent />
+								<p className="flex grow items-center gap-2 font-normal text-lg">
+									<IconCalendarEvent size={18} />
 									Target Completion Date
 								</p>
-								<p className="font-medium text-xl text-right">
+								<p className="font-medium text-lg text-right">
 									{new Date(goal.deadline).toDateString()}
 								</p>
 							</div>
 						)}
 					</div>
 					<div className="flex flex-1 flex-col gap-2 box-border border-2 border-stone-100 shadow rounded-xl w-[50%] p-5">
-            <h1>Contribution Chart</h1>
+						<h1>Contribution Chart</h1>
 						<ResponsiveContainer width="100%" height="100%">
 							<LineChart data={contributions}>
-                <ReferenceLine y={`${goal.target}`} />
-								<Line type="monotone" dataKey="amount" dot={false} stroke='black' strokeWidth={3}/>
+								<YAxis />
+								<XAxis />
+								<Line
+									type="monotone"
+									dataKey="amount"
+									dot={false}
+									stroke="black"
+									strokeWidth={3}
+								/>
 							</LineChart>
 						</ResponsiveContainer>
 					</div>

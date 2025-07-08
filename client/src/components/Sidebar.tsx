@@ -50,7 +50,7 @@ const Sidebar = () => {
 		},
 	]
 	const selectedStyle = (url: string) => {
-		if (location.pathname === url) {
+		if (location.pathname.includes(url)) {
 			return 'bg-slate-950 text-white font-medium'
 		}
 
@@ -89,7 +89,9 @@ const Sidebar = () => {
 						src="https://braverplayers.org/wp-content/uploads/2022/09/blank-pfp.png"
 					/>
 					<div className="flex flex-col gap">
-						<h1 className="font-medium text-sm capitalize">{user?.name || 'John Doe'}</h1>
+						<h1 className="font-medium text-sm capitalize">
+							{user?.name || 'John Doe'}
+						</h1>
 						<p className="text-gray-500 text-xs">
 							{user?.email || 'johndoe@example.com'}
 						</p>
