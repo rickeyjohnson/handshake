@@ -20,6 +20,7 @@ type GoalContributions = {
 	goal_id: string
 	user_id: string
 	user: User
+  name?: string
 	amount: number
 	created_at: Date
 }
@@ -56,6 +57,71 @@ const GoalDetailsPage = () => {
 		contributions: [],
 	})
 
+	const TEST_GOAL_CONTRIBUTIONS = [
+		{
+			id: 'gc1',
+			goal_id: 'g1',
+			user_id: 'u1',
+			user: {
+				id: 'u1',
+				name: 'Alice Smith',
+				email: 'alice@example.com',
+			},
+			amount: 100,
+			created_at: '2023-10-01T10:00:00Z',
+		},
+		{
+			id: 'gc2',
+			goal_id: 'g1',
+			user_id: 'u2',
+			user: {
+				id: 'u2',
+				name: 'Bob Johnson',
+				email: 'bob@example.com',
+			},
+			amount: 150,
+			created_at: '2023-10-02T11:30:00Z',
+		},
+		{
+			id: 'gc3',
+			goal_id: 'g2',
+			user_id: 'u3',
+			user: {
+				id: 'u3',
+				name: 'Charlie Brown',
+				email: 'charlie@example.com',
+			},
+			amount: 200,
+			created_at: '2023-10-03T09:15:00Z',
+		},
+		{
+			id: 'gc4',
+			goal_id: 'g2',
+			user_id: 'u4',
+			user: {
+				id: 'u4',
+				name: 'Dana White',
+				email: 'dana@example.com',
+			},
+			amount: 250,
+			created_at: '2023-10-04T14:45:00Z',
+		},
+		{
+			id: 'gc5',
+			goal_id: 'g3',
+			user_id: 'u5',
+			user: {
+				id: 'u5',
+				name: 'Eli Green',
+				email: 'eli@example.com',
+			},
+			amount: 300,
+			created_at: '2023-10-05T16:20:00Z',
+		},
+	]
+
+	const [contributions, setContributions] = useState(TEST_GOAL_CONTRIBUTIONS)
+
 	const fetchGoal = async () => {
 		try {
 			const response = await fetch(`/api/goals/details/${id}`)
@@ -80,21 +146,55 @@ const GoalDetailsPage = () => {
 				).toDateString()}`}
 			></MainHeader>
 
-			<div>
-				<div className="flex flex-col gap-2 box-border border-2 border-stone-100 shadow rounded-xl w-[50%] p-5 m-4">
-					<h1 className="text-7xl font-semibold my-2">${goal.current}</h1>
-					<div className='flex items-center border-t-2 p-2 pb-0 border-stone-200'>
-						<p className='flex grow items-center gap-2 font-normal text-xl'><IconTargetArrow />Total Goal</p>
-						<p className='font-medium text-xl'>${goal.target}</p>
-					</div>
-					{goal.deadline && (
-						<div className='flex items-center border-y-2 p-2 border-stone-200'>
-							<p className='flex grow items-center gap-2 font-normal text-xl'><IconCalendarEvent />Target Completion Date</p>
-							<p className='font-medium text-xl'>{new Date(goal.deadline).toDateString()}</p>
+			<div className="mx-4">
+				<div className="flex">
+					<div className="flex flex-col gap-2 box-border border-2 border-stone-100 shadow rounded-xl w-[50%] p-5 mb-4">
+						<h1 className="text-7xl font-semibold my-2">
+							${goal.current}
+						</h1>
+						<div className="flex gap-2 items-center border-t-2 p-2 pb-0 border-stone-200">
+							<p className="flex grow items-center gap-2 font-normal text-xl">
+								<IconTargetArrow />
+								Total Goal
+							</p>
+							<p className="font-medium text-xl text-right">
+								${goal.target}
+							</p>
 						</div>
-					)}
+						{goal.deadline && (
+							<div className="flex gap-2 items-center border-y-2 p-2 border-stone-200">
+								<p className="flex grow items-center gap-2 font-normal text-xl">
+									<IconCalendarEvent />
+									Target Completion Date
+								</p>
+								<p className="font-medium text-xl text-right">
+									{new Date(goal.deadline).toDateString()}
+								</p>
+							</div>
+						)}
+					</div>
+					<div className="flex flex-col gap-2 box-border border-2 border-stone-100 shadow rounded-xl w-[50%] p-5 m-4">
+						graph?
+					</div>
 				</div>
-				<div></div>
+				<table className="box-border w-full border-2 border-stone-50 shadow">
+					<tr className="text-lg text-left bg-stone-100">
+						<th className="font-normal">Date</th>
+						<th className="font-normal w-[40%]">Name</th>
+						<th className="font-normal">User</th>
+						<th className="font-normal">Amount</th>
+					</tr>
+					{TEST_GOAL_CONTRIBUTIONS.map((cont) => {
+						return (
+							<tr>
+								<td className='p-2'>{new Date(cont.created_at).toDateString()}</td>
+                <td>SAVINGS TRANSFER FOR GOAL</td>
+                <td>{cont.user.name}</td>
+                <td>+{cont.amount}</td>
+							</tr>
+						)
+					})}
+				</table>
 			</div>
 		</MainLayout>
 	)
