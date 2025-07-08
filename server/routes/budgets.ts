@@ -19,4 +19,24 @@ budgets.get('/', async (req, res) => {
 	}
 })
 
+budgets.post('/', async (req, res) => {
+	try {
+        const { category, budgeted } = req.body
+        const userId = req.session.user.id
+        const pairId = await getPairedId(userId)
+        const newBudget = await prisma.budgets.create({
+            data: {
+                pair_id: pairId,
+                category: category,
+                budgeted: budgeted,
+                actual: await getSpendingOnCategory(category)
+            }
+        })
+
+        res.status(200).json({message: `Budget created for ${category}`})
+	} catch (error) {
+		res.status(500).json({ error: error.message })
+	}
+})
+
 export default budgets

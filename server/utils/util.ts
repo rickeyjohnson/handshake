@@ -262,3 +262,7 @@ export const setPairedToComplete = async (user_id, partner_id) => {
 		},
 	})
 }
+
+export const getSpendingOnCategory = async (category: string) => {
+	// TODO
+}
