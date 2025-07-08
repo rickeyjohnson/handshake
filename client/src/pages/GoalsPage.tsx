@@ -65,7 +65,7 @@ const GoalsPage = () => {
 					})) : (<div className=''>No goals to see here</div>)}
 				</div>
 			</div>
-			<AddGoalsModal />
+			<AddGoalsModal partner='user'/>
 		</MainLayout>
 	)
 }
