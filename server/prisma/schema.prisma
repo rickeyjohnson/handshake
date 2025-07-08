@@ -107,3 +107,12 @@ model GoalContributions {
   posted_date   DateTime
   created_at    DateTime @default(now())
 }
+
+model Budgets {
+  id  String  @id @default(uuid())
+  pair_id  String
+  category  String
+  budgeted  Float
+  actual    Float @default(0)
+  created_at  DateTime  @default(now())
+}
