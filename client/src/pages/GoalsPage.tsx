@@ -5,6 +5,7 @@ import MainLayout from '../components/MainLayout'
 import { useUser } from '../contexts/UserContext'
 import { useEffect, useState } from 'react'
 import AddGoalsModal from '../components/AddGoalsModal'
+import { useNavigate } from 'react-router'
 
 type Goal = {
 	id: string
@@ -19,6 +20,7 @@ type Goal = {
 
 const GoalsPage = () => {
 	const { user } = useUser()
+	const navigate = useNavigate()
 	const [goals, setGoals] = useState<Goal[]>([])
 	const [openAddGoalsModal, setOpenAddGoalsModal] = useState(false)
 
@@ -32,6 +34,10 @@ const GoalsPage = () => {
 		} catch (err) {
 			console.error(err)
 		}
+	}
+
+	const handleGoalClick = (id: string) => {
+		navigate(`/goals/${id}`)
 	}
 
 	useEffect(() => {
@@ -65,6 +71,7 @@ const GoalsPage = () => {
 									title={goal.title}
 									current={goal.current}
 									target={goal.target}
+									onClick={() => handleGoalClick(goal.id)}
 								/>
 							)
 						})
