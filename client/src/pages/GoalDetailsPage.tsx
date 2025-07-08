@@ -3,13 +3,7 @@ import { useParams } from 'react-router'
 import MainLayout from '../components/MainLayout'
 import MainHeader from '../components/MainHeader'
 import { IconCalendarEvent, IconTargetArrow } from '@tabler/icons-react'
-import {
-	LineChart,
-	Line,
-	ResponsiveContainer,
-	XAxis,
-	YAxis,
-} from 'recharts'
+import { LineChart, Line, ResponsiveContainer, XAxis, YAxis } from 'recharts'
 
 type User = {
 	id: string

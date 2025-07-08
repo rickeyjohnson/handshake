@@ -1,13 +1,16 @@
-import { useState } from 'react'
 import MainHeader from '../components/MainHeader'
 import MainLayout from '../components/MainLayout'
 import { useUser } from '../contexts/UserContext'
 import { Button } from '../components/Button'
-import { IconCash, IconCirclePlusFilled, IconCoin, IconPigMoney, IconTargetArrow } from '@tabler/icons-react'
+import {
+	IconCash,
+	IconCirclePlusFilled,
+	IconCoin,
+	IconPigMoney,
+} from '@tabler/icons-react'
 
 const BudgetsPage = () => {
 	const { user } = useUser()
-	const [budgets, setBudgets] = useState([])
 
 	return (
 		<MainLayout>
@@ -38,8 +41,8 @@ const BudgetsPage = () => {
 						<td className="text-right pr-3">-$10</td>
 					</tr>
 				</table>
-				<div className='flex-1 p-10 border-2 border-stone-100 rounded-lg shadow'>
-					<h1 className='text-7xl font-semibold my-2'>$300</h1>
+				<div className="flex-1 p-10 border-2 border-stone-100 rounded-lg shadow">
+					<h1 className="text-7xl font-semibold my-2">$300</h1>
 
 					<div className="flex gap-2 items-center border-t-2 p-2 pb-0 border-stone-200">
 						<p className="flex grow items-center gap-2 font-normal text-lg">
