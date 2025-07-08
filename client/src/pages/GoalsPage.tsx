@@ -20,11 +20,12 @@ type Goal = {
 const GoalsPage = () => {
 	const { user } = useUser()
 	const [goals, setGoals] = useState<Goal[]>([])
+	const [openAddGoalsModal, setOpenAddGoalsModal] = useState(false)
 
 	const fetchGoals = async () => {
 		try {
 			const response = await fetch('/api/goals', {
-				headers: { 'Content-Type': 'application/json' }
+				headers: { 'Content-Type': 'application/json' },
 			})
 			const goals = await response.json()
 			setGoals(goals)
@@ -39,33 +40,45 @@ const GoalsPage = () => {
 
 	return (
 		<MainLayout>
-			<div className=''>
+			<div className="">
 				<div className="px-5 p-4 flex w-full">
-					<div className='grow'>
+					<div className="grow">
 						<h1 className="semibold text-3xl">Goals</h1>
 						<p className="text-gray-500 capitalize">
 							Set goals with {user?.partner?.name || 'partner'}
 						</p>
 					</div>
-					<Button className="flex items-center gap-2 self-center">
+					<Button
+						className="flex items-center gap-2 self-center"
+						onClick={() => setOpenAddGoalsModal(true)}
+					>
 						<IconCirclePlusFilled size={18} />
 						Add Goal
 					</Button>
 				</div>
 				<div className="flex flex-wrap gap-7 p-4 pt-0">
-					{goals && goals.length > 0 ? (goals.map((goal) => {
-						return (
-							<Goal
-								key={goal.id}
-								title={goal.title}
-								current={goal.current}
-								target={goal.target}
-							/>
-						)
-					})) : (<div className=''>No goals to see here</div>)}
+					{goals && goals.length > 0 ? (
+						goals.map((goal) => {
+							return (
+								<Goal
+									key={goal.id}
+									title={goal.title}
+									current={goal.current}
+									target={goal.target}
+								/>
+							)
+						})
+					) : (
+						<div className="">No goals to see here</div>
+					)}
 				</div>
 			</div>
-			<AddGoalsModal partner='user'/>
+			{openAddGoalsModal && (
+				<AddGoalsModal
+					partner="user"
+					handleClose={() => setOpenAddGoalsModal(false)}
+				/>
+			)}
 		</MainLayout>
 	)
 }
