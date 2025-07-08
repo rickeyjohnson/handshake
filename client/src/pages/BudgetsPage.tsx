@@ -1,7 +1,13 @@
+import MainHeader from '../components/MainHeader'
 import MainLayout from '../components/MainLayout'
+import { useUser } from '../contexts/UserContext'
 
 const BudgetsPage = () => {
-	return <MainLayout>Budgets</MainLayout>
+	const { user } = useUser()
+
+	return <MainLayout>
+		<MainHeader title={"Budget"} caption={`Create budgets with ${user?.partner?.name}`}></MainHeader>
+	</MainLayout>
 }
 
 export default BudgetsPage

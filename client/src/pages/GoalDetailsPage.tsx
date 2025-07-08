@@ -9,7 +9,6 @@ import {
 	ResponsiveContainer,
 	XAxis,
 	YAxis,
-	ReferenceLine,
 } from 'recharts'
 
 type User = {
@@ -128,7 +127,7 @@ const GoalDetailsPage = () => {
 		},
 	]
 
-	const [contributions, setContributions] = useState(TEST_GOAL_CONTRIBUTIONS)
+	const contributions = TEST_GOAL_CONTRIBUTIONS
 
 	const fetchGoal = async () => {
 		try {
