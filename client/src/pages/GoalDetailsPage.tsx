@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
+import MainLayout from '../components/MainLayout'
 
 type Goal = {
 	id: string
@@ -34,21 +35,21 @@ const GoalDetailsPage = () => {
 			const response = await fetch(`/api/goals/details/${id}`)
 			const data = await response.json()
 
-      setGoal(data)
+			setGoal(data)
 		} catch (err) {
 			console.error(err)
 		}
 	}
 
-  useEffect(() => {
-    fetchGoal()
-  }, [])
+	useEffect(() => {
+		fetchGoal()
+	}, [])
 
-	return <div>
-    Goal Details Page:
-
-    <div>{goal.id}</div>
-  </div>
+	return (
+		<MainLayout>
+			<div>Details Page:{goal.id}</div>
+		</MainLayout>
+	)
 }
 
 export default GoalDetailsPage
