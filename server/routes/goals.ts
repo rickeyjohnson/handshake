@@ -24,6 +24,10 @@ goals.get('/details/:id', async (req, res) => {
 		const goalId = req.params.id
 		const goal = await prisma.goals.findUnique({
 			where: { id: goalId },
+			include: {
+				user: true,
+				contributions: true,
+			},
 		})
 
 		res.status(200).json(goal)
