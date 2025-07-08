@@ -24,6 +24,8 @@ model User {
   partner         User?   @relation("UserToPartner", fields: [partner_id], references: [id])
   partnerOf       User?   @relation("UserToPartner")
   transactions    Transactions[]
+  goals   Goals[]
+  goal_contributions  GoalContributions[]
   is_plaid_linked Boolean   @default(false)
   is_paired   Boolean   @default(false)
 }
@@ -78,4 +80,30 @@ model Transactions {
   amount          Float
   currency_code   String
   is_removed      Boolean @default(false)
+}
+
+model Goals {
+  id                  String  @id @default(uuid())
+  user_id   String 
+  user                User  @relation(fields:[user_id], references:[id])
+  pair_id             String
+  title               String
+  description         String?
+  target  Float
+  current Float
+  deadline  DateTime?
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+  contributions GoalContributions[]
+}
+
+model GoalContributions {
+  id    String    @id @default(uuid())
+  goal_id     String
+  goal        Goals   @relation(fields:[goal_id], references:[id])
+  user_id   String
+  user    User @relation(fields:[user_id], references:[id])
+  amount      Float
+  posted_date   DateTime
+  created_at    DateTime @default(now())
 }

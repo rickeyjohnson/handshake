@@ -6,6 +6,7 @@ import { PrismaClient } from './generated/prisma'
 import authRouter from './routes/auth'
 import plaidRouter from './routes/plaid'
 import pairRouter from './routes/pair'
+import goalsRouter from './routes/goals'
 import { isAuthenticated } from './utils/util'
 import { connectedClients } from './websocket/wsStore'
 
@@ -51,6 +52,7 @@ app.use(
 app.use('/api/auth', authRouter)
 app.use('/api/plaid', plaidRouter)
 app.use('/api/pair', pairRouter)
+app.use('/api/goals', goalsRouter)
 
 app.get('/api/', (req: Request, res: Response) => {
 	res.send('Welcome to Handshake')
