@@ -3,6 +3,7 @@ import { useParams } from 'react-router'
 import MainLayout from '../components/MainLayout'
 import MainHeader from '../components/MainHeader'
 import { IconCalendarEvent, IconTargetArrow } from '@tabler/icons-react'
+import { LineChart, Line, ResponsiveContainer, XAxis, YAxis, ReferenceLine } from 'recharts'
 
 type User = {
 	id: string
@@ -20,7 +21,7 @@ type GoalContributions = {
 	goal_id: string
 	user_id: string
 	user: User
-  name?: string
+	name?: string
 	amount: number
 	created_at: Date
 }
@@ -79,7 +80,7 @@ const GoalDetailsPage = () => {
 				name: 'Bob Johnson',
 				email: 'bob@example.com',
 			},
-			amount: 150,
+			amount: 30,
 			created_at: '2023-10-02T11:30:00Z',
 		},
 		{
@@ -103,7 +104,7 @@ const GoalDetailsPage = () => {
 				name: 'Dana White',
 				email: 'dana@example.com',
 			},
-			amount: 250,
+			amount: 304,
 			created_at: '2023-10-04T14:45:00Z',
 		},
 		{
@@ -147,8 +148,8 @@ const GoalDetailsPage = () => {
 			></MainHeader>
 
 			<div className="mx-4">
-				<div className="flex">
-					<div className="flex flex-col gap-2 box-border border-2 border-stone-100 shadow rounded-xl w-[50%] p-5 mb-4">
+				<div className="flex items-stretch mb-4 gap-5">
+					<div className="flex flex-1 flex-col gap-2 box-border border-2 border-stone-100 shadow rounded-xl w-[50%] h-auto p-5">
 						<h1 className="text-7xl font-semibold my-2">
 							${goal.current}
 						</h1>
@@ -173,10 +174,17 @@ const GoalDetailsPage = () => {
 							</div>
 						)}
 					</div>
-					<div className="flex flex-col gap-2 box-border border-2 border-stone-100 shadow rounded-xl w-[50%] p-5 m-4">
-						graph?
+					<div className="flex flex-1 flex-col gap-2 box-border border-2 border-stone-100 shadow rounded-xl w-[50%] p-5">
+            <h1>Contribution Chart</h1>
+						<ResponsiveContainer width="100%" height="100%">
+							<LineChart data={contributions}>
+                <ReferenceLine y={`${goal.target}`} />
+								<Line type="monotone" dataKey="amount" dot={false} stroke='black' strokeWidth={3}/>
+							</LineChart>
+						</ResponsiveContainer>
 					</div>
 				</div>
+
 				<table className="box-border w-full border-2 border-stone-50 shadow">
 					<tr className="text-lg text-left bg-stone-100">
 						<th className="font-normal">Date</th>
@@ -184,13 +192,15 @@ const GoalDetailsPage = () => {
 						<th className="font-normal">User</th>
 						<th className="font-normal">Amount</th>
 					</tr>
-					{TEST_GOAL_CONTRIBUTIONS.map((cont) => {
+					{contributions.map((cont) => {
 						return (
 							<tr>
-								<td className='p-2'>{new Date(cont.created_at).toDateString()}</td>
-                <td>SAVINGS TRANSFER FOR GOAL</td>
-                <td>{cont.user.name}</td>
-                <td>+{cont.amount}</td>
+								<td className="p-2">
+									{new Date(cont.created_at).toDateString()}
+								</td>
+								<td>SAVINGS TRANSFER FOR GOAL</td>
+								<td>{cont.user.name}</td>
+								<td>+{cont.amount}</td>
 							</tr>
 						)
 					})}
