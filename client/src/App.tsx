@@ -11,6 +11,7 @@ import TransactionsPage from './pages/TransactionsPage'
 import SpendingPage from './pages/SpendingPage'
 import BudgetsPage from './pages/BudgetsPage'
 import GoalsPage from './pages/GoalsPage'
+import GoalDetailsPage from './pages/GoalDetailsPage'
 
 const App = () => {
 	const ProtectedDashboardPage = WithAuth(Dashboard)
@@ -20,6 +21,7 @@ const App = () => {
 	const ProtectedSpendingPage = WithAuth(SpendingPage)
 	const ProtectedBudgetsPage = WithAuth(BudgetsPage)
 	const ProtectedGoalsPage = WithAuth(GoalsPage)
+	const ProtectedGoalDetailsPage = WithAuth(GoalDetailsPage)
 
 	return (
 		<Routes>
@@ -36,6 +38,7 @@ const App = () => {
 			<Route path="/spending" element={<ProtectedSpendingPage />} />
 			<Route path="/budgets" element={<ProtectedBudgetsPage />} />
 			<Route path="/goals" element={<ProtectedGoalsPage />} />
+			<Route path="/goals/:id" element={<ProtectedGoalDetailsPage />} />
 			<Route path="/*" element={<NotFound />} />
 		</Routes>
 	)

@@ -19,6 +19,23 @@ goals.get('/', async (req, res) => {
 	}
 })
 
+goals.get('/details/:id', async (req, res) => {
+	try {
+		const goalId = req.params.id
+		const goal = await prisma.goals.findUnique({
+			where: { id: goalId },
+			include: {
+				user: true,
+				contributions: true,
+			},
+		})
+
+		res.status(200).json(goal)
+	} catch (error) {
+		res.status(500).json({ error: error.message })
+	}
+})
+
 goals.post('/', async (req, res) => {
 	try {
 		const userId = req.session.user.id
