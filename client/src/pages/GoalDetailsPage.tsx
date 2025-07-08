@@ -3,14 +3,7 @@ import { useParams } from 'react-router'
 import MainLayout from '../components/MainLayout'
 import MainHeader from '../components/MainHeader'
 import { IconCalendarEvent, IconTargetArrow } from '@tabler/icons-react'
-import {
-	LineChart,
-	Line,
-	ResponsiveContainer,
-	XAxis,
-	YAxis,
-	ReferenceLine,
-} from 'recharts'
+import { LineChart, Line, ResponsiveContainer, XAxis, YAxis } from 'recharts'
 
 type User = {
 	id: string
@@ -128,7 +121,7 @@ const GoalDetailsPage = () => {
 		},
 	]
 
-	const [contributions, setContributions] = useState(TEST_GOAL_CONTRIBUTIONS)
+	const contributions = TEST_GOAL_CONTRIBUTIONS
 
 	const fetchGoal = async () => {
 		try {

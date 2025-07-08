@@ -43,7 +43,7 @@ const GoalsPage = () => {
 
 	useEffect(() => {
 		fetchGoals()
-	}, [goals])
+	}, [])
 
 	return (
 		<MainLayout>
@@ -83,7 +83,9 @@ const GoalsPage = () => {
 			{openAddGoalsModal && (
 				<AddGoalsModal
 					partner="user"
-					handleClose={() => setOpenAddGoalsModal(false)}
+					handleClose={() => {
+						fetchGoals()
+						setOpenAddGoalsModal(false)}}
 				/>
 			)}
 		</MainLayout>

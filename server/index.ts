@@ -63,6 +63,9 @@ app.get('/api/me', isAuthenticated, async (req: Request, res: Response) => {
 	try {
 		const user = await prisma.user.findUnique({
 			where: { id: req.session.user?.id },
+			include: {
+				partner: true
+			}
 		})
 
 		if (!user) {
