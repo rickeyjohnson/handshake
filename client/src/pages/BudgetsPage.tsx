@@ -64,13 +64,22 @@ const BudgetsPage = () => {
 		setNewBudget((prev) => ({ ...prev, [key]: value }))
 	}
 
-	const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-		setSelectedCategory(e.target.value)
-	}
-
-	const saveNewBudget = () => {
-		setBudgets((prev) => [...prev, newBudget])
-		setIsAdding(false)
+	const saveNewBudget = async () => {
+		try {
+			const response = await fetch('/api/budgets/', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					category: newBudget.category,
+					budgeted: newBudget.budgeted
+				})
+			})
+			
+			setIsAdding(false)
+			await fetchBudgets()
+		} catch (error) {
+			console.error(error)
+		}
 	}
 
 	const cancelNewBudget = () => {
@@ -120,7 +129,7 @@ const BudgetsPage = () => {
 				) : (
 					<div className="flex gap-3 flex-row-reverse">
 						<Button
-							onClick={saveNewBudget}
+							onClick={async () => {await saveNewBudget()}}
 							className="flex gap-2 align-center items-center self-center"
 							disabled={
 								!newBudget.category || !newBudget.budgeted
