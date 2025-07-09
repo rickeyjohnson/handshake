@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import { PrismaClient } from '../generated/prisma'
 import { getPairedId, getSpendingOnCategory } from '../utils/util'
+import { connectedClients } from '../websocket/wsStore'
 
 const budgets = Router()
 const prisma = new PrismaClient()
@@ -46,6 +47,14 @@ budgets.post('/', async (req, res) => {
 				budgeted: parseFloat(budgeted),
 				actual: await getSpendingOnCategory(category, pairId),
 			},
+		})
+
+		connectedClients.forEach((client) => {
+			if (client.readyState === 1) {
+				client.send(
+					JSON.stringify({ type: 'new_budget', content: true })
+				)
+			}
 		})
 
 		res.status(200).json({

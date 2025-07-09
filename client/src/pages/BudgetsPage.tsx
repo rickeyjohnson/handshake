@@ -11,6 +11,7 @@ import {
 import { useEffect, useState } from 'react'
 import { formatMoney } from '../utils/utils'
 import { Input } from '../components/Input'
+import { useWebSocket } from '../contexts/WebsocketContext'
 
 type Budget = {
 	id: string
@@ -21,6 +22,7 @@ type Budget = {
 
 const BudgetsPage = () => {
 	const { user } = useUser()
+	const { socket } = useWebSocket()
 	const [budgets, setBudgets] = useState<Budget[]>([])
 	const [isAdding, setIsAdding] = useState<boolean>(false)
 	const [selectedCategory, setSelectedCategory] = useState('FOOD_AND_DRINK')
@@ -111,6 +113,31 @@ const BudgetsPage = () => {
 	useEffect(() => {
 		fetchBudgets()
 	}, [])
+
+	useEffect(() => {
+		fetchBudgets()
+	}, [])
+
+	useEffect(() => {
+		if (!socket) return
+
+		const handleNewGoal = (event: MessageEvent) => {
+			console.log('getting message')
+			try {
+				const data = JSON.parse(event.data)
+
+				if (data.type === 'new_budget') {
+					fetchBudgets()
+				}
+			} catch (error) {
+				console.log(error)
+			}
+		}
+
+		socket.addEventListener('message', handleNewGoal)
+
+		return () => socket.removeEventListener('message', handleNewGoal)
+	}, [socket])
 
 	return (
 		<MainLayout>

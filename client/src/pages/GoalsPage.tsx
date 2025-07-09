@@ -62,7 +62,7 @@ const GoalsPage = () => {
 				console.log(error)
 			}
 		}
-		
+
 		socket.addEventListener('message', handleNewGoal)
 
 		return () => socket.removeEventListener('message', handleNewGoal)
