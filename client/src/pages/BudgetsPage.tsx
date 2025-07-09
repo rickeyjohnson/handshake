@@ -57,10 +57,14 @@ const BudgetsPage = () => {
 						{budgets.map((budget) => {
 							return (
 								<tr>
-									<td className="p-1 pl-3">{budget.category}</td>
+									<td className="p-1 pl-3">
+										{budget.category}
+									</td>
 									<td className="p-1">{budget.budgeted}</td>
 									<td className="p-1">{budget.actual}</td>
-									<td className="text-right pr-3">{budget.budgeted - budget.actual}</td>
+									<td className="text-right pr-3">
+										{budget.budgeted - budget.actual}
+									</td>
 								</tr>
 							)
 						})}
@@ -74,7 +78,9 @@ const BudgetsPage = () => {
 							<IconCash size={18} />
 							Spending Budget
 						</p>
-						<p className="font-medium text-lg text-right">$200</p>
+						<p className="font-medium text-lg text-right">${
+								budgets.reduce((sum, budget) => sum + budget.budgeted, 0)
+							}</p>
 					</div>
 
 					<div className="flex gap-2 items-center border-t-2 p-2 pb-0 border-stone-200">
