@@ -86,10 +86,10 @@ const BudgetsPage = () => {
 									<td className="p-1 pl-3">
 										{budget.category}
 									</td>
-									<td className="p-1">{budget.budgeted}</td>
-									<td className="p-1">{budget.actual}</td>
+									<td className="p-1">{formatMoney(budget.budgeted)}</td>
+									<td className="p-1">{formatMoney(budget.actual)}</td>
 									<td className="text-right pr-3">
-										{budget.budgeted - budget.actual}
+										{formatMoney(budget.budgeted - budget.actual)}
 									</td>
 								</tr>
 							)
