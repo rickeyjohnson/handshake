@@ -284,7 +284,7 @@ plaid.get('/transactions/sync', isAuthenticated, async (req, res) => {
 plaid.get('/transactions/list', isAuthenticated, async (req, res) => {
 	try {
 		const userId = req.session.user.id
-		const pairId = getPairedId(userId)
+		const pairId = await getPairedId(userId)
 		const maxCount = 100
 		const transactions = await getTransactionsForUserOrPair(
 			pairId,
