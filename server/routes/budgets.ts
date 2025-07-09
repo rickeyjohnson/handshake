@@ -43,7 +43,7 @@ budgets.post('/', async (req, res) => {
 			data: {
 				pair_id: pairId,
 				category: category,
-				budgeted: budgeted,
+				budgeted: parseFloat(budgeted),
 				actual: await getSpendingOnCategory(category, pairId),
 			},
 		})
@@ -64,7 +64,7 @@ budgets.post('/update', async (req, res) => {
 				id: budgetId,
 			},
 			data: {
-				budgeted: budgeted,
+				budgeted: parseFloat(budgeted),
 			},
 		})
 
