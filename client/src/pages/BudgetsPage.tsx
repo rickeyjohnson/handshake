@@ -10,9 +10,10 @@ import {
 } from '@tabler/icons-react'
 import { useEffect, useState } from 'react'
 import { formatMoney } from '../utils/utils'
+import { Input } from '../components/Input'
 
 type Budget = {
-	id: string,
+	id: string
 	category: string
 	budgeted: number
 	actual: number
@@ -22,22 +23,30 @@ const BudgetsPage = () => {
 	const { user } = useUser()
 	const [budgets, setBudgets] = useState<Budget[]>([])
 	const [isAdding, setIsAdding] = useState<boolean>(false)
-	const [newBudget, setNewBudget] = useState<Budget>(
-		{
-			id: '',
-			category: '',
-			budgeted: 0,
-			actual: 0,
-		}
-	)
+	const defaultNewBudget = {
+		id: '',
+		category: '',
+		budgeted: 0,
+		actual: 0,
+	}
+	const [newBudget, setNewBudget] = useState<Budget>(defaultNewBudget)
 	const startAddBudget = () => {
-		setNewBudget({
-			id: '',
-			category: '',
-			budgeted: 0,
-			actual: 0,
-		})
+		setNewBudget(defaultNewBudget)
 		setIsAdding(true)
+	}
+
+	const handleNewBudgetChange = (key: string, value: string | number) => {
+    	setNewBudget((prev) => ({ ...prev, [key]: value }));
+  	}
+
+	const saveNewBudget = () => {
+		setBudgets((prev) => [...prev, newBudget])
+		setIsAdding(false)
+	}
+
+	const cancelNewRow = () => {
+		setIsAdding(false)
+		setNewBudget(defaultNewBudget)
 	}
 	const spendingBudget = budgets.reduce(
 		(sum, budget) => sum + budget.budgeted,
@@ -102,14 +111,37 @@ const BudgetsPage = () => {
 									<td className="p-1 pl-3">
 										{budget.category}
 									</td>
-									<td className="p-1">{formatMoney(budget.budgeted)}</td>
-									<td className="p-1">{formatMoney(budget.actual)}</td>
+									<td className="p-1">
+										{formatMoney(budget.budgeted)}
+									</td>
+									<td className="p-1">
+										{formatMoney(budget.actual)}
+									</td>
 									<td className="text-right pr-3">
-										{formatMoney(budget.budgeted - budget.actual)}
+										{formatMoney(
+											budget.budgeted - budget.actual
+										)}
 									</td>
 								</tr>
 							)
 						})}
+
+						{isAdding && (
+							<tr>
+								<td className="p-1 pl-3">
+									<Input type="text" value={newBudget.category} onChange={(e) => handleNewBudgetChange('category', e.target.value)}/>
+								</td>
+								<td className="p-1">
+									<Input type="number" value={newBudget.budgeted} onChange={(e) => handleNewBudgetChange('budgeted', e.target.value)}/>
+								</td>
+								<td className="p-1">
+									---
+								</td>
+								<td className="text-right pr-3">
+									---
+								</td>
+							</tr>
+						)}
 					</tbody>
 				</table>
 				<div className="flex-1 p-10 border-2 border-stone-100 rounded-lg shadow">
