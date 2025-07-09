@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import MainLayout from '../components/MainLayout'
 import { useTransactions } from '../contexts/TransactionsContext'
+import { formatMoney } from '../utils/utils'
 
 const TransactionsPage = () => {
 	const { transactions, setTransactions } = useTransactions()
@@ -29,7 +30,7 @@ const TransactionsPage = () => {
 
 	useEffect(() => {
 		syncTransactions()
-		fetchTransactions
+		fetchTransactions()
 	}, [])
 
 	return (
@@ -52,24 +53,24 @@ const TransactionsPage = () => {
 					{transactions.map((tx) => {
 						return (
 							<tr key={tx.id}>
-								<td className="p-1 pl-3">x</td>
+								<td className="p-1 pl-3">{tx.category}</td>
 								<td className="p-1">
-									x
+									{tx.transaction_name}
 								</td>
 								<td className="p-1">
-									x
+									{tx.authorized_date || tx.date}
 								</td>
 								<td className="p-1">
-									x
+									{tx.authorized_date ? 'Posted' : 'Pending'}
+								</td>
+								<td className="p-1 capitalize">
+									{tx.user_name}
 								</td>
 								<td className="p-1">
-									x
-								</td>
-								<td className="p-1">
-									x
+									{tx.account_name}
 								</td>
 								<td className="text-right pr-3">
-									x
+									{formatMoney(tx.amount)}
 								</td>
 							</tr>
 						)
