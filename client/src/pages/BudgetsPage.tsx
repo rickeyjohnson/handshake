@@ -8,7 +8,7 @@ import {
 	IconCoin,
 	IconPigMoney,
 } from '@tabler/icons-react'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { formatMoney } from '../utils/utils'
 import { Input } from '../components/Input'
 
@@ -66,7 +66,7 @@ const BudgetsPage = () => {
 
 	const saveNewBudget = async () => {
 		try {
-			const response = await fetch('/api/budgets/', {
+			await fetch('/api/budgets/', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({
@@ -134,7 +134,9 @@ const BudgetsPage = () => {
 							}}
 							className="flex gap-2 align-center items-center self-center"
 							disabled={
-								!newBudget.category || !newBudget.budgeted || newBudget.budgeted < 0
+								!newBudget.category ||
+								!newBudget.budgeted ||
+								newBudget.budgeted < 0
 							}
 						>
 							Save
