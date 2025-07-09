@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { PrismaClient } from '../generated/prisma'
-import { getPairedId } from '../utils/util'
+import { getPairedId, getSpendingOnCategory } from '../utils/util'
 
 const budgets = Router()
 const prisma = new PrismaClient()
@@ -29,7 +29,7 @@ budgets.post('/', async (req, res) => {
                 pair_id: pairId,
                 category: category,
                 budgeted: budgeted,
-                actual: await getSpendingOnCategory(category)
+                actual: await getSpendingOnCategory(category, pairId)
             }
         })
 
