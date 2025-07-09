@@ -12,17 +12,33 @@ import { useEffect, useState } from 'react'
 import { formatMoney } from '../utils/utils'
 
 type Budget = {
-	id: string
-	pair_id: string
+	id: string,
 	category: string
 	budgeted: number
 	actual: number
-	created_at: Date
 }
 
 const BudgetsPage = () => {
 	const { user } = useUser()
 	const [budgets, setBudgets] = useState<Budget[]>([])
+	const [isAdding, setIsAdding] = useState<boolean>(false)
+	const [newBudget, setNewBudget] = useState<Budget>(
+		{
+			id: '',
+			category: '',
+			budgeted: 0,
+			actual: 0,
+		}
+	)
+	const startAddBudget = () => {
+		setNewBudget({
+			id: '',
+			category: '',
+			budgeted: 0,
+			actual: 0,
+		})
+		setIsAdding(true)
+	}
 	const spendingBudget = budgets.reduce(
 		(sum, budget) => sum + budget.budgeted,
 		0
@@ -82,7 +98,7 @@ const BudgetsPage = () => {
 					<tbody>
 						{budgets.map((budget) => {
 							return (
-								<tr>
+								<tr key={budget.id}>
 									<td className="p-1 pl-3">
 										{budget.category}
 									</td>
