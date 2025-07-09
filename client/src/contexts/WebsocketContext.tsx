@@ -1,13 +1,13 @@
 import type React from "react"
-import { createContext, useContext, useEffect, useRef, useState } from "react"
+import { createContext, useContext, useEffect, useRef } from "react"
 
 type WebSocketContextType = {
     socket: WebSocket | null 
 }
 
-const WebSocketContext = createContext<WebSocketContextType | null>(null)
+export const WebSocketContext = createContext<WebSocketContextType | null>(null)
 
-const WebsocketProvider = ({children}: {children: React.ReactNode}) => {
+export const WebSocketProvider = ({children}: {children: React.ReactNode}) => {
     const socketRef = useRef<WebSocket | null>(null)
     
     useEffect(() => {
