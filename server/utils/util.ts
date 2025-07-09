@@ -264,7 +264,10 @@ export const setPairedToComplete = async (user_id, partner_id) => {
 	})
 }
 
-export const getSpendingOnCategory = async (category: string, pairId: string) => {
+export const getSpendingOnCategory = async (
+	category: string,
+	pairId: string
+) => {
 	const now = new Date()
 
 	const startOfMonth = format(
@@ -290,12 +293,15 @@ export const getSpendingOnCategory = async (category: string, pairId: string) =>
 				},
 			},
 			select: {
-				amount: true
-			}
+				amount: true,
+			},
 		})
 
-		const amount = data.reduce<number>((sum, current) => sum - current.amount, 0)
-		
+		const amount = data.reduce<number>(
+			(sum, current) => sum - current.amount,
+			0
+		)
+
 		console.log(amount)
 
 		return amount
