@@ -71,10 +71,10 @@ const BudgetsPage = () => {
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({
 					category: newBudget.category,
-					budgeted: newBudget.budgeted
-				})
+					budgeted: newBudget.budgeted,
+				}),
 			})
-			
+
 			setIsAdding(false)
 			await fetchBudgets()
 		} catch (error) {
@@ -129,7 +129,9 @@ const BudgetsPage = () => {
 				) : (
 					<div className="flex gap-3 flex-row-reverse">
 						<Button
-							onClick={async () => {await saveNewBudget()}}
+							onClick={async () => {
+								await saveNewBudget()
+							}}
 							className="flex gap-2 align-center items-center self-center"
 							disabled={
 								!newBudget.category || !newBudget.budgeted
@@ -200,8 +202,7 @@ const BudgetsPage = () => {
 												e.target.value
 											)
 											setSelectedCategory(e.target.value)
-										}
-										}
+										}}
 									>
 										{categories.map((cat) => (
 											<option
