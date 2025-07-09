@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import MainLayout from '../components/MainLayout'
 import { useTransactions } from '../contexts/TransactionsContext'
 import { formatMoney } from '../utils/utils'
@@ -11,6 +11,7 @@ import AddExpensePopover from '../components/AddExpensePopover'
 const TransactionsPage = () => {
 	const { transactions, setTransactions } = useTransactions()
 	const { user } = useUser()
+	const [openPopover, setOpenPopover] = useState(true)
 
 	const fetchTransactions = async () => {
 		try {
@@ -47,12 +48,14 @@ const TransactionsPage = () => {
 					user?.partner?.name ?? 'partner'
 				}'s transaction history.`}
 			>
-				<Button className="flex gap-2 align-center items-center self-center">
-					<IconCirclePlusFilled size={18} />
-					Add Expense
-				</Button>
-
-				<AddExpensePopover />
+				<div className='relative'>
+					<Button className="flex gap-2 align-center items-center self-center">
+						<IconCirclePlusFilled size={18} />
+						Add Expense
+					</Button>
+					
+					{openPopover && <AddExpensePopover /> }
+				</div>
 			</MainHeader>
 			<table className="bg-amber-200 flex-3">
 				<thead>
