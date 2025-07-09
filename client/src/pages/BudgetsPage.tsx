@@ -8,9 +8,20 @@ import {
 	IconCoin,
 	IconPigMoney,
 } from '@tabler/icons-react'
+import { useState } from 'react'
+
+type Budget = {
+	id: string
+	pair_id: string
+	category: string
+	budgeted: number
+	actual: number
+	created_at: Date
+}
 
 const BudgetsPage = () => {
 	const { user } = useUser()
+	const [budgets, setBudgets] = useState<Budget[]>([])
 
 	return (
 		<MainLayout>
@@ -31,18 +42,28 @@ const BudgetsPage = () => {
 							<th className="text-lg font-medium w-sm p-1 pl-3">
 								Category
 							</th>
-							<th className="text-lg font-medium w-xs">Budgeted</th>
-							<th className="text-lg font-medium w-2xs">Actual</th>
-							<th className="text-lg font-medium pr-3">Remaining</th>
+							<th className="text-lg font-medium w-xs">
+								Budgeted
+							</th>
+							<th className="text-lg font-medium w-2xs">
+								Actual
+							</th>
+							<th className="text-lg font-medium pr-3">
+								Remaining
+							</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td className="p-1 pl-3">FOOD</td>
-							<td className="p-1">$40</td>
-							<td className="p-1">$30</td>
-							<td className="text-right pr-3">-$10</td>
-						</tr>
+						{budgets.map((budget) => {
+							return (
+								<tr>
+									<td className="p-1 pl-3">{budget.category}</td>
+									<td className="p-1">{budget.budgeted}</td>
+									<td className="p-1">{budget.actual}</td>
+									<td className="text-right pr-3">{budget.budgeted - budget.actual}</td>
+								</tr>
+							)
+						})}
 					</tbody>
 				</table>
 				<div className="flex-1 p-10 border-2 border-stone-100 rounded-lg shadow">
