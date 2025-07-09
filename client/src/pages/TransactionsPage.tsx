@@ -48,18 +48,25 @@ const TransactionsPage = () => {
 					user?.partner?.name ?? 'partner'
 				}'s transaction history.`}
 			>
-				<div className='relative'>
-					<Button className="flex gap-2 align-center items-center self-center" onClick={() => setOpenPopover(!openPopover)}>
-						{!openPopover ? (<>
-							<IconCirclePlusFilled size={18} />
-							Add Expense
-						</>) : (<>
-							<IconX size={18}/>
-							Cancel
-						</>)}
+				<div className="relative">
+					<Button
+						className="flex gap-2 align-center items-center self-center"
+						onClick={() => setOpenPopover(!openPopover)}
+					>
+						{!openPopover ? (
+							<>
+								<IconCirclePlusFilled size={18} />
+								Add Expense
+							</>
+						) : (
+							<>
+								<IconX size={18} />
+								Cancel
+							</>
+						)}
 					</Button>
-					
-					{openPopover && <AddExpensePopover /> }
+
+					{openPopover && <AddExpensePopover />}
 				</div>
 			</MainHeader>
 			<table className="bg-amber-200 flex-3">
