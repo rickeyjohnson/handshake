@@ -2,9 +2,14 @@ import { useEffect } from 'react'
 import MainLayout from '../components/MainLayout'
 import { useTransactions } from '../contexts/TransactionsContext'
 import { formatMoney } from '../utils/utils'
+import MainHeader from '../components/MainHeader'
+import { useUser } from '../contexts/UserContext'
+import { Button } from '../components/Button'
+import { IconCirclePlusFilled } from '@tabler/icons-react'
 
 const TransactionsPage = () => {
 	const { transactions, setTransactions } = useTransactions()
+	const { user } = useUser()
 
 	const fetchTransactions = async () => {
 		try {
@@ -35,6 +40,14 @@ const TransactionsPage = () => {
 
 	return (
 		<MainLayout>
+			<MainHeader title='Transactions' caption={`View all yours and ${user?.partner.name ?? 'partner'}'s transaction history.`}>
+				<Button
+						className="flex gap-2 align-center items-center self-center"
+					>
+						<IconCirclePlusFilled size={18} />
+						Add Expense
+					</Button>
+			</MainHeader>
 			<table className="bg-amber-200 flex-3">
 				<thead>
 					<tr className="text-left bg-amber-300">
