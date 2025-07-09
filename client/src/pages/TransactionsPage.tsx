@@ -6,6 +6,7 @@ import MainHeader from '../components/MainHeader'
 import { useUser } from '../contexts/UserContext'
 import { Button } from '../components/Button'
 import { IconCirclePlusFilled } from '@tabler/icons-react'
+import AddExpensePopover from '../components/AddExpensePopover'
 
 const TransactionsPage = () => {
 	const { transactions, setTransactions } = useTransactions()
@@ -50,6 +51,8 @@ const TransactionsPage = () => {
 					<IconCirclePlusFilled size={18} />
 					Add Expense
 				</Button>
+
+				<AddExpensePopover />
 			</MainHeader>
 			<table className="bg-amber-200 flex-3">
 				<thead>
