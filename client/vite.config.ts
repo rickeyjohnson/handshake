@@ -13,5 +13,11 @@ export default defineConfig({
 				secure: false,
 			}
 		}
+	},
+	resolve: {
+		alias: {
+			// /esm/icons/index.mjs exports the icons statically, so no separate chunks are created
+			"@tabler/icons-react": "@tabler/icons-react/dist/esm/icons/index.mjs",
+		}
 	}
 })
