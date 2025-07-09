@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express'
 import { PrismaClient } from '../generated/prisma'
 import { getPairedId } from '../utils/util'
+import { connectedClients } from '../websocket/wsStore'
 
 const goals = Router()
 const prisma = new PrismaClient()
@@ -56,6 +57,12 @@ goals.post('/', async (req, res) => {
 				current: 0,
 				deadline: new Date(goal.deadline),
 			},
+		})
+
+		connectedClients.forEach((client) => {
+			if (client.readyState === 1) {
+				client.send(JSON.stringify({ type: 'new_goal', content: true }))
+			}
 		})
 
 		res.status(201).json({ message: 'New goal created' })
