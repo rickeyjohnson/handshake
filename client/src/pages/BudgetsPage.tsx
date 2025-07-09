@@ -36,15 +36,15 @@ const BudgetsPage = () => {
 	}
 
 	const handleNewBudgetChange = (key: string, value: string | number) => {
-    	setNewBudget((prev) => ({ ...prev, [key]: value }));
-  	}
+		setNewBudget((prev) => ({ ...prev, [key]: value }))
+	}
 
 	const saveNewBudget = () => {
 		setBudgets((prev) => [...prev, newBudget])
 		setIsAdding(false)
 	}
 
-	const cancelNewRow = () => {
+	const cancelNewBudget = () => {
 		setIsAdding(false)
 		setNewBudget(defaultNewBudget)
 	}
@@ -80,10 +80,30 @@ const BudgetsPage = () => {
 				title={'Budget'}
 				caption={`Create budgets with ${user?.partner?.name}`}
 			>
-				<Button className="flex gap-2 align-center items-center self-center">
-					<IconCirclePlusFilled size={18} />
-					Create New Budget
-				</Button>
+				{!isAdding ? (
+					<Button
+						className="flex gap-2 align-center items-center self-center"
+						onClick={startAddBudget}
+					>
+						<IconCirclePlusFilled size={18} />
+						Create New Budget
+					</Button>
+				) : (
+					<>
+						<Button
+							onClick={saveNewBudget}
+							disabled={
+								!newBudget.category || !newBudget.budgeted
+							}
+						>
+							Save
+						</Button>
+
+						<Button variant="ghost" onClick={cancelNewBudget}>
+							Cancel
+						</Button>
+					</>
+				)}
 			</MainHeader>
 
 			<div className="flex items-start justify-center gap-5">
@@ -129,17 +149,31 @@ const BudgetsPage = () => {
 						{isAdding && (
 							<tr>
 								<td className="p-1 pl-3">
-									<Input type="text" value={newBudget.category} onChange={(e) => handleNewBudgetChange('category', e.target.value)}/>
+									<Input
+										type="text"
+										value={newBudget.category}
+										onChange={(e) =>
+											handleNewBudgetChange(
+												'category',
+												e.target.value
+											)
+										}
+									/>
 								</td>
 								<td className="p-1">
-									<Input type="number" value={newBudget.budgeted} onChange={(e) => handleNewBudgetChange('budgeted', e.target.value)}/>
+									<Input
+										type="number"
+										value={newBudget.budgeted}
+										onChange={(e) =>
+											handleNewBudgetChange(
+												'budgeted',
+												e.target.value
+											)
+										}
+									/>
 								</td>
-								<td className="p-1">
-									---
-								</td>
-								<td className="text-right pr-3">
-									---
-								</td>
+								<td className="p-1">---</td>
+								<td className="text-right pr-3">---</td>
 							</tr>
 						)}
 					</tbody>
