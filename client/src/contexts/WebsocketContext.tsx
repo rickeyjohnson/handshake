@@ -5,7 +5,7 @@ type WebSocketContextType = {
     socket: WebSocket | null 
 }
 
-export const WebSocketContext = createContext<WebSocketContextType | null>(null)
+export const WebSocketContext = createContext<WebSocketContextType>({socket: null})
 
 export const WebSocketProvider = ({children}: {children: React.ReactNode}) => {
     const socketRef = useRef<WebSocket | null>(null)
