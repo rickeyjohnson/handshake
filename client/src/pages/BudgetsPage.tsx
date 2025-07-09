@@ -22,6 +22,8 @@ type Budget = {
 const BudgetsPage = () => {
 	const { user } = useUser()
 	const [budgets, setBudgets] = useState<Budget[]>([])
+	const spendingBudget = budgets.reduce((sum, budget) => sum + budget.budgeted, 0)
+	const currentSpending = budgets.reduce((sum, budget) => sum + budget.actual, 0)
 
 	return (
 		<MainLayout>
@@ -79,7 +81,7 @@ const BudgetsPage = () => {
 							Spending Budget
 						</p>
 						<p className="font-medium text-lg text-right">${
-								budgets.reduce((sum, budget) => sum + budget.budgeted, 0)
+								spendingBudget
 							}</p>
 					</div>
 
@@ -88,7 +90,7 @@ const BudgetsPage = () => {
 							<IconPigMoney size={18} />
 							Current Spending
 						</p>
-						<p className="font-medium text-lg text-right">$200</p>
+						<p className="font-medium text-lg text-right">${currentSpending}</p>
 					</div>
 
 					<div className="flex gap-2 items-center border-t-2 p-2 pb-0 border-stone-200">
@@ -96,7 +98,7 @@ const BudgetsPage = () => {
 							<IconCoin size={18} />
 							Remaining
 						</p>
-						<p className="font-medium text-lg text-right">$0</p>
+						<p className="font-medium text-lg text-right">${spendingBudget - currentSpending}</p>
 					</div>
 				</div>
 			</div>
