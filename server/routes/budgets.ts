@@ -54,4 +54,22 @@ budgets.post('/', async (req, res) => {
 	}
 })
 
+budgets.post('/update', async (req, res) => {
+	try {
+        const { budgetId, category, budgeted } = req.body
+        const updatedBudget = await prisma.budgets.update({
+            where: {
+                id: budgetId,
+            },
+            data: {
+                budgeted: budgeted,
+            }
+        })
+
+        res.status(200).json({message: `Updated ${category} budget successfully`})
+	} catch (error) {
+        res.status(500).json({ error: error.message })
+    }
+})
+
 export default budgets
