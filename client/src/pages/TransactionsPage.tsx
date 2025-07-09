@@ -40,13 +40,16 @@ const TransactionsPage = () => {
 
 	return (
 		<MainLayout>
-			<MainHeader title='Transactions' caption={`View all yours and ${user?.partner.name ?? 'partner'}'s transaction history.`}>
-				<Button
-						className="flex gap-2 align-center items-center self-center"
-					>
-						<IconCirclePlusFilled size={18} />
-						Add Expense
-					</Button>
+			<MainHeader
+				title="Transactions"
+				caption={`View all yours and ${
+					user?.partner.name ?? 'partner'
+				}'s transaction history.`}
+			>
+				<Button className="flex gap-2 align-center items-center self-center">
+					<IconCirclePlusFilled size={18} />
+					Add Expense
+				</Button>
 			</MainHeader>
 			<table className="bg-amber-200 flex-3">
 				<thead>
@@ -67,9 +70,7 @@ const TransactionsPage = () => {
 						return (
 							<tr key={tx.id}>
 								<td className="p-1 pl-3">{tx.category}</td>
-								<td className="p-1">
-									{tx.transaction_name}
-								</td>
+								<td className="p-1">{tx.transaction_name}</td>
 								<td className="p-1">
 									{tx.authorized_date || tx.date}
 								</td>
@@ -79,9 +80,7 @@ const TransactionsPage = () => {
 								<td className="p-1 capitalize">
 									{tx.user_name}
 								</td>
-								<td className="p-1">
-									{tx.account_name}
-								</td>
+								<td className="p-1">{tx.account_name}</td>
 								<td className="text-right pr-3">
 									{formatMoney(tx.amount)}
 								</td>

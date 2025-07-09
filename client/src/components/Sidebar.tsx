@@ -34,11 +34,6 @@ const Sidebar = () => {
 			icon: IconTable,
 		},
 		{
-			title: 'Spending',
-			url: '/spending',
-			icon: IconCash,
-		},
-		{
 			title: 'Budget',
 			url: '/budgets',
 			icon: IconMoneybag,
