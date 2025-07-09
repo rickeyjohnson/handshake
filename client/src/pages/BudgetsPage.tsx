@@ -9,6 +9,7 @@ import {
 	IconPigMoney,
 } from '@tabler/icons-react'
 import { useState } from 'react'
+import { formatMoney } from '../utils/utils'
 
 type Budget = {
 	id: string
@@ -24,6 +25,7 @@ const BudgetsPage = () => {
 	const [budgets, setBudgets] = useState<Budget[]>([])
 	const spendingBudget = budgets.reduce((sum, budget) => sum + budget.budgeted, 0)
 	const currentSpending = budgets.reduce((sum, budget) => sum + budget.actual, 0)
+	const remaining = spendingBudget - currentSpending
 
 	return (
 		<MainLayout>
@@ -73,15 +75,15 @@ const BudgetsPage = () => {
 					</tbody>
 				</table>
 				<div className="flex-1 p-10 border-2 border-stone-100 rounded-lg shadow">
-					<h1 className="text-7xl font-semibold my-2">$300</h1>
+					<h1 className="text-7xl font-semibold my-2">{formatMoney(remaining, true)}</h1>
 
 					<div className="flex gap-2 items-center border-t-2 p-2 pb-0 border-stone-200">
 						<p className="flex grow items-center gap-2 font-normal text-lg">
 							<IconCash size={18} />
 							Spending Budget
 						</p>
-						<p className="font-medium text-lg text-right">${
-								spendingBudget
+						<p className="font-medium text-lg text-right">{
+								formatMoney(spendingBudget, true)
 							}</p>
 					</div>
 
@@ -90,7 +92,7 @@ const BudgetsPage = () => {
 							<IconPigMoney size={18} />
 							Current Spending
 						</p>
-						<p className="font-medium text-lg text-right">${currentSpending}</p>
+						<p className="font-medium text-lg text-right">{formatMoney(currentSpending, true)}</p>
 					</div>
 
 					<div className="flex gap-2 items-center border-t-2 p-2 pb-0 border-stone-200">
@@ -98,7 +100,7 @@ const BudgetsPage = () => {
 							<IconCoin size={18} />
 							Remaining
 						</p>
-						<p className="font-medium text-lg text-right">${spendingBudget - currentSpending}</p>
+						<p className="font-medium text-lg text-right">{formatMoney(remaining, true)}</p>
 					</div>
 				</div>
 			</div>
