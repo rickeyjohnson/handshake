@@ -48,7 +48,9 @@ budgets.post('/', async (req, res) => {
 			},
 		})
 
-		res.status(200).json({ message: `Budget created for ${category}` })
+		res.status(200).json({
+			message: `Budget successfully created for ${category}`,
+		})
 	} catch (error) {
 		res.status(500).json({ error: error.message })
 	}
@@ -56,20 +58,33 @@ budgets.post('/', async (req, res) => {
 
 budgets.post('/update', async (req, res) => {
 	try {
-        const { budgetId, category, budgeted } = req.body
-        const updatedBudget = await prisma.budgets.update({
-            where: {
-                id: budgetId,
-            },
-            data: {
-                budgeted: budgeted,
-            }
-        })
+		const { budgetId, budgeted } = req.body
+		const updatedBudget = await prisma.budgets.update({
+			where: {
+				id: budgetId,
+			},
+			data: {
+				budgeted: budgeted,
+			},
+		})
 
-        res.status(200).json({message: `Updated ${category} budget successfully`})
+		res.status(200).json({ message: 'Budget successfully updated' })
 	} catch (error) {
-        res.status(500).json({ error: error.message })
-    }
+		res.status(500).json({ error: error.message })
+	}
+})
+
+budgets.delete('/', async (req, res) => {
+	try {
+		const { budgetId } = req.body
+		const deletedBudget = await prisma.budgets.delete({
+			where: { id: budgetId },
+		})
+
+		res.status(204).json({ message: 'Budget successfully deleted' })
+	} catch (error) {
+		res.status(500).json({ error: error.message })
+	}
 })
 
 export default budgets
