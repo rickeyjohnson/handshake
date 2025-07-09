@@ -1,5 +1,5 @@
 import type React from 'react'
-import { createContext, useContext, useEffect, useRef } from 'react'
+import { createContext, useContext, useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router'
 
 type WebSocketContextType = {
@@ -15,49 +15,31 @@ export const WebSocketProvider = ({
 }: {
 	children: React.ReactNode
 }) => {
-	const socketRef = useRef<WebSocket | null>(null)
-	const navigate = useNavigate()
+    const [socket, setSocket] = useState<WebSocket | null>(null)
 
 	useEffect(() => {
-		const socket = new WebSocket('ws://localhost:3000/')
-		socketRef.current = socket
+		const ws = new WebSocket('ws://localhost:3000/')
+		setSocket(ws)
 
-		socket.onopen = () => {
+		ws.onopen = () => {
 			console.log('Websocket connected')
 		}
 
-		socket.onmessage = (event) => {
-			try {
-				const data = JSON.parse(event.data)
-
-				switch (data.type) {
-					case 'paired':
-						navigate('/dashboard')
-						break
-
-					default:
-						console.warn('Unhandled websocket message', data)
-				}
-			} catch (error) {
-				console.error(error)
-			}
-		}
-
-		socket.close = () => {
+		ws.close = () => {
 			console.log('Websocket disconnected')
 		}
 
-		socket.onerror = (err) => {
+		ws.onerror = (err) => {
 			console.error('WebSocket error:', err)
 		}
 
 		return () => {
-			socket.close()
+			ws.close()
 		}
 	}, [])
 
 	return (
-		<WebSocketContext.Provider value={{ socket: socketRef.current }}>
+		<WebSocketContext.Provider value={{ socket }}>
 			{children}
 		</WebSocketContext.Provider>
 	)
