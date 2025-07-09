@@ -8,7 +8,7 @@ import {
 	IconCoin,
 	IconPigMoney,
 } from '@tabler/icons-react'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { formatMoney } from '../utils/utils'
 import { Input } from '../components/Input'
 
@@ -23,12 +23,37 @@ const BudgetsPage = () => {
 	const { user } = useUser()
 	const [budgets, setBudgets] = useState<Budget[]>([])
 	const [isAdding, setIsAdding] = useState<boolean>(false)
+	const [selectedCategory, setSelectedCategory] = useState('FOOD_AND_DRINK')
+
 	const defaultNewBudget = {
 		id: '',
 		category: '',
 		budgeted: 0,
 		actual: 0,
 	}
+
+	const categories = [
+		{ label: 'INCOME', value: 'INCOME' },
+		{ label: 'TRANSFER IN', value: 'TRANSFER_IN' },
+		{ label: 'TRANSFER OUT', value: 'TRANSFER_OUT' },
+		{ label: 'LOAN PAYMENTS', value: 'LOAN_PAYMENTS' },
+		{ label: 'BANK FEES', value: 'BANK_FEES' },
+		{ label: 'ENTERTAINMENT', value: 'ENTERTAINMENT' },
+		{ label: 'FOOD AND DRINK', value: 'FOOD_AND_DRINK' },
+		{ label: 'GENERAL MERCHANDISE', value: 'GENERAL_MERCHANDISE' },
+		{ label: 'HOME IMPROVEMENT', value: 'HOME_IMPROVEMENT' },
+		{ label: 'MEDICAL', value: 'MEDICAL' },
+		{ label: 'PERSONAL CARE', value: 'PERSONAL_CARE' },
+		{ label: 'GENERAL SERVICES', value: 'GENERAL_SERVICES' },
+		{
+			label: 'GOVERNMENT AND NON PROFIT',
+			value: 'GOVERNMENT_AND_NON_PROFIT',
+		},
+		{ label: 'TRANSPORTATION', value: 'TRANSPORTATION' },
+		{ label: 'TRAVEL', value: 'TRAVEL' },
+		{ label: 'RENT AND UTILITIES', value: 'RENT_AND_UTILITIES' },
+	]
+
 	const [newBudget, setNewBudget] = useState<Budget>(defaultNewBudget)
 	const startAddBudget = () => {
 		setNewBudget(defaultNewBudget)
@@ -37,6 +62,10 @@ const BudgetsPage = () => {
 
 	const handleNewBudgetChange = (key: string, value: string | number) => {
 		setNewBudget((prev) => ({ ...prev, [key]: value }))
+	}
+
+	const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+		setSelectedCategory(e.target.value)
 	}
 
 	const saveNewBudget = () => {
@@ -89,9 +118,10 @@ const BudgetsPage = () => {
 						Create New Budget
 					</Button>
 				) : (
-					<>
+					<div className="flex gap-3 flex-row-reverse">
 						<Button
 							onClick={saveNewBudget}
+							className="flex gap-2 align-center items-center self-center"
 							disabled={
 								!newBudget.category || !newBudget.budgeted
 							}
@@ -99,10 +129,14 @@ const BudgetsPage = () => {
 							Save
 						</Button>
 
-						<Button variant="ghost" onClick={cancelNewBudget}>
+						<Button
+							variant="ghost"
+							className="flex gap-2 align-center items-center self-center"
+							onClick={cancelNewBudget}
+						>
 							Cancel
 						</Button>
-					</>
+					</div>
 				)}
 			</MainHeader>
 
@@ -149,16 +183,24 @@ const BudgetsPage = () => {
 						{isAdding && (
 							<tr>
 								<td className="p-1 pl-3">
-									<Input
-										type="text"
-										value={newBudget.category}
+									<select
+										value={selectedCategory}
 										onChange={(e) =>
 											handleNewBudgetChange(
 												'category',
 												e.target.value
 											)
 										}
-									/>
+									>
+										{categories.map((cat) => (
+											<option
+												key={cat.value}
+												value={cat.value}
+											>
+												{cat.label}
+											</option>
+										))}
+									</select>
 								</td>
 								<td className="p-1">
 									<Input
