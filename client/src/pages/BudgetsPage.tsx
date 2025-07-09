@@ -134,7 +134,7 @@ const BudgetsPage = () => {
 							}}
 							className="flex gap-2 align-center items-center self-center"
 							disabled={
-								!newBudget.category || !newBudget.budgeted
+								!newBudget.category || !newBudget.budgeted || newBudget.budgeted < 0
 							}
 						>
 							Save
