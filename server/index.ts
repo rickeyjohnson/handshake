@@ -7,6 +7,7 @@ import authRouter from './routes/auth'
 import plaidRouter from './routes/plaid'
 import pairRouter from './routes/pair'
 import goalsRouter from './routes/goals'
+import budgetsRouter from './routes/budgets'
 import { isAuthenticated } from './utils/util'
 import { connectedClients } from './websocket/wsStore'
 
@@ -53,6 +54,7 @@ app.use('/api/auth', authRouter)
 app.use('/api/plaid', plaidRouter)
 app.use('/api/pair', pairRouter)
 app.use('/api/goals', goalsRouter)
+app.use('/api/budgets', budgetsRouter)
 
 app.get('/api/', (req: Request, res: Response) => {
 	res.send('Welcome to Handshake')
@@ -64,8 +66,8 @@ app.get('/api/me', isAuthenticated, async (req: Request, res: Response) => {
 		const user = await prisma.user.findUnique({
 			where: { id: req.session.user?.id },
 			include: {
-				partner: true
-			}
+				partner: true,
+			},
 		})
 
 		if (!user) {

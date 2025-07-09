@@ -1,5 +1,6 @@
 import { randomUUID } from 'crypto'
 import { PrismaClient } from '../generated/prisma'
+import { format } from 'date-fns'
 
 const prisma = new PrismaClient()
 
@@ -261,4 +262,51 @@ export const setPairedToComplete = async (user_id, partner_id) => {
 			is_paired: true,
 		},
 	})
+}
+
+export const getSpendingOnCategory = async (
+	category: string,
+	pairId: string
+) => {
+	const now = new Date()
+
+	const startOfMonth = format(
+		new Date(now.getFullYear(), now.getMonth(), 1),
+		'yyyy-MM-dd'
+	)
+	const startOfNextMonth = format(
+		new Date(now.getFullYear(), now.getMonth() + 1, 1),
+		'yyyy-MM-dd'
+	)
+
+	console.log(startOfMonth)
+	console.log(startOfNextMonth)
+
+	try {
+		const data = await prisma.transactions.findMany({
+			where: {
+				category: category,
+				pair_id: pairId,
+				authorized_date: {
+					gte: startOfMonth,
+					lte: startOfNextMonth,
+				},
+			},
+			select: {
+				amount: true,
+			},
+		})
+
+		const amount = data.reduce<number>(
+			(sum, current) => sum - current.amount,
+			0
+		)
+
+		console.log(amount)
+
+		return amount
+	} catch (error) {
+		console.error('Error fetching data for current month:', error)
+		throw error
+	}
 }

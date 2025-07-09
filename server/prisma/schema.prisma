@@ -113,6 +113,6 @@ model Budgets {
   pair_id  String
   category  String
   budgeted  Float
-  actual    Float @default(0)
+  actual    Float 
   created_at  DateTime  @default(now())
 }
