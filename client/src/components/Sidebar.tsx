@@ -1,5 +1,4 @@
 import {
-	IconCash,
 	IconDashboard,
 	IconDotsVertical,
 	IconMoneybag,
@@ -32,11 +31,6 @@ const Sidebar = () => {
 			title: 'Transactions',
 			url: '/transactions',
 			icon: IconTable,
-		},
-		{
-			title: 'Spending',
-			url: '/spending',
-			icon: IconCash,
 		},
 		{
 			title: 'Budget',
