@@ -27,7 +27,7 @@ const BudgetsPage = () => {
 
 	const defaultNewBudget = {
 		id: '',
-		category: '',
+		category: 'FOOD_AND_DRINK',
 		budgeted: 0,
 		actual: 0,
 	}
@@ -194,11 +194,13 @@ const BudgetsPage = () => {
 								<td className="p-1 pl-3">
 									<select
 										value={selectedCategory}
-										onChange={(e) =>
+										onChange={(e) => {
 											handleNewBudgetChange(
 												'category',
 												e.target.value
 											)
+											setSelectedCategory(e.target.value)
+										}
 										}
 									>
 										{categories.map((cat) => (
@@ -214,6 +216,7 @@ const BudgetsPage = () => {
 								<td className="p-1">
 									<Input
 										type="number"
+										min={0}
 										value={newBudget.budgeted}
 										onChange={(e) =>
 											handleNewBudgetChange(
