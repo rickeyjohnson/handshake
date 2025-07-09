@@ -1,5 +1,4 @@
 import {
-	IconCash,
 	IconDashboard,
 	IconDotsVertical,
 	IconMoneybag,
