@@ -11,16 +11,16 @@ import { WebSocketProvider } from './contexts/WebsocketContext.tsx'
 
 createRoot(document.getElementById('root')!).render(
 	<StrictMode>
-		<WebSocketProvider>
-			<UserProvider>
-				<AccountProvider>
-					<TransactionProvider>
-						<BrowserRouter>
+		<BrowserRouter>
+			<WebSocketProvider>
+				<UserProvider>
+					<AccountProvider>
+						<TransactionProvider>
 							<App />
-						</BrowserRouter>
-					</TransactionProvider>
-				</AccountProvider>
-			</UserProvider>
-		</WebSocketProvider>
+						</TransactionProvider>
+					</AccountProvider>
+				</UserProvider>
+			</WebSocketProvider>
+		</BrowserRouter>
 	</StrictMode>
 )
