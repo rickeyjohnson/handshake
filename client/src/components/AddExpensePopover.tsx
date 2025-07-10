@@ -5,7 +5,7 @@ import { IconCamera, IconPencil } from '@tabler/icons-react'
 const AddExpensePopover = () => {
 	const navigate = useNavigate()
 	const handleNavigation = () => {
-		navigate('/transactions/capture-receipt')
+		navigate('/transactions/add-expense')
 	}
 
 	return (
