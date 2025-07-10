@@ -1,8 +1,10 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { extractTextFromImage } from '../ocr'
 
 // remove any before pushing
 const PriceSelection = ({ image_url }: { image_url: string }) => {
 	const canvasRef = useRef<HTMLCanvasElement>(null)
+    const [data, setData] = useState<any>(null)
 
 	const displayProcessedImage = () => {
 		const canvas = canvasRef.current
@@ -35,13 +37,20 @@ const PriceSelection = ({ image_url }: { image_url: string }) => {
 		ctx.strokeRect(x, y, width, height)
 	}
 
+    const ocrScan = async () => {
+        const newData = await extractTextFromImage(image_url)
+        setData(newData)
+    }
+
 	useEffect(() => {
 		displayProcessedImage()
+        ocrScan()
 	}, [image_url])
 
 	return (
 		<div>
 			<canvas ref={canvasRef} />
+            <pre>{JSON.stringify(data, null, 4)}</pre>
 		</div>
 	)
 }
