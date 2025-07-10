@@ -56,7 +56,7 @@ const PriceSelection = ({ image_url }: { image_url: string }) => {
 
 	return (
 		<div>
-            <h1>ocr part:</h1>
+			<h1>ocr part:</h1>
 			<canvas ref={canvasRef} />
 		</div>
 	)
