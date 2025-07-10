@@ -20,7 +20,7 @@ const AddExpensePage = () => {
 			<MainHeader title="Add New Expense" />
 
 			<ReceiptCapture onCapture={handleCapture} />
-			{image && <PriceSelection prices={prices} />}
+			{image && <PriceSelection prices={prices} image_url={image} />}
 		</MainLayout>
 	)
 }
