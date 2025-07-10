@@ -41,7 +41,7 @@ const PriceSelection = ({
 
 	useEffect(() => {
 		displayProcessedImage()
-	}, [])
+	}, [image_url])
 
 	return (
 		<div>
