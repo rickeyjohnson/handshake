@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { Button } from './Button'
 
-const ReceiptCapture = () => {
+const ReceiptCapture = ({onCapture}:{onCapture: (url: string) => void}) => {
 	const videoRef = useRef<HTMLVideoElement>(null)
 	const canvasRef = useRef<HTMLCanvasElement>(null)
 
@@ -35,7 +35,7 @@ const ReceiptCapture = () => {
 		const ctx = canvas.getContext('2d')
 		if (ctx) {
 			ctx.drawImage(video, 0, 0)
-			console.log(canvas.toDataURL('image/png'))
+			onCapture(canvas.toDataURL('image/png'))
 		}
 	}
 
