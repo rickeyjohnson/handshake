@@ -12,6 +12,7 @@
   "dependencies": {
     "@tabler/icons-react": "^3.34.0",
     "@tailwindcss/vite": "^4.1.10",
+    "ngrok": "^5.0.0-beta.2",
     "react": "^19.1.0",
     "react-datepicker": "^8.4.0",
     "react-dom": "^19.1.0",

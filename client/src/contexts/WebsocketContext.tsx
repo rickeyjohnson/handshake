@@ -1,6 +1,5 @@
 import type React from 'react'
-import { createContext, useContext, useEffect, useRef, useState } from 'react'
-import { useNavigate } from 'react-router'
+import { createContext, useContext, useEffect, useState } from 'react'
 
 type WebSocketContextType = {
 	socket: WebSocket | null
