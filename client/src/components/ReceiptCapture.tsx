@@ -45,12 +45,12 @@ const ReceiptCapture = ({
 
 	return (
 		<div>
-			{videoRef.current ? (
-				<div>
+			{videoRef ? (
+				<>
 					<video ref={videoRef} autoPlay playsInline className="" />
 					<Button onClick={capture}>Capture</Button>
 					<canvas ref={canvasRef} />
-				</div>
+				</>
 			) : (
 				<p>Requesting camera</p>
 			)}
