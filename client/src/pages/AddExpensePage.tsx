@@ -2,13 +2,13 @@ import MainLayout from '../components/MainLayout'
 import MainHeader from '../components/MainHeader'
 import ReceiptCapture from '../components/ReceiptCapture'
 import { useState } from 'react'
+import PriceSelection from '../components/PriceSelection'
 
 const AddExpensePage = () => {
 	const [image, setImage] = useState<string | null>(null)
 
-	const handleCapture = (url: string) => {
+	const handleCapture = async (url: string) => {
 		setImage(url)
-		console.log('image captured!')
 	}
 
 	return (
@@ -16,6 +16,7 @@ const AddExpensePage = () => {
 			<MainHeader title="Add New Expense" />
 
 			<ReceiptCapture onCapture={handleCapture} />
+			{image && <PriceSelection image_url={image} />}
 		</MainLayout>
 	)
 }
