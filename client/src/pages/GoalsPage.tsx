@@ -85,7 +85,8 @@ const GoalsPage = () => {
 					partner="user"
 					handleClose={() => {
 						fetchGoals()
-						setOpenAddGoalsModal(false)}}
+						setOpenAddGoalsModal(false)
+					}}
 				/>
 			)}
 		</MainLayout>

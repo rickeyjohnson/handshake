@@ -43,7 +43,7 @@ const TransactionsPage = () => {
 			<MainHeader
 				title="Transactions"
 				caption={`View all yours and ${
-					user?.partner.name ?? 'partner'
+					user?.partner?.name ?? 'partner'
 				}'s transaction history.`}
 			>
 				<Button className="flex gap-2 align-center items-center self-center">

@@ -18,23 +18,6 @@ const PairPage = () => {
 			navigate('/dashboard')
 			return
 		}
-
-		const socket = new WebSocket('ws://localhost:3000/')
-
-		socket.onopen = () => {
-			console.log('Connected to server!')
-		}
-
-		socket.onmessage = (event) => {
-			const { paired } = JSON.parse(event.data)
-			if (paired) {
-				navigate('/dashboard')
-			}
-		}
-
-		return () => {
-			socket.close()
-		}
 	}, [])
 
 	return (

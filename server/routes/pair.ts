@@ -130,7 +130,7 @@ pair.post('/enter', isAuthenticated, async (req, res) => {
 
 	connectedClients.forEach((client) => {
 		if (client.readyState === 1) {
-			client.send(JSON.stringify({ paired: true }))
+			client.send(JSON.stringify({ type: 'paired', content: true }))
 		}
 	})
 

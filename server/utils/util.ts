@@ -161,7 +161,7 @@ export const saveCursorForItem = async (transactionCursor, itemId) => {
 
 export const getTransactionsForUserOrPair = async (id, max_num) => {
 	const transactions = await prisma.transactions.findMany({
-		where: { user_id: id, is_removed: false },
+		where: { pair_id: id, is_removed: false },
 		include: {
 			account: {
 				select: {
