@@ -1,7 +1,11 @@
 import { useEffect, useRef } from 'react'
 import { Button } from './Button'
 
-const ReceiptCapture = ({onCapture}:{onCapture: (url: string) => void}) => {
+const ReceiptCapture = ({
+	onCapture,
+}: {
+	onCapture: (url: string) => void
+}) => {
 	const videoRef = useRef<HTMLVideoElement>(null)
 	const canvasRef = useRef<HTMLCanvasElement>(null)
 
@@ -44,8 +48,8 @@ const ReceiptCapture = ({onCapture}:{onCapture: (url: string) => void}) => {
 			{videoRef ? (
 				<div>
 					<video ref={videoRef} autoPlay playsInline className="" />
-                    <Button onClick={capture}>Capture</Button>
-                    <canvas ref={canvasRef}/>
+					<Button onClick={capture}>Capture</Button>
+					<canvas ref={canvasRef} />
 				</div>
 			) : (
 				<p>Requesting camera</p>

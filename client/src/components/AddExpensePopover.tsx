@@ -18,7 +18,11 @@ const AddExpensePopover = () => {
 			</div>
 
 			<div className="border-t-2 border-t-stone-200 w-full text-left p-1">
-				<Button variant="ghost" className="flex gap-2 w-full" onClick={handleNavigation}>
+				<Button
+					variant="ghost"
+					className="flex gap-2 w-full"
+					onClick={handleNavigation}
+				>
 					<IconCamera />
 					Capture Reciept
 				</Button>
