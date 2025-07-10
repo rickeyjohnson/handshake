@@ -9,7 +9,7 @@ const ReceiptCapture = () => {
 			if (videoRef.current) {
 				videoRef.current.srcObject = stream
 			}
-		})
+		}).catch((err) => console.error("Error accessing camera", err))
 
 		return () => {
 			videoRef.current?.srcObject &&
@@ -19,7 +19,7 @@ const ReceiptCapture = () => {
 		}
 	}, [])
 	return <div>
-        <video ref={videoRef} autoPlay playsInline className=''/>
+        { videoRef ? (<video ref={videoRef} autoPlay playsInline className=''/>) : (<p>Requesting camera</p>)}
     </div>
 }
 
