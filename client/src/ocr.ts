@@ -65,7 +65,6 @@ export const parseOCRData = (
 			parseOCRData(item.lines, result)
 		}
 		if (item.paragraphs) {
-			console.log('paragraphs')
 			parseOCRData(item.paragraphs, result)
 		}
 	}
