@@ -3,7 +3,6 @@ import MainHeader from '../components/MainHeader'
 import ReceiptCapture from '../components/ReceiptCapture'
 import { useState } from 'react'
 import PriceSelection from '../components/PriceSelection'
-import { extractPricesFromImage } from '../ocr'
 
 const AddExpensePage = () => {
 	const [image, setImage] = useState<string | null>(null)
@@ -11,8 +10,6 @@ const AddExpensePage = () => {
 
 	const handleCapture = async (url: string) => {
 		setImage(url)
-		const priceResults = await extractPricesFromImage(url)
-		setPrices(priceResults)
 	}
 
 	return (
@@ -20,7 +17,7 @@ const AddExpensePage = () => {
 			<MainHeader title="Add New Expense" />
 
 			<ReceiptCapture onCapture={handleCapture} />
-			{image && <PriceSelection prices={prices} image_url={image} />}
+			{image && <PriceSelection image_url={image} />}
 		</MainLayout>
 	)
 }
