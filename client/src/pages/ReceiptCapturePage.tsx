@@ -1,4 +1,4 @@
-import { Outlet, useNavigate } from "react-router"
+import { useNavigate } from "react-router"
 import MainLayout from "../components/MainLayout"
 import MainHeader from "../components/MainHeader"
 import { Button } from "../components/Button"

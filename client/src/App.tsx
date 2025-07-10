@@ -13,6 +13,7 @@ import BudgetsPage from './pages/BudgetsPage'
 import GoalsPage from './pages/GoalsPage'
 import GoalDetailsPage from './pages/GoalDetailsPage'
 import ReceiptCapturePage from './pages/ReceiptCapturePage'
+import PriceSelectPage from './pages/PriceSelectPage'
 
 const App = () => {
 	const ProtectedDashboardPage = WithAuth(Dashboard)
@@ -24,6 +25,7 @@ const App = () => {
 	const ProtectedGoalsPage = WithAuth(GoalsPage)
 	const ProtectedGoalDetailsPage = WithAuth(GoalDetailsPage)
 	const ProtectedReceiptsCapturePage = WithAuth(ReceiptCapturePage)
+	const ProtectedPriceSelectPage = WithAuth(PriceSelectPage)
 
 	return (
 		<Routes>
@@ -38,6 +40,7 @@ const App = () => {
 				element={<ProtectedTransactionPage />}
 			/>
 			<Route path="/transactions/capture-receipt" element={<ProtectedReceiptsCapturePage />}/>
+			<Route path="/transactions/price-selection" element={<ProtectedPriceSelectPage />}/>
 			<Route path="/spending" element={<ProtectedSpendingPage />} />
 			<Route path="/budgets" element={<ProtectedBudgetsPage />} />
 			<Route path="/goals" element={<ProtectedGoalsPage />} />
