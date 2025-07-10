@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react'
 import AddGoalsModal from '../components/AddGoalsModal'
 import { useNavigate } from 'react-router'
 import MainHeader from '../components/MainHeader'
+import { useWebSocket } from '../contexts/WebsocketContext'
 
 type Goal = {
 	id: string
@@ -24,6 +25,7 @@ const GoalsPage = () => {
 	const navigate = useNavigate()
 	const [goals, setGoals] = useState<Goal[]>([])
 	const [openAddGoalsModal, setOpenAddGoalsModal] = useState(false)
+	const { socket } = useWebSocket()
 
 	const fetchGoals = async () => {
 		try {
@@ -44,6 +46,27 @@ const GoalsPage = () => {
 	useEffect(() => {
 		fetchGoals()
 	}, [])
+
+	useEffect(() => {
+		if (!socket) return
+
+		const handleNewGoal = (event: MessageEvent) => {
+			console.log('getting message')
+			try {
+				const data = JSON.parse(event.data)
+
+				if (data.type === 'new_goal') {
+					fetchGoals()
+				}
+			} catch (error) {
+				console.log(error)
+			}
+		}
+
+		socket.addEventListener('message', handleNewGoal)
+
+		return () => socket.removeEventListener('message', handleNewGoal)
+	}, [socket])
 
 	return (
 		<MainLayout>

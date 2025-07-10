@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import GenerateHandshakeCodeModal from '../components/GenerateHandshakeCodeModal'
 import EnterHandshakeCodeModal from '../components/EnterHandshakeCodeModal'
 import { useUser } from '../contexts/UserContext'
+import { useWebSocket } from '../contexts/WebsocketContext'
 
 const PairPage = () => {
 	const [showGenerateHandshakeCodeModal, setShowGenerateHandshakeCodeModal] =
@@ -12,6 +13,7 @@ const PairPage = () => {
 		useState(false)
 	const { user } = useUser()
 	const navigate = useNavigate()
+	const { socket } = useWebSocket()
 
 	useEffect(() => {
 		if (user?.is_paired) {
@@ -19,6 +21,26 @@ const PairPage = () => {
 			return
 		}
 	}, [])
+
+	useEffect(() => {
+		if (!socket) return
+
+		const handleNewPair = (event: MessageEvent) => {
+			try {
+				const data = JSON.parse(event.data)
+
+				if (data.type === 'paired') {
+					navigate('/dashboard')
+				}
+			} catch (error) {
+				console.warn(error)
+			}
+		}
+
+		socket.addEventListener('message', handleNewPair)
+
+		return () => socket.removeEventListener('message', handleNewPair)
+	}, [socket])
 
 	return (
 		<div className="flex justify-center items-center h-screen relative">
