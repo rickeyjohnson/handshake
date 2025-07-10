@@ -1,11 +1,7 @@
 import { useEffect, useRef } from 'react'
 
 // remove any before pushing
-const PriceSelection = ({
-	image_url,
-}: {
-	image_url: string
-}) => {
+const PriceSelection = ({ image_url }: { image_url: string }) => {
 	const canvasRef = useRef<HTMLCanvasElement>(null)
 
 	const displayProcessedImage = () => {
