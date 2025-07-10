@@ -12,6 +12,7 @@ import SpendingPage from './pages/SpendingPage'
 import BudgetsPage from './pages/BudgetsPage'
 import GoalsPage from './pages/GoalsPage'
 import GoalDetailsPage from './pages/GoalDetailsPage'
+import AddExpensePage from './pages/AddExpensePage'
 
 const App = () => {
 	const ProtectedDashboardPage = WithAuth(Dashboard)
@@ -22,6 +23,7 @@ const App = () => {
 	const ProtectedBudgetsPage = WithAuth(BudgetsPage)
 	const ProtectedGoalsPage = WithAuth(GoalsPage)
 	const ProtectedGoalDetailsPage = WithAuth(GoalDetailsPage)
+	const ProtectedAddExpensePage = WithAuth(AddExpensePage)
 
 	return (
 		<Routes>
@@ -35,6 +37,7 @@ const App = () => {
 				path="/transactions"
 				element={<ProtectedTransactionPage />}
 			/>
+			<Route path="/transactions/add-expense" element={<ProtectedAddExpensePage />}/>
 			<Route path="/spending" element={<ProtectedSpendingPage />} />
 			<Route path="/budgets" element={<ProtectedBudgetsPage />} />
 			<Route path="/goals" element={<ProtectedGoalsPage />} />
