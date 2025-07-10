@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
-import { extractTextFromImage } from '../ocr'
+import { extractTextFromImage, type OCRResult } from '../ocr'
 
 // remove any before pushing
 const PriceSelection = ({ image_url }: { image_url: string }) => {
 	const canvasRef = useRef<HTMLCanvasElement>(null)
-    const [data, setData] = useState<any>(null)
+	const [data, setData] = useState<OCRResult[]>([])
 
 	const displayProcessedImage = () => {
 		const canvas = canvasRef.current
@@ -21,7 +21,11 @@ const PriceSelection = ({ image_url }: { image_url: string }) => {
 
 			ctx.drawImage(image, 0, 0)
 
-			drawRectangle(ctx, 76, 46, 144 - 76, 62 - 46)
+			data.forEach((item) => {
+                // TODO
+            })
+            
+            drawRectangle(ctx, 76, 46, 144 - 76, 62 - 46)
 		}
 	}
 
@@ -37,20 +41,20 @@ const PriceSelection = ({ image_url }: { image_url: string }) => {
 		ctx.strokeRect(x, y, width, height)
 	}
 
-    const ocrScan = async () => {
-        const newData = await extractTextFromImage(image_url)
-        setData(newData)
-    }
+	const ocrScan = async () => {
+		const newData = await extractTextFromImage(image_url)
+		if (newData) setData(newData)
+	}
 
 	useEffect(() => {
-		displayProcessedImage()
         ocrScan()
+		displayProcessedImage()
 	}, [image_url])
 
 	return (
 		<div>
 			<canvas ref={canvasRef} />
-            <pre>{JSON.stringify(data, null, 4)}</pre>
+			<pre>{JSON.stringify(data, null, 4)}</pre>
 		</div>
 	)
 }
