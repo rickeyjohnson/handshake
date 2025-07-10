@@ -45,7 +45,7 @@ const ReceiptCapture = ({
 
 	return (
 		<div>
-			{videoRef ? (
+			{videoRef.current ? (
 				<div>
 					<video ref={videoRef} autoPlay playsInline className="" />
 					<Button onClick={capture}>Capture</Button>
