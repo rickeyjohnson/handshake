@@ -6,7 +6,28 @@ const PriceSelection = ({ image_url }: { image_url: string }) => {
 	const canvasRef = useRef<HTMLCanvasElement>(null)
 	const [data, setData] = useState<OCRResult[]>([])
 
-	const displayProcessedImage = () => {
+	const drawRectangle = (
+		ctx: CanvasRenderingContext2D,
+		x: number,
+		y: number,
+		width: number,
+		height: number
+	) => {
+		ctx.strokeStyle = 'red'
+		ctx.lineWidth = 2
+		ctx.strokeRect(x, y, width, height)
+	}
+
+	useEffect(() => {
+		const runOCR = async () => {
+			const newData = await extractTextFromImage(image_url)
+			if (newData) setData(newData)
+		}
+
+		runOCR()
+	}, [image_url])
+
+	useEffect(() => {
 		const canvas = canvasRef.current
 		const ctx = canvas?.getContext('2d')
 
@@ -21,35 +42,17 @@ const PriceSelection = ({ image_url }: { image_url: string }) => {
 
 			ctx.drawImage(image, 0, 0)
 
-			data.forEach((item) => {
-                // TODO
-            })
-            
-            drawRectangle(ctx, 76, 46, 144 - 76, 62 - 46)
+			data.map((item) => {
+				return drawRectangle(
+					ctx,
+					item.bbox.x0,
+					item.bbox.y0,
+					item.bbox.x1 - item.bbox.x0,
+					item.bbox.y1 - item.bbox.y0
+				)
+			})
 		}
-	}
-
-	const drawRectangle = (
-		ctx: CanvasRenderingContext2D,
-		x: number,
-		y: number,
-		width: number,
-		height: number
-	) => {
-		ctx.strokeStyle = 'red'
-		ctx.lineWidth = 2
-		ctx.strokeRect(x, y, width, height)
-	}
-
-	const ocrScan = async () => {
-		const newData = await extractTextFromImage(image_url)
-		if (newData) setData(newData)
-	}
-
-	useEffect(() => {
-        ocrScan()
-		displayProcessedImage()
-	}, [image_url])
+	}, [data, image_url])
 
 	return (
 		<div>

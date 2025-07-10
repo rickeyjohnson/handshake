@@ -21,6 +21,10 @@ export type OCRResult = {
 	bbox: OCRBBox
 }
 
+const isValid = (str: string) => {
+	return /^\w+$/.test(str)
+}
+
 export const extractTextFromImage = async (image_url: string) => {
 	try {
 		const worker = await createWorker('eng')
@@ -38,7 +42,7 @@ export const extractTextFromImage = async (image_url: string) => {
 		return parseOCRData(blocks)
 	} catch (error) {
 		console.error()
-        return []
+		return []
 	}
 }
 
@@ -48,8 +52,7 @@ export const parseOCRData = (
 ) => {
 	if (!data) return
 	for (const item of data) {
-		if (item.symbols) {
-			console.log('stop')
+		if (item.symbols && isValid(item.text!)) {
 			result.push({
 				text: item.text!,
 				bbox: item.bbox!,
