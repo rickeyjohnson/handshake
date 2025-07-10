@@ -56,8 +56,8 @@ const PriceSelection = ({ image_url }: { image_url: string }) => {
 
 	return (
 		<div>
+            <h1>ocr part:</h1>
 			<canvas ref={canvasRef} />
-			<pre>{JSON.stringify(data, null, 4)}</pre>
 		</div>
 	)
 }
