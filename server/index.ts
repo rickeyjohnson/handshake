@@ -8,6 +8,7 @@ import plaidRouter from './routes/plaid'
 import pairRouter from './routes/pair'
 import goalsRouter from './routes/goals'
 import budgetsRouter from './routes/budgets'
+import expensesRouter from './routes/expenses'
 import { isAuthenticated } from './utils/util'
 import { connectedClients } from './websocket/wsStore'
 
@@ -55,6 +56,7 @@ app.use('/api/plaid', plaidRouter)
 app.use('/api/pair', pairRouter)
 app.use('/api/goals', goalsRouter)
 app.use('/api/budgets', budgetsRouter)
+app.use('/api/expenses', expensesRouter)
 
 app.get('/api/', (req: Request, res: Response) => {
 	res.send('Welcome to Handshake')
