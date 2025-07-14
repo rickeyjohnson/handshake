@@ -6,7 +6,6 @@ import PriceSelection from '../components/PriceSelection'
 
 const AddExpensePage = () => {
 	const [image, setImage] = useState<string | null>(null)
-	const [prices, setPrices] = useState<any>([]) // TODO: remove "any" when finished
 
 	const handleCapture = async (url: string) => {
 		setImage(url)
