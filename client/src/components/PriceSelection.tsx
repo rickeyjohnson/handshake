@@ -6,6 +6,7 @@ const PriceSelection = ({ image_url }: { image_url: string }) => {
 	const canvasRef = useRef<HTMLCanvasElement>(null)
 	const [data, setData] = useState<OCRResult[]>([])
 	const [hovered, setHovered] = useState<boolean>(false)
+    const [selected, setSelected] = useState<boolean>(false)
 
 	const drawRectangle = (
 		ctx: CanvasRenderingContext2D,
@@ -83,11 +84,20 @@ const PriceSelection = ({ image_url }: { image_url: string }) => {
         setHovered(false)
     }
 
+    const handleClick = (event: React.MouseEvent<HTMLCanvasElement>) => {
+        const rect = canvasRef.current?.getBoundingClientRect()
+		if (!rect) return
+		const x = event.clientX - rect.left
+		const y = event.clientY - rect.top
+		setSelected(isInsideBox(x, y))
+    }
+
 	return (
 		<div>
 			<h1>ocr part:</h1>
-			<canvas ref={canvasRef} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}/>
+			<canvas ref={canvasRef} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave} onClick={handleClick}/>
             <p>inside: {hovered ? 'true' : 'false'}</p>
+            <p>selected: {selected ? 'true' : 'false'}</p>
 		</div>
 	)
 }
