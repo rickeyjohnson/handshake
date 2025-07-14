@@ -3,6 +3,7 @@ import MainHeader from '../components/MainHeader'
 import ReceiptCapture from '../components/ReceiptCapture'
 import { useState } from 'react'
 import PriceSelection from '../components/PriceSelection'
+import AddExpenseForm from '../components/AddExpenseForm'
 
 const AddExpensePage = () => {
 	const [image, setImage] = useState<string | null>(null)
@@ -31,6 +32,8 @@ const AddExpensePage = () => {
 			<br />
 
 			<p>{selectedPrice}</p>
+
+            <AddExpenseForm />
 		</MainLayout>
 	)
 }
