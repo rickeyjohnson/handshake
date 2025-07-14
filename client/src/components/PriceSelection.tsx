@@ -5,6 +5,7 @@ import { extractTextFromImage, type OCRResult } from '../ocr'
 const PriceSelection = ({ image_url }: { image_url: string }) => {
 	const canvasRef = useRef<HTMLCanvasElement>(null)
 	const [data, setData] = useState<OCRResult[]>([])
+    const [hovered, setHovered] = useState<boolean>(false)
 
 	const drawRectangle = (
 		ctx: CanvasRenderingContext2D,
@@ -54,10 +55,18 @@ const PriceSelection = ({ image_url }: { image_url: string }) => {
 		}
 	}, [data, image_url])
 
+    const handleMouseMove = (event: React.MouseEvent<HTMLCanvasElement>) => {
+        const rect = canvasRef.current?.getBoundingClientRect()
+        if (!rect) return 
+        const x = event.clientX - rect.left
+        const y = event.clientY - rect.right
+        setHovered(true)
+    }
+
 	return (
 		<div>
 			<h1>ocr part:</h1>
-			<canvas ref={canvasRef} />
+			<canvas ref={canvasRef} onMouseMove={handleMouseMove}/>
 		</div>
 	)
 }
