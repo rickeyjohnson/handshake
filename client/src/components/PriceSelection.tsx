@@ -5,7 +5,7 @@ import { extractTextFromImage, type OCRResult } from '../ocr'
 const PriceSelection = ({ image_url }: { image_url: string }) => {
 	const canvasRef = useRef<HTMLCanvasElement>(null)
 	const [data, setData] = useState<OCRResult[]>([])
-    const [hovered, setHovered] = useState<boolean>(false)
+	const [hovered, setHovered] = useState<boolean>(false)
 
 	const drawRectangle = (
 		ctx: CanvasRenderingContext2D,
@@ -55,18 +55,39 @@ const PriceSelection = ({ image_url }: { image_url: string }) => {
 		}
 	}, [data, image_url])
 
-    const handleMouseMove = (event: React.MouseEvent<HTMLCanvasElement>) => {
-        const rect = canvasRef.current?.getBoundingClientRect()
-        if (!rect) return 
-        const x = event.clientX - rect.left
-        const y = event.clientY - rect.right
-        setHovered(true)
+	const isInsideBox = (x: number, y: number) => {
+		let result = false
+		for (const item of data) {
+            console.log(x, y)
+            console.log(`${x} > ${item.bbox.x0}, ${x} < ${item.bbox.x1}, ${y} > ${item.bbox.y0}, ${y} < ${item.bbox.y1}`)
+			result =
+				(x >= item.bbox.x0 &&
+					x <= item.bbox.x1 &&
+					y >= item.bbox.y0 &&
+					y <= item.bbox.y1 ) ||
+				result
+		}
+
+        return result
+	}
+
+	const handleMouseMove = (event: React.MouseEvent<HTMLCanvasElement>) => {
+		const rect = canvasRef.current?.getBoundingClientRect()
+		if (!rect) return
+		const x = event.clientX - rect.left
+		const y = event.clientY - rect.top
+		setHovered(isInsideBox(x, y))
+	}
+
+    const handleMouseLeave = () => {
+        setHovered(false)
     }
 
 	return (
 		<div>
 			<h1>ocr part:</h1>
-			<canvas ref={canvasRef} onMouseMove={handleMouseMove}/>
+			<canvas ref={canvasRef} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}/>
+            <p>inside: {hovered ? 'true' : 'false'}</p>
 		</div>
 	)
 }
