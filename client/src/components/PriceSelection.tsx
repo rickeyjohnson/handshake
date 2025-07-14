@@ -4,26 +4,28 @@ import { extractTextFromImage, type OCRResult } from '../ocr'
 // remove any before pushing
 const PriceSelection = ({ image_url }: { image_url: string }) => {
 	const canvasRef = useRef<HTMLCanvasElement>(null)
-	const [data, setData] = useState<OCRResult[]>([])
-	const [hovered, setHovered] = useState<boolean>(false)
-    const [selected, setSelected] = useState<boolean>(false)
+	const [boxes, setBoxes] = useState<OCRResult[]>([])
 
 	const drawRectangle = (
 		ctx: CanvasRenderingContext2D,
 		x: number,
 		y: number,
 		width: number,
-		height: number
+		height: number,
+		fill_color: string,
+		border_color: string
 	) => {
-		ctx.strokeStyle = 'red'
+		ctx.strokeStyle = border_color
+		ctx.fillStyle = fill_color
 		ctx.lineWidth = 2
+		ctx.fillRect(x, y, width, height)
 		ctx.strokeRect(x, y, width, height)
 	}
 
 	useEffect(() => {
 		const runOCR = async () => {
-			const newData = await extractTextFromImage(image_url)
-			if (newData) setData(newData)
+			const newBoxes = await extractTextFromImage(image_url)
+			if (newBoxes) setBoxes(newBoxes)
 		}
 
 		runOCR()
@@ -44,60 +46,93 @@ const PriceSelection = ({ image_url }: { image_url: string }) => {
 
 			ctx.drawImage(image, 0, 0)
 
-			data.map((item) => {
+			boxes.map((box) => {
+				let fillColor = ''
+				let borderColor = 'red'
+
+				if (box.selected) {
+					fillColor = 'rgba(0, 120, 255, 0.5)'
+				} else if (box.hovered) {
+					fillColor = 'rgba(0, 120, 255, 0.2)'
+				} else {
+					fillColor = 'rgba(0, 0, 0, 0.5)'
+				}
+
 				return drawRectangle(
 					ctx,
-					item.bbox.x0,
-					item.bbox.y0,
-					item.bbox.x1 - item.bbox.x0,
-					item.bbox.y1 - item.bbox.y0
+					box.bbox.x0,
+					box.bbox.y0,
+					box.bbox.x1 - box.bbox.x0,
+					box.bbox.y1 - box.bbox.y0,
+					fillColor,
+					borderColor
 				)
 			})
 		}
-	}, [data, image_url])
+	}, [boxes, image_url])
 
-	const isInsideBox = (x: number, y: number) => {
-		let result = false
-		for (const item of data) {
-            console.log(x, y)
-            console.log(`${x} > ${item.bbox.x0}, ${x} < ${item.bbox.x1}, ${y} > ${item.bbox.y0}, ${y} < ${item.bbox.y1}`)
-			result =
-				(x >= item.bbox.x0 &&
-					x <= item.bbox.x1 &&
-					y >= item.bbox.y0 &&
-					y <= item.bbox.y1 ) ||
-				result
-		}
-
-        return result
+	const isInsideBox = (x: number, y: number, box: OCRResult) => {
+		return (
+			x >= box.bbox.x0 &&
+			x <= box.bbox.x1 &&
+			y >= box.bbox.y0 &&
+			y <= box.bbox.y1
+		)
 	}
 
-	const handleMouseMove = (event: React.MouseEvent<HTMLCanvasElement>) => {
+	const getCoords = (e: React.MouseEvent<HTMLCanvasElement>) => {
 		const rect = canvasRef.current?.getBoundingClientRect()
 		if (!rect) return
-		const x = event.clientX - rect.left
-		const y = event.clientY - rect.top
-		setHovered(isInsideBox(x, y))
+		const x = e.clientX - rect.left
+		const y = e.clientY - rect.top
+
+		return { x: x, y: y }
 	}
 
-    const handleMouseLeave = () => {
-        setHovered(false)
-    }
+	const handleMouseMove = (
+		event: React.MouseEvent<HTMLCanvasElement, MouseEvent>
+	) => {
+		const coords = getCoords(event)
+		if (!coords) return
+		const { x, y } = coords
+		setBoxes((prev) =>
+			prev.map((box) => {
+				return { ...box, hovered: isInsideBox(x, y, box) }
+			})
+		)
+	}
 
-    const handleClick = (event: React.MouseEvent<HTMLCanvasElement>) => {
-        const rect = canvasRef.current?.getBoundingClientRect()
-		if (!rect) return
-		const x = event.clientX - rect.left
-		const y = event.clientY - rect.top
-		setSelected(isInsideBox(x, y))
-    }
+	const handleMouseLeave = () => {
+		setBoxes((prev) =>
+			prev.map((box) => ({
+				...box,
+				hovered: false,
+			}))
+		)
+	}
+
+	const handleClick = (event: React.MouseEvent<HTMLCanvasElement>) => {
+		const coords = getCoords(event)
+		if (!coords) return
+		const { x, y } = coords
+		setBoxes((prev) =>
+			prev.map((box) => ({
+				...box,
+				selected: isInsideBox(x, y, box),
+			}))
+		)
+	}
 
 	return (
 		<div>
 			<h1>ocr part:</h1>
-			<canvas ref={canvasRef} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave} onClick={handleClick}/>
-            <p>inside: {hovered ? 'true' : 'false'}</p>
-            <p>selected: {selected ? 'true' : 'false'}</p>
+			<canvas
+				ref={canvasRef}
+				onMouseMove={handleMouseMove}
+				onMouseLeave={handleMouseLeave}
+				onClick={handleClick}
+			/>
+			<pre>{JSON.stringify(boxes, null, 4)}</pre>
 		</div>
 	)
 }

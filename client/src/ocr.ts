@@ -19,6 +19,8 @@ type OCRNode = {
 export type OCRResult = {
 	text: string
 	bbox: OCRBBox
+    selected: boolean
+    hovered: boolean
 }
 
 const isValid = (str: string) => {
@@ -56,6 +58,8 @@ export const parseOCRData = (
 			result.push({
 				text: item.text!,
 				bbox: item.bbox!,
+                selected: false,
+                hovered: false
 			})
 		}
 		if (item.words) {
