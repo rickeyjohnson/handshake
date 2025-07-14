@@ -21,7 +21,8 @@
     "react-router-dom": "^7.6.2",
     "recharts": "^3.0.2",
     "tailwind-datepicker-react": "^1.4.3",
-    "tailwindcss": "^4.1.10"
+    "tailwindcss": "^4.1.10",
+    "tesseract.js": "^6.0.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
