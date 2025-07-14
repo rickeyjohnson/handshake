@@ -2,7 +2,13 @@ import { useEffect, useRef, useState } from 'react'
 import { extractTextFromImage, type OCRResult } from '../ocr'
 
 // remove any before pushing
-const PriceSelection = ({ image_url }: { image_url: string }) => {
+const PriceSelection = ({
+	image_url,
+	onSelection,
+}: {
+	image_url: string
+	onSelection: (price: string) => void
+}) => {
 	const canvasRef = useRef<HTMLCanvasElement>(null)
 	const [boxes, setBoxes] = useState<OCRResult[]>([])
 
@@ -52,6 +58,7 @@ const PriceSelection = ({ image_url }: { image_url: string }) => {
 
 				if (box.selected) {
 					fillColor = 'rgba(0, 120, 255, 0.5)'
+					onSelection(box.text)
 				} else if (box.hovered) {
 					fillColor = 'rgba(0, 120, 255, 0.2)'
 				} else {
@@ -132,7 +139,6 @@ const PriceSelection = ({ image_url }: { image_url: string }) => {
 				onMouseLeave={handleMouseLeave}
 				onClick={handleClick}
 			/>
-			<pre>{JSON.stringify(boxes, null, 4)}</pre>
 		</div>
 	)
 }

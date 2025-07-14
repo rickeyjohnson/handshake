@@ -6,9 +6,14 @@ import PriceSelection from '../components/PriceSelection'
 
 const AddExpensePage = () => {
 	const [image, setImage] = useState<string | null>(null)
+	const [selectedPrice, setSelectedPrice] = useState<string>('-1')
 
 	const handleCapture = async (url: string) => {
 		setImage(url)
+	}
+
+	const handleSelection = (price: string) => {
+		setSelectedPrice(price)
 	}
 
 	return (
@@ -16,7 +21,16 @@ const AddExpensePage = () => {
 			<MainHeader title="Add New Expense" />
 
 			<ReceiptCapture onCapture={handleCapture} />
-			{image && <PriceSelection image_url={image} />}
+			{image && (
+				<PriceSelection
+					image_url={image}
+					onSelection={handleSelection}
+				/>
+			)}
+
+			<br />
+
+			<p>{selectedPrice}</p>
 		</MainLayout>
 	)
 }
