@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react'
 import { extractTextFromImage } from '../utils/ocr'
 import type { OCRResult } from '../types/types'
 import { getOpenCv } from '../utils/opencv'
-import { distanceTransform } from '@techstark/opencv-js'
 
 const PriceSelection = ({
 	image_url,
@@ -98,7 +97,7 @@ const PriceSelection = ({
 			canvas.height = image.height
 
 			ctx.drawImage(image, 0, 0)
-			
+
 			boxes.map((box) => {
 				let fillColor = ''
 				let borderColor = 'red'
@@ -149,11 +148,12 @@ const PriceSelection = ({
 
 			// sharpen image
 			const sharpen = new cv.Mat()
-			const kernel = cv.matFromArray(3, 3, cv.CV_32F, [
-				-1, -1, -1,
-				-1, 2, -1,
-				0, -1, 0,
-			])
+			const kernel = cv.matFromArray(
+				3,
+				3,
+				cv.CV_32F,
+				[-1, -1, -1, -1, 2, -1, 0, -1, 0]
+			)
 			cv.filter2D(gray, sharpen, cv.CV_8U, kernel)
 
 			// 2. threshold
