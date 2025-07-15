@@ -5,16 +5,18 @@ import { Button } from './Button'
 import { useAccount } from '../contexts/AccountContext'
 
 const AddExpenseForm = () => {
-    const { accounts } = useAccount()
+	const { accounts } = useAccount()
 	function handleSubmit(event: React.FormEvent<HTMLFormElement>): void {
 		throw new Error('Function not implemented.')
 	}
 
-	function handleChange(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>): void {
+	function handleChange(
+		event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+	): void {
 		throw new Error('Function not implemented.')
 	}
 
-    const categories = [
+	const categories = [
 		{ label: 'INCOME', value: 'INCOME' },
 		{ label: 'TRANSFER IN', value: 'TRANSFER_IN' },
 		{ label: 'TRANSFER OUT', value: 'TRANSFER_OUT' },
@@ -37,81 +39,98 @@ const AddExpenseForm = () => {
 	]
 
 	return (
-		<div className="bg-white flex flex-col rounded-2xl border border-gray-300 max-w-md min-w-sm p-8 gap-2 relative">
-			<h1 className="text-xl font-semibold self-start capitalize">
-				Create New Expense
-			</h1>
-			<p className="self-start text-gray-500 font-light text-md">
-				Select the price from the receipt image, and/or fill out the
-				rest of the form to add expense.
-			</p>
+		<>
+			<div className="bg-white flex flex-col rounded-2xl border border-gray-300 max-w-md min-w-sm p-8 gap-2 relative">
+				<h1 className="text-xl font-semibold self-start capitalize">
+					Create New Expense
+				</h1>
+				<p className="self-start text-gray-500 font-light text-md">
+					Select the price from the receipt image, and/or fill out the
+					rest of the form to add expense.
+				</p>
 
-			<form className="flex flex-col" onSubmit={handleSubmit}>
-				<Label>Name</Label>
-				<Input
-					placeholder=""
-					name="name"
-					value={''}
-					onChange={handleChange}
-					className=""
-					required={true}
-				/>
+				<form className="flex flex-col" onSubmit={handleSubmit}>
+					<Label>Name</Label>
+					<Input
+						placeholder=""
+						name="name"
+						value={''}
+						onChange={handleChange}
+						className=""
+						required={true}
+					/>
 
-				<Label>Date</Label>
-                <Input
-                                        type="date"
-                                        name="deadline"
-                                        placeholder="MM/DD/YYYY"
-                                        value={""}
-                                        onChange={handleChange}
-                                        className=""
-                                        required={true}
-                                    />
+					<Label>Date</Label>
+					<Input
+						type="date"
+						name="deadline"
+						placeholder="MM/DD/YYYY"
+						value={''}
+						onChange={handleChange}
+						className=""
+						required={true}
+					/>
 
-				<Label>Category</Label>
-				<select
-					value={''}
-					onChange={handleChange}
-                    className='border rounded-lg mb-5 p-2 border-gray-400 focus:outline-4 outline-gray-300'
-				>
-					{categories.map((cat) => (
-						<option key={cat.value} value={cat.value}>
-							{cat.label}
-						</option>
-					))}
-				</select>
+					<Label>Category</Label>
+					<select
+						value={''}
+						onChange={handleChange}
+						className="border rounded-lg mb-5 p-2 border-gray-400 focus:outline-4 outline-gray-300"
+					>
+						{categories.map((cat) => (
+							<option key={cat.value} value={cat.value}>
+								{cat.label}
+							</option>
+						))}
+					</select>
 
-				<Label>Amount</Label>
-				<Input
-					placeholder=""
-					name="amount"
-					value={''}
-					onChange={handleChange}
-					className=""
-					required={true}
-				/>
+					<Label>Amount</Label>
+					<Input
+						placeholder=""
+						name="amount"
+						value={''}
+						onChange={handleChange}
+						className=""
+						required={true}
+					/>
 
-                <Label htmlFor='currency'>Currency</Label>
-                <Input type='radio' name='currency' id="currency" value={"USD"} />
+                    <Label htmlFor='currency'>Currency</Label>
+					<div className="flex items-center mb-4 mt-1 justify-center">
+						<input
+                            checked
+							id="default-radio-1"
+							type="radio"
+							value=""
+							name="default-radio"
+							className="w-4 h-4 text-slate-950 accent-slate-950 "
+						/>
+						<label
+							htmlFor="default-radio-1"
+							className="ms-2 text-sm font-medium text-slate-950"
+						>
+							USD
+						</label>
+					</div>
 
-				<Label>Account</Label>
-				<select
-					value={""}
-					onChange={handleChange}
-                    className='border rounded-lg mb-5 p-2 border-gray-400 focus:outline-4 outline-gray-300'
-				>
-					{accounts.map((acc) => (
-						<option key={acc.id} value={acc.account_name}>
-							{acc.account_name} - {acc.bank_name}
-						</option>
-					))}
-				</select>
+					<Label>Account</Label>
+					<select
+						value={''}
+						onChange={handleChange}
+						className="border rounded-lg mb-5 p-2 border-gray-400 focus:outline-4 outline-gray-300"
+					>
+						{accounts.map(acc => (
+							<option key={acc.id} value={acc.account_name}>
+								{acc.account_name} - {acc.bank_name}
+							</option>
+						))}
+					</select>
 
-				<Button onClick={() => {}} className="w-full" type="submit">
-					Submit
-				</Button>
-			</form>
-		</div>
+					<Button onClick={() => {}} className="w-full" type="submit">
+						Submit
+					</Button>
+				</form>
+			</div>
+		</>
 	)
 }
 
