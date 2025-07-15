@@ -8,7 +8,7 @@ import type { GoalType } from '../types/types'
 
 const GoalDetailsPage = () => {
 	const { id } = useParams()
-	const [goal, setGoal] = useState<GoalType>({
+	const defaultGoal = {
 		id: '',
 		user_id: '',
 		user: null,
@@ -21,7 +21,8 @@ const GoalDetailsPage = () => {
 		created_at: new Date(),
 		updated_at: new Date(),
 		contributions: [],
-	})
+	}
+	const [goal, setGoal] = useState<GoalType>(defaultGoal)
 
 	const TEST_GOAL_CONTRIBUTIONS = [
 		{

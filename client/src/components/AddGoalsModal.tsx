@@ -11,12 +11,13 @@ const AddGoalsModal = ({
 	handleClose: () => void
 }) => {
 	const [error, setError] = useState('')
-	const [newGoalData, setNewGoalData] = useState({
+	const defaultGoal = {
 		title: '',
 		deadline: '',
 		target: '',
 		description: '',
-	})
+	}
+	const [newGoalData, setNewGoalData] = useState(defaultGoal)
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		let { name, value } = e.target

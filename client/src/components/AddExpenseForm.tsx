@@ -4,6 +4,7 @@ import { Input } from './ui/Input'
 import { Button } from './ui/Button'
 import { useAccount } from '../contexts/AccountContext'
 import type { Expense } from '../types/types'
+import { categories } from '../constants/constants'
 
 const AddExpenseForm = ({ selectedAmount }: { selectedAmount: string }) => {
 	const { accounts } = useAccount()
@@ -17,27 +18,6 @@ const AddExpenseForm = ({ selectedAmount }: { selectedAmount: string }) => {
 		currencyCode: 'USD',
 	}
 	const [newExpense, setNewExpense] = useState<Expense>(defaultNewExpense)
-	const categories = [
-		{ label: 'INCOME', value: 'INCOME' },
-		{ label: 'TRANSFER IN', value: 'TRANSFER_IN' },
-		{ label: 'TRANSFER OUT', value: 'TRANSFER_OUT' },
-		{ label: 'LOAN PAYMENTS', value: 'LOAN_PAYMENTS' },
-		{ label: 'BANK FEES', value: 'BANK_FEES' },
-		{ label: 'ENTERTAINMENT', value: 'ENTERTAINMENT' },
-		{ label: 'FOOD AND DRINK', value: 'FOOD_AND_DRINK' },
-		{ label: 'GENERAL MERCHANDISE', value: 'GENERAL_MERCHANDISE' },
-		{ label: 'HOME IMPROVEMENT', value: 'HOME_IMPROVEMENT' },
-		{ label: 'MEDICAL', value: 'MEDICAL' },
-		{ label: 'PERSONAL CARE', value: 'PERSONAL_CARE' },
-		{ label: 'GENERAL SERVICES', value: 'GENERAL_SERVICES' },
-		{
-			label: 'GOVERNMENT AND NON PROFIT',
-			value: 'GOVERNMENT_AND_NON_PROFIT',
-		},
-		{ label: 'TRANSPORTATION', value: 'TRANSPORTATION' },
-		{ label: 'TRAVEL', value: 'TRAVEL' },
-		{ label: 'RENT AND UTILITIES', value: 'RENT_AND_UTILITIES' },
-	]
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		throw new Error('Function not implemented.')
@@ -116,6 +96,7 @@ const AddExpenseForm = ({ selectedAmount }: { selectedAmount: string }) => {
 					<Label htmlFor="currency">Currency</Label>
 					<div className="flex items-center mb-4 mt-1 justify-center">
 						<input
+                            checked
 							readOnly={true}
 							id="default-radio-1"
 							type="radio"

@@ -13,6 +13,7 @@ import { formatMoney } from '../utils/utils'
 import { Input } from '../components/ui/Input'
 import { useWebSocket } from '../contexts/WebsocketContext'
 import type { Budget } from '../types/types'
+import { categories } from '../constants/constants'
 
 const BudgetsPage = () => {
 	const { user } = useUser()
@@ -28,29 +29,8 @@ const BudgetsPage = () => {
 		actual: 0,
 	}
 
-	const categories = [
-		{ label: 'INCOME', value: 'INCOME' },
-		{ label: 'TRANSFER IN', value: 'TRANSFER_IN' },
-		{ label: 'TRANSFER OUT', value: 'TRANSFER_OUT' },
-		{ label: 'LOAN PAYMENTS', value: 'LOAN_PAYMENTS' },
-		{ label: 'BANK FEES', value: 'BANK_FEES' },
-		{ label: 'ENTERTAINMENT', value: 'ENTERTAINMENT' },
-		{ label: 'FOOD AND DRINK', value: 'FOOD_AND_DRINK' },
-		{ label: 'GENERAL MERCHANDISE', value: 'GENERAL_MERCHANDISE' },
-		{ label: 'HOME IMPROVEMENT', value: 'HOME_IMPROVEMENT' },
-		{ label: 'MEDICAL', value: 'MEDICAL' },
-		{ label: 'PERSONAL CARE', value: 'PERSONAL_CARE' },
-		{ label: 'GENERAL SERVICES', value: 'GENERAL_SERVICES' },
-		{
-			label: 'GOVERNMENT AND NON PROFIT',
-			value: 'GOVERNMENT_AND_NON_PROFIT',
-		},
-		{ label: 'TRANSPORTATION', value: 'TRANSPORTATION' },
-		{ label: 'TRAVEL', value: 'TRAVEL' },
-		{ label: 'RENT AND UTILITIES', value: 'RENT_AND_UTILITIES' },
-	]
-
 	const [newBudget, setNewBudget] = useState<Budget>(defaultNewBudget)
+
 	const startAddBudget = () => {
 		setNewBudget(defaultNewBudget)
 		setIsAdding(true)

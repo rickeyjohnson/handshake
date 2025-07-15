@@ -6,11 +6,12 @@ import { Input } from '../components/ui/Input'
 import { Label } from '../components/ui/Label'
 
 const SignUpPage = () => {
-	const [signUpData, setSignUpData] = useState({
+	const defaultSignUpDate = {
 		name: '',
 		email: '',
 		password: '',
-	})
+	}
+	const [signUpData, setSignUpData] = useState(defaultSignUpDate)
 	const [error, setError] = useState('')
 	const { setUser } = useUser()
 	const navigate = useNavigate()

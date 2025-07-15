@@ -148,3 +148,8 @@ export type GoalType = {
 	updated_at: Date
 	contributions: GoalContributions[]
 }
+
+export type Category = {
+    label: string
+    value: string
+}
