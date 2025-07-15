@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { extractTextFromImage } from '../utils/ocr'
 import type { OCRResult } from '../types/types'
-import cv from '@techstark/opencv-js'
 
 const PriceSelection = ({
 	image_url,
@@ -140,6 +139,8 @@ const PriceSelection = ({
 				onMouseLeave={handleMouseLeave}
 				onClick={handleClick}
 			/>
+			<h1>pre-processing</h1>
+			<canvas ref={canvasRef} />
 		</div>
 	)
 }
