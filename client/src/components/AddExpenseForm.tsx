@@ -2,8 +2,10 @@ import React from 'react'
 import { Label } from './Label'
 import { Input } from './Input'
 import { Button } from './Button'
+import { useAccount } from '../contexts/AccountContext'
 
 const AddExpenseForm = () => {
+    const { accounts } = useAccount()
 	function handleSubmit(event: React.FormEvent<HTMLFormElement>): void {
 		throw new Error('Function not implemented.')
 	}
@@ -11,17 +13,6 @@ const AddExpenseForm = () => {
 	function handleChange(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>): void {
 		throw new Error('Function not implemented.')
 	}
-
-	/* 
-		"account_id": "mQ7lJKgWqAubJMZKyekXTMyPAWmnDVFgZ6zoz",
-		"category": "GENERAL_MERCHANDISE",
-		// "date": "2025-07-14",
-		// "authorized_date": "2025-07-13",
-		// "transaction_name": "FUN",
-		"amount": 89.4,
-		"currency_code": "USD",
-	},
-    */
 
     const categories = [
 		{ label: 'INCOME', value: 'INCOME' },
@@ -109,9 +100,9 @@ const AddExpenseForm = () => {
 					onChange={handleChange}
                     className='border rounded-lg mb-5 p-2 border-gray-400 focus:outline-4 outline-gray-300'
 				>
-					{categories.map((cat) => (
-						<option key={cat.value} value={cat.value}>
-							{cat.label}
+					{accounts.map((acc) => (
+						<option key={acc.id} value={acc.account_name}>
+							{acc.account_name} - {acc.bank_name}
 						</option>
 					))}
 				</select>
