@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Button } from './Button'
 
 const ReceiptCapture = ({
@@ -8,24 +8,7 @@ const ReceiptCapture = ({
 }) => {
 	const videoRef = useRef<HTMLVideoElement>(null)
 	const canvasRef = useRef<HTMLCanvasElement>(null)
-
-	useEffect(() => {
-		navigator.mediaDevices
-			.getUserMedia({ video: true })
-			.then((stream) => {
-				if (videoRef.current) {
-					videoRef.current.srcObject = stream
-				}
-			})
-			.catch((err) => console.error('Error accessing camera', err))
-
-		return () => {
-			videoRef.current?.srcObject &&
-				(videoRef.current.srcObject as MediaStream)
-					.getTracks()
-					.forEach((track) => track.stop())
-		}
-	}, [])
+	const [cameraAccessed, setCameraAccessed] = useState<boolean>(false)
 
 	const capture = () => {
 		const video = videoRef.current
@@ -43,16 +26,42 @@ const ReceiptCapture = ({
 		}
 	}
 
+	const requestCameraAccess = () => {
+		navigator.mediaDevices
+			.getUserMedia({ video: true })
+			.then((stream) => {
+				if (videoRef.current) {
+					videoRef.current.srcObject = stream
+				}
+				setCameraAccessed(true)
+			})
+			.catch((err) => console.error('Error accessing camera', err))
+	}
+
+	useEffect(() => {
+		requestCameraAccess()
+
+		return () => {
+			videoRef.current?.srcObject &&
+				(videoRef.current.srcObject as MediaStream)
+					.getTracks()
+					.forEach((track) => track.stop())
+		}
+	}, [])
+
 	return (
 		<div>
-			{videoRef ? (
+			{cameraAccessed ? (
 				<>
-					<video ref={videoRef} autoPlay playsInline className="" />
+					<video ref={videoRef} autoPlay playsInline />
 					<Button onClick={capture}>Capture</Button>
 					<canvas ref={canvasRef} />
 				</>
 			) : (
-				<p>Requesting camera</p>
+				<div>
+					<p>Requesting camera...</p>
+					<Button onClick={requestCameraAccess}>Request Camera</Button>
+				</div>
 			)}
 		</div>
 	)
