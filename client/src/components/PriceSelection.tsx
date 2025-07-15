@@ -29,56 +29,6 @@ const PriceSelection = ({
 		ctx.strokeRect(x, y, width, height)
 	}
 
-	useEffect(() => {
-		const runOCR = async () => {
-			const newBoxes = await extractTextFromImage(image_url)
-			if (newBoxes) setBoxes(newBoxes)
-		}
-
-		runOCR()
-	}, [image_url])
-
-	useEffect(() => {
-		const canvas = canvasRef.current
-		const ctx = canvas?.getContext('2d')
-
-		if (!canvas || !ctx) return
-
-		const image = new Image()
-		image.src = image_url
-
-		image.onload = () => {
-			canvas.width = image.width
-			canvas.height = image.height
-
-			ctx.drawImage(image, 0, 0)
-
-			boxes.map((box) => {
-				let fillColor = ''
-				let borderColor = 'red'
-
-				if (box.selected) {
-					fillColor = 'rgba(0, 120, 255, 0.5)'
-					onSelection(box.text)
-				} else if (box.hovered) {
-					fillColor = 'rgba(0, 120, 255, 0.2)'
-				} else {
-					fillColor = 'rgba(0, 0, 0, 0.5)'
-				}
-
-				return drawRectangle(
-					ctx,
-					box.bbox.x0,
-					box.bbox.y0,
-					box.bbox.x1 - box.bbox.x0,
-					box.bbox.y1 - box.bbox.y0,
-					fillColor,
-					borderColor
-				)
-			})
-		}
-	}, [boxes, image_url])
-
 	const isInsideBox = (x: number, y: number, box: OCRResult) => {
 		return (
 			x >= box.bbox.x0 &&
@@ -130,6 +80,56 @@ const PriceSelection = ({
 			}))
 		)
 	}
+
+	useEffect(() => {
+		const runOCR = async () => {
+			const newBoxes = await extractTextFromImage(image_url)
+			if (newBoxes) setBoxes(newBoxes)
+		}
+
+		runOCR()
+	}, [image_url])
+
+	useEffect(() => {
+		const canvas = canvasRef.current
+		const ctx = canvas?.getContext('2d')
+
+		if (!canvas || !ctx) return
+
+		const image = new Image()
+		image.src = image_url
+
+		image.onload = () => {
+			canvas.width = image.width
+			canvas.height = image.height
+
+			ctx.drawImage(image, 0, 0)
+
+			boxes.map((box) => {
+				let fillColor = ''
+				let borderColor = 'red'
+
+				if (box.selected) {
+					fillColor = 'rgba(0, 120, 255, 0.5)'
+					onSelection(box.text)
+				} else if (box.hovered) {
+					fillColor = 'rgba(0, 120, 255, 0.2)'
+				} else {
+					fillColor = 'rgba(0, 0, 0, 0.5)'
+				}
+
+				return drawRectangle(
+					ctx,
+					box.bbox.x0,
+					box.bbox.y0,
+					box.bbox.x1 - box.bbox.x0,
+					box.bbox.y1 - box.bbox.y0,
+					fillColor,
+					borderColor
+				)
+			})
+		}
+	}, [boxes, image_url])
 
 	return (
 		<div>
