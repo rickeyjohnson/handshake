@@ -1,7 +1,7 @@
-import { Input } from './Input'
-import { Button } from './Button'
+import { Input } from './ui/Input'
+import { Button } from './ui/Button'
 import React, { useState } from 'react'
-import { Label } from './Label'
+import { Label } from './ui/Label'
 
 const AddGoalsModal = ({
 	partner,
@@ -10,59 +10,58 @@ const AddGoalsModal = ({
 	partner: string
 	handleClose: () => void
 }) => {
-    const [error, setError] = useState('')
-    const [newGoalData, setNewGoalData] = useState({
-        title: '',
-        deadline: '',
-        target: '',
-        description: ''
-    })
+	const [error, setError] = useState('')
+	const [newGoalData, setNewGoalData] = useState({
+		title: '',
+		deadline: '',
+		target: '',
+		description: '',
+	})
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        let { name, value } = e.target
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		let { name, value } = e.target
 
-        if (name === 'target') {
-            value = value.substring(1)
-        }
+		if (name === 'target') {
+			value = value.substring(1)
+		}
 
-        setNewGoalData((prev) => ({...prev, [name]: value}))
-    }
+		setNewGoalData((prev) => ({ ...prev, [name]: value }))
+	}
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
-        if (!newGoalData.target) {
-            setError("Target money goal needed")
-            return
-        }
+		if (!newGoalData.target) {
+			setError('Target money goal needed')
+			return
+		}
 
-        if (!is_number(newGoalData.target)) {
-            setError("Target amount cannot be a number")
-            return
-        }
+		if (!is_number(newGoalData.target)) {
+			setError('Target amount cannot be a number')
+			return
+		}
 
-        console.log(newGoalData)
+		console.log(newGoalData)
 
-        try {
-            const response = await fetch('/api/goals/', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                credentials: 'include',
-                body: JSON.stringify(newGoalData)
-            })
+		try {
+			const response = await fetch('/api/goals/', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				credentials: 'include',
+				body: JSON.stringify(newGoalData),
+			})
 
-            const data = await response.json()
-            
-            if (response.ok) {
-                console.log('New goal created')
-                handleClose()
-            } else {
-                console.error('Failed to create goal', data.error)
-                setError(data.error)
-            }
+			const data = await response.json()
 
-        } catch (err) {
-            console.error('Network error. Please try again', err)
-        }
+			if (response.ok) {
+				console.log('New goal created')
+				handleClose()
+			} else {
+				console.error('Failed to create goal', data.error)
+				setError(data.error)
+			}
+		} catch (err) {
+			console.error('Network error. Please try again', err)
+		}
 	}
 
 	const is_number = (str: string) => {
@@ -91,7 +90,7 @@ const AddGoalsModal = ({
 					<Label>Title</Label>
 					<Input
 						placeholder=""
-                        name="title"
+						name="title"
 						value={newGoalData.title}
 						onChange={handleChange}
 						className=""
@@ -101,7 +100,7 @@ const AddGoalsModal = ({
 					<Label>Target Date</Label>
 					<Input
 						type="date"
-                        name="deadline"
+						name="deadline"
 						placeholder="MM/DD/YYYY"
 						value={newGoalData.deadline}
 						onChange={handleChange}
@@ -111,7 +110,7 @@ const AddGoalsModal = ({
 
 					<Label>Target Amount</Label>
 					<Input
-                        name="target"
+						name="target"
 						value={`$${newGoalData.target}`}
 						onChange={handleChange}
 						className="mt-2 mb- text-center font-medium text-5xl w-full"
@@ -121,7 +120,7 @@ const AddGoalsModal = ({
 					<Label>Description</Label>
 					<Input
 						placeholder=""
-                        name='description'
+						name="description"
 						value={newGoalData.description}
 						onChange={handleChange}
 						className=""
@@ -133,7 +132,7 @@ const AddGoalsModal = ({
 					</Button>
 				</form>
 
-                { error ? <p>{error}</p> : <></>}
+				{error ? <p>{error}</p> : <></>}
 
 				<Button
 					variant="ghost"

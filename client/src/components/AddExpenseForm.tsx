@@ -1,18 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Label } from './Label'
-import { Input } from './Input'
-import { Button } from './Button'
+import { Label } from './ui/Label'
+import { Input } from './ui/Input'
+import { Button } from './ui/Button'
 import { useAccount } from '../contexts/AccountContext'
-
-type Expense = {
-	accountId: string
-	category: string
-	date: string
-	authorizedDate: string
-	amount: number
-	name: string
-	currencyCode: string
-}
+import type { Expense } from '../types/types'
 
 const AddExpenseForm = ({ selectedAmount }: { selectedAmount: string }) => {
 	const { accounts } = useAccount()

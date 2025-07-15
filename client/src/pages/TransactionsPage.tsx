@@ -4,7 +4,7 @@ import { useTransactions } from '../contexts/TransactionsContext'
 import { formatMoney } from '../utils/utils'
 import MainHeader from '../components/MainHeader'
 import { useUser } from '../contexts/UserContext'
-import { Button } from '../components/Button'
+import { Button } from '../components/ui/Button'
 import { IconCirclePlusFilled, IconX } from '@tabler/icons-react'
 import AddExpensePopover from '../components/AddExpensePopover'
 

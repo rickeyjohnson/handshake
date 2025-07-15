@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router'
-import { Button } from '../components/Button'
+import { Button } from '../components/ui/Button'
 import { useEffect, useState } from 'react'
 import GenerateHandshakeCodeModal from '../components/GenerateHandshakeCodeModal'
 import EnterHandshakeCodeModal from '../components/EnterHandshakeCodeModal'

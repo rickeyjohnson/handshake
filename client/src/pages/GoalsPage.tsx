@@ -1,5 +1,5 @@
 import { IconCirclePlusFilled } from '@tabler/icons-react'
-import { Button } from '../components/Button'
+import { Button } from '../components/ui/Button'
 import Goal from '../components/Goal'
 import MainLayout from '../components/MainLayout'
 import { useUser } from '../contexts/UserContext'

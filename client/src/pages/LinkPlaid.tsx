@@ -1,6 +1,6 @@
 import { usePlaidLink } from 'react-plaid-link'
 import { useCallback, useEffect, useState } from 'react'
-import { Button } from '../components/Button'
+import { Button } from '../components/ui/Button'
 import { Link, useNavigate } from 'react-router'
 import { useUser } from '../contexts/UserContext'
 

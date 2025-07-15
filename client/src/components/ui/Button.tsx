@@ -1,17 +1,11 @@
-import React from 'react'
-
-type Button = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-	children?: React.ReactNode
-	variant?: string
-	className?: string
-}
+import { type ButtonType } from '../../types/types'
 
 export const Button = ({
 	children,
 	variant,
 	className = '',
 	...props
-}: Button) => {
+}: ButtonType) => {
 	let base = 'hover:cursor-pointer'
 
 	switch (variant) {

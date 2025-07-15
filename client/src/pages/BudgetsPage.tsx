@@ -1,7 +1,7 @@
 import MainHeader from '../components/MainHeader'
 import MainLayout from '../components/MainLayout'
 import { useUser } from '../contexts/UserContext'
-import { Button } from '../components/Button'
+import { Button } from '../components/ui/Button'
 import {
 	IconCash,
 	IconCirclePlusFilled,
@@ -10,7 +10,7 @@ import {
 } from '@tabler/icons-react'
 import { useEffect, useState } from 'react'
 import { formatMoney } from '../utils/utils'
-import { Input } from '../components/Input'
+import { Input } from '../components/ui/Input'
 import { useWebSocket } from '../contexts/WebsocketContext'
 
 type Budget = {

@@ -1,27 +1,5 @@
 import { createWorker } from 'tesseract.js'
-
-type OCRBBox = {
-	x0: number
-	y0: number
-	x1: number
-	y1: number
-}
-
-type OCRNode = {
-	text?: string
-	bbox?: OCRBBox
-	symbols?: OCRNode[]
-	words?: OCRNode[]
-	lines?: OCRNode[]
-	paragraphs?: OCRNode[]
-}
-
-export type OCRResult = {
-	text: string
-	bbox: OCRBBox
-    selected: boolean
-    hovered: boolean
-}
+import type { OCRNode, OCRResult } from './types/types'
 
 const isValid = (str: string) => {
 	return /^\w+$/.test(str)
