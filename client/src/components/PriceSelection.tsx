@@ -13,7 +13,6 @@ const PriceSelection = ({
 	const originalCanvasRef = useRef<HTMLCanvasElement>(null)
 	const processCanvasRef = useRef<HTMLCanvasElement>(null)
 	const [boxes, setBoxes] = useState<OCRResult[]>([])
-	const [originalImageUrl, setOriginalImageUrl] = useState<string>('')
 	const [preprocessImageUrl, setPreprocessImageUrl] = useState<string>('')
 
 	const drawRectangle = (

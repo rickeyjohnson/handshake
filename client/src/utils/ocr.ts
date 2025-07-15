@@ -2,7 +2,7 @@ import { createWorker } from 'tesseract.js'
 import type { OCRNode, OCRResult } from '../types/types'
 
 const isValid = (str: string) => {
-	return /^\w+$/.test(str)
+	return str.includes('$') || Number(str)
 }
 
 export const extractTextFromImage = async (image_url: string) => {
