@@ -8,7 +8,8 @@ const ReceiptCapture = ({
 }) => {
 	const videoRef = useRef<HTMLVideoElement>(null)
 	const canvasRef = useRef<HTMLCanvasElement>(null)
-	const [requestCameraAccess, setRequestCameraAccess] = useState<boolean>(false)
+	const [requestCameraAccess, setRequestCameraAccess] =
+		useState<boolean>(false)
 
 	useEffect(() => {
 		navigator.mediaDevices
@@ -55,7 +56,9 @@ const ReceiptCapture = ({
 			) : (
 				<div>
 					<p>Requesting camera...</p>
-					<Button onClick={() => setRequestCameraAccess(true)}>Request Camera</Button>
+					<Button onClick={() => setRequestCameraAccess(true)}>
+						Request Camera
+					</Button>
 				</div>
 			)}
 		</div>

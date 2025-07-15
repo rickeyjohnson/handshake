@@ -14,7 +14,7 @@ type Expense = {
 	currencyCode: string
 }
 
-const AddExpenseForm = ({selectedAmount}: {selectedAmount: string}) => {
+const AddExpenseForm = ({ selectedAmount }: { selectedAmount: string }) => {
 	const { accounts } = useAccount()
 	const defaultNewExpense = {
 		accountId: '-1',
@@ -56,9 +56,9 @@ const AddExpenseForm = ({selectedAmount}: {selectedAmount: string}) => {
 		setNewExpense((prev) => ({ ...prev, [key]: value }))
 	}
 
-    useEffect(() => {
-        handleNewExpenseChange('amount', selectedAmount)
-    }, [selectedAmount])
+	useEffect(() => {
+		handleNewExpenseChange('amount', selectedAmount)
+	}, [selectedAmount])
 
 	return (
 		<>

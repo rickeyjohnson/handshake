@@ -33,7 +33,7 @@ const AddExpensePage = () => {
 
 			<p>{selectedPrice}</p>
 
-            <AddExpenseForm selectedAmount={selectedPrice}/>
+			<AddExpenseForm selectedAmount={selectedPrice} />
 		</MainLayout>
 	)
 }
