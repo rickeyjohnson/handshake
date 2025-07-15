@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { extractTextFromImage } from '../utils/ocr'
 import type { OCRResult } from '../types/types'
-import { getOpenCv, preprocessImage } from '../utils/opencv'
+import { getOpenCv } from '../utils/opencv'
+import { distanceTransform } from '@techstark/opencv-js'
 
 const PriceSelection = ({
 	image_url,
@@ -146,6 +147,15 @@ const PriceSelection = ({
 			const gray = new cv.Mat()
 			cv.cvtColor(src, gray, cv.COLOR_BGR2GRAY, 0)
 
+			// sharpen image
+			const sharpen = new cv.Mat()
+			const kernel = cv.matFromArray(3, 3, cv.CV_32F, [
+				-1, -1, -1,
+				-1, 2, -1,
+				0, -1, 0,
+			])
+			cv.filter2D(gray, sharpen, cv.CV_8U, kernel)
+
 			// 2. threshold
 			const bw = new cv.Mat()
 			cv.threshold(gray, bw, 150, 255, cv.THRESH_BINARY)
@@ -155,6 +165,8 @@ const PriceSelection = ({
 			setPreprocessImageUrl(processedUrl)
 
 			gray.delete()
+			kernel.delete()
+			sharpen.delete()
 			bw.delete()
 		}
 	}, [image_url])
