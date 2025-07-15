@@ -1,28 +1,5 @@
-import {
-	createContext,
-	useState,
-	useContext,
-	useEffect,
-	type SetStateAction,
-	type Dispatch,
-} from 'react'
-
-type User = {
-	id: string
-	name: string
-	email: string
-	is_plaid_linked: boolean
-	is_paired: boolean
-	partner: {
-		name: string
-	}
-}
-
-interface UserContextType {
-	user: User | null
-	loading: boolean
-	setUser: Dispatch<SetStateAction<User | null>>
-}
+import { createContext, useState, useContext, useEffect } from 'react'
+import { type User, type UserContextType } from '../types/types'
 
 const defaultUserContext: UserContextType = {
 	user: null,

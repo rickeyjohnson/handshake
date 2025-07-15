@@ -12,13 +12,7 @@ import { useEffect, useState } from 'react'
 import { formatMoney } from '../utils/utils'
 import { Input } from '../components/ui/Input'
 import { useWebSocket } from '../contexts/WebsocketContext'
-
-type Budget = {
-	id: string
-	category: string
-	budgeted: number
-	actual: number
-}
+import type { Budget } from '../types/types'
 
 const BudgetsPage = () => {
 	const { user } = useUser()

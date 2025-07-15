@@ -8,22 +8,12 @@ import AddGoalsModal from '../components/AddGoalsModal'
 import { useNavigate } from 'react-router'
 import MainHeader from '../components/MainHeader'
 import { useWebSocket } from '../contexts/WebsocketContext'
-
-type Goal = {
-	id: string
-	user_id: string
-	pair_id: string
-	title: string
-	current: number
-	target: number
-	description: string
-	deadline: string
-}
+import { type GoalType } from '../types/types'
 
 const GoalsPage = () => {
 	const { user } = useUser()
 	const navigate = useNavigate()
-	const [goals, setGoals] = useState<Goal[]>([])
+	const [goals, setGoals] = useState<GoalType[]>([])
 	const [openAddGoalsModal, setOpenAddGoalsModal] = useState(false)
 	const { socket } = useWebSocket()
 
