@@ -1,27 +1,27 @@
-import type { Icon } from "@tabler/icons-react"
-import type { Dispatch, SetStateAction } from "react"
+import type { Icon } from '@tabler/icons-react'
+import type { Dispatch, SetStateAction } from 'react'
 
 export type OCRBBox = {
-    x0: number
-    y0: number
-    x1: number
-    y1: number
+	x0: number
+	y0: number
+	x1: number
+	y1: number
 }
 
 export type OCRNode = {
-    text?: string
-    bbox?: OCRBBox
-    symbols?: OCRNode[]
-    words?: OCRNode[]
-    lines?: OCRNode[]
-    paragraphs?: OCRNode[]
+	text?: string
+	bbox?: OCRBBox
+	symbols?: OCRNode[]
+	words?: OCRNode[]
+	lines?: OCRNode[]
+	paragraphs?: OCRNode[]
 }
 
 export type OCRResult = {
-    text: string
-    bbox: OCRBBox
-    selected: boolean
-    hovered: boolean
+	text: string
+	bbox: OCRBBox
+	selected: boolean
+	hovered: boolean
 }
 
 export type Expense = {
@@ -41,9 +41,9 @@ export type navItem = {
 }
 
 export type ButtonType = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-    children?: React.ReactNode
-    variant?: string
-    className?: string
+	children?: React.ReactNode
+	variant?: string
+	className?: string
 }
 
 export type InputType = React.InputHTMLAttributes<HTMLInputElement> & {
@@ -52,48 +52,48 @@ export type InputType = React.InputHTMLAttributes<HTMLInputElement> & {
 }
 
 export type LabelType = React.LabelHTMLAttributes<HTMLLabelElement> & {
-    children?: React.ReactNode
-    className?: string
+	children?: React.ReactNode
+	className?: string
 }
 
 export type Account = {
-    id: string | number
-    account_name: string
-    bank_name: string
-    user_id: string
-    balances: {
-        available: number
-        current: number
-        currency_code: string
-    }
-    subtype: string
-    type: string
+	id: string | number
+	account_name: string
+	bank_name: string
+	user_id: string
+	balances: {
+		available: number
+		current: number
+		currency_code: string
+	}
+	subtype: string
+	type: string
 }
 
 export type AccountContextType = {
-    accounts: Account[]
-    setAccounts: Dispatch<SetStateAction<Account[]>>
+	accounts: Account[]
+	setAccounts: Dispatch<SetStateAction<Account[]>>
 }
 
 export type Transactions = {
-    id: string | number
-    user_id: string
-    user_name: string
-    account_id: string
-    account_name: string
-    bank_name: string
-    category: string
-    date: string
-    authorized_date: string
-    transaction_name: string
-    amount: number
-    currency_code: string
-    is_removed: boolean
+	id: string | number
+	user_id: string
+	user_name: string
+	account_id: string
+	account_name: string
+	bank_name: string
+	category: string
+	date: string
+	authorized_date: string
+	transaction_name: string
+	amount: number
+	currency_code: string
+	is_removed: boolean
 }
 
 export type TransactionsContextType = {
-    transactions: Transactions[]
-    setTransactions: Dispatch<SetStateAction<Transactions[]>>
+	transactions: Transactions[]
+	setTransactions: Dispatch<SetStateAction<Transactions[]>>
 }
 
 export type UserContextType = {
