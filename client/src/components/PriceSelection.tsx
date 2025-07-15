@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { extractTextFromImage } from '../utils/ocr'
 import type { OCRResult } from '../types/types'
+import { getOpenCv, preprocessImage } from '../utils/opencv'
 
 const PriceSelection = ({
 	image_url,
@@ -9,8 +10,11 @@ const PriceSelection = ({
 	image_url: string
 	onSelection: (price: string) => void
 }) => {
-	const canvasRef = useRef<HTMLCanvasElement>(null)
+	const originalCanvasRef = useRef<HTMLCanvasElement>(null)
+	const processCanvasRef = useRef<HTMLCanvasElement>(null)
 	const [boxes, setBoxes] = useState<OCRResult[]>([])
+	const [originalImageUrl, setOriginalImageUrl] = useState<string>('')
+	const [preprocessImageUrl, setPreprocessImageUrl] = useState<string>('')
 
 	const drawRectangle = (
 		ctx: CanvasRenderingContext2D,
@@ -38,7 +42,7 @@ const PriceSelection = ({
 	}
 
 	const getCoords = (e: React.MouseEvent<HTMLCanvasElement>) => {
-		const rect = canvasRef.current?.getBoundingClientRect()
+		const rect = originalCanvasRef.current?.getBoundingClientRect()
 		if (!rect) return
 		const x = e.clientX - rect.left
 		const y = e.clientY - rect.top
@@ -81,16 +85,7 @@ const PriceSelection = ({
 	}
 
 	useEffect(() => {
-		const runOCR = async () => {
-			const newBoxes = await extractTextFromImage(image_url)
-			if (newBoxes) setBoxes(newBoxes)
-		}
-
-		runOCR()
-	}, [image_url])
-
-	useEffect(() => {
-		const canvas = canvasRef.current
+		const canvas = originalCanvasRef.current
 		const ctx = canvas?.getContext('2d')
 
 		if (!canvas || !ctx) return
@@ -98,12 +93,12 @@ const PriceSelection = ({
 		const image = new Image()
 		image.src = image_url
 
-		image.onload = () => {
+		image.onload = async () => {
 			canvas.width = image.width
 			canvas.height = image.height
 
 			ctx.drawImage(image, 0, 0)
-
+			
 			boxes.map((box) => {
 				let fillColor = ''
 				let borderColor = 'red'
@@ -130,17 +125,62 @@ const PriceSelection = ({
 		}
 	}, [boxes, image_url])
 
+	useEffect(() => {
+		const canvas = processCanvasRef.current
+		const ctx = canvas?.getContext('2d')
+
+		if (!canvas || !ctx) return
+
+		const image = new Image()
+		image.src = image_url
+
+		image.onload = async () => {
+			canvas.width = image.width
+			canvas.height = image.height
+
+			ctx.drawImage(image, 0, 0)
+
+			const cv = await getOpenCv()
+			const src = cv.imread(canvas)
+
+			// 1. grayscale image
+			const gray = new cv.Mat()
+			cv.cvtColor(src, gray, cv.COLOR_BGR2GRAY, 0)
+
+			// 2. threshold
+			const bw = new cv.Mat()
+			cv.threshold(gray, bw, 150, 255, cv.THRESH_BINARY)
+
+			cv.imshow(canvas, bw)
+			const processedUrl = canvas.toDataURL('image/png')
+			setPreprocessImageUrl(processedUrl)
+
+			gray.delete()
+			bw.delete()
+		}
+	}, [image_url])
+
+	useEffect(() => {
+		const runOCR = async () => {
+			const newBoxes = await extractTextFromImage(preprocessImageUrl)
+			if (newBoxes) setBoxes(newBoxes)
+		}
+
+		runOCR()
+	}, [preprocessImageUrl])
+
 	return (
 		<div>
+			<p>preprocess</p>
+			<canvas ref={processCanvasRef} />
+
 			<h1>ocr part:</h1>
 			<canvas
-				ref={canvasRef}
+				ref={originalCanvasRef}
 				onMouseMove={handleMouseMove}
 				onMouseLeave={handleMouseLeave}
 				onClick={handleClick}
 			/>
-			<h1>pre-processing</h1>
-			<canvas ref={canvasRef} />
 		</div>
 	)
 }
