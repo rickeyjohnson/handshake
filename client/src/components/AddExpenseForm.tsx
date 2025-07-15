@@ -5,7 +5,6 @@ import { Button } from './Button'
 import { useAccount } from '../contexts/AccountContext'
 
 type Expense = {
-    account: string
 	accountId: string
 	category: string
 	date: string
@@ -18,7 +17,6 @@ type Expense = {
 const AddExpenseForm = () => {
 	const { accounts } = useAccount()
 	const defaultNewExpense = {
-        account: '',
 		accountId: '-1',
 		category: '',
 		date: '',
@@ -75,7 +73,9 @@ const AddExpenseForm = () => {
 						placeholder=""
 						name="name"
 						value={newExpense.name}
-						onChange={(e) => handleNewExpenseChange('name', e.target.value)}
+						onChange={(e) =>
+							handleNewExpenseChange('name', e.target.value)
+						}
 						required={true}
 					/>
 
@@ -85,14 +85,18 @@ const AddExpenseForm = () => {
 						name="deadline"
 						placeholder="MM/DD/YYYY"
 						value={newExpense.date}
-						onChange={(e) => handleNewExpenseChange('date', e.target.value)}
+						onChange={(e) =>
+							handleNewExpenseChange('date', e.target.value)
+						}
 						required={true}
 					/>
 
 					<Label>Category</Label>
 					<select
 						value={newExpense.category}
-						onChange={(e) => handleNewExpenseChange('category', e.target.value)}
+						onChange={(e) =>
+							handleNewExpenseChange('category', e.target.value)
+						}
 						className="border rounded-lg mb-5 p-2 border-gray-400 focus:outline-4 outline-gray-300"
 					>
 						{categories.map((cat) => (
@@ -107,7 +111,9 @@ const AddExpenseForm = () => {
 						placeholder=""
 						name="amount"
 						value={newExpense.amount}
-						onChange={(e) => handleNewExpenseChange('amount', e.target.value)}
+						onChange={(e) =>
+							handleNewExpenseChange('amount', e.target.value)
+						}
 						className=""
 						required={true}
 					/>
@@ -132,14 +138,14 @@ const AddExpenseForm = () => {
 
 					<Label>Account</Label>
 					<select
-						value={newExpense.account}
-						onChange={(e) => {
-                            console.log(e.target.value)
-                            handleNewExpenseChange('account', e.target.value)}}
+						value={newExpense.accountId}
+						onChange={(e) =>
+							handleNewExpenseChange('accountId', e.target.value)
+						}
 						className="border rounded-lg mb-5 p-2 border-gray-400 focus:outline-4 outline-gray-300"
 					>
 						{accounts.map((acc) => (
-							<option key={acc.id} value={acc.account_name}>
+							<option key={acc.id} value={acc.id}>
 								{acc.account_name} - {acc.bank_name}
 							</option>
 						))}
