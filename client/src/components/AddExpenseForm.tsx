@@ -1,21 +1,31 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Label } from './Label'
 import { Input } from './Input'
 import { Button } from './Button'
 import { useAccount } from '../contexts/AccountContext'
 
+type Expense = {
+	accountId: string
+	category: string
+	date: string
+	authorizedDate: string
+	amount: number
+	name: string
+	currencyCode: string
+}
+
 const AddExpenseForm = () => {
 	const { accounts } = useAccount()
-	function handleSubmit(event: React.FormEvent<HTMLFormElement>): void {
-		throw new Error('Function not implemented.')
+	const defaultNewExpense = {
+		accountId: '-1',
+		category: '',
+		date: '',
+		authorizedDate: '',
+		amount: 0,
+		name: '',
+		currencyCode: 'USD',
 	}
-
-	function handleChange(
-		event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-	): void {
-		throw new Error('Function not implemented.')
-	}
-
+	const [newExpense, setNewExpense] = useState<Expense>(defaultNewExpense)
 	const categories = [
 		{ label: 'INCOME', value: 'INCOME' },
 		{ label: 'TRANSFER IN', value: 'TRANSFER_IN' },
@@ -38,6 +48,16 @@ const AddExpenseForm = () => {
 		{ label: 'RENT AND UTILITIES', value: 'RENT_AND_UTILITIES' },
 	]
 
+	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+		throw new Error('Function not implemented.')
+	}
+
+	const handleNewExpenseChange = (
+		event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+	) => {
+		throw new Error('Function not implemented.')
+	}
+
 	return (
 		<>
 			<div className="bg-white flex flex-col rounded-2xl border border-gray-300 max-w-md min-w-sm p-8 gap-2 relative">
@@ -55,7 +75,7 @@ const AddExpenseForm = () => {
 						placeholder=""
 						name="name"
 						value={''}
-						onChange={handleChange}
+						onChange={handleNewExpenseChange}
 						className=""
 						required={true}
 					/>
@@ -66,7 +86,7 @@ const AddExpenseForm = () => {
 						name="deadline"
 						placeholder="MM/DD/YYYY"
 						value={''}
-						onChange={handleChange}
+						onChange={handleNewExpenseChange}
 						className=""
 						required={true}
 					/>
@@ -74,7 +94,7 @@ const AddExpenseForm = () => {
 					<Label>Category</Label>
 					<select
 						value={''}
-						onChange={handleChange}
+						onChange={handleNewExpenseChange}
 						className="border rounded-lg mb-5 p-2 border-gray-400 focus:outline-4 outline-gray-300"
 					>
 						{categories.map((cat) => (
@@ -89,20 +109,20 @@ const AddExpenseForm = () => {
 						placeholder=""
 						name="amount"
 						value={''}
-						onChange={handleChange}
+						onChange={handleNewExpenseChange}
 						className=""
 						required={true}
 					/>
 
-                    <Label htmlFor='currency'>Currency</Label>
+					<Label htmlFor="currency">Currency</Label>
 					<div className="flex items-center mb-4 mt-1 justify-center">
 						<input
-                            checked
+							checked
 							id="default-radio-1"
 							type="radio"
 							value=""
 							name="default-radio"
-							className="w-4 h-4 text-slate-950 accent-slate-950 "
+							className="w-4 h-4 text-slate-950 accent-slate-950"
 						/>
 						<label
 							htmlFor="default-radio-1"
@@ -115,10 +135,10 @@ const AddExpenseForm = () => {
 					<Label>Account</Label>
 					<select
 						value={''}
-						onChange={handleChange}
+						onChange={handleNewExpenseChange}
 						className="border rounded-lg mb-5 p-2 border-gray-400 focus:outline-4 outline-gray-300"
 					>
-						{accounts.map(acc => (
+						{accounts.map((acc) => (
 							<option key={acc.id} value={acc.account_name}>
 								{acc.account_name} - {acc.bank_name}
 							</option>
