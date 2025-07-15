@@ -14,7 +14,7 @@ type Expense = {
 	currencyCode: string
 }
 
-const AddExpenseForm = () => {
+const AddExpenseForm = ({selectedAmount}: {selectedAmount: string}) => {
 	const { accounts } = useAccount()
 	const defaultNewExpense = {
 		accountId: '-1',
@@ -55,6 +55,10 @@ const AddExpenseForm = () => {
 	const handleNewExpenseChange = (key: string, value: string | number) => {
 		setNewExpense((prev) => ({ ...prev, [key]: value }))
 	}
+
+    useEffect(() => {
+        handleNewExpenseChange('amount', selectedAmount)
+    }, [selectedAmount])
 
 	return (
 		<>
@@ -121,7 +125,7 @@ const AddExpenseForm = () => {
 					<Label htmlFor="currency">Currency</Label>
 					<div className="flex items-center mb-4 mt-1 justify-center">
 						<input
-							checked
+							readOnly={true}
 							id="default-radio-1"
 							type="radio"
 							value=""

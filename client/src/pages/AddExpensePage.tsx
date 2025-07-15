@@ -7,7 +7,7 @@ import AddExpenseForm from '../components/AddExpenseForm'
 
 const AddExpensePage = () => {
 	const [image, setImage] = useState<string | null>(null)
-	const [selectedPrice, setSelectedPrice] = useState<string>('-1')
+	const [selectedPrice, setSelectedPrice] = useState<string>('0.00')
 
 	const handleCapture = async (url: string) => {
 		setImage(url)
@@ -33,7 +33,7 @@ const AddExpensePage = () => {
 
 			<p>{selectedPrice}</p>
 
-            <AddExpenseForm />
+            <AddExpenseForm selectedAmount={selectedPrice}/>
 		</MainLayout>
 	)
 }
