@@ -67,19 +67,21 @@ const AddExpenseForm = () => {
 				/>
 
 				<Label>Date</Label>
-				<Input
-					placeholder=""
-					name="date"
-					value={''}
-					onChange={handleChange}
-					className=""
-					required={true}
-				/>
+                <Input
+                                        type="date"
+                                        name="deadline"
+                                        placeholder="MM/DD/YYYY"
+                                        value={""}
+                                        onChange={handleChange}
+                                        className=""
+                                        required={true}
+                                    />
 
 				<Label>Category</Label>
 				<select
 					value={''}
 					onChange={handleChange}
+                    className='border rounded-lg mb-5 p-2 border-gray-400 focus:outline-4 outline-gray-300'
 				>
 					{categories.map((cat) => (
 						<option key={cat.value} value={cat.value}>
@@ -98,13 +100,14 @@ const AddExpenseForm = () => {
 					required={true}
 				/>
 
-				<Label>Currency</Label>
-                <Input type='radio' name='currency' value={"USD"}></Input>
+                <Label htmlFor='currency'>Currency</Label>
+                <Input type='radio' name='currency' id="currency" value={"USD"} />
 
 				<Label>Account</Label>
 				<select
 					value={""}
 					onChange={handleChange}
+                    className='border rounded-lg mb-5 p-2 border-gray-400 focus:outline-4 outline-gray-300'
 				>
 					{categories.map((cat) => (
 						<option key={cat.value} value={cat.value}>
