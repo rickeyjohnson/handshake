@@ -1,5 +1,5 @@
-import MainHeader from '../components/MainHeader'
-import MainLayout from '../components/MainLayout'
+import MainHeader from '../components/layout/MainHeader'
+import MainLayout from '../components/layout/MainLayout'
 import { useUser } from '../contexts/UserContext'
 import { Button } from '../components/ui/Button'
 import {

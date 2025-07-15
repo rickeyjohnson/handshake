@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useUser } from '../contexts/UserContext'
 import { useAccount } from '../contexts/AccountContext'
 import { useTransactions } from '../contexts/TransactionsContext'
-import MainLayout from '../components/MainLayout'
+import MainLayout from '../components/layout/MainLayout'
 
 const Dashboard = () => {
 	const { user } = useUser()
