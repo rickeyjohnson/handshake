@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react'
 import { extractTextFromImage } from '../ocr'
 import type { OCRResult } from '../types/types'
 
-// remove any before pushing
 const PriceSelection = ({
 	image_url,
 	onSelection,
