@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
-import { extractTextFromImage } from '../ocr'
+import { extractTextFromImage } from '../utils/ocr'
 import type { OCRResult } from '../types/types'
+import cv from '@techstark/opencv-js'
 
 const PriceSelection = ({
 	image_url,

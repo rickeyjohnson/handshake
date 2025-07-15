@@ -1,5 +1,5 @@
 import { createWorker } from 'tesseract.js'
-import type { OCRNode, OCRResult } from './types/types'
+import type { OCRNode, OCRResult } from '../types/types'
 
 const isValid = (str: string) => {
 	return /^\w+$/.test(str)
@@ -36,8 +36,8 @@ export const parseOCRData = (
 			result.push({
 				text: item.text!,
 				bbox: item.bbox!,
-                selected: false,
-                hovered: false
+				selected: false,
+				hovered: false,
 			})
 		}
 		if (item.words) {
