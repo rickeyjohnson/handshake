@@ -5,7 +5,7 @@ import { Button } from './ui/Button'
 import { useAccount } from '../contexts/AccountContext'
 import type { Expense } from '../types/types'
 import { categories } from '../constants/constants'
-import { formatCurrency, numify } from '../utils/utils'
+import { formatCurrency } from '../utils/utils'
 
 const AddExpenseForm = ({
 	selectedAmount,
@@ -25,7 +25,6 @@ const AddExpenseForm = ({
 		currencyCode: 'USD',
 	}
 	const [newExpense, setNewExpense] = useState<Expense>(defaultNewExpense)
-	const [editAmount, setEditAmount] = useState<boolean>(false)
 	const [rawAmount, setRawAmount] = useState<number>(0)
 	const [displayAmount, setDisplayAmount] = useState<string>('')
 
@@ -59,6 +58,10 @@ const AddExpenseForm = ({
 		}
 
 		setNewExpense((prev) => ({ ...prev, [key]: value }))
+	}
+
+	const fetchAccounts = () => {
+		
 	}
 
 	useEffect(() => {
