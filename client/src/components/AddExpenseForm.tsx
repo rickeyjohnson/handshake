@@ -6,7 +6,7 @@ import { useAccount } from '../contexts/AccountContext'
 import type { Expense } from '../types/types'
 import { categories } from '../constants/constants'
 
-const AddExpenseForm = ({ selectedAmount }: { selectedAmount: string }) => {
+const AddExpenseForm = ({ selectedAmount, className }: { selectedAmount: string, className?: string }) => {
 	const { accounts } = useAccount()
 	const defaultNewExpense = {
 		accountId: '-1',
@@ -33,7 +33,7 @@ const AddExpenseForm = ({ selectedAmount }: { selectedAmount: string }) => {
 
 	return (
 		<>
-			<div className="bg-white flex flex-col rounded-2xl border border-gray-300 max-w-md min-w-sm p-8 gap-2 relative">
+			<div className={`bg-white flex flex-col rounded-2xl border border-gray-300 max-w-md min-w-sm p-8 gap-2 relative ${className}`}>
 				<h1 className="text-xl font-semibold self-start capitalize">
 					Create New Expense
 				</h1>

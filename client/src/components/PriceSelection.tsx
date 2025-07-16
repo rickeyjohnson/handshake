@@ -5,9 +5,11 @@ import { getOpenCv } from '../utils/opencv'
 
 const PriceSelection = ({
 	image_url,
+	className,
 	onSelection,
 }: {
 	image_url: string
+	className?: string
 	onSelection: (price: string) => void
 }) => {
 	const originalCanvasRef = useRef<HTMLCanvasElement>(null)
@@ -181,16 +183,13 @@ const PriceSelection = ({
 	}, [preprocessImageUrl])
 
 	return (
-		<div>
-			<p>preprocess</p>
-			<canvas ref={processCanvasRef} />
-
-			<h1>ocr part:</h1>
+		<div className={`${className}`}>
 			<canvas
 				ref={originalCanvasRef}
 				onMouseMove={handleMouseMove}
 				onMouseLeave={handleMouseLeave}
 				onClick={handleClick}
+				className='rounded-lg shadow-2xl'
 			/>
 		</div>
 	)

@@ -66,9 +66,9 @@ const ReceiptCapture = ({
 			case 'SUCCESS':
 				return (
 					<>
-						<video ref={videoRef} autoPlay playsInline />
+						<video ref={videoRef} className='rounded-lg shadow-2xl' autoPlay playsInline />
 						<Button onClick={capture}>Capture</Button>
-						<canvas ref={canvasRef} />
+						<canvas ref={canvasRef} className='rounded-lg shadow-2xl' />
 					</>
 				)
 

@@ -21,20 +21,25 @@ const AddExpensePage = () => {
 		<MainLayout>
 			<MainHeader title="Add New Expense" />
 
-			<ReceiptCapture onCapture={handleCapture} />
-			{image && (
-				<PriceSelection
-					image_url={image}
-					onSelection={handleSelection}
-				/>
-			)}
-
-			{image && (
+			{/* {image && (
 				<>
 					<br />
 					<p>{selectedPrice}</p>
 					<AddExpenseForm selectedAmount={selectedPrice} />
 				</>
+			)} */}
+
+			{image ? (
+				<div className='flex items-center gap-5 px-12 flex-wrap justify-center'>
+					<PriceSelection
+						image_url={image}
+						onSelection={handleSelection}
+						className='flex-grow flex justify-center'
+					/>
+					<AddExpenseForm selectedAmount={selectedPrice} />
+				</div>
+			) : (
+				<ReceiptCapture onCapture={handleCapture} />
 			)}
 		</MainLayout>
 	)
