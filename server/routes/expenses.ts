@@ -2,6 +2,7 @@ import { Router, Request, Response } from 'express'
 import { PrismaClient } from '../generated/prisma'
 import { randomUUID } from 'crypto'
 import { connectedClients } from '../websocket/wsStore'
+import { getPairedId } from '../utils/util'
 
 const expenses = Router()
 const prisma = new PrismaClient()
@@ -9,13 +10,13 @@ const prisma = new PrismaClient()
 expenses.post('/', async (req, res) => {
 	try {
 		const userId = req.session.user.id
-		const partnerId = req.session.user.partner_id
+		const pairId = await getPairedId(userId)
 		const body = req.body
 		const newExpense = await prisma.transactions.create({
 			data: {
 				id: randomUUID(),
 				user_id: userId,
-				pair_id: partnerId,
+				pair_id: pairId,
 				account_id: body.accountId,
 				category: body.category,
 				date: body.date,

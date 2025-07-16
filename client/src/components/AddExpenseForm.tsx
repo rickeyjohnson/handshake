@@ -7,6 +7,7 @@ import type { Expense } from '../types/types'
 import { categories } from '../constants/constants'
 import { formatCurrency } from '../utils/utils'
 import { useNavigate } from 'react-router'
+import { useUser } from '../contexts/UserContext'
 
 const AddExpenseForm = ({
 	selectedAmount,
@@ -16,6 +17,7 @@ const AddExpenseForm = ({
 	className?: string
 }) => {
 	const { accounts } = useAccount()
+	const { user } = useUser()
 	const navigate = useNavigate()
 	const defaultNewExpense = {
 		accountId: accounts[0].id,
@@ -114,10 +116,13 @@ const AddExpenseForm = ({
 						type="date"
 						name="deadline"
 						value={newExpense.date}
-						onChange={(e) =>
-							{handleNewExpenseChange('authorizedDate', e.target.value)
-							handleNewExpenseChange('date', e.target.value)}
-						}
+						onChange={(e) => {
+							handleNewExpenseChange(
+								'authorizedDate',
+								e.target.value
+							)
+							handleNewExpenseChange('date', e.target.value)
+						}}
 						required={true}
 					/>
 
@@ -148,7 +153,7 @@ const AddExpenseForm = ({
 							if (!hasSubmitted.current) {
 								setDisplayAmount(String(rawAmount))
 							}
-							}}
+						}}
 						onBlur={() =>
 							setDisplayAmount(formatCurrency(rawAmount))
 						}
@@ -184,11 +189,13 @@ const AddExpenseForm = ({
 						}
 						className="border rounded-lg mb-5 p-2 border-gray-400 focus:outline-4 outline-gray-300"
 					>
-						{accounts.map((acc) => (
-							<option key={acc.id} value={acc.id}>
-								{acc.account_name} - {acc.bank_name}
-							</option>
-						))}
+						{accounts
+							.filter((acc) => acc.user_id === user?.id)
+							.map((acc) => (
+								<option key={acc.id} value={acc.id}>
+									{acc.account_name} - {acc.bank_name}
+								</option>
+							))}
 					</select>
 
 					<Button className="w-full" type="submit">
