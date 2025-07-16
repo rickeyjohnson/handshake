@@ -5,7 +5,7 @@ import { Button } from './ui/Button'
 import { useAccount } from '../contexts/AccountContext'
 import type { Expense } from '../types/types'
 import { categories } from '../constants/constants'
-import { formatMoney } from '../utils/utils'
+import { formatCurrency, numify } from '../utils/utils'
 
 const AddExpenseForm = ({
 	selectedAmount,
@@ -25,17 +25,49 @@ const AddExpenseForm = ({
 		currencyCode: 'USD',
 	}
 	const [newExpense, setNewExpense] = useState<Expense>(defaultNewExpense)
+	const [editAmount, setEditAmount] = useState<boolean>(false)
+	const [rawAmount, setRawAmount] = useState<number>(0)
+	const [displayAmount, setDisplayAmount] = useState<string>('')
 
-	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-		throw new Error('Function not implemented.')
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault()
+
+		try {
+			const response = await fetch('/api/expenses/', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(newExpense),
+			})
+		} catch (error) {
+			console.error('Network error.')
+		}
 	}
 
 	const handleNewExpenseChange = (key: string, value: string | number) => {
+		if (key === 'amount' && typeof value === 'string') {
+			const val = value.replace(/[^0-9.]/g, '')
+			const parts = val.split('.')
+			let sanitized = parts[0]
+			if (parts.length > 1) {
+				sanitized += '.' + parts[1].slice(0, 2)
+			}
+
+			const raw = Number(sanitized)
+			value = raw
+			setRawAmount(raw)
+			setDisplayAmount(sanitized)
+		}
+
 		setNewExpense((prev) => ({ ...prev, [key]: value }))
 	}
 
 	useEffect(() => {
-		handleNewExpenseChange('amount', selectedAmount)
+		if (selectedAmount) {
+			const num = Number(selectedAmount)
+			setRawAmount(num)
+			setDisplayAmount(formatCurrency(num))
+			setNewExpense((prev) => ({ ...prev, amount: num }))
+		}
 	}, [selectedAmount])
 
 	return (
@@ -67,7 +99,6 @@ const AddExpenseForm = ({
 					<Input
 						type="date"
 						name="deadline"
-						placeholder="MM/DD/YYYY"
 						value={newExpense.date}
 						onChange={(e) =>
 							handleNewExpenseChange('date', e.target.value)
@@ -94,11 +125,17 @@ const AddExpenseForm = ({
 					<Input
 						placeholder=""
 						name="amount"
-						value={formatMoney(newExpense.amount)}
+						value={displayAmount}
 						onChange={(e) =>
 							handleNewExpenseChange('amount', e.target.value)
 						}
+						onFocus={() => setDisplayAmount(String(rawAmount))}
+						onBlur={() =>
+							setDisplayAmount(formatCurrency(rawAmount))
+						}
 						required={true}
+						inputMode="decimal"
+						pattern="^\d+(\.\d{0,2})?$"
 					/>
 
 					<Label htmlFor="currency">Currency</Label>
@@ -135,7 +172,7 @@ const AddExpenseForm = ({
 						))}
 					</select>
 
-					<Button onClick={() => {}} className="w-full" type="submit">
+					<Button className="w-full" type="submit">
 						Submit
 					</Button>
 				</form>

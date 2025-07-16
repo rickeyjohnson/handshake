@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import MainLayout from '../components/layout/MainLayout'
 import { useTransactions } from '../contexts/TransactionsContext'
-import { formatMoney } from '../utils/utils'
+import { formatCurrency } from '../utils/utils'
 import MainHeader from '../components/layout/MainHeader'
 import { useUser } from '../contexts/UserContext'
 import { Button } from '../components/ui/Button'
@@ -100,7 +100,7 @@ const TransactionsPage = () => {
 								</td>
 								<td className="p-1">{tx.account_name}</td>
 								<td className="text-right pr-3">
-									{formatMoney(tx.amount)}
+									{formatCurrency(tx.amount)}
 								</td>
 							</tr>
 						)

@@ -37,7 +37,7 @@ const AddGoalsModal = ({
 		}
 
 		if (!is_number(newGoalData.target)) {
-			setError('Target amount cannot be a number')
+			setError('Target amount must be a number')
 			return
 		}
 
@@ -54,7 +54,6 @@ const AddGoalsModal = ({
 			const data = await response.json()
 
 			if (response.ok) {
-				console.log('New goal created')
 				handleClose()
 			} else {
 				console.error('Failed to create goal', data.error)
@@ -102,7 +101,6 @@ const AddGoalsModal = ({
 					<Input
 						type="date"
 						name="deadline"
-						placeholder="MM/DD/YYYY"
 						value={newGoalData.deadline}
 						onChange={handleChange}
 						className=""
