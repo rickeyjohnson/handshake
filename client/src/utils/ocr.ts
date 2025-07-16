@@ -2,7 +2,16 @@ import { createWorker } from 'tesseract.js'
 import type { OCRNode, OCRResult } from '../types/types'
 
 const isValid = (str: string) => {
-	return str.includes('$') || Number(str)
+	return (str.includes('$') && str.length > 1) || Number(str)
+}
+
+const normalize = (str: string) => {
+	let newStr = ''
+	if (str.includes('$')) {
+		newStr = str.split("$").join("")
+	}
+
+	return newStr || str
 }
 
 export const extractTextFromImage = async (image_url: string) => {
@@ -34,7 +43,7 @@ export const parseOCRData = (
 	for (const item of data) {
 		if (item.symbols && isValid(item.text!)) {
 			result.push({
-				text: item.text!,
+				text: normalize(item.text!),
 				bbox: item.bbox!,
 				selected: false,
 				hovered: false,

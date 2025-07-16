@@ -5,6 +5,7 @@ import { Button } from './ui/Button'
 import { useAccount } from '../contexts/AccountContext'
 import type { Expense } from '../types/types'
 import { categories } from '../constants/constants'
+import { formatMoney } from '../utils/utils'
 
 const AddExpenseForm = ({
 	selectedAmount,
@@ -93,11 +94,10 @@ const AddExpenseForm = ({
 					<Input
 						placeholder=""
 						name="amount"
-						value={newExpense.amount}
+						value={formatMoney(newExpense.amount)}
 						onChange={(e) =>
 							handleNewExpenseChange('amount', e.target.value)
 						}
-						className=""
 						required={true}
 					/>
 
