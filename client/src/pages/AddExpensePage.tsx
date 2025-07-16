@@ -3,10 +3,11 @@ import MainHeader from '../components/MainHeader'
 import ReceiptCapture from '../components/ReceiptCapture'
 import { useState } from 'react'
 import PriceSelection from '../components/PriceSelection'
+import AddExpenseForm from '../components/AddExpenseForm'
 
 const AddExpensePage = () => {
 	const [image, setImage] = useState<string | null>(null)
-	const [selectedPrice, setSelectedPrice] = useState<string>('-1')
+	const [selectedPrice, setSelectedPrice] = useState<string>('0.00')
 
 	const handleCapture = async (url: string) => {
 		setImage(url)
@@ -31,6 +32,8 @@ const AddExpensePage = () => {
 			<br />
 
 			<p>{selectedPrice}</p>
+
+			<AddExpenseForm selectedAmount={selectedPrice} />
 		</MainLayout>
 	)
 }

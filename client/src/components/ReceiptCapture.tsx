@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Button } from './Button'
 
 const ReceiptCapture = ({
@@ -8,6 +8,8 @@ const ReceiptCapture = ({
 }) => {
 	const videoRef = useRef<HTMLVideoElement>(null)
 	const canvasRef = useRef<HTMLCanvasElement>(null)
+	const [requestCameraAccess, setRequestCameraAccess] =
+		useState<boolean>(false)
 
 	useEffect(() => {
 		navigator.mediaDevices
@@ -25,7 +27,7 @@ const ReceiptCapture = ({
 					.getTracks()
 					.forEach((track) => track.stop())
 		}
-	}, [])
+	}, [requestCameraAccess])
 
 	const capture = () => {
 		const video = videoRef.current
@@ -45,14 +47,19 @@ const ReceiptCapture = ({
 
 	return (
 		<div>
-			{videoRef ? (
+			{requestCameraAccess ? (
 				<>
-					<video ref={videoRef} autoPlay playsInline className="" />
+					<video ref={videoRef} autoPlay playsInline />
 					<Button onClick={capture}>Capture</Button>
 					<canvas ref={canvasRef} />
 				</>
 			) : (
-				<p>Requesting camera</p>
+				<div>
+					<p>Requesting camera...</p>
+					<Button onClick={() => setRequestCameraAccess(true)}>
+						Request Camera
+					</Button>
+				</div>
 			)}
 		</div>
 	)
