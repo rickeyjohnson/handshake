@@ -178,7 +178,6 @@ const PriceSelection = ({
 			const newBoxes = await extractTextFromImage(preprocessImageUrl)
 			if (newBoxes) setBoxes(newBoxes)
 		}
-
 		runOCR()
 	}, [preprocessImageUrl])
 
@@ -191,6 +190,7 @@ const PriceSelection = ({
 				onClick={handleClick}
 				className='rounded-lg shadow-2xl'
 			/>
+			<canvas ref={processCanvasRef} style={{ display: 'none' }} />
 		</div>
 	)
 }

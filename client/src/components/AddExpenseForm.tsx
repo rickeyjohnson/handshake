@@ -94,7 +94,7 @@ const AddExpenseForm = ({ selectedAmount, className }: { selectedAmount: string,
 					/>
 
 					<Label htmlFor="currency">Currency</Label>
-					<div className="flex items-center mb-4 mt-1 justify-center">
+					<div className="flex items-center mb-4 mt-2 ml-7">
 						<input
                             checked
 							readOnly={true}
