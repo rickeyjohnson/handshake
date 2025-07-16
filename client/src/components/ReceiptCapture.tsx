@@ -8,26 +8,24 @@ const ReceiptCapture = ({
 }) => {
 	const videoRef = useRef<HTMLVideoElement>(null)
 	const canvasRef = useRef<HTMLCanvasElement>(null)
-	const [requestCameraAccess, setRequestCameraAccess] =
-		useState<boolean>(false)
+	const [stream, setStream] = useState<MediaStream | null>(null)
+	const [status, setStatus] = useState<string>('REQUEST') // REQUEST, LOADING, SUCCESS, ERROR
 
-	useEffect(() => {
+	const loadCamera = () => {
 		navigator.mediaDevices
 			.getUserMedia({ video: true })
 			.then((stream) => {
 				if (videoRef.current) {
 					videoRef.current.srcObject = stream
 				}
+				setStream(stream)
+				setStatus('SUCCESS')
 			})
-			.catch((err) => console.error('Error accessing camera', err))
-
-		return () => {
-			videoRef.current?.srcObject &&
-				(videoRef.current.srcObject as MediaStream)
-					.getTracks()
-					.forEach((track) => track.stop())
-		}
-	}, [requestCameraAccess])
+			.catch((err) => {
+				setStatus('DENIED')
+				console.error('Error accessing camera', err)
+			})
+	}
 
 	const capture = () => {
 		const video = videoRef.current
@@ -45,22 +43,60 @@ const ReceiptCapture = ({
 		}
 	}
 
+	const handleRequestCameraClick = () => {
+		setStatus('REQUEST')
+		loadCamera()
+	}
+
+	const render = (status: string) => {
+		switch (status) {
+			case 'REQUEST':
+				return <p>Requesting Camera ...</p>
+			case 'LOADING':
+				return <p>Loading Camera ...</p>
+			case 'DENIED':
+				return (
+					<>
+						<p>Failed to access camera</p>
+						<Button onClick={handleRequestCameraClick}>
+							Try Again
+						</Button>
+					</>
+				)
+			case 'SUCCESS':
+				return (
+					<>
+						<video ref={videoRef} autoPlay playsInline />
+						<Button onClick={capture}>Capture</Button>
+						<canvas ref={canvasRef} />
+					</>
+				)
+
+			default:
+				return <p>Error</p>
+		}
+	}
+
+	useEffect(() => {
+		if (status === 'SUCCESS' && videoRef.current && stream) {
+			videoRef.current.srcObject = stream
+		}
+	}, [status, stream])
+
+	useEffect(() => {
+		loadCamera()
+
+		return () => {
+			videoRef.current?.srcObject &&
+				(videoRef.current.srcObject as MediaStream)
+					.getTracks()
+					.forEach((track) => track.stop())
+		}
+	}, [])
+
 	return (
-		<div>
-			{requestCameraAccess ? (
-				<>
-					<video ref={videoRef} autoPlay playsInline />
-					<Button onClick={capture}>Capture</Button>
-					<canvas ref={canvasRef} />
-				</>
-			) : (
-				<div>
-					<p>Requesting camera...</p>
-					<Button onClick={() => setRequestCameraAccess(true)}>
-						Request Camera
-					</Button>
-				</div>
-			)}
+		<div className="flex flex-col gap-3 w-full h-full justify-center items-center">
+			{render(status)}
 		</div>
 	)
 }

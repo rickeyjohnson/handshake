@@ -29,11 +29,13 @@ const AddExpensePage = () => {
 				/>
 			)}
 
-			<br />
-
-			<p>{selectedPrice}</p>
-
-			<AddExpenseForm selectedAmount={selectedPrice} />
+			{image && (
+				<>
+					<br />
+					<p>{selectedPrice}</p>
+					<AddExpenseForm selectedAmount={selectedPrice} />
+				</>
+			)}
 		</MainLayout>
 	)
 }
