@@ -115,7 +115,8 @@ const AddExpenseForm = ({
 						name="deadline"
 						value={newExpense.date}
 						onChange={(e) =>
-							handleNewExpenseChange('date', e.target.value)
+							{handleNewExpenseChange('authorizedDate', e.target.value)
+							handleNewExpenseChange('date', e.target.value)}
 						}
 						required={true}
 					/>
