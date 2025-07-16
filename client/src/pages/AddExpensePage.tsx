@@ -5,7 +5,7 @@ import { useState } from 'react'
 import PriceSelection from '../components/PriceSelection'
 import AddExpenseForm from '../components/AddExpenseForm'
 import { Button } from '../components/ui/Button'
-import { IconCamera, IconCameraFilled, IconChevronLeft } from '@tabler/icons-react'
+import { IconChevronLeft } from '@tabler/icons-react'
 import { useNavigate } from 'react-router'
 
 const AddExpensePage = () => {
@@ -33,18 +33,21 @@ const AddExpensePage = () => {
 	return (
 		<MainLayout>
 			<MainHeader title="Add New Expense">
-				<Button className='flex gap-2 align-center items-center self-center' onClick={handleBackButton}>
-					<IconChevronLeft size={18}/>
-					{
-						image ? "Retake Picture" : "Back to Transactions"
-					}
+				<Button
+					className="flex gap-2 align-center items-center self-center"
+					onClick={handleBackButton}
+				>
+					<IconChevronLeft size={18} />
+					{image ? 'Retake Picture' : 'Back to Transactions'}
 				</Button>
 			</MainHeader>
 
 			{image ? (
 				<div className="flex items-center gap-20 flex-wrap justify-center">
-					<div className='relative'>
-						<h1 className='text-center'>Select the Expense to Add to Your New Expense</h1>
+					<div className="relative">
+						<h1 className="text-center">
+							Select the Expense to Add to Your New Expense
+						</h1>
 						<PriceSelection
 							image_url={image}
 							onSelection={handleSelection}

@@ -6,7 +6,13 @@ import { useAccount } from '../contexts/AccountContext'
 import type { Expense } from '../types/types'
 import { categories } from '../constants/constants'
 
-const AddExpenseForm = ({ selectedAmount, className }: { selectedAmount: string, className?: string }) => {
+const AddExpenseForm = ({
+	selectedAmount,
+	className,
+}: {
+	selectedAmount: string
+	className?: string
+}) => {
 	const { accounts } = useAccount()
 	const defaultNewExpense = {
 		accountId: '-1',
@@ -33,7 +39,9 @@ const AddExpenseForm = ({ selectedAmount, className }: { selectedAmount: string,
 
 	return (
 		<>
-			<div className={`bg-white flex flex-col rounded-2xl border border-gray-300 max-w-md min-w-sm p-8 gap-2 relative ${className}`}>
+			<div
+				className={`bg-white flex flex-col rounded-2xl border border-gray-300 max-w-md min-w-sm p-8 gap-2 relative ${className}`}
+			>
 				<h1 className="text-xl font-semibold self-start capitalize">
 					Create New Expense
 				</h1>
@@ -96,7 +104,7 @@ const AddExpenseForm = ({ selectedAmount, className }: { selectedAmount: string,
 					<Label htmlFor="currency">Currency</Label>
 					<div className="flex items-center mb-4 mt-2 ml-7">
 						<input
-                            checked
+							checked
 							readOnly={true}
 							id="default-radio-1"
 							type="radio"

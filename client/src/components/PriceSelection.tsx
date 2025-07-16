@@ -188,7 +188,7 @@ const PriceSelection = ({
 				onMouseMove={handleMouseMove}
 				onMouseLeave={handleMouseLeave}
 				onClick={handleClick}
-				className='rounded-lg shadow-2xl'
+				className="rounded-lg shadow-2xl"
 			/>
 			<canvas ref={processCanvasRef} style={{ display: 'none' }} />
 		</div>
