@@ -40,8 +40,18 @@ const AddExpenseForm = ({
 		}
 
 		try {
-			console.log('got ranned')
-			
+			const response = await fetch('/api/expenses/', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(newExpense),
+			})
+
+			if (response.ok) {
+				navigate('/transactions')
+			} else {
+				console.error('Failed to create new expense')
+				hasSubmitted.current = false
+			}
 		} catch (error) {
 			console.error('Network error.')
 		}
