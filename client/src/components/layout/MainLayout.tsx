@@ -1,5 +1,5 @@
 import type React from 'react'
-import Sidebar from './Sidebar'
+import Sidebar from '../Sidebar'
 
 const MainLayout = ({ children }: { children?: React.ReactNode }) => {
 	return (
