@@ -111,7 +111,7 @@ const PriceSelection = ({
 					onSelection(box.text)
 				} else if (box.hovered) {
 					fillColor = 'rgba(0, 120, 255, 0.2)'
-					canvas.style.cursor = "pointer"
+					canvas.style.cursor = 'pointer'
 				} else {
 					fillColor = 'rgba(0, 0, 0, 0.5)'
 				}
@@ -202,9 +202,15 @@ const PriceSelection = ({
 				className="rounded-lg shadow-2xl"
 			/>
 			<canvas ref={processCanvasRef} style={{ display: 'none' }} />
-			{loading && <div className='absolute flex justify-center items-center w-full h-full bg-stone-950/60'>
-				<IconLoader2 color='#ededed' size={75} className='animate-spin'/>
-			</div>}
+			{loading && (
+				<div className="absolute flex justify-center items-center w-full h-full bg-stone-950/60">
+					<IconLoader2
+						color="#ededed"
+						size={75}
+						className="animate-spin"
+					/>
+				</div>
+			)}
 		</div>
 	)
 }
