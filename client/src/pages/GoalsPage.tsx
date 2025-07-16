@@ -41,7 +41,6 @@ const GoalsPage = () => {
 		if (!socket) return
 
 		const handleNewGoal = (event: MessageEvent) => {
-			console.log('getting message')
 			try {
 				const data = JSON.parse(event.data)
 
