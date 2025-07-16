@@ -1,16 +1,17 @@
 import { useState } from 'react'
-import { Button } from '../components/Button'
+import { Button } from '../components/ui/Button'
 import { Link, useNavigate } from 'react-router'
 import { useUser } from '../contexts/UserContext'
-import { Input } from '../components/Input'
-import { Label } from '../components/Label'
+import { Input } from '../components/ui/Input'
+import { Label } from '../components/ui/Label'
 
 const SignUpPage = () => {
-	const [signUpData, setSignUpData] = useState({
+	const defaultSignUpDate = {
 		name: '',
 		email: '',
 		password: '',
-	})
+	}
+	const [signUpData, setSignUpData] = useState(defaultSignUpDate)
 	const [error, setError] = useState('')
 	const { setUser } = useUser()
 	const navigate = useNavigate()

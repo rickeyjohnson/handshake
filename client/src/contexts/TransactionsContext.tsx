@@ -1,31 +1,5 @@
-import {
-	createContext,
-	useContext,
-	useState,
-	type Dispatch,
-	type SetStateAction,
-} from 'react'
-
-type Transactions = {
-	id: string | number
-	user_id: string
-	user_name: string
-	account_id: string
-	account_name: string
-	bank_name: string
-	category: string
-	date: string
-	authorized_date: string
-	transaction_name: string
-	amount: number
-	currency_code: string
-	is_removed: boolean
-}
-
-type TransactionsContextType = {
-	transactions: Transactions[]
-	setTransactions: Dispatch<SetStateAction<Transactions[]>>
-}
+import { createContext, useContext, useState } from 'react'
+import type { Transactions, TransactionsContextType } from '../types/types'
 
 const defaultTransactions: TransactionsContextType = {
 	transactions: [],

@@ -1,5 +1,5 @@
-import { Input } from './Input'
-import { Button } from './Button'
+import { Input } from './ui/Input'
+import { Button } from './ui/Button'
 import { useState } from 'react'
 
 const EnterHandshakeCodeModal = ({ onClick }: { onClick: () => void }) => {

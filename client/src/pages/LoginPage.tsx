@@ -1,9 +1,9 @@
 import { Link, useNavigate } from 'react-router'
-import { Button } from '../components/Button'
+import { Button } from '../components/ui/Button'
 import { useState } from 'react'
 import { useUser } from '../contexts/UserContext'
-import { Label } from '../components/Label'
-import { Input } from '../components/Input'
+import { Label } from '../components/ui/Label'
+import { Input } from '../components/ui/Input'
 
 const LoginPage = () => {
 	const [loginData, setLoginData] = useState({ email: '', password: '' })

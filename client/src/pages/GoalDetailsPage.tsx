@@ -1,49 +1,14 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
-import MainLayout from '../components/MainLayout'
-import MainHeader from '../components/MainHeader'
+import MainLayout from '../components/layout/MainLayout'
+import MainHeader from '../components/layout/MainHeader'
 import { IconCalendarEvent, IconTargetArrow } from '@tabler/icons-react'
 import { LineChart, Line, ResponsiveContainer, XAxis, YAxis } from 'recharts'
-
-type User = {
-	id: string
-	name: string
-	email: string
-	is_plaid_linked: boolean
-	is_paired: boolean
-	partner: {
-		name: string
-	}
-}
-
-type GoalContributions = {
-	id: string
-	goal_id: string
-	user_id: string
-	user: User
-	name?: string
-	amount: number
-	created_at: Date
-}
-
-type Goal = {
-	id: string
-	user_id: string
-	user: User | null
-	pair_id: string
-	title: string
-	description: string | null
-	target: number
-	current: number
-	deadline?: Date | null
-	created_at: Date
-	updated_at: Date
-	contributions: GoalContributions[]
-}
+import type { GoalType } from '../types/types'
 
 const GoalDetailsPage = () => {
 	const { id } = useParams()
-	const [goal, setGoal] = useState<Goal>({
+	const defaultGoal = {
 		id: '',
 		user_id: '',
 		user: null,
@@ -56,7 +21,8 @@ const GoalDetailsPage = () => {
 		created_at: new Date(),
 		updated_at: new Date(),
 		contributions: [],
-	})
+	}
+	const [goal, setGoal] = useState<GoalType>(defaultGoal)
 
 	const TEST_GOAL_CONTRIBUTIONS = [
 		{

@@ -1,5 +1,5 @@
-import MainLayout from '../components/MainLayout'
-import MainHeader from '../components/MainHeader'
+import MainLayout from '../components/layout/MainLayout'
+import MainHeader from '../components/layout/MainHeader'
 import ReceiptCapture from '../components/ReceiptCapture'
 import { useState } from 'react'
 import PriceSelection from '../components/PriceSelection'

@@ -1,29 +1,19 @@
 import { IconCirclePlusFilled } from '@tabler/icons-react'
-import { Button } from '../components/Button'
+import { Button } from '../components/ui/Button'
 import Goal from '../components/Goal'
-import MainLayout from '../components/MainLayout'
+import MainLayout from '../components/layout/MainLayout'
 import { useUser } from '../contexts/UserContext'
 import { useEffect, useState } from 'react'
 import AddGoalsModal from '../components/AddGoalsModal'
 import { useNavigate } from 'react-router'
-import MainHeader from '../components/MainHeader'
+import MainHeader from '../components/layout/MainHeader'
 import { useWebSocket } from '../contexts/WebsocketContext'
-
-type Goal = {
-	id: string
-	user_id: string
-	pair_id: string
-	title: string
-	current: number
-	target: number
-	description: string
-	deadline: string
-}
+import { type GoalType } from '../types/types'
 
 const GoalsPage = () => {
 	const { user } = useUser()
 	const navigate = useNavigate()
-	const [goals, setGoals] = useState<Goal[]>([])
+	const [goals, setGoals] = useState<GoalType[]>([])
 	const [openAddGoalsModal, setOpenAddGoalsModal] = useState(false)
 	const { socket } = useWebSocket()
 

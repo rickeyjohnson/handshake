@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { Button } from './Button'
-import { Input } from './Input'
+import { Button } from './ui/Button'
+import { Input } from './ui/Input'
 
 const GenerateHandshakeCodeModal = ({ onClick }: { onClick: () => void }) => {
 	const [code, setCode] = useState('')

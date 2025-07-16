@@ -4,18 +4,12 @@ import {
 	IconMoneybag,
 	IconTable,
 	IconTargetArrow,
-	type Icon,
 } from '@tabler/icons-react'
 import { LogoutButton } from './LogoutButton'
-import { Button } from './Button'
+import { Button } from './ui/Button'
 import { useLocation, useNavigate } from 'react-router'
 import { useUser } from '../contexts/UserContext'
-
-type navItem = {
-	title: string
-	url: string
-	icon: Icon
-}
+import type { navItem } from '../types/types'
 
 const Sidebar = () => {
 	const { user } = useUser()

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-import { extractTextFromImage, type OCRResult } from '../ocr'
+import { extractTextFromImage } from '../ocr'
+import type { OCRResult } from '../types/types'
 
 // remove any before pushing
 const PriceSelection = ({

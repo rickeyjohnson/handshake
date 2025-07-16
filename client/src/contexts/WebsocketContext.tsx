@@ -1,9 +1,6 @@
 import type React from 'react'
 import { createContext, useContext, useEffect, useState } from 'react'
-
-type WebSocketContextType = {
-	socket: WebSocket | null
-}
+import type { WebSocketContextType } from '../types/types'
 
 export const WebSocketContext = createContext<WebSocketContextType>({
 	socket: null,
@@ -14,7 +11,7 @@ export const WebSocketProvider = ({
 }: {
 	children: React.ReactNode
 }) => {
-    const [socket, setSocket] = useState<WebSocket | null>(null)
+	const [socket, setSocket] = useState<WebSocket | null>(null)
 
 	useEffect(() => {
 		const ws = new WebSocket('ws://localhost:3000/')
