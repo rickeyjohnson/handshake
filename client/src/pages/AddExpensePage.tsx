@@ -35,17 +35,20 @@ const AddExpensePage = () => {
 			<MainHeader title="Add New Expense">
 				<Button className='flex gap-2 align-center items-center self-center' onClick={handleBackButton}>
 					<IconChevronLeft size={18}/>
-					Back
+					{
+						image ? "Retake Picture" : "Back to Transactions"
+					}
 				</Button>
 			</MainHeader>
 
 			{image ? (
 				<div className="flex items-center gap-20 flex-wrap justify-center">
 					<div className='relative'>
+						<h1 className='text-center'>Select the Expense to Add to Your New Expense</h1>
 						<PriceSelection
 							image_url={image}
 							onSelection={handleSelection}
-							className="flex-grow flex justify-center"
+							className="flex-grow flex justify-center my-2"
 						/>
 					</div>
 					<AddExpenseForm selectedAmount={selectedPrice} />

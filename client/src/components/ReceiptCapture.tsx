@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Button } from './ui/Button'
+import { IconCamera } from '@tabler/icons-react'
 
 const ReceiptCapture = ({
 	onCapture,
@@ -66,9 +67,13 @@ const ReceiptCapture = ({
 			case 'SUCCESS':
 				return (
 					<>
+						<h1>Capture Image of Your Receipt to Add as an Expense</h1>
 						<video ref={videoRef} className='rounded-lg shadow-2xl' autoPlay playsInline />
-						<Button onClick={capture}>Capture</Button>
-						<canvas ref={canvasRef} className='rounded-lg shadow-2xl' />
+						<Button onClick={capture} className='flex gap-2 align-center items-center self-center'>
+							<IconCamera size={18}/>
+							Capture Image
+						</Button>
+						<canvas ref={canvasRef} className='rounded-lg shadow-2xl' style={{display: 'none'}}/>
 					</>
 				)
 
