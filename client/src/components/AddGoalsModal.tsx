@@ -41,8 +41,6 @@ const AddGoalsModal = ({
 			return
 		}
 
-		console.log(newGoalData)
-
 		try {
 			const response = await fetch('/api/goals/', {
 				method: 'POST',

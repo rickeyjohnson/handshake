@@ -109,6 +109,7 @@ const PriceSelection = ({
 					onSelection(box.text)
 				} else if (box.hovered) {
 					fillColor = 'rgba(0, 120, 255, 0.2)'
+					canvas.style.cursor = "pointer"
 				} else {
 					fillColor = 'rgba(0, 0, 0, 0.5)'
 				}

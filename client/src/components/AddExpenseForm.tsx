@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Label } from './ui/Label'
 import { Input } from './ui/Input'
 import { Button } from './ui/Button'
@@ -6,6 +6,7 @@ import { useAccount } from '../contexts/AccountContext'
 import type { Expense } from '../types/types'
 import { categories } from '../constants/constants'
 import { formatCurrency } from '../utils/utils'
+import { useNavigate } from 'react-router'
 
 const AddExpenseForm = ({
 	selectedAmount,
@@ -15,9 +16,10 @@ const AddExpenseForm = ({
 	className?: string
 }) => {
 	const { accounts } = useAccount()
+	const navigate = useNavigate()
 	const defaultNewExpense = {
-		accountId: '-1',
-		category: '',
+		accountId: accounts[0].id,
+		category: 'INCOME',
 		date: '',
 		authorizedDate: '',
 		amount: 0,
@@ -27,16 +29,19 @@ const AddExpenseForm = ({
 	const [newExpense, setNewExpense] = useState<Expense>(defaultNewExpense)
 	const [rawAmount, setRawAmount] = useState<number>(0)
 	const [displayAmount, setDisplayAmount] = useState<string>('')
+	const hasSubmitted = useRef(false)
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
+		hasSubmitted.current = true
+
+		if (document.activeElement instanceof HTMLElement) {
+			document.activeElement.blur()
+		}
 
 		try {
-			const response = await fetch('/api/expenses/', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify(newExpense),
-			})
+			console.log('got ranned')
+			
 		} catch (error) {
 			console.error('Network error.')
 		}
@@ -58,10 +63,6 @@ const AddExpenseForm = ({
 		}
 
 		setNewExpense((prev) => ({ ...prev, [key]: value }))
-	}
-
-	const fetchAccounts = () => {
-		
 	}
 
 	useEffect(() => {
@@ -132,13 +133,17 @@ const AddExpenseForm = ({
 						onChange={(e) =>
 							handleNewExpenseChange('amount', e.target.value)
 						}
-						onFocus={() => setDisplayAmount(String(rawAmount))}
+						onFocus={() => {
+							if (!hasSubmitted.current) {
+								setDisplayAmount(String(rawAmount))
+							}
+							}}
 						onBlur={() =>
 							setDisplayAmount(formatCurrency(rawAmount))
 						}
 						required={true}
 						inputMode="decimal"
-						pattern="^\d+(\.\d{0,2})?$"
+						pattern="^\$?\d+(\.\d{0,2})?$"
 					/>
 
 					<Label htmlFor="currency">Currency</Label>
