@@ -54,7 +54,7 @@ budgets.post('/', async (req, res) => {
 			object: 'budget',
 			user_id: userId,
 			pair_id: pairId,
-			content: `${formatCategory(category)} - ${budgeted}`,
+			content: `${formatCategory(category)} - $${budgeted}`,
 		})
 
 		res.status(200).json({

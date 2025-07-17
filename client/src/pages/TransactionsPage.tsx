@@ -49,7 +49,7 @@ const TransactionsPage = () => {
 			try {
 				const data = JSON.parse(event.data)
 
-				if (data.object === 'EXPENSE') {
+				if (data.object === 'expense') {
 					fetchTransactions()
 				}
 			} catch (error) {

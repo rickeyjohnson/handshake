@@ -96,7 +96,7 @@ const BudgetsPage = () => {
 			try {
 				const data = JSON.parse(event.data)
 
-				if (data.object === 'BUDGET') {
+				if (data.object === 'budget') {
 					fetchBudgets()
 				}
 			} catch (error) {

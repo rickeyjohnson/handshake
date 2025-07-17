@@ -1,7 +1,7 @@
 import { IconBellRingingFilled, IconCircleCheck, IconMoneybag, IconTargetArrow } from '@tabler/icons-react'
 import type { Notification } from '../types/types'
 import { useUser } from '../contexts/UserContext'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
 const NotificationToast = ({
 	notification,
