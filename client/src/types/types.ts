@@ -121,6 +121,7 @@ export type User = {
 	is_paired: boolean
 	partner: {
 		name: string
+		id: string
 	}
 }
 
@@ -160,4 +161,10 @@ export type Notification = {
 	user_id: string
 	pair_id: string
 	content: string | number | boolean | null
+}
+
+export type DashboardData = {
+	netWorth: number,
+	userNetWorth: number,
+	partnerNetWorth: number,
 }
