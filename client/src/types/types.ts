@@ -151,20 +151,20 @@ export type GoalType = {
 }
 
 export type Category = {
-    label: string
-    value: string
+	label: string
+	value: string
 }
 
 export type Notification = {
-	action: "ADD" | "UPDATE" | "DELETE" 
-	object: "expense" | "goal" | "budget"
+	action: 'ADD' | 'UPDATE' | 'DELETE'
+	object: 'expense' | 'goal' | 'budget'
 	user_id: string
 	pair_id: string
 	content: string | number | boolean | null
 }
 
 export type DashboardData = {
-	netWorth: number,
-	userNetWorth: number,
-	partnerNetWorth: number,
+	netWorth: number
+	userNetWorth: number
+	partnerNetWorth: number
 }

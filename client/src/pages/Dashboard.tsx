@@ -18,25 +18,34 @@ const Dashboard = () => {
 	const { transactions } = useTransactions()
 
 	const [dashboard, setDashboard] = useState<DashboardData>({
-		netWorth: accounts.reduce(
-			(sum, acc) => sum + acc.balances.available,
-			0
-		),
-		userNetWorth: accounts.reduce((sum, acc) => {
-			if (acc.user_id === user?.id) {
-				return sum + acc.balances.available
-			}
-
-			return sum
-		}, 0),
-		partnerNetWorth: accounts.reduce((sum, acc) => {
-			if (acc.user_id === user?.partner.id) {
-				return sum + acc.balances.available
-			}
-
-			return sum
-		}, 0),
+		netWorth: 0,
+		userNetWorth: 0,
+		partnerNetWorth: 0,
 	})
+
+	useEffect(() => {
+		setDashboard((prev) => ({
+			...prev,
+			netWorth: accounts.reduce(
+				(sum, acc) => sum + acc.balances.available,
+				0
+			),
+			userNetWorth: accounts.reduce((sum, acc) => {
+				if (acc.user_id === user?.id) {
+					return sum + acc.balances.available
+				}
+
+				return sum
+			}, 0),
+			partnerNetWorth: accounts.reduce((sum, acc) => {
+				if (acc.user_id === user?.partner.id) {
+					return sum + acc.balances.available
+				}
+
+				return sum
+			}, 0),
+		}))
+	}, [accounts])
 
 	return (
 		<MainLayout>
