@@ -89,10 +89,6 @@ const BudgetsPage = () => {
 	}, [])
 
 	useEffect(() => {
-		fetchBudgets()
-	}, [])
-
-	useEffect(() => {
 		if (!socket) return
 
 		const handleNewGoal = (event: MessageEvent) => {
@@ -100,7 +96,7 @@ const BudgetsPage = () => {
 			try {
 				const data = JSON.parse(event.data)
 
-				if (data.type === 'new_budget') {
+				if (data.object === 'BUDGET') {
 					fetchBudgets()
 				}
 			} catch (error) {

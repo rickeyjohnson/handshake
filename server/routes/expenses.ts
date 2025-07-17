@@ -2,7 +2,7 @@ import { Router, Request, Response } from 'express'
 import { PrismaClient } from '../generated/prisma'
 import { randomUUID } from 'crypto'
 import { connectedClients } from '../websocket/wsStore'
-import { getPairedId } from '../utils/util'
+import { getPairedId, sendWebsocketMessage } from '../utils/util'
 
 const expenses = Router()
 const prisma = new PrismaClient()
@@ -27,12 +27,12 @@ expenses.post('/', async (req, res) => {
 			},
 		})
 
-		connectedClients.forEach((client) => {
-			if (client.readyState === 1) {
-				client.send(
-					JSON.stringify({ type: 'new_expense', content: true })
-				)
-			}
+		sendWebsocketMessage({
+			action: 'ADD',
+			object: 'EXPENSE',
+			user_id: userId,
+			pair_id: pairId,
+			content: null,
 		})
 
 		res.status(201).json({ message: 'New expense added' })
