@@ -8,7 +8,6 @@ import Spending from '../components/Spending'
 import SpendingBudgetGraph from '../components/SpendingBudgetGraph'
 import Transactions from '../components/Transactions'
 import { useAccount } from '../contexts/AccountContext'
-import { useTransactions } from '../contexts/TransactionsContext'
 import { useUser } from '../contexts/UserContext'
 import type { DashboardData } from '../types/types'
 
