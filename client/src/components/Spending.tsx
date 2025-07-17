@@ -2,7 +2,7 @@ import { Line, LineChart, ResponsiveContainer, XAxis, YAxis } from 'recharts'
 import type { Transactions } from '../types/types'
 import { formatCurrency } from '../utils/utils'
 
-const Spending = ({total, data} : {total: number, data: Transactions[]}) => {
+const Spending = ({total, data} : {total: number, data: {date: Date, total: number}[]}) => {
 	return (
 		<div className="rounded-xl border-1 border-stone-200 py-6 px-8 w-fit flex flex-col">
 			<h1 className="mb-2 p-1">Total Month Spendning</h1>
@@ -15,7 +15,7 @@ const Spending = ({total, data} : {total: number, data: Transactions[]}) => {
 						<XAxis />
 						<Line
 							type="monotone"
-							dataKey="amount"
+							dataKey="total"
 							dot={false}
 							stroke="black"
 							strokeWidth={3}

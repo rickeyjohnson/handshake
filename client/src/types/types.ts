@@ -168,4 +168,5 @@ export type DashboardData = {
 	userNetWorth: number
 	partnerNetWorth: number
 	spending: number
+	spending_data: {date: Date, total: number}[]
 }

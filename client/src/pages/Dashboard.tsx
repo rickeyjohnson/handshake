@@ -11,7 +11,7 @@ import { useAccount } from '../contexts/AccountContext'
 import { useUser } from '../contexts/UserContext'
 import type { DashboardData } from '../types/types'
 import { useTransactions } from '../contexts/TransactionsContext'
-import { calculateTotalSpending } from '../utils/utils'
+import { calculateSpendingData, calculateTotalSpending } from '../utils/utils'
 
 const Dashboard = () => {
 	const { user } = useUser()
@@ -23,6 +23,7 @@ const Dashboard = () => {
 		userNetWorth: 0,
 		partnerNetWorth: 0,
 		spending: 0,
+		spending_data: []
 	})
 
 	useEffect(() => {
@@ -48,6 +49,7 @@ const Dashboard = () => {
 			}, 0),
 
 			spending: calculateTotalSpending(transactions),
+			spending_data: calculateSpendingData(transactions)
 		}))
 	}, [accounts])
 
@@ -63,7 +65,7 @@ const Dashboard = () => {
 				partnerNetworth={dashboard.partnerNetWorth}
 			/>
 
-			<Spending total={dashboard.spending} data={[]}/>
+			<Spending total={dashboard.spending} data={dashboard.spending_data}/>
 			<SpendingBudgetGraph />
 			<Transactions />
 			<Accounts />

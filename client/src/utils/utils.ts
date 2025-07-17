@@ -46,10 +46,24 @@ export const isDateInCurrentMonth = (date: Date) => {
 export const calculateTotalSpending = (transactions: Transactions[]) => {
   return transactions.reduce((sum, tx) => {
     if (isDateInCurrentMonth(new Date(tx.authorized_date)) && tx.amount > 0) {
-      console.log(tx.transaction_name, tx.authorized_date, tx.amount)
       return sum + tx.amount
     }
 
     return sum
   }, 0)
+}
+
+export const calculateSpendingData = (transactions: Transactions[]) => {
+  const cumulativeData = []
+  const filterTransactions = transactions.filter((tx) => isDateInCurrentMonth(new Date(tx.authorized_date)) && tx.amount > 0)
+  let runningTotal = 0
+  for (const tx of filterTransactions) {
+    runningTotal += tx.amount
+    cumulativeData.push({
+      date: new Date(tx.authorized_date),
+      total: runningTotal
+    })
+  }
+
+  return cumulativeData
 }
