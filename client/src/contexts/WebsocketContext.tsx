@@ -1,6 +1,7 @@
 import type React from 'react'
 import { createContext, useContext, useEffect, useState } from 'react'
 import type { WebSocketContextType } from '../types/types'
+import NotificationToast from '../components/NotificationToast'
 
 export const WebSocketContext = createContext<WebSocketContextType>({
 	socket: null,
@@ -29,8 +30,9 @@ export const WebSocketProvider = ({
 			console.error('WebSocket error:', err)
 		}
 
-		ws.onmessage = () => {
-			console.log('recieved message in websocket context')
+		ws.onmessage = (e) => {
+			const data = JSON.parse(e.data)
+			console.log(data)
 		}
 
 		return () => {
@@ -40,6 +42,7 @@ export const WebSocketProvider = ({
 
 	return (
 		<WebSocketContext.Provider value={{ socket }}>
+			<NotificationToast />
 			{children}
 		</WebSocketContext.Provider>
 	)
