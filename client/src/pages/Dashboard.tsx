@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import Accounts from '../components/Accounts'
 import CalendarSummary from '../components/CalendarSummary'
 import MainHeader from '../components/layout/MainHeader'
@@ -15,10 +16,15 @@ const Dashboard = () => {
 	const { accounts } = useAccount()
 	const { transactions } = useTransactions()
 	
+	const networth = () => accounts.reduce((sum, acc) => sum + acc.balances.available, 0)
+	
 	return (
 	<MainLayout>
 		<MainHeader title={`Welcome ${user?.name || 'Partner'}`} caption={`Today is ${new Date().toDateString()}`} />
 		<NetWorth />
+
+		<pre>{JSON.stringify(accounts, null, 4)}</pre>
+
 		<Spending />
 		<SpendingBudgetGraph />
 		<Transactions />
