@@ -9,7 +9,7 @@ import {
 	IconPigMoney,
 } from '@tabler/icons-react'
 import { useEffect, useState } from 'react'
-import { formatMoney } from '../utils/utils'
+import { formatCurrency } from '../utils/utils'
 import { Input } from '../components/ui/Input'
 import { useWebSocket } from '../contexts/WebsocketContext'
 import type { Budget } from '../types/types'
@@ -180,13 +180,13 @@ const BudgetsPage = () => {
 										{budget.category}
 									</td>
 									<td className="p-1">
-										{formatMoney(budget.budgeted)}
+										{formatCurrency(budget.budgeted)}
 									</td>
 									<td className="p-1">
-										{formatMoney(budget.actual)}
+										{formatCurrency(budget.actual)}
 									</td>
 									<td className="text-right pr-3">
-										{formatMoney(
+										{formatCurrency(
 											budget.budgeted - budget.actual
 										)}
 									</td>
@@ -238,7 +238,7 @@ const BudgetsPage = () => {
 				</table>
 				<div className="flex-1 p-10 border-2 border-stone-100 rounded-lg shadow">
 					<h1 className="text-7xl font-semibold my-2">
-						{formatMoney(remaining, true)}
+						{formatCurrency(remaining, true)}
 					</h1>
 
 					<div className="flex gap-2 items-center border-t-2 p-2 pb-0 border-stone-200">
@@ -247,7 +247,7 @@ const BudgetsPage = () => {
 							Spending Budget
 						</p>
 						<p className="font-medium text-lg text-right">
-							{formatMoney(spendingBudget, true)}
+							{formatCurrency(spendingBudget, true)}
 						</p>
 					</div>
 
@@ -257,7 +257,7 @@ const BudgetsPage = () => {
 							Current Spending
 						</p>
 						<p className="font-medium text-lg text-right">
-							{formatMoney(currentSpending, true)}
+							{formatCurrency(currentSpending, true)}
 						</p>
 					</div>
 
@@ -267,7 +267,7 @@ const BudgetsPage = () => {
 							Remaining
 						</p>
 						<p className="font-medium text-lg text-right">
-							{formatMoney(remaining, true)}
+							{formatCurrency(remaining, true)}
 						</p>
 					</div>
 				</div>

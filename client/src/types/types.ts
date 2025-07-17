@@ -57,7 +57,7 @@ export type LabelType = React.LabelHTMLAttributes<HTMLLabelElement> & {
 }
 
 export type Account = {
-	id: string | number
+	id: string
 	account_name: string
 	bank_name: string
 	user_id: string

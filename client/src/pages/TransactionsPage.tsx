@@ -1,20 +1,23 @@
 import { useEffect, useState } from 'react'
 import MainLayout from '../components/layout/MainLayout'
 import { useTransactions } from '../contexts/TransactionsContext'
-import { formatMoney } from '../utils/utils'
+import { formatCurrency } from '../utils/utils'
 import MainHeader from '../components/layout/MainHeader'
 import { useUser } from '../contexts/UserContext'
 import { Button } from '../components/ui/Button'
 import { IconCirclePlusFilled, IconX } from '@tabler/icons-react'
 import AddExpensePopover from '../components/AddExpensePopover'
+import { useWebSocket } from '../contexts/WebsocketContext'
 
 const TransactionsPage = () => {
 	const { transactions, setTransactions } = useTransactions()
 	const { user } = useUser()
+	const { socket } = useWebSocket()
 	const [openPopover, setOpenPopover] = useState(false)
 
 	const fetchTransactions = async () => {
 		try {
+			syncTransactions()
 			const response = await fetch('/api/plaid/transactions/list', {
 				headers: { 'Content-Type': 'application/json' },
 			})
@@ -36,9 +39,28 @@ const TransactionsPage = () => {
 	}
 
 	useEffect(() => {
-		syncTransactions()
 		fetchTransactions()
 	}, [])
+
+	useEffect(() => {
+		if (!socket) return
+
+		const handleNewExpense = (event: MessageEvent) => {
+			try {
+				const data = JSON.parse(event.data)
+
+				if (data.type === 'new_expense') {
+					fetchTransactions()
+				}
+			} catch (error) {
+				console.log(error)
+			}
+		}
+
+		socket.addEventListener('message', handleNewExpense)
+
+		return () => socket.removeEventListener('message', handleNewExpense)
+	}, [socket])
 
 	return (
 		<MainLayout>
@@ -100,7 +122,7 @@ const TransactionsPage = () => {
 								</td>
 								<td className="p-1">{tx.account_name}</td>
 								<td className="text-right pr-3">
-									{formatMoney(tx.amount)}
+									{formatCurrency(tx.amount)}
 								</td>
 							</tr>
 						)

@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Label } from './ui/Label'
 import { Input } from './ui/Input'
 import { Button } from './ui/Button'
 import { useAccount } from '../contexts/AccountContext'
 import type { Expense } from '../types/types'
 import { categories } from '../constants/constants'
+import { formatCurrency } from '../utils/utils'
+import { useNavigate } from 'react-router'
+import { useUser } from '../contexts/UserContext'
 
 const AddExpenseForm = ({
 	selectedAmount,
@@ -14,9 +17,11 @@ const AddExpenseForm = ({
 	className?: string
 }) => {
 	const { accounts } = useAccount()
+	const { user } = useUser()
+	const navigate = useNavigate()
 	const defaultNewExpense = {
-		accountId: '-1',
-		category: '',
+		accountId: accounts[0].id,
+		category: 'INCOME',
 		date: '',
 		authorizedDate: '',
 		amount: 0,
@@ -24,17 +29,61 @@ const AddExpenseForm = ({
 		currencyCode: 'USD',
 	}
 	const [newExpense, setNewExpense] = useState<Expense>(defaultNewExpense)
+	const [rawAmount, setRawAmount] = useState<number>(0)
+	const [displayAmount, setDisplayAmount] = useState<string>('')
+	const hasSubmitted = useRef(false)
 
-	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-		throw new Error('Function not implemented.')
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault()
+		hasSubmitted.current = true
+
+		if (document.activeElement instanceof HTMLElement) {
+			document.activeElement.blur()
+		}
+
+		try {
+			const response = await fetch('/api/expenses/', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(newExpense),
+			})
+
+			if (response.ok) {
+				navigate('/transactions')
+			} else {
+				console.error('Failed to create new expense')
+				hasSubmitted.current = false
+			}
+		} catch (error) {
+			console.error('Network error.')
+		}
 	}
 
 	const handleNewExpenseChange = (key: string, value: string | number) => {
+		if (key === 'amount' && typeof value === 'string') {
+			const val = value.replace(/[^0-9.]/g, '')
+			const parts = val.split('.')
+			let sanitized = parts[0]
+			if (parts.length > 1) {
+				sanitized += '.' + parts[1].slice(0, 2)
+			}
+
+			const raw = Number(sanitized)
+			value = raw
+			setRawAmount(raw)
+			setDisplayAmount(sanitized)
+		}
+
 		setNewExpense((prev) => ({ ...prev, [key]: value }))
 	}
 
 	useEffect(() => {
-		handleNewExpenseChange('amount', selectedAmount)
+		if (selectedAmount) {
+			const num = Number(selectedAmount)
+			setRawAmount(num)
+			setDisplayAmount(formatCurrency(num))
+			setNewExpense((prev) => ({ ...prev, amount: num }))
+		}
 	}, [selectedAmount])
 
 	return (
@@ -66,11 +115,14 @@ const AddExpenseForm = ({
 					<Input
 						type="date"
 						name="deadline"
-						placeholder="MM/DD/YYYY"
 						value={newExpense.date}
-						onChange={(e) =>
+						onChange={(e) => {
+							handleNewExpenseChange(
+								'authorizedDate',
+								e.target.value
+							)
 							handleNewExpenseChange('date', e.target.value)
-						}
+						}}
 						required={true}
 					/>
 
@@ -93,12 +145,21 @@ const AddExpenseForm = ({
 					<Input
 						placeholder=""
 						name="amount"
-						value={newExpense.amount}
+						value={displayAmount}
 						onChange={(e) =>
 							handleNewExpenseChange('amount', e.target.value)
 						}
-						className=""
+						onFocus={() => {
+							if (!hasSubmitted.current) {
+								setDisplayAmount(String(rawAmount))
+							}
+						}}
+						onBlur={() =>
+							setDisplayAmount(formatCurrency(rawAmount))
+						}
 						required={true}
+						inputMode="decimal"
+						pattern="^\$?\d+(\.\d{0,2})?$"
 					/>
 
 					<Label htmlFor="currency">Currency</Label>
@@ -128,14 +189,16 @@ const AddExpenseForm = ({
 						}
 						className="border rounded-lg mb-5 p-2 border-gray-400 focus:outline-4 outline-gray-300"
 					>
-						{accounts.map((acc) => (
-							<option key={acc.id} value={acc.id}>
-								{acc.account_name} - {acc.bank_name}
-							</option>
-						))}
+						{accounts
+							.filter((acc) => acc.user_id === user?.id)
+							.map((acc) => (
+								<option key={acc.id} value={acc.id}>
+									{acc.account_name} - {acc.bank_name}
+								</option>
+							))}
 					</select>
 
-					<Button onClick={() => {}} className="w-full" type="submit">
+					<Button className="w-full" type="submit">
 						Submit
 					</Button>
 				</form>

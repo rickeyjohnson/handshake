@@ -43,7 +43,7 @@ const AddExpensePage = () => {
 			</MainHeader>
 
 			{image ? (
-				<div className="flex items-center gap-20 flex-wrap justify-center">
+				<div className="flex items-center gap-20 flex-wrap justify-center h-full">
 					<div className="relative">
 						<h1 className="text-center">
 							Select the Expense to Add to Your New Expense

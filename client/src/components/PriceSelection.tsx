@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { extractTextFromImage } from '../utils/ocr'
 import type { OCRResult } from '../types/types'
 import { getOpenCv } from '../utils/opencv'
+import { IconLoader2 } from '@tabler/icons-react'
 
 const PriceSelection = ({
 	image_url,
@@ -16,6 +17,7 @@ const PriceSelection = ({
 	const processCanvasRef = useRef<HTMLCanvasElement>(null)
 	const [boxes, setBoxes] = useState<OCRResult[]>([])
 	const [preprocessImageUrl, setPreprocessImageUrl] = useState<string>('')
+	const [loading, setLoading] = useState<boolean>(true)
 
 	const drawRectangle = (
 		ctx: CanvasRenderingContext2D,
@@ -109,6 +111,7 @@ const PriceSelection = ({
 					onSelection(box.text)
 				} else if (box.hovered) {
 					fillColor = 'rgba(0, 120, 255, 0.2)'
+					canvas.style.cursor = 'pointer'
 				} else {
 					fillColor = 'rgba(0, 0, 0, 0.5)'
 				}
@@ -123,6 +126,10 @@ const PriceSelection = ({
 					borderColor
 				)
 			})
+
+			if (boxes.length > 1) {
+				setLoading(false)
+			}
 		}
 	}, [boxes, image_url])
 
@@ -181,8 +188,12 @@ const PriceSelection = ({
 		runOCR()
 	}, [preprocessImageUrl])
 
+	useEffect(() => {
+		setLoading(true)
+	}, [])
+
 	return (
-		<div className={`${className}`}>
+		<div className={`${className} relative`}>
 			<canvas
 				ref={originalCanvasRef}
 				onMouseMove={handleMouseMove}
@@ -191,6 +202,15 @@ const PriceSelection = ({
 				className="rounded-lg shadow-2xl"
 			/>
 			<canvas ref={processCanvasRef} style={{ display: 'none' }} />
+			{loading && (
+				<div className="absolute flex justify-center items-center w-full h-full bg-stone-950/60">
+					<IconLoader2
+						color="#ededed"
+						size={75}
+						className="animate-spin"
+					/>
+				</div>
+			)}
 		</div>
 	)
 }

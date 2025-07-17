@@ -3,7 +3,7 @@ export const capitalize = (name: string | null) => {
     return name.charAt(0).toUpperCase() + name.slice(1)
 }
 
-export const formatMoney = (amount: number, round: boolean = false) => {
+export const formatCurrency = (amount: number, round: boolean = false) => {
   const value = round ? Math.round(amount) : amount;
 
   const formatted = Math.abs(value).toLocaleString('en-US', {
@@ -14,4 +14,16 @@ export const formatMoney = (amount: number, round: boolean = false) => {
   });
 
   return value < 0 ? `-${formatted}` : formatted;
+}
+
+export const numify = (str: string) => {
+  const value = str.split('$').join('')
+  const parts = value.split('.')
+  let sanitized = parts[0]
+  if (parts.length > 1) {
+    sanitized += '.' + parts[1].slice(0, 2)
+  }
+
+  console.log(Number(sanitized))
+  return Number(sanitized)
 }
