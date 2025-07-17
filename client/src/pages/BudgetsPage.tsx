@@ -183,7 +183,7 @@ const BudgetsPage = () => {
 									</td>
 									<td className="text-right pr-3">
 										{formatCurrency(
-											budget.budgeted - budget.actual
+											budget.budgeted + budget.actual
 										)}
 									</td>
 								</tr>
