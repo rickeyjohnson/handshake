@@ -57,13 +57,12 @@ const Dashboard = () => {
 				partnerNetworth={dashboard.partnerNetWorth}
 			/>
 
-			<pre>{JSON.stringify(accounts, null, 4)}</pre>
-
 			<Spending />
 			<SpendingBudgetGraph />
 			<Transactions />
 			<Accounts />
 			<CalendarSummary />
+			<pre>{JSON.stringify(accounts, null, 4)}</pre>
 		</MainLayout>
 	)
 }
