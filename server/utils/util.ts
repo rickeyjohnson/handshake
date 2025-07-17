@@ -325,3 +325,7 @@ export const sendWebsocketMessage = (message: {
 		}
 	})
 }
+
+export const formatCategory = (cat: string) => {
+	return cat.split('_').join(' ')
+}

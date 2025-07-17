@@ -1,14 +1,17 @@
 import { IconBellRingingFilled, IconCircleCheck, IconMoneybag, IconTargetArrow } from '@tabler/icons-react'
 import type { Notification } from '../types/types'
 import { useUser } from '../contexts/UserContext'
+import { useEffect, useState } from 'react'
 
 const NotificationToast = ({
 	notification,
+  onHide
 }: {
 	notification: Notification
+  onHide: () => void
 }) => {
+  const NOTIFICATION_TIMER = 1000 * 10
 	const { user } = useUser()
-
 	const actionToVerb = {
 		ADD: 'created',
 		UPDATE: 'modified',
@@ -26,8 +29,17 @@ const NotificationToast = ({
     }
   }
 
+  useEffect(() => {
+    if (notification) {
+      const timer = setTimeout(() => onHide(), NOTIFICATION_TIMER)
+      return () => clearTimeout(timer)
+    }
+  }, [notification, onHide])
+
+  if (!notification) return null
+
 	return (
-		<div className="flex justify-center col-span-full gap-2 rounded-2xl w-fit bg-white fixed right-3 top-3 py-3 px-8 border-1 border-stone-200">
+		<div className="flex justify-center col-span-full gap-2 rounded-2xl w-fit bg-white fixed right-3 top-3 py-3 px-8 border-1 border-stone-200 z-99">
 			{notification.user_id === user?.id ? (
         <>
         <IconCircleCheck size={20} className="mt-0.5" />

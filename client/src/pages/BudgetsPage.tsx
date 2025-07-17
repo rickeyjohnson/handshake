@@ -9,7 +9,7 @@ import {
 	IconPigMoney,
 } from '@tabler/icons-react'
 import { useEffect, useState } from 'react'
-import { formatCurrency } from '../utils/utils'
+import { formatCategory, formatCurrency } from '../utils/utils'
 import { Input } from '../components/ui/Input'
 import { useWebSocket } from '../contexts/WebsocketContext'
 import type { Budget } from '../types/types'
@@ -173,7 +173,7 @@ const BudgetsPage = () => {
 							return (
 								<tr key={budget.id}>
 									<td className="p-1 pl-3">
-										{budget.category}
+										{formatCategory(budget.category)}
 									</td>
 									<td className="p-1">
 										{formatCurrency(budget.budgeted)}

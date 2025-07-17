@@ -13,13 +13,7 @@ export const WebSocketProvider = ({
 	children: React.ReactNode
 }) => {
 	const [socket, setSocket] = useState<WebSocket | null>(null)
-	const [notification, setNotification] = useState<Notification | null>({
-		action: 'ADD',
-		object: 'expense',
-		user_id: '1',
-		pair_id: '1',
-		content: '$75 for trader joes',
-	})
+	const [notification, setNotification] = useState<Notification | null>(null)
 
 	useEffect(() => {
 		const ws = new WebSocket('ws://localhost:3000/')
@@ -49,7 +43,7 @@ export const WebSocketProvider = ({
 
 	return (
 		<WebSocketContext.Provider value={{ socket }}>
-			<NotificationToast notification={notification!} />
+			{notification && <NotificationToast notification={notification} onHide={() => setNotification(null)} />}
 			{children}
 		</WebSocketContext.Provider>
 	)

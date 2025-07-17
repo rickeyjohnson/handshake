@@ -28,3 +28,7 @@ export const numify = (str: string) => {
   console.log(Number(sanitized))
   return Number(sanitized)
 }
+
+export const formatCategory = (cat: string) => {
+	return cat.split('_').join(' ')
+}
