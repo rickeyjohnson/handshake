@@ -1,3 +1,5 @@
+import type { Transactions } from "../types/types"
+
 export const capitalize = (name: string | null) => {
     if (!name) { return ''}
     name = name.toLowerCase()
@@ -31,4 +33,23 @@ export const numify = (str: string) => {
 
 export const formatCategory = (cat: string) => {
 	return cat.split('_').join(' ')
+}
+
+export const isDateInCurrentMonth = (date: Date) => {
+  const now = new Date();
+  return (
+    date.getFullYear() === now.getFullYear() &&
+    date.getMonth() === now.getMonth()
+  );
+};
+
+export const calculateTotalSpending = (transactions: Transactions[]) => {
+  return transactions.reduce((sum, tx) => {
+    if (isDateInCurrentMonth(new Date(tx.authorized_date)) && tx.amount > 0) {
+      console.log(tx.transaction_name, tx.authorized_date, tx.amount)
+      return sum + tx.amount
+    }
+
+    return sum
+  }, 0)
 }

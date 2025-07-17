@@ -167,4 +167,5 @@ export type DashboardData = {
 	netWorth: number
 	userNetWorth: number
 	partnerNetWorth: number
+	spending: number
 }
