@@ -32,7 +32,7 @@ expenses.post('/', async (req, res) => {
 			object: 'expense',
 			user_id: userId,
 			pair_id: pairId,
-			content: null,
+			content: `$${body.amount} for ${body.name}`,
 		})
 
 		res.status(201).json({ message: 'New expense added' })

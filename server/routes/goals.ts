@@ -65,7 +65,7 @@ goals.post('/', async (req, res) => {
 			object: 'goal',
 			user_id: userId,
 			pair_id: pairId,
-			content: null,
+			content: `${goal.title} - ${goal.target}`,
 		})
 
 		res.status(201).json({ message: 'New goal created' })
