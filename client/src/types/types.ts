@@ -153,3 +153,11 @@ export type Category = {
     label: string
     value: string
 }
+
+export type Notification = {
+	action: string
+	object: string
+	user_id: string
+	pair_id: string
+	content: string | number | boolean | null
+}

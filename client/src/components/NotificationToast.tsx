@@ -1,6 +1,7 @@
 import { IconCircleCheck } from '@tabler/icons-react'
+import type { Notification } from '../types/types'
 
-const NotificationToast = () => {
+const NotificationToast = ({ notification }: {notification: Notification}) => {
 	return (
 		<div className="flex justify-center col-span-full gap-2 rounded-2xl w-fit bg-white fixed right-3 top-3 py-3 px-8 border-1 border-stone-200">
 			<IconCircleCheck size={20} className="mt-0.5" />
