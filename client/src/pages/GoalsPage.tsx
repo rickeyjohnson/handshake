@@ -46,6 +46,7 @@ const GoalsPage = () => {
 
 				if (data.type === 'new_goal') {
 					fetchGoals()
+					console.log('recieve websocket in goals page')
 				}
 			} catch (error) {
 				console.log(error)

@@ -29,6 +29,10 @@ export const WebSocketProvider = ({
 			console.error('WebSocket error:', err)
 		}
 
+		ws.onmessage = () => {
+			console.log('recieved message in websocket context')
+		}
+
 		return () => {
 			ws.close()
 		}
