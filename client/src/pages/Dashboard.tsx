@@ -15,7 +15,6 @@ import type { DashboardData } from '../types/types'
 const Dashboard = () => {
 	const { user } = useUser()
 	const { accounts } = useAccount()
-	const { transactions } = useTransactions()
 
 	const [dashboard, setDashboard] = useState<DashboardData>({
 		netWorth: 0,
