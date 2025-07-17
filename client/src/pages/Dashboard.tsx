@@ -16,12 +16,10 @@ const Dashboard = () => {
 	const { accounts } = useAccount()
 	const { transactions } = useTransactions()
 	
-	const networth = () => accounts.reduce((sum, acc) => sum + acc.balances.available, 0)
-	
 	return (
 	<MainLayout>
 		<MainHeader title={`Welcome ${user?.name || 'Partner'}`} caption={`Today is ${new Date().toDateString()}`} />
-		<NetWorth />
+		<NetWorth networth={Math.round(accounts.reduce((sum, acc) => sum + acc.balances.available, 0))} userNetworth={0} partnerNetworth={0}/>
 
 		<pre>{JSON.stringify(accounts, null, 4)}</pre>
 
