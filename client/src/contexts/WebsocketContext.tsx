@@ -34,7 +34,6 @@ export const WebSocketProvider = ({
 		}
 
 		ws.onmessage = (e) => {
-			console.log(user)
 			if (user) {
 				const data = JSON.parse(e.data)
 				setNotification(data)
@@ -50,7 +49,12 @@ export const WebSocketProvider = ({
 
 	return (
 		<WebSocketContext.Provider value={{ socket }}>
-			{notification && <NotificationToast notification={notification} onHide={() => setNotification(null)} />}
+			{notification && (
+				<NotificationToast
+					notification={notification}
+					onHide={() => setNotification(null)}
+				/>
+			)}
 			{children}
 		</WebSocketContext.Provider>
 	)
