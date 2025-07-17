@@ -62,7 +62,7 @@ goals.post('/', async (req, res) => {
 
 		sendWebsocketMessage({
 			action: 'ADD',
-			object: 'GOAL',
+			object: 'goal',
 			user_id: userId,
 			pair_id: pairId,
 			content: null,

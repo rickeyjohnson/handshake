@@ -51,7 +51,7 @@ budgets.post('/', async (req, res) => {
 
 		sendWebsocketMessage({
 			action: 'ADD',
-			object: 'BUDGET',
+			object: 'budget',
 			user_id: userId,
 			pair_id: pairId,
 			content: null,

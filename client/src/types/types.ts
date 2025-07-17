@@ -155,8 +155,8 @@ export type Category = {
 }
 
 export type Notification = {
-	action: string
-	object: string
+	action: "ADD" | "UPDATE" | "DELETE" 
+	object: "expense" | "goal" | "budget"
 	user_id: string
 	pair_id: string
 	content: string | number | boolean | null

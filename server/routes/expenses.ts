@@ -29,7 +29,7 @@ expenses.post('/', async (req, res) => {
 
 		sendWebsocketMessage({
 			action: 'ADD',
-			object: 'EXPENSE',
+			object: 'expense',
 			user_id: userId,
 			pair_id: pairId,
 			content: null,
