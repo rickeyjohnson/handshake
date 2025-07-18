@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import MainLayout from '../components/layout/MainLayout'
 import { useTransactions } from '../contexts/TransactionsContext'
-import { formatCurrency } from '../utils/utils'
+import { formatCategory, formatCurrency } from '../utils/utils'
 import MainHeader from '../components/layout/MainHeader'
 import { useUser } from '../contexts/UserContext'
 import { Button } from '../components/ui/Button'
@@ -49,7 +49,7 @@ const TransactionsPage = () => {
 			try {
 				const data = JSON.parse(event.data)
 
-				if (data.type === 'new_expense') {
+				if (data.object === 'expense') {
 					fetchTransactions()
 				}
 			} catch (error) {
@@ -109,7 +109,7 @@ const TransactionsPage = () => {
 					{transactions.map((tx) => {
 						return (
 							<tr key={tx.id}>
-								<td className="p-1 pl-3">{tx.category}</td>
+								<td className="p-1 pl-3">{formatCategory(tx.category)}</td>
 								<td className="p-1">{tx.transaction_name}</td>
 								<td className="p-1">
 									{tx.authorized_date || tx.date}

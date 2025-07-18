@@ -1,7 +1,8 @@
 import type React from 'react'
 import { createContext, useContext, useEffect, useState } from 'react'
-import type { WebSocketContextType } from '../types/types'
+import { type Notification, type WebSocketContextType } from '../types/types'
 import NotificationToast from '../components/NotificationToast'
+import { useUser } from './UserContext'
 
 export const WebSocketContext = createContext<WebSocketContextType>({
 	socket: null,
@@ -13,6 +14,8 @@ export const WebSocketProvider = ({
 	children: React.ReactNode
 }) => {
 	const [socket, setSocket] = useState<WebSocket | null>(null)
+	const [notification, setNotification] = useState<Notification | null>(null)
+	const { user } = useUser()
 
 	useEffect(() => {
 		const ws = new WebSocket('ws://localhost:3000/')
@@ -31,18 +34,27 @@ export const WebSocketProvider = ({
 		}
 
 		ws.onmessage = (e) => {
-			const data = JSON.parse(e.data)
-			console.log(data)
+			if (user) {
+				const data = JSON.parse(e.data)
+				setNotification(data)
+			} else {
+				setNotification(null)
+			}
 		}
 
 		return () => {
 			ws.close()
 		}
-	}, [])
+	}, [user])
 
 	return (
 		<WebSocketContext.Provider value={{ socket }}>
-			<NotificationToast />
+			{notification && (
+				<NotificationToast
+					notification={notification}
+					onHide={() => setNotification(null)}
+				/>
+			)}
 			{children}
 		</WebSocketContext.Provider>
 	)

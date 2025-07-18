@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express'
 import { PrismaClient } from '../generated/prisma'
-import { getPairedId } from '../utils/util'
+import { getPairedId, sendWebsocketMessage } from '../utils/util'
 import { connectedClients } from '../websocket/wsStore'
 
 const goals = Router()
@@ -40,6 +40,7 @@ goals.get('/details/:id', async (req, res) => {
 goals.post('/', async (req, res) => {
 	try {
 		const userId = req.session.user.id
+		const pairId = await getPairedId(userId)
 		const goal: {
 			title: string
 			description: string
@@ -50,7 +51,7 @@ goals.post('/', async (req, res) => {
 		const newGoal = await prisma.goals.create({
 			data: {
 				user_id: userId,
-				pair_id: await getPairedId(userId),
+				pair_id: pairId,
 				title: goal.title,
 				description: goal.description,
 				target: parseFloat(goal.target),
@@ -59,10 +60,12 @@ goals.post('/', async (req, res) => {
 			},
 		})
 
-		connectedClients.forEach((client) => {
-			if (client.readyState === 1) {
-				client.send(JSON.stringify({ type: 'new_goal', content: true }))
-			}
+		sendWebsocketMessage({
+			action: 'ADD',
+			object: 'goal',
+			user_id: userId,
+			pair_id: pairId,
+			content: `${goal.title} - $${goal.target}`,
 		})
 
 		res.status(201).json({ message: 'New goal created' })

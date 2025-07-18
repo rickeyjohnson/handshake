@@ -44,9 +44,8 @@ const GoalsPage = () => {
 			try {
 				const data = JSON.parse(event.data)
 
-				if (data.type === 'new_goal') {
+				if (data.object === 'goal') {	// Stretch Goals: pair_id for pairs account refresh
 					fetchGoals()
-					console.log('recieve websocket in goals page')
 				}
 			} catch (error) {
 				console.log(error)

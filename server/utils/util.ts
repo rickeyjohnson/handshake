@@ -1,6 +1,7 @@
 import { randomUUID } from 'crypto'
 import { PrismaClient } from '../generated/prisma'
 import { format } from 'date-fns'
+import { connectedClients } from '../websocket/wsStore'
 
 const prisma = new PrismaClient()
 
@@ -309,4 +310,22 @@ export const getSpendingOnCategory = async (
 		console.error('Error fetching data for current month:', error)
 		throw error
 	}
+}
+
+export const sendWebsocketMessage = (message: {
+	action: string
+	object: string
+	user_id: string
+	pair_id: string
+	content: string | number | boolean | null
+}) => {
+	connectedClients.forEach((client) => {
+		if (client.readyState === 1) {
+			client.send(JSON.stringify(message))
+		}
+	})
+}
+
+export const formatCategory = (cat: string) => {
+	return cat.split('_').join(' ')
 }

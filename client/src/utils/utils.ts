@@ -1,5 +1,6 @@
 export const capitalize = (name: string | null) => {
     if (!name) { return ''}
+    name = name.toLowerCase()
     return name.charAt(0).toUpperCase() + name.slice(1)
 }
 
@@ -26,4 +27,8 @@ export const numify = (str: string) => {
 
   console.log(Number(sanitized))
   return Number(sanitized)
+}
+
+export const formatCategory = (cat: string) => {
+	return cat.split('_').join(' ')
 }
