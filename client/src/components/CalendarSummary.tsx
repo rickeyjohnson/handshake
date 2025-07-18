@@ -7,8 +7,12 @@ import {
 	isSameMonth,
 	format,
 } from 'date-fns'
+import { useTransactions } from '../contexts/TransactionsContext'
+import { getNetSpendingForDay } from '../utils/utils'
 
 const CalendarSummary = () => {
+  const { transactions } = useTransactions()
+
 	const today = new Date()
 	const monthStart = startOfMonth(today)
 	const monthEnd = endOfMonth(monthStart)
@@ -38,14 +42,15 @@ const CalendarSummary = () => {
 				)}
 			</div>
 
-			<div className="grid grid-cols-7 gap-1">
+			{transactions && <div className="grid grid-cols-7 gap-1">
 				{days.map((date, idx) => {
 					const isCurrentMonth = isSameMonth(date, monthStart)
+          const netSpending = getNetSpendingForDay(transactions, date)
 
 					return (
 						<div
 							key={idx}
-							className={`flex h-14 items-center justify-center rounded-md text-sm hover:bg-stone-50 hover:cursor-default bg-white ${
+							className={`flex h-14 items-center justify-center rounded-xl text-sm hover:bg-stone-50 hover:cursor-default bg-white ${
 								isCurrentMonth
 									? 'text-black'
 									: 'text-stone-400/75'
@@ -55,7 +60,7 @@ const CalendarSummary = () => {
 						</div>
 					)
 				})}
-			</div>
+			</div>}
 		</div>
 	)
 }
