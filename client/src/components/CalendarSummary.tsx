@@ -59,7 +59,7 @@ const CalendarSummary = () => {
 
 						return (
 							<div>
-								<a
+								<div
 									key={idx}
 									id={`${idx}`}
 									className={`day-${idx} relative flex h-14 items-center justify-center rounded-xl text-sm hover:bg-stone-50 hover:cursor-default bg-white ${
@@ -74,7 +74,7 @@ const CalendarSummary = () => {
 											netSpending
 										)}`}
 									/>
-								</a>
+								</div>
 								<Tooltip
 									anchorSelect={`.day-${idx}`}
 									place="top"

@@ -10,19 +10,19 @@ const Transactions = () => {
 				<table className="bg-white w-full rounded-xl overflow-hidden">
 					<thead>
 						<tr className="text-left bg-stone-100">
-							<th className="text-lg font-medium w-xs pl-6 py-2">
+							<th className="text-lg font-medium w-xs pl-6 py-3">
 								Date
 							</th>
-							<th className="text-lg font-medium w-lg px-3 py-2">
+							<th className="text-lg font-medium w-lg px-3 py-3">
 								Name
 							</th>
-							<th className="text-lg font-medium w-sm px-3 py-2">
+							<th className="text-lg font-medium w-sm px-3 py-3">
 								User
 							</th>
-							<th className="text-lg font-medium w-sm px-3 py-2">
+							<th className="text-lg font-medium w-sm px-3 py-3">
 								Account
 							</th>
-							<th className="text-lg font-medium pr-6 py-2 text-right">
+							<th className="text-lg font-medium pr-6 py-3 text-right">
 								Amount
 							</th>
 						</tr>
@@ -34,19 +34,19 @@ const Transactions = () => {
 								key={tx.id}
 								className="border-t border-stone-200"
 							>
-								<td className="pl-6 py-2">
+								<td className="pl-6 py-3">
 									{tx.authorized_date || tx.date}
 								</td>
-								<td className="px-3 py-2">
+								<td className="px-3 py-3">
 									{tx.transaction_name}
 								</td>
-								<td className="px-3 py-2 capitalize">
+								<td className="px-3 py-3 capitalize">
 									{tx.user_name}
 								</td>
-								<td className="px-3 py-2 capitalize">
+								<td className="px-3 py-3 capitalize">
 									{tx.account_name}
 								</td>
-								<td className="pr-6 py-2 text-right">
+								<td className="pr-6 py-3 text-right">
 									{formatCurrency(tx.amount)}
 								</td>
 							</tr>
