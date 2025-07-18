@@ -14,7 +14,7 @@ const Spending = ({ total, data }: { total: number; data: SpendingData[] }) => {
 				{formatCurrency(Math.abs(total))}
 			</p>
 
-			<div className="w-100 h-auto">
+			<div className="w-100 h-45">
 				<ResponsiveContainer width="100%" height="100%">
 					<LineChart data={data}>
 						<YAxis
