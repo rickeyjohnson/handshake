@@ -54,12 +54,12 @@ const Accounts = () => {
 			<h1 className="py-2">Accounts Summary</h1>
 			<div className="rounded-xl border-1 border-stone-200 py-6 px-8 w-fit flex flex-col">
 				{accountsData.map((acc) => (
-					<div className="flex gap-2 flex-row align-center border-b-2 border-stone-200 p-2 last:border-0">
-						{<acc.icon size={20} />}
-						<h1 className="self-center capitalize">
+					<div className="flex gap-3 flex-row align-center border-b-2 border-stone-200 p-4 last:border-0">
+						{<acc.icon size={24} />}
+						<h1 className="self-center capitalize text-lg">
 							{acc.subtype}
 						</h1>
-						<p className="flex-1 text-right w-25">{`${formatCurrency(
+						<p className="flex-1 text-right w-25 text-lg font-medium">{`${formatCurrency(
 							acc.total,
 							true
 						)}`}</p>
