@@ -23,7 +23,7 @@ const Dashboard = () => {
 		userNetWorth: 0,
 		partnerNetWorth: 0,
 		spending: 0,
-		spending_data: []
+		spending_data: [],
 	})
 
 	useEffect(() => {
@@ -49,7 +49,7 @@ const Dashboard = () => {
 			}, 0),
 
 			spending: calculateTotalSpending(transactions),
-			spending_data: calculateSpendingData(transactions)
+			spending_data: calculateSpendingData(transactions),
 		}))
 	}, [accounts])
 
@@ -65,7 +65,10 @@ const Dashboard = () => {
 				partnerNetworth={dashboard.partnerNetWorth}
 			/>
 
-			<Spending total={dashboard.spending} data={dashboard.spending_data}/>
+			<Spending
+				total={dashboard.spending}
+				data={dashboard.spending_data}
+			/>
 			<SpendingBudgetGraph />
 			<Transactions />
 			<Accounts />
