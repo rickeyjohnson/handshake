@@ -175,3 +175,8 @@ export type DashboardData = {
 	spending: number
 	spending_data: SpendingData[]
 }
+
+export type AccountComponentData = {
+	type: string
+	total: number
+}
