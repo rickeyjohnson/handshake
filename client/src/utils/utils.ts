@@ -1,4 +1,4 @@
-import type { Transactions } from "../types/types"
+import type { DashboardData, SpendingData, Transactions } from "../types/types"
 
 export const capitalize = (name: string | null) => {
     if (!name) { return ''}
@@ -54,7 +54,7 @@ export const calculateTotalSpending = (transactions: Transactions[]) => {
 }
 
 export const calculateSpendingData = (transactions: Transactions[]) => {
-  const cumulativeData = []
+  const cumulativeData: SpendingData[] = []
   const filterTransactions = transactions.filter((tx) => isDateInCurrentMonth(new Date(tx.authorized_date)) && tx.amount > 0)
   let runningTotal = 0
   for (const tx of filterTransactions) {

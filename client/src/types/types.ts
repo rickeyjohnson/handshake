@@ -163,10 +163,15 @@ export type Notification = {
 	content: string | number | boolean | null
 }
 
+export type SpendingData = {
+	date: Date
+	total: number
+}
+
 export type DashboardData = {
 	netWorth: number
 	userNetWorth: number
 	partnerNetWorth: number
 	spending: number
-	spending_data: {date: Date, total: number}[]
+	spending_data: SpendingData[]
 }
