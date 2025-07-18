@@ -8,10 +8,11 @@ import {
 	format,
 } from 'date-fns'
 import { useTransactions } from '../contexts/TransactionsContext'
-import { getNetSpendingForDay } from '../utils/utils'
+import { formatCurrency, getNetSpendingForDay } from '../utils/utils'
+import { Tooltip } from 'react-tooltip'
 
 const CalendarSummary = () => {
-  const { transactions } = useTransactions()
+	const { transactions } = useTransactions()
 
 	const today = new Date()
 	const monthStart = startOfMonth(today)
@@ -26,10 +27,10 @@ const CalendarSummary = () => {
 		day = addDays(day, 1)
 	}
 
-  const bubbleColor = (net: number) => {
-    if (net < 0) return 'bg-red-600'
-    if (net > 0) return 'bg-lime-600'
-  }
+	const bubbleColor = (net: number) => {
+		if (net < 0) return 'bg-red-600'
+		if (net > 0) return 'bg-lime-600'
+	}
 
 	return (
 		<div className="max-w-xl rounded-xl border-1 border-stone-200 p-4">
@@ -47,26 +48,45 @@ const CalendarSummary = () => {
 				)}
 			</div>
 
-			{transactions && <div className="grid grid-cols-7 gap-1">
-				{days.map((date, idx) => {
-					const isCurrentMonth = isSameMonth(date, monthStart)
-          const netSpending = getNetSpendingForDay(transactions, date)
+			{transactions && (
+				<div className="grid grid-cols-7 gap-1">
+					{days.map((date, idx) => {
+						const isCurrentMonth = isSameMonth(date, monthStart)
+						const netSpending = getNetSpendingForDay(
+							transactions,
+							date
+						)
 
-					return (
-						<div
-							key={idx}
-							className={`relative flex h-14 items-center justify-center rounded-xl text-sm hover:bg-stone-50 hover:cursor-default bg-white ${
-								isCurrentMonth
-									? 'text-black'
-									: 'text-stone-400/75'
-							}`}
-						>
-							{format(date, 'd')}
-              <span className={`absolute top-1.5 right-2.5 w-2.5 h-2.5 rounded-full ${bubbleColor(netSpending)}`} />
-						</div>
-					)
-				})}
-			</div>}
+						return (
+							<div>
+								<a
+									key={idx}
+									id={`${idx}`}
+									className={`day-${idx} relative flex h-14 items-center justify-center rounded-xl text-sm hover:bg-stone-50 hover:cursor-default bg-white ${
+										isCurrentMonth
+											? 'text-black'
+											: 'text-stone-400/75'
+									}`}
+								>
+									{format(date, 'd')}
+									<span
+										className={`absolute top-1.5 right-2.5 w-2.5 h-2.5 rounded-full ${bubbleColor(
+											netSpending
+										)}`}
+									/>
+								</a>
+								<Tooltip
+									anchorSelect={`.day-${idx}`}
+									place="top"
+								>
+									{netSpending > 0 ? '+' : ''}
+									{formatCurrency(netSpending, true)}
+								</Tooltip>
+							</div>
+						)
+					})}
+				</div>
+			)}
 		</div>
 	)
 }
