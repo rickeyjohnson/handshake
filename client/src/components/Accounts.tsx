@@ -14,14 +14,14 @@ const Accounts = () => {
 	const [accountsData, setAccountsData] = useState<AccountComponentData[]>([])
 
 	const getAccountBalanceTotal = (type: string) => {
-    let total = 0
+		let total = 0
 		for (const acc of accounts) {
-      if ((acc.subtype === type) || (acc.type === type)) {
-        total += acc.balances.available
-      }
-    }
+			if (acc.subtype === type || acc.type === type) {
+				total += acc.balances.available
+			}
+		}
 
-    return total
+		return total
 	}
 
 	useEffect(() => {
@@ -32,14 +32,14 @@ const Accounts = () => {
 				total: getAccountBalanceTotal('checking'),
 			},
 			{
-				subtype: 'savings',
-				icon: IconPigMoney,
-				total: getAccountBalanceTotal('savings'),
-			},
-			{
 				subtype: 'credit card',
 				icon: IconCreditCard,
 				total: getAccountBalanceTotal('credit card'),
+			},
+			{
+				subtype: 'savings',
+				icon: IconPigMoney,
+				total: getAccountBalanceTotal('savings'),
 			},
 			{
 				subtype: 'investiment',
@@ -50,14 +50,22 @@ const Accounts = () => {
 	}, [accounts])
 
 	return (
-		<div className="rounded-xl border-1 border-stone-200 py-6 px-8 w-fit flex flex-col">
-			{accountsData.map((acc) => (
-				<div className="flex gap-2 flex-row align-center">
-					{<acc.icon size={20} />}
-					<h1 className="self-center capitalize">{acc.subtype}</h1>
-					<p>{`${formatCurrency(acc.total, true)}`}</p>
-				</div>
-			))}
+		<div>
+			<h1 className="py-2">Accounts Summary</h1>
+			<div className="rounded-xl border-1 border-stone-200 py-6 px-8 w-fit flex flex-col">
+				{accountsData.map((acc) => (
+					<div className="flex gap-2 flex-row align-center border-b-2 border-stone-200 p-2 last:border-0">
+						{<acc.icon size={20} />}
+						<h1 className="self-center capitalize">
+							{acc.subtype}
+						</h1>
+						<p className="flex-1 text-right w-25">{`${formatCurrency(
+							acc.total,
+							true
+						)}`}</p>
+					</div>
+				))}
+			</div>
 		</div>
 	)
 }
