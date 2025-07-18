@@ -61,6 +61,7 @@ export type Account = {
 	account_name: string
 	bank_name: string
 	user_id: string
+	user_name: string
 	balances: {
 		available: number
 		current: number
