@@ -11,37 +11,43 @@ import { formatCurrency } from '../utils/utils'
 
 const Accounts = () => {
 	const { accounts } = useAccount()
-	const [accountsData, setAccountsData] = useState<AccountComponentData[]>([
-		{
-			subtype: 'checking',
-			icon: IconBuildingBank,
-			total: 0,
-		},
-		{
-			subtype: 'savings',
-			icon: IconPigMoney,
-			total: 0,
-		},
-		{
-			subtype: 'credit card',
-			icon: IconCreditCard,
-			total: 0,
-		},
-		{
-			subtype: 'investiment',
-			icon: IconChartHistogram,
-			total: 0,
-		},
-	])
+	const [accountsData, setAccountsData] = useState<AccountComponentData[]>([])
 
-	const calculateAccountsData = () => {
-		accounts.map((acc) => {
-			if (acc.subtype === 'checking') {
-			}
-		})
+	const getAccountBalanceTotal = (type: string) => {
+    let total = 0
+		for (const acc of accounts) {
+      if ((acc.subtype === type) || (acc.type === type)) {
+        total += acc.balances.available
+      }
+    }
+
+    return total
 	}
 
-	useEffect(() => {}, [])
+	useEffect(() => {
+		setAccountsData([
+			{
+				subtype: 'checking',
+				icon: IconBuildingBank,
+				total: getAccountBalanceTotal('checking'),
+			},
+			{
+				subtype: 'savings',
+				icon: IconPigMoney,
+				total: getAccountBalanceTotal('savings'),
+			},
+			{
+				subtype: 'credit card',
+				icon: IconCreditCard,
+				total: getAccountBalanceTotal('credit card'),
+			},
+			{
+				subtype: 'investiment',
+				icon: IconChartHistogram,
+				total: 0,
+			},
+		])
+	}, [accounts])
 
 	return (
 		<div className="rounded-xl border-1 border-stone-200 py-6 px-8 w-fit flex flex-col">
