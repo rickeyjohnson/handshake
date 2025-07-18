@@ -5,13 +5,13 @@ import MainHeader from '../components/layout/MainHeader'
 import MainLayout from '../components/layout/MainLayout'
 import NetWorth from '../components/NetWorth'
 import Spending from '../components/Spending'
-import SpendingBudgetGraph from '../components/SpendingBudgetGraph'
 import Transactions from '../components/Transactions'
 import { useAccount } from '../contexts/AccountContext'
 import { useUser } from '../contexts/UserContext'
 import type { DashboardData } from '../types/types'
 import { useTransactions } from '../contexts/TransactionsContext'
 import { calculateSpendingData, calculateTotalSpending } from '../utils/utils'
+import Balances from '../components/Balances'
 
 const Dashboard = () => {
 	const { user } = useUser()
@@ -23,7 +23,7 @@ const Dashboard = () => {
 		userNetWorth: 0,
 		partnerNetWorth: 0,
 		spending: 0,
-		spending_data: []
+		spending_data: [],
 	})
 
 	useEffect(() => {
@@ -49,7 +49,7 @@ const Dashboard = () => {
 			}, 0),
 
 			spending: calculateTotalSpending(transactions),
-			spending_data: calculateSpendingData(transactions)
+			spending_data: calculateSpendingData(transactions),
 		}))
 	}, [accounts])
 
@@ -65,10 +65,13 @@ const Dashboard = () => {
 				partnerNetworth={dashboard.partnerNetWorth}
 			/>
 
-			<Spending total={dashboard.spending} data={dashboard.spending_data}/>
-			<SpendingBudgetGraph />
+			<Spending
+				total={dashboard.spending}
+				data={dashboard.spending_data}
+			/>
 			<Transactions />
 			<Accounts />
+			<Balances />
 			<CalendarSummary />
 			<pre>{JSON.stringify(accounts, null, 4)}</pre>
 			<pre>{JSON.stringify(transactions, null, 4)}</pre>

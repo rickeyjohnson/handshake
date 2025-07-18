@@ -1,4 +1,4 @@
-import type { DashboardData, SpendingData, Transactions } from '../types/types'
+import type { SpendingData, Transactions } from '../types/types'
 
 export const capitalize = (name: string | null) => {
 	if (!name) {
