@@ -26,6 +26,11 @@ const CalendarSummary = () => {
 		day = addDays(day, 1)
 	}
 
+  const bubbleColor = (net: number) => {
+    if (net < 0) return 'bg-red-600'
+    if (net > 0) return 'bg-lime-600'
+  }
+
 	return (
 		<div className="max-w-xl rounded-xl border-1 border-stone-200 p-4">
 			<h1 className="w-full flex justify-center p-4">
@@ -50,13 +55,14 @@ const CalendarSummary = () => {
 					return (
 						<div
 							key={idx}
-							className={`flex h-14 items-center justify-center rounded-xl text-sm hover:bg-stone-50 hover:cursor-default bg-white ${
+							className={`relative flex h-14 items-center justify-center rounded-xl text-sm hover:bg-stone-50 hover:cursor-default bg-white ${
 								isCurrentMonth
 									? 'text-black'
 									: 'text-stone-400/75'
 							}`}
 						>
 							{format(date, 'd')}
+              <span className={`absolute top-1.5 right-2.5 w-2.5 h-2.5 rounded-full ${bubbleColor(netSpending)}`} />
 						</div>
 					)
 				})}
