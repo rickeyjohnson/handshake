@@ -1,5 +1,5 @@
 import { useTransactions } from '../contexts/TransactionsContext'
-import { formatCategory, formatCurrency } from '../utils/utils'
+import { formatCurrency } from '../utils/utils'
 
 const Transactions = () => {
   const { transactions } = useTransactions()
