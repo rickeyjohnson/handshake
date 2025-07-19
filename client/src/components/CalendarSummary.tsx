@@ -35,7 +35,7 @@ const CalendarSummary = () => {
 	return (
 		<div>
       <h1 className="py-2">Calendar</h1>
-      <div className="max-w-xl rounded-xl border-1 border-stone-200 p-4">
+      <div className="w-full h-[calc(100%-40px)] rounded-xl border-1 border-stone-200 p-4">
         <h1 className="w-full flex justify-center p-4">
           {new Date().toLocaleString('en-US', {
             month: 'long',
