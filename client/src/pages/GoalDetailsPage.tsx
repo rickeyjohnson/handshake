@@ -5,7 +5,7 @@ import MainHeader from '../components/layout/MainHeader'
 import { IconCalendarEvent, IconTargetArrow } from '@tabler/icons-react'
 import { LineChart, Line, ResponsiveContainer, XAxis, YAxis } from 'recharts'
 import type { GoalType } from '../types/types'
-import { formatCurrency } from '../utils/utils'
+import { formatCurrency, formatXAxis, formatYAxis } from '../utils/utils'
 
 const GoalDetailsPage = () => {
 	const { id } = useParams()
@@ -117,8 +117,8 @@ const GoalDetailsPage = () => {
 			<div className="mx-4">
 				<div className="flex items-stretch mb-4 gap-5">
 					<div className="flex flex-1 flex-col gap-2 box-border border-2 border-stone-100 shadow rounded-xl w-[50%] h-auto p-5">
-						<h1 className="text-7xl font-semibold my-2">
-							${goal.current}
+						<h1 className="text-7xl font-medium my-2">
+							{formatCurrency(goal.current, true)}
 						</h1>
 						<div className="flex gap-2 items-center border-t-2 p-2 pb-0 border-stone-200">
 							<p className="flex grow items-center gap-2 font-normal text-lg">
@@ -145,8 +145,8 @@ const GoalDetailsPage = () => {
 						<h1>Contribution Chart</h1>
 						<ResponsiveContainer width="100%" height="100%">
 							<LineChart data={contributions}>
-								<YAxis />
-								<XAxis />
+								<YAxis dataKey="amount" tickFormatter={formatYAxis}/>
+								<XAxis dataKey="created_at" tickFormatter={formatXAxis} interval={Math.round(contributions.length / 4)} padding={{left: 40, right: 40}} />
 								<Line
 									type="monotone"
 									dataKey="amount"
