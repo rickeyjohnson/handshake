@@ -6,7 +6,7 @@ const Balances = () => {
 	return (
 		<div className='w-full'>
 			<h1 className="py-2">Account Balances</h1>
-			<div className="rounded-xl border-1 border-stone-200 py-6 px-8 flex flex-col w-full h-[calc(100%-40px)]">
+			<div className="shadow rounded-xl border-1 border-stone-200 py-6 px-8 flex flex-col w-full h-[calc(100%-40px)]">
 				<h1 className="mb-2 p-1 text-xl border-b-2 border-stone-600">
 					Balances
 				</h1>

@@ -6,7 +6,7 @@ const Transactions = () => {
 	return (
 		<div>
 			<h1 className="py-2">Transactions</h1>
-			<div className="overflow-hidden rounded-xl border border-stone-200">
+			<div className="shadow overflow-hidden rounded-xl border border-stone-200">
 				<table className="bg-white w-full rounded-xl overflow-hidden">
 					<thead>
 						<tr className="text-left bg-stone-100">

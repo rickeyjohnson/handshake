@@ -10,7 +10,7 @@ const Spending = ({ total, data }: { total: number; data: SpendingData[] }) => {
 	return (
 		<div className='w-full'>
 			<h1 className="py-2">Spending</h1>
-			<div className="w-full rounded-xl border-1 border-stone-200 py-6 px-8 flex flex-col">
+			<div className="shadow w-full rounded-xl border-1 border-stone-200 py-6 px-8 flex flex-col">
 				<h1 className="mb-2 p-1">Total Month Spendning</h1>
 				<p className="text-5xl font-medium mb-3 p-1">
 					{formatCurrency(Math.abs(total))}
