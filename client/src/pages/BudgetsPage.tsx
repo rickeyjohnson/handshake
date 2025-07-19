@@ -150,87 +150,89 @@ const BudgetsPage = () => {
 			</MainHeader>
 
 			<div className="flex items-start justify-center gap-5">
-				<table className="bg-amber-200 flex-3">
-					<thead>
-						<tr className="text-left bg-amber-300">
-							<th className="text-lg font-medium w-sm p-1 pl-3">
-								Category
-							</th>
-							<th className="text-lg font-medium w-xs">
-								Budgeted
-							</th>
-							<th className="text-lg font-medium w-2xs">
-								Actual
-							</th>
-							<th className="text-lg font-medium pr-3">
-								Remaining
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						{budgets.map((budget) => {
-							return (
-								<tr key={budget.id}>
-									<td className="p-1 pl-3">
-										{formatCategory(budget.category)}
-									</td>
-									<td className="p-1">
-										{formatCurrency(budget.budgeted)}
-									</td>
-									<td className="p-1">
-										{formatCurrency(budget.actual)}
-									</td>
-									<td className="text-right pr-3">
-										{formatCurrency(
-											budget.budgeted + budget.actual
-										)}
-									</td>
-								</tr>
-							)
-						})}
-
-						{isAdding && (
-							<tr>
-								<td className="p-1 pl-3">
-									<select
-										value={selectedCategory}
-										onChange={(e) => {
-											handleNewBudgetChange(
-												'category',
-												e.target.value
-											)
-											setSelectedCategory(e.target.value)
-										}}
-									>
-										{categories.map((cat) => (
-											<option
-												key={cat.value}
-												value={cat.value}
-											>
-												{cat.label}
-											</option>
-										))}
-									</select>
-								</td>
-								<td className="p-1">
-									<Input
-										type="number"
-										min={0}
-										value={newBudget.budgeted}
-										onChange={(e) =>
-											handleNewBudgetChange(
-												'budgeted',
-												e.target.value
-											)
-										}
-									/>
-								</td>
-								<td className="p-1">---</td>
-								<td className="text-right pr-3">---</td>
+				<div className='shadow overflow-hidden rounded-xl border border-stone-200'>
+					<table className="flex-3 bg-white w-full rounded-xl overflow-hidden">
+						<thead>
+							<tr className="text-left bg-stone-100 *:py-3">
+								<th className="text-lg font-medium w-sm p-1 pl-6">
+									Category
+								</th>
+								<th className="text-lg font-medium w-xs">
+									Budgeted
+								</th>
+								<th className="text-lg font-medium w-2xs">
+									Actual
+								</th>
+								<th className="text-lg font-medium pr-6">
+									Remaining
+								</th>
 							</tr>
-						)}
-					</tbody>
-				</table>
+						</thead>
+						<tbody>
+							{budgets.map((budget) => {
+								return (
+									<tr key={budget.id} className='border-t border-stone-200 *:py-3'>
+										<td className="p-1 pl-6">
+											{formatCategory(budget.category)}
+										</td>
+										<td className="p-1">
+											{formatCurrency(budget.budgeted)}
+										</td>
+										<td className="p-1">
+											{formatCurrency(budget.actual)}
+										</td>
+										<td className="text-right pr-6">
+											{formatCurrency(
+												budget.budgeted + budget.actual
+											)}
+										</td>
+									</tr>
+								)
+							})}
+					
+							{isAdding && (
+								<tr className='border-t border-stone-200'>
+									<td className="p-1 pl-6">
+										<select
+											value={selectedCategory}
+											onChange={(e) => {
+												handleNewBudgetChange(
+													'category',
+													e.target.value
+												)
+												setSelectedCategory(e.target.value)
+											}}
+										>
+											{categories.map((cat) => (
+												<option
+													key={cat.value}
+													value={cat.value}
+												>
+													{cat.label}
+												</option>
+											))}
+										</select>
+									</td>
+									<td className="p-1">
+										<Input
+											type="number"
+											min={0}
+											value={newBudget.budgeted}
+											onChange={(e) =>
+												handleNewBudgetChange(
+													'budgeted',
+													e.target.value
+												)
+											}
+										/>
+									</td>
+									<td className="p-1">---</td>
+									<td className="text-right pr-6">---</td>
+								</tr>
+							)}
+						</tbody>
+					</table>
+				</div>
 				<div className="flex-1 p-10 border-2 border-stone-100 rounded-lg shadow">
 					<h1 className="text-7xl font-semibold my-2">
 						{formatCurrency(remaining, true)}
