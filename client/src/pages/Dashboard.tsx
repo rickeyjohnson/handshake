@@ -59,7 +59,7 @@ const Dashboard = () => {
 				title={`Welcome ${user?.name || 'Partner'}`}
 				caption={`Today is ${new Date().toDateString()}`}
 			/>
-			<div className="grid grid-cols-3 grid-rows-[1fr_3fr] place-items-center gap-7">
+			<div className="grid grid-cols-3 grid-rows-[1fr_3fr] items-start gap-7">
 				<NetWorth
 					networth={dashboard.netWorth}
 					userNetworth={dashboard.userNetWorth}
@@ -72,9 +72,14 @@ const Dashboard = () => {
 				/>
 
 				<Accounts />
-				<CalendarSummary />
-				<Transactions />
-				<Balances />
+				<div className='col-span-2'>
+					<Transactions />
+				</div>
+				<div className='grid grid-rows-2 gap-7'>
+					<Balances />
+					<CalendarSummary />
+					
+				</div>
 			</div>
 		</MainLayout>
 	)
