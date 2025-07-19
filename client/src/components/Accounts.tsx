@@ -50,7 +50,7 @@ const Accounts = () => {
 	}, [accounts])
 
 	return (
-		<div className='w-full h-full'>
+		<div className="w-full h-full">
 			<h1 className="py-2">Accounts Summary</h1>
 			<div className="shadow rounded-xl border-1 border-stone-200 py-6 px-8 w-full h-[calc(100%-40px)] flex flex-col text-lg justify-center">
 				{accountsData.map((acc) => (

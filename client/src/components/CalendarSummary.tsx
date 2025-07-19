@@ -33,64 +33,64 @@ const CalendarSummary = () => {
 	}
 
 	return (
-		<div className='w-full'>
-      <h1 className="py-2">Calendar</h1>
-      <div className="shadow w-full h-[calc(100%-40px)] rounded-xl border-1 border-stone-200 p-4">
-        <h1 className="w-full flex justify-center p-4">
-          {new Date().toLocaleString('en-US', {
-            month: 'long',
-            year: 'numeric',
-          })}
-        </h1>
-        <div className="grid grid-cols-7 text-center my-4 text-stone-500 font-light">
-          {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(
-            (day) => (
-              <div key={day}>{day}</div>
-            )
-          )}
-        </div>
-      
-        {transactions && (
-          <div className="grid grid-cols-7 gap-1">
-            {days.map((date, idx) => {
-              const isCurrentMonth = isSameMonth(date, monthStart)
-              const netSpending = getNetSpendingForDay(
-                transactions,
-                date
-              )
-      
-              return (
-                <div>
-                  <div
-                    key={idx}
-                    id={`${idx}`}
-                    className={`day-${idx} relative flex h-14 items-center justify-center rounded-xl text-sm hover:bg-stone-50 hover:cursor-default bg-white ${
-                      isCurrentMonth
-                        ? 'text-black'
-                        : 'text-stone-400/75'
-                    }`}
-                  >
-                    {format(date, 'd')}
-                    <span
-                      className={`absolute top-1.5 right-2.5 w-2.5 h-2.5 rounded-full ${bubbleColor(
-                        netSpending
-                      )}`}
-                    />
-                  </div>
-                  <Tooltip
-                    anchorSelect={`.day-${idx}`}
-                    place="top"
-                  >
-                    {netSpending > 0 ? '+' : ''}
-                    {formatCurrency(netSpending, true)}
-                  </Tooltip>
-                </div>
-              )
-            })}
-          </div>
-        )}
-      </div>
-    </div>
+		<div className="w-full">
+			<h1 className="py-2">Calendar</h1>
+			<div className="shadow w-full h-[calc(100%-40px)] rounded-xl border-1 border-stone-200 p-4">
+				<h1 className="w-full flex justify-center p-4">
+					{new Date().toLocaleString('en-US', {
+						month: 'long',
+						year: 'numeric',
+					})}
+				</h1>
+				<div className="grid grid-cols-7 text-center my-4 text-stone-500 font-light">
+					{['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(
+						(day) => (
+							<div key={day}>{day}</div>
+						)
+					)}
+				</div>
+
+				{transactions && (
+					<div className="grid grid-cols-7 gap-1">
+						{days.map((date, idx) => {
+							const isCurrentMonth = isSameMonth(date, monthStart)
+							const netSpending = getNetSpendingForDay(
+								transactions,
+								date
+							)
+
+							return (
+								<div>
+									<div
+										key={idx}
+										id={`${idx}`}
+										className={`day-${idx} relative flex h-14 items-center justify-center rounded-xl text-sm hover:bg-stone-50 hover:cursor-default bg-white ${
+											isCurrentMonth
+												? 'text-black'
+												: 'text-stone-400/75'
+										}`}
+									>
+										{format(date, 'd')}
+										<span
+											className={`absolute top-1.5 right-2.5 w-2.5 h-2.5 rounded-full ${bubbleColor(
+												netSpending
+											)}`}
+										/>
+									</div>
+									<Tooltip
+										anchorSelect={`.day-${idx}`}
+										place="top"
+									>
+										{netSpending > 0 ? '+' : ''}
+										{formatCurrency(netSpending, true)}
+									</Tooltip>
+								</div>
+							)
+						})}
+					</div>
+				)}
+			</div>
+		</div>
 	)
 }
 
