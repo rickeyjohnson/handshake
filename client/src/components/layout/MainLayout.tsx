@@ -53,7 +53,7 @@ const MainLayout = ({ children }: { children?: React.ReactNode }) => {
 		<div className="min-w-screen min-h-dvh bg-stone-50 text-slate-950 grid gap-4 p-4 grid-cols-[16rem_1fr]">
 			<Sidebar />
 
-			<main className="box-border bg-white rounded-2xl shadow min-h-[100vh-16px] w-full p-8 pt-5 flex flex-col">
+			<main className="box-border bg-white rounded-2xl shadow min-h-[100vh-16px] min-w-3xl w-full p-8 pt-5 flex flex-col">
 				{children}
 			</main>
 		</div>
