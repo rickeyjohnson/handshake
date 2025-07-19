@@ -1,4 +1,5 @@
 import type { SpendingData, Transactions } from '../types/types'
+import { isSameDay } from 'date-fns'
 
 export const capitalize = (name: string | null) => {
 	if (!name) {
@@ -80,4 +81,9 @@ export const calculateSpendingData = (transactions: Transactions[]) => {
 	}
 
 	return cumulativeData
+}
+
+export const getNetSpendingForDay = (transactions: Transactions[], day: Date) => {
+  const filteredTransactions = transactions.filter(tx => isSameDay(new Date(tx.authorized_date), day))
+  return filteredTransactions.reduce((sum, tx) => sum - tx.amount, 0)
 }

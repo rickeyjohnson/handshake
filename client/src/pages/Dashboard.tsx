@@ -73,8 +73,6 @@ const Dashboard = () => {
 			<Accounts />
 			<Balances />
 			<CalendarSummary />
-			<pre>{JSON.stringify(accounts, null, 4)}</pre>
-			<pre>{JSON.stringify(transactions, null, 4)}</pre>
 		</MainLayout>
 	)
 }
