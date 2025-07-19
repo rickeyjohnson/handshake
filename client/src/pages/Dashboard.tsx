@@ -59,20 +59,23 @@ const Dashboard = () => {
 				title={`Welcome ${user?.name || 'Partner'}`}
 				caption={`Today is ${new Date().toDateString()}`}
 			/>
-			<NetWorth
-				networth={dashboard.netWorth}
-				userNetworth={dashboard.userNetWorth}
-				partnerNetworth={dashboard.partnerNetWorth}
-			/>
+			<div className="grid grid-cols-3 grid-rows-[1fr_3fr] place-items-center gap-7">
+				<NetWorth
+					networth={dashboard.netWorth}
+					userNetworth={dashboard.userNetWorth}
+					partnerNetworth={dashboard.partnerNetWorth}
+				/>
 
-			<Spending
-				total={dashboard.spending}
-				data={dashboard.spending_data}
-			/>
-			<Transactions />
-			<Accounts />
-			<Balances />
-			<CalendarSummary />
+				<Spending
+					total={dashboard.spending}
+					data={dashboard.spending_data}
+				/>
+
+				<Accounts />
+				<CalendarSummary />
+				<Transactions />
+				<Balances />
+			</div>
 		</MainLayout>
 	)
 }

@@ -13,9 +13,9 @@ const NetWorth = ({
 	const { user } = useUser()
 
 	return (
-		<div>
+		<div className='w-full h-full'>
 			<h1 className="py-2">Net Worth</h1>
-			<div className="rounded-xl border-1 border-stone-200 py-6 px-8 w-fit flex flex-col">
+			<div className="rounded-xl border-1 w-full h-[calc(100%-40px)] border-stone-200 py-6 px-8 flex flex-col">
 				<h1 className="mb-2 p-1">Total Net Worth</h1>
 				<p className="text-5xl font-medium mb-3 p-1">
 					{formatCurrency(networth, true)}
