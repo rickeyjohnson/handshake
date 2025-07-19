@@ -33,7 +33,7 @@ const CalendarSummary = () => {
 	}
 
 	return (
-		<div>
+		<div className='w-full'>
       <h1 className="py-2">Calendar</h1>
       <div className="shadow w-full h-[calc(100%-40px)] rounded-xl border-1 border-stone-200 p-4">
         <h1 className="w-full flex justify-center p-4">
