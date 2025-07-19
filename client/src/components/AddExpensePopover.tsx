@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router'
 import { Button } from './ui/Button'
-import { IconCamera, IconPencil } from '@tabler/icons-react'
+import { IconCamera } from '@tabler/icons-react'
 
 const AddExpensePopover = () => {
 	const navigate = useNavigate()
