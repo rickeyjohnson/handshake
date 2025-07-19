@@ -50,9 +50,9 @@ const Accounts = () => {
 	}, [accounts])
 
 	return (
-		<div>
+		<div className="w-full h-full">
 			<h1 className="py-2">Accounts Summary</h1>
-			<div className="rounded-xl border-1 border-stone-200 py-6 px-8 w-fit flex flex-col text-lg">
+			<div className="shadow rounded-xl border-1 border-stone-200 py-6 px-8 w-full h-[calc(100%-40px)] flex flex-col text-lg justify-center">
 				{accountsData.map((acc) => (
 					<div className="flex gap-3 flex-row align-center border-b-2 border-stone-200 p-4 last:border-0">
 						{<acc.icon size={24} />}
