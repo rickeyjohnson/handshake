@@ -74,7 +74,7 @@ const GoalsPage = () => {
 						Add Goal
 					</Button>
 				</MainHeader>
-				<div className="flex flex-wrap gap-7 p-4 pt-0">
+				<div className="flex flex-wrap gap-5 p-4 pt-0">
 					{goals && goals.length > 0 ? (
 						goals.map((goal) => {
 							return (
