@@ -1,4 +1,4 @@
-import type { Icon } from '@tabler/icons-react'
+import type { Icon, IconProps } from '@tabler/icons-react'
 import type { Dispatch, SetStateAction } from 'react'
 
 export type OCRBBox = {
@@ -61,6 +61,7 @@ export type Account = {
 	account_name: string
 	bank_name: string
 	user_id: string
+	user_name: string
 	balances: {
 		available: number
 		current: number
@@ -174,4 +175,10 @@ export type DashboardData = {
 	partnerNetWorth: number
 	spending: number
 	spending_data: SpendingData[]
+}
+
+export type AccountComponentData = {
+	subtype: string
+	icon: React.ForwardRefExoticComponent<IconProps & React.RefAttributes<Icon>>
+	total: number
 }
