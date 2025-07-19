@@ -105,3 +105,16 @@ export const formatXAxis = (date: Date | string) => {
 		day: 'numeric',
 	})}`
 }
+
+export const calculatBudgetSpendingBasedOffCategory = (
+	category: string,
+	transactions: Transactions[]
+) => {
+	const filterTransactions = transactions.filter(
+		(tx) =>
+			category === tx.category &&
+			isDateInCurrentMonth(new Date(tx.authorized_date)) &&
+			tx.amount > 0
+	)
+	return filterTransactions.reduce((sum, tx) => sum + tx.amount, 0)
+}

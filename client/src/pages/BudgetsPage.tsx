@@ -9,15 +9,21 @@ import {
 	IconPigMoney,
 } from '@tabler/icons-react'
 import { useEffect, useState } from 'react'
-import { formatCategory, formatCurrency } from '../utils/utils'
+import {
+	calculatBudgetSpendingBasedOffCategory,
+	formatCategory,
+	formatCurrency,
+} from '../utils/utils'
 import { Input } from '../components/ui/Input'
 import { useWebSocket } from '../contexts/WebsocketContext'
 import type { Budget } from '../types/types'
 import { categories } from '../constants/constants'
+import { useTransactions } from '../contexts/TransactionsContext'
 
 const BudgetsPage = () => {
 	const { user } = useUser()
 	const { socket } = useWebSocket()
+	const { transactions } = useTransactions()
 	const [budgets, setBudgets] = useState<Budget[]>([])
 	const [isAdding, setIsAdding] = useState<boolean>(false)
 	const [selectedCategory, setSelectedCategory] = useState('FOOD_AND_DRINK')
@@ -91,7 +97,7 @@ const BudgetsPage = () => {
 	useEffect(() => {
 		if (!socket) return
 
-		const handleNewGoal = (event: MessageEvent) => {
+		const handleNewBudget = (event: MessageEvent) => {
 			try {
 				const data = JSON.parse(event.data)
 
@@ -103,9 +109,9 @@ const BudgetsPage = () => {
 			}
 		}
 
-		socket.addEventListener('message', handleNewGoal)
+		socket.addEventListener('message', handleNewBudget)
 
-		return () => socket.removeEventListener('message', handleNewGoal)
+		return () => socket.removeEventListener('message', handleNewBudget)
 	}, [socket])
 
 	return (
@@ -150,7 +156,7 @@ const BudgetsPage = () => {
 			</MainHeader>
 
 			<div className="flex items-start justify-center gap-5">
-				<div className='shadow overflow-hidden rounded-xl border border-stone-200'>
+				<div className="shadow overflow-hidden rounded-xl border border-stone-200">
 					<table className="flex-3 bg-white w-full rounded-xl overflow-hidden">
 						<thead>
 							<tr className="text-left bg-stone-100 *:py-3">
@@ -170,8 +176,17 @@ const BudgetsPage = () => {
 						</thead>
 						<tbody>
 							{budgets.map((budget) => {
+								const actual =
+									calculatBudgetSpendingBasedOffCategory(
+										budget.category,
+										transactions
+									)
+								const remaining = budget.budgeted - actual
 								return (
-									<tr key={budget.id} className='border-t border-stone-200 *:py-3'>
+									<tr
+										key={budget.id}
+										className="border-t border-stone-200 *:py-3"
+									>
 										<td className="p-1 pl-6">
 											{formatCategory(budget.category)}
 										</td>
@@ -179,19 +194,23 @@ const BudgetsPage = () => {
 											{formatCurrency(budget.budgeted)}
 										</td>
 										<td className="p-1">
-											{formatCurrency(budget.actual)}
+											{formatCurrency(actual)}
 										</td>
-										<td className="text-right pr-6">
-											{formatCurrency(
-												budget.budgeted + budget.actual
-											)}
+										<td
+											className={`text-right pr-6 ${
+												remaining < 0
+													? 'text-red-600'
+													: 'text-lime-700'
+											}`}
+										>
+											{formatCurrency(remaining)}
 										</td>
 									</tr>
 								)
 							})}
-					
+
 							{isAdding && (
-								<tr className='border-t border-stone-200'>
+								<tr className="border-t border-stone-200">
 									<td className="p-1 pl-6">
 										<select
 											value={selectedCategory}
@@ -200,7 +219,9 @@ const BudgetsPage = () => {
 													'category',
 													e.target.value
 												)
-												setSelectedCategory(e.target.value)
+												setSelectedCategory(
+													e.target.value
+												)
 											}}
 										>
 											{categories.map((cat) => (
@@ -238,7 +259,7 @@ const BudgetsPage = () => {
 						{formatCurrency(remaining, true)}
 					</h1>
 
-					<div className='*:p-4'>
+					<div className="*:p-4">
 						<div className="flex gap-2 items-center border-t-2 p-2 pb-0 border-stone-200">
 							<p className="flex grow items-center gap-2 font-normal text-lg">
 								<IconCash size={18} />
@@ -248,7 +269,7 @@ const BudgetsPage = () => {
 								{formatCurrency(spendingBudget, true)}
 							</p>
 						</div>
-						
+
 						<div className="flex gap-2 items-center border-t-2 p-2 pb-0 border-stone-200">
 							<p className="flex grow items-center gap-2 font-normal text-lg">
 								<IconPigMoney size={18} />
@@ -258,7 +279,7 @@ const BudgetsPage = () => {
 								{formatCurrency(currentSpending, true)}
 							</p>
 						</div>
-						
+
 						<div className="flex gap-2 items-center border-t-2 p-2 pb-0 border-stone-200">
 							<p className="flex grow items-center gap-2 font-normal text-lg">
 								<IconCoin size={18} />
