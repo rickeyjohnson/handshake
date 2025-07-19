@@ -234,38 +234,40 @@ const BudgetsPage = () => {
 					</table>
 				</div>
 				<div className="flex-1 p-10 border-2 border-stone-100 rounded-lg shadow">
-					<h1 className="text-7xl font-semibold my-2">
+					<h1 className="text-7xl font-medium pb-10">
 						{formatCurrency(remaining, true)}
 					</h1>
 
-					<div className="flex gap-2 items-center border-t-2 p-2 pb-0 border-stone-200">
-						<p className="flex grow items-center gap-2 font-normal text-lg">
-							<IconCash size={18} />
-							Spending Budget
-						</p>
-						<p className="font-medium text-lg text-right">
-							{formatCurrency(spendingBudget, true)}
-						</p>
-					</div>
-
-					<div className="flex gap-2 items-center border-t-2 p-2 pb-0 border-stone-200">
-						<p className="flex grow items-center gap-2 font-normal text-lg">
-							<IconPigMoney size={18} />
-							Current Spending
-						</p>
-						<p className="font-medium text-lg text-right">
-							{formatCurrency(currentSpending, true)}
-						</p>
-					</div>
-
-					<div className="flex gap-2 items-center border-t-2 p-2 pb-0 border-stone-200">
-						<p className="flex grow items-center gap-2 font-normal text-lg">
-							<IconCoin size={18} />
-							Remaining
-						</p>
-						<p className="font-medium text-lg text-right">
-							{formatCurrency(remaining, true)}
-						</p>
+					<div className='*:p-4'>
+						<div className="flex gap-2 items-center border-t-2 p-2 pb-0 border-stone-200">
+							<p className="flex grow items-center gap-2 font-normal text-lg">
+								<IconCash size={18} />
+								Spending Budget
+							</p>
+							<p className="font-medium text-lg text-right">
+								{formatCurrency(spendingBudget, true)}
+							</p>
+						</div>
+						
+						<div className="flex gap-2 items-center border-t-2 p-2 pb-0 border-stone-200">
+							<p className="flex grow items-center gap-2 font-normal text-lg">
+								<IconPigMoney size={18} />
+								Current Spending
+							</p>
+							<p className="font-medium text-lg text-right">
+								{formatCurrency(currentSpending, true)}
+							</p>
+						</div>
+						
+						<div className="flex gap-2 items-center border-t-2 p-2 pb-0 border-stone-200">
+							<p className="flex grow items-center gap-2 font-normal text-lg">
+								<IconCoin size={18} />
+								Remaining
+							</p>
+							<p className="font-medium text-lg text-right">
+								{formatCurrency(remaining, true)}
+							</p>
+						</div>
 					</div>
 				</div>
 			</div>
