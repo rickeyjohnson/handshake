@@ -59,7 +59,7 @@ const GoalsPage = () => {
 
 	return (
 		<MainLayout>
-			<div className="">
+			<div>
 				<MainHeader
 					title="Goals"
 					caption={`Set goals with ${
@@ -67,7 +67,7 @@ const GoalsPage = () => {
 					}`}
 				>
 					<Button
-						className="flex items-center gap-2 self-center"
+						className="flex items-center gap-2 h-fit"
 						onClick={() => setOpenAddGoalsModal(true)}
 					>
 						<IconCirclePlusFilled size={18} />

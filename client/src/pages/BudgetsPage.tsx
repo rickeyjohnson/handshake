@@ -122,19 +122,19 @@ const BudgetsPage = () => {
 			>
 				{!isAdding ? (
 					<Button
-						className="flex gap-2 align-center items-center self-center"
+						className="flex gap-2 align-center items-center h-fit"
 						onClick={startAddBudget}
 					>
 						<IconCirclePlusFilled size={18} />
 						Create New Budget
 					</Button>
 				) : (
-					<div className="flex gap-3 flex-row-reverse">
+					<div className='relative'>
 						<Button
 							onClick={async () => {
 								await saveNewBudget()
 							}}
-							className="flex gap-2 align-center items-center self-center"
+							className="flex gap-2 align-center items-center h-fit"
 							disabled={
 								!newBudget.category ||
 								!newBudget.budgeted ||
@@ -143,7 +143,7 @@ const BudgetsPage = () => {
 						>
 							Save
 						</Button>
-
+					
 						<Button
 							variant="ghost"
 							className="flex gap-2 align-center items-center self-center"
