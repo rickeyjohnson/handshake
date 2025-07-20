@@ -18,7 +18,7 @@ const NetWorth = ({
 			<div className="shadow rounded-xl border-1 w-full h-[calc(100%-40px)] border-stone-200 py-6 px-8 flex flex-col">
 				<div className="flex-1">
 					<h1 className="mb-2 p-1">Total Net Worth</h1>
-					<p className="text-5xl font-medium mb-3 p-1">
+					<p className="text-5xl font-medium mb-3 p-1 truncate">
 						{formatCurrency(networth, true)}
 					</p>
 				</div>
