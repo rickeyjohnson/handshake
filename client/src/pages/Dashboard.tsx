@@ -59,7 +59,7 @@ const Dashboard = () => {
 				title={`Welcome ${user?.name || 'Partner'}`}
 				caption={`Today is ${new Date().toDateString()}`}
 			/>
-			<div className="grid lg:grid-cols-3 lg:grid-rows-[1fr_3fr] md:grid-cols-2 items-start gap-7">
+			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:grid-rows-[1fr_3fr] items-start gap-7">
 				<NetWorth
 					networth={dashboard.netWorth}
 					userNetworth={dashboard.userNetWorth}
@@ -72,11 +72,12 @@ const Dashboard = () => {
 				/>
 
 				<Accounts />
-				<div className="col-span-2 order-last lg:order-none">
+
+				<div className="order-last lg:order-none md:col-span-2 lg:col-span-2 overflow-x-auto">
 					<Transactions />
 				</div>
 
-				<div className="lg:grid lg:grid-rows-2 lg:grid-cols-1">
+				<div className="grid grid-rows-2 grid-cols-1">
 					<Balances />
 					<CalendarSummary />
 				</div>
