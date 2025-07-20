@@ -83,7 +83,38 @@ export const calculateSpendingData = (transactions: Transactions[]) => {
 	return cumulativeData
 }
 
-export const getNetSpendingForDay = (transactions: Transactions[], day: Date) => {
-  const filteredTransactions = transactions.filter(tx => isSameDay(new Date(tx.authorized_date), day))
-  return filteredTransactions.reduce((sum, tx) => sum - tx.amount, 0)
+export const getNetSpendingForDay = (
+	transactions: Transactions[],
+	day: Date
+) => {
+	const filteredTransactions = transactions.filter((tx) =>
+		isSameDay(new Date(tx.authorized_date), day)
+	)
+	return filteredTransactions.reduce((sum, tx) => sum - tx.amount, 0)
+}
+
+export const formatYAxis = (value: number) => `$${value}`
+
+export const formatXAxis = (date: Date | string) => {
+	if (typeof date === 'string') {
+		date = new Date(date)
+	}
+
+	return `${date.toLocaleDateString('en-US', {
+		month: 'long',
+		day: 'numeric',
+	})}`
+}
+
+export const calculatBudgetSpendingBasedOffCategory = (
+	category: string,
+	transactions: Transactions[]
+) => {
+	const filterTransactions = transactions.filter(
+		(tx) =>
+			category === tx.category &&
+			isDateInCurrentMonth(new Date(tx.authorized_date)) &&
+			tx.amount > 0
+	)
+	return filterTransactions.reduce((sum, tx) => sum + tx.amount, 0)
 }

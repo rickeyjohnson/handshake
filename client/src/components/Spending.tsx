@@ -1,12 +1,8 @@
 import { Line, LineChart, ResponsiveContainer, XAxis, YAxis } from 'recharts'
-import { formatCurrency } from '../utils/utils'
+import { formatCurrency, formatXAxis, formatYAxis } from '../utils/utils'
 import type { SpendingData } from '../types/types'
 
 const Spending = ({ total, data }: { total: number; data: SpendingData[] }) => {
-	const xAxisDataPoints = 4
-	const formatYAxis = (value: number) => `$${value}`
-	const formatXAxis = (date: Date) =>
-		`${date.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })}`
 	return (
 		<div className="w-full h-full">
 			<h1 className="py-2">Spending</h1>
@@ -29,7 +25,7 @@ const Spending = ({ total, data }: { total: number; data: SpendingData[] }) => {
 								padding={{ left: 30 }}
 								tickFormatter={formatXAxis}
 								interval={Math.round(
-									data.length / xAxisDataPoints
+									data.length / 4
 								)}
 							/>
 							<Line

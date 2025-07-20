@@ -59,7 +59,7 @@ const GoalsPage = () => {
 
 	return (
 		<MainLayout>
-			<div className="">
+			<div>
 				<MainHeader
 					title="Goals"
 					caption={`Set goals with ${
@@ -67,14 +67,14 @@ const GoalsPage = () => {
 					}`}
 				>
 					<Button
-						className="flex items-center gap-2 self-center"
+						className="flex items-center gap-2 h-fit"
 						onClick={() => setOpenAddGoalsModal(true)}
 					>
 						<IconCirclePlusFilled size={18} />
 						Add Goal
 					</Button>
 				</MainHeader>
-				<div className="flex flex-wrap gap-7 p-4 pt-0">
+				<div className="flex flex-wrap gap-5 p-4 pt-0">
 					{goals && goals.length > 0 ? (
 						goals.map((goal) => {
 							return (

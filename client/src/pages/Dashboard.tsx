@@ -75,7 +75,7 @@ const Dashboard = () => {
 				<div className="col-span-2">
 					<Transactions />
 				</div>
-				<div className="grid grid-rows-2 grid-cols-1 gap-7 ">
+				<div className="grid grid-rows-2 grid-cols-1">
 					<Balances />
 					<CalendarSummary />
 				</div>

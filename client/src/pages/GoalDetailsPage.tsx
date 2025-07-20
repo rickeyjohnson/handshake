@@ -5,6 +5,7 @@ import MainHeader from '../components/layout/MainHeader'
 import { IconCalendarEvent, IconTargetArrow } from '@tabler/icons-react'
 import { LineChart, Line, ResponsiveContainer, XAxis, YAxis } from 'recharts'
 import type { GoalType } from '../types/types'
+import { formatCurrency, formatXAxis, formatYAxis } from '../utils/utils'
 
 const GoalDetailsPage = () => {
 	const { id } = useParams()
@@ -116,8 +117,8 @@ const GoalDetailsPage = () => {
 			<div className="mx-4">
 				<div className="flex items-stretch mb-4 gap-5">
 					<div className="flex flex-1 flex-col gap-2 box-border border-2 border-stone-100 shadow rounded-xl w-[50%] h-auto p-5">
-						<h1 className="text-7xl font-semibold my-2">
-							${goal.current}
+						<h1 className="text-7xl font-medium my-2">
+							{formatCurrency(goal.current, true)}
 						</h1>
 						<div className="flex gap-2 items-center border-t-2 p-2 pb-0 border-stone-200">
 							<p className="flex grow items-center gap-2 font-normal text-lg">
@@ -144,8 +145,8 @@ const GoalDetailsPage = () => {
 						<h1>Contribution Chart</h1>
 						<ResponsiveContainer width="100%" height="100%">
 							<LineChart data={contributions}>
-								<YAxis />
-								<XAxis />
+								<YAxis dataKey="amount" tickFormatter={formatYAxis}/>
+								<XAxis dataKey="created_at" tickFormatter={formatXAxis} interval={Math.round(contributions.length / 4)} padding={{left: 40, right: 40}} />
 								<Line
 									type="monotone"
 									dataKey="amount"
@@ -158,26 +159,28 @@ const GoalDetailsPage = () => {
 					</div>
 				</div>
 
-				<table className="box-border w-full border-2 border-stone-50 shadow">
-					<tr className="text-lg text-left bg-stone-100">
-						<th className="font-normal">Date</th>
-						<th className="font-normal w-[40%]">Name</th>
-						<th className="font-normal">User</th>
-						<th className="font-normal">Amount</th>
-					</tr>
-					{contributions.map((cont) => {
-						return (
-							<tr>
-								<td className="p-2">
-									{new Date(cont.created_at).toDateString()}
-								</td>
-								<td>SAVINGS TRANSFER FOR GOAL</td>
-								<td>{cont.user.name}</td>
-								<td>+{cont.amount}</td>
-							</tr>
-						)
-					})}
-				</table>
+				<div className='shadow overflow-hidden rounded-xl border border-stone-200'>
+					<table className="bg-white w-full rounded-xl overflow-hidden">
+						<tr className="text-lg text-left bg-stone-100 *:py-3">
+							<th className="font-normal pl-6">Date</th>
+							<th className="font-normal w-[40%]">Name</th>
+							<th className="font-normal">User</th>
+							<th className="font-normal text-right pr-6">Amount</th>
+						</tr>
+						{contributions.map((cont) => {
+							return (
+								<tr key={cont.id} className='border-t border-stone-200 *:py-3'>
+									<td className="pl-6">
+										{new Date(cont.created_at).toDateString()}
+									</td>
+									<td>SAVINGS TRANSFER FOR GOAL</td>
+									<td className='capitalize'>{cont.user.name}</td>
+									<td className='text-right pr-6'>+{formatCurrency(cont.amount)}</td>
+								</tr>
+							)
+						})}
+					</table>
+				</div>
 			</div>
 		</MainLayout>
 	)

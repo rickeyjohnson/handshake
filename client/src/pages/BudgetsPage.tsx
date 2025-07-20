@@ -9,15 +9,21 @@ import {
 	IconPigMoney,
 } from '@tabler/icons-react'
 import { useEffect, useState } from 'react'
-import { formatCategory, formatCurrency } from '../utils/utils'
+import {
+	calculatBudgetSpendingBasedOffCategory,
+	formatCategory,
+	formatCurrency,
+} from '../utils/utils'
 import { Input } from '../components/ui/Input'
 import { useWebSocket } from '../contexts/WebsocketContext'
 import type { Budget } from '../types/types'
 import { categories } from '../constants/constants'
+import { useTransactions } from '../contexts/TransactionsContext'
 
 const BudgetsPage = () => {
 	const { user } = useUser()
 	const { socket } = useWebSocket()
+	const { transactions } = useTransactions()
 	const [budgets, setBudgets] = useState<Budget[]>([])
 	const [isAdding, setIsAdding] = useState<boolean>(false)
 	const [selectedCategory, setSelectedCategory] = useState('FOOD_AND_DRINK')
@@ -91,7 +97,7 @@ const BudgetsPage = () => {
 	useEffect(() => {
 		if (!socket) return
 
-		const handleNewGoal = (event: MessageEvent) => {
+		const handleNewBudget = (event: MessageEvent) => {
 			try {
 				const data = JSON.parse(event.data)
 
@@ -103,9 +109,9 @@ const BudgetsPage = () => {
 			}
 		}
 
-		socket.addEventListener('message', handleNewGoal)
+		socket.addEventListener('message', handleNewBudget)
 
-		return () => socket.removeEventListener('message', handleNewGoal)
+		return () => socket.removeEventListener('message', handleNewBudget)
 	}, [socket])
 
 	return (
@@ -116,19 +122,19 @@ const BudgetsPage = () => {
 			>
 				{!isAdding ? (
 					<Button
-						className="flex gap-2 align-center items-center self-center"
+						className="flex gap-2 align-center items-center h-fit"
 						onClick={startAddBudget}
 					>
 						<IconCirclePlusFilled size={18} />
 						Create New Budget
 					</Button>
 				) : (
-					<div className="flex gap-3 flex-row-reverse">
+					<div className='relative'>
 						<Button
 							onClick={async () => {
 								await saveNewBudget()
 							}}
-							className="flex gap-2 align-center items-center self-center"
+							className="flex gap-2 align-center items-center h-fit"
 							disabled={
 								!newBudget.category ||
 								!newBudget.budgeted ||
@@ -137,7 +143,7 @@ const BudgetsPage = () => {
 						>
 							Save
 						</Button>
-
+					
 						<Button
 							variant="ghost"
 							className="flex gap-2 align-center items-center self-center"
@@ -150,120 +156,139 @@ const BudgetsPage = () => {
 			</MainHeader>
 
 			<div className="flex items-start justify-center gap-5">
-				<table className="bg-amber-200 flex-3">
-					<thead>
-						<tr className="text-left bg-amber-300">
-							<th className="text-lg font-medium w-sm p-1 pl-3">
-								Category
-							</th>
-							<th className="text-lg font-medium w-xs">
-								Budgeted
-							</th>
-							<th className="text-lg font-medium w-2xs">
-								Actual
-							</th>
-							<th className="text-lg font-medium pr-3">
-								Remaining
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						{budgets.map((budget) => {
-							return (
-								<tr key={budget.id}>
-									<td className="p-1 pl-3">
-										{formatCategory(budget.category)}
-									</td>
-									<td className="p-1">
-										{formatCurrency(budget.budgeted)}
-									</td>
-									<td className="p-1">
-										{formatCurrency(budget.actual)}
-									</td>
-									<td className="text-right pr-3">
-										{formatCurrency(
-											budget.budgeted + budget.actual
-										)}
-									</td>
-								</tr>
-							)
-						})}
-
-						{isAdding && (
-							<tr>
-								<td className="p-1 pl-3">
-									<select
-										value={selectedCategory}
-										onChange={(e) => {
-											handleNewBudgetChange(
-												'category',
-												e.target.value
-											)
-											setSelectedCategory(e.target.value)
-										}}
-									>
-										{categories.map((cat) => (
-											<option
-												key={cat.value}
-												value={cat.value}
-											>
-												{cat.label}
-											</option>
-										))}
-									</select>
-								</td>
-								<td className="p-1">
-									<Input
-										type="number"
-										min={0}
-										value={newBudget.budgeted}
-										onChange={(e) =>
-											handleNewBudgetChange(
-												'budgeted',
-												e.target.value
-											)
-										}
-									/>
-								</td>
-								<td className="p-1">---</td>
-								<td className="text-right pr-3">---</td>
+				<div className="shadow overflow-hidden rounded-xl border border-stone-200">
+					<table className="flex-3 bg-white w-full rounded-xl overflow-hidden">
+						<thead>
+							<tr className="text-left bg-stone-100 *:py-3">
+								<th className="text-lg font-medium w-sm p-1 pl-6">
+									Category
+								</th>
+								<th className="text-lg font-medium w-xs">
+									Budgeted
+								</th>
+								<th className="text-lg font-medium w-2xs">
+									Actual
+								</th>
+								<th className="text-lg font-medium pr-6">
+									Remaining
+								</th>
 							</tr>
-						)}
-					</tbody>
-				</table>
+						</thead>
+						<tbody>
+							{budgets.map((budget) => {
+								const actual =
+									calculatBudgetSpendingBasedOffCategory(
+										budget.category,
+										transactions
+									)
+								const remaining = budget.budgeted - actual
+								return (
+									<tr
+										key={budget.id}
+										className="border-t border-stone-200 *:py-3"
+									>
+										<td className="p-1 pl-6">
+											{formatCategory(budget.category)}
+										</td>
+										<td className="p-1">
+											{formatCurrency(budget.budgeted)}
+										</td>
+										<td className="p-1">
+											{formatCurrency(actual)}
+										</td>
+										<td
+											className={`text-right pr-6 ${
+												remaining < 0
+													? 'text-red-600'
+													: 'text-lime-700'
+											}`}
+										>
+											{formatCurrency(remaining)}
+										</td>
+									</tr>
+								)
+							})}
+
+							{isAdding && (
+								<tr className="border-t border-stone-200">
+									<td className="p-1 pl-6">
+										<select
+											value={selectedCategory}
+											onChange={(e) => {
+												handleNewBudgetChange(
+													'category',
+													e.target.value
+												)
+												setSelectedCategory(
+													e.target.value
+												)
+											}}
+										>
+											{categories.map((cat) => (
+												<option
+													key={cat.value}
+													value={cat.value}
+												>
+													{cat.label}
+												</option>
+											))}
+										</select>
+									</td>
+									<td className="p-1">
+										<Input
+											type="number"
+											min={0}
+											value={newBudget.budgeted}
+											onChange={(e) =>
+												handleNewBudgetChange(
+													'budgeted',
+													e.target.value
+												)
+											}
+										/>
+									</td>
+									<td className="p-1">---</td>
+									<td className="text-right pr-6">---</td>
+								</tr>
+							)}
+						</tbody>
+					</table>
+				</div>
 				<div className="flex-1 p-10 border-2 border-stone-100 rounded-lg shadow">
-					<h1 className="text-7xl font-semibold my-2">
+					<h1 className="text-7xl font-medium pb-10">
 						{formatCurrency(remaining, true)}
 					</h1>
 
-					<div className="flex gap-2 items-center border-t-2 p-2 pb-0 border-stone-200">
-						<p className="flex grow items-center gap-2 font-normal text-lg">
-							<IconCash size={18} />
-							Spending Budget
-						</p>
-						<p className="font-medium text-lg text-right">
-							{formatCurrency(spendingBudget, true)}
-						</p>
-					</div>
+					<div className="*:p-4">
+						<div className="flex gap-2 items-center border-t-2 p-2 pb-0 border-stone-200">
+							<p className="flex grow items-center gap-2 font-normal text-lg">
+								<IconCash size={18} />
+								Spending Budget
+							</p>
+							<p className="font-medium text-lg text-right">
+								{formatCurrency(spendingBudget, true)}
+							</p>
+						</div>
 
-					<div className="flex gap-2 items-center border-t-2 p-2 pb-0 border-stone-200">
-						<p className="flex grow items-center gap-2 font-normal text-lg">
-							<IconPigMoney size={18} />
-							Current Spending
-						</p>
-						<p className="font-medium text-lg text-right">
-							{formatCurrency(currentSpending, true)}
-						</p>
-					</div>
+						<div className="flex gap-2 items-center border-t-2 p-2 pb-0 border-stone-200">
+							<p className="flex grow items-center gap-2 font-normal text-lg">
+								<IconPigMoney size={18} />
+								Current Spending
+							</p>
+							<p className="font-medium text-lg text-right">
+								{formatCurrency(currentSpending, true)}
+							</p>
+						</div>
 
-					<div className="flex gap-2 items-center border-t-2 p-2 pb-0 border-stone-200">
-						<p className="flex grow items-center gap-2 font-normal text-lg">
-							<IconCoin size={18} />
-							Remaining
-						</p>
-						<p className="font-medium text-lg text-right">
-							{formatCurrency(remaining, true)}
-						</p>
+						<div className="flex gap-2 items-center border-t-2 p-2 pb-0 border-stone-200">
+							<p className="flex grow items-center gap-2 font-normal text-lg">
+								<IconCoin size={18} />
+								Remaining
+							</p>
+							<p className="font-medium text-lg text-right">
+								{formatCurrency(remaining, true)}
+							</p>
+						</div>
 					</div>
 				</div>
 			</div>
