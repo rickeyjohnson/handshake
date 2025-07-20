@@ -14,7 +14,7 @@ const MobileSidebar = () => {
 	}
 
 	return (
-        <nav className='fixed bottom-0 left-0 w-screen bg-white border-t border-gray-200 flex justify-center py-2 z-50'>
+        <nav className='fixed bottom-0 left-0 w-screen bg-white border-t border-gray-200 flex justify-around items-center py-2 z-50'>
             {nav.map((item) => {
                 return (
                     <Button
