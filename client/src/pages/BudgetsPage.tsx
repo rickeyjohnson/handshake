@@ -129,7 +129,7 @@ const BudgetsPage = () => {
 						Create New Budget
 					</Button>
 				) : (
-					<div className='relative'>
+					<div className="relative">
 						<Button
 							onClick={async () => {
 								await saveNewBudget()
@@ -143,7 +143,7 @@ const BudgetsPage = () => {
 						>
 							Save
 						</Button>
-					
+
 						<Button
 							variant="ghost"
 							className="flex gap-2 align-center items-center self-center"
@@ -248,7 +248,9 @@ const BudgetsPage = () => {
 										/>
 									</td>
 									<td className="p-1 px-3">---</td>
-									<td className="text-right pr-6 px-3">---</td>
+									<td className="text-right pr-6 px-3">
+										---
+									</td>
 								</tr>
 							)}
 						</tbody>

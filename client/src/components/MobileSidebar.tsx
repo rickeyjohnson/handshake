@@ -14,21 +14,21 @@ const MobileSidebar = () => {
 	}
 
 	return (
-        <nav className='fixed bottom-0 left-0 w-screen bg-white border-t border-gray-200 flex justify-around items-center p-2 z-50'>
-            {nav.map((item) => {
-                return (
-                    <Button
-                        variant="dashboard"
-                        className={`flex flex-col ${selectedStyle(item.url)}`}
-                        onClick={() => navigate(item.url)}
-                        key={item.title}
-                    >
-                        <item.icon size={18} />
-                        {item.title}
-                    </Button>
-                )
-            })}
-        </nav>
+		<nav className="fixed bottom-0 left-0 w-screen bg-white border-t border-gray-200 flex justify-around items-center p-2 z-50">
+			{nav.map((item) => {
+				return (
+					<Button
+						variant="dashboard"
+						className={`flex flex-col ${selectedStyle(item.url)}`}
+						onClick={() => navigate(item.url)}
+						key={item.title}
+					>
+						<item.icon size={18} />
+						{item.title}
+					</Button>
+				)
+			})}
+		</nav>
 	)
 }
 

@@ -91,37 +91,60 @@ const TransactionsPage = () => {
 					{openPopover && <AddExpensePopover />}
 				</div>
 			</MainHeader>
-			<div className='shadow rounded-xl border border-stone-200 w-full overflow-x-auto'>
+			<div className="shadow rounded-xl border border-stone-200 w-full overflow-x-auto">
 				<table className="flex-3 bg-white w-full table-auto rounded-xl px-4 sm:px-6 md:px-8">
 					<thead>
 						<tr className="text-left bg-stone-100 *:py-2">
 							<th className="text-lg font-medium w-[20%] px-2 sm:px-6 pl-6">
 								Category
 							</th>
-							<th className="text-lg font-medium w-[25%] px-2 sm:px-6">Name</th>
-							<th className="text-lg font-medium w-[10%] px-2 sm:px-6">Date</th>
-							<th className="text-lg font-medium w-[10%] px-2 sm:px-6">Status</th>
-							<th className="text-lg font-medium w-[10%] px-2 sm:px-6">User</th>
-							<th className="text-lg font-medium w-[10%] px-2 sm:px-6">Account</th>
-							<th className="text-lg text-right font-medium w-[10%] pr-6 px-2 sm:px-6">Amount</th>
+							<th className="text-lg font-medium w-[25%] px-2 sm:px-6">
+								Name
+							</th>
+							<th className="text-lg font-medium w-[10%] px-2 sm:px-6">
+								Date
+							</th>
+							<th className="text-lg font-medium w-[10%] px-2 sm:px-6">
+								Status
+							</th>
+							<th className="text-lg font-medium w-[10%] px-2 sm:px-6">
+								User
+							</th>
+							<th className="text-lg font-medium w-[10%] px-2 sm:px-6">
+								Account
+							</th>
+							<th className="text-lg text-right font-medium w-[10%] pr-6 px-2 sm:px-6">
+								Amount
+							</th>
 						</tr>
 					</thead>
 					<tbody>
 						{transactions.map((tx) => {
 							return (
-								<tr key={tx.id} className='border-t border-stone-200 *:py-3'>
-									<td className="px-2 sm:px-6 pl-6">{formatCategory(tx.category)}</td>
-									<td className="px-2 sm:px-6">{tx.transaction_name}</td>
+								<tr
+									key={tx.id}
+									className="border-t border-stone-200 *:py-3"
+								>
+									<td className="px-2 sm:px-6 pl-6">
+										{formatCategory(tx.category)}
+									</td>
+									<td className="px-2 sm:px-6">
+										{tx.transaction_name}
+									</td>
 									<td className="px-2 sm:px-6">
 										{tx.authorized_date || tx.date}
 									</td>
 									<td className="px-2 sm:px-6">
-										{tx.authorized_date ? 'Posted' : 'Pending'}
+										{tx.authorized_date
+											? 'Posted'
+											: 'Pending'}
 									</td>
 									<td className="px-2 sm:px-6 capitalize">
 										{tx.user_name}
 									</td>
-									<td className="px-2 sm:px-6">{tx.account_name}</td>
+									<td className="px-2 sm:px-6">
+										{tx.account_name}
+									</td>
 									<td className="text-right pr-6 px-2 sm:px-6">
 										{formatCurrency(tx.amount)}
 									</td>

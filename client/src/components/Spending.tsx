@@ -24,9 +24,7 @@ const Spending = ({ total, data }: { total: number; data: SpendingData[] }) => {
 								dataKey="date"
 								padding={{ left: 30 }}
 								tickFormatter={formatXAxis}
-								interval={Math.round(
-									data.length / 4
-								)}
+								interval={Math.round(data.length / 4)}
 							/>
 							<Line
 								type="monotone"
