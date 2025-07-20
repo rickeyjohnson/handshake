@@ -1,42 +1,14 @@
-import {
-	IconDashboard,
-	IconDotsVertical,
-	IconMoneybag,
-	IconTable,
-	IconTargetArrow,
-} from '@tabler/icons-react'
+import { IconDotsVertical } from '@tabler/icons-react'
 import { LogoutButton } from './LogoutButton'
 import { Button } from './ui/Button'
 import { useLocation, useNavigate } from 'react-router'
 import { useUser } from '../contexts/UserContext'
-import type { navItem } from '../types/types'
+import { nav } from '../constants/constants'
 
 const Sidebar = () => {
 	const { user } = useUser()
 	const location = useLocation()
 	const naviagte = useNavigate()
-	const nav: navItem[] = [
-		{
-			title: 'Dashboard',
-			url: '/dashboard',
-			icon: IconDashboard,
-		},
-		{
-			title: 'Transactions',
-			url: '/transactions',
-			icon: IconTable,
-		},
-		{
-			title: 'Budget',
-			url: '/budgets',
-			icon: IconMoneybag,
-		},
-		{
-			title: 'Goals',
-			url: '/goals',
-			icon: IconTargetArrow,
-		},
-	]
 	const selectedStyle = (url: string) => {
 		if (location.pathname.includes(url)) {
 			return 'bg-slate-950 text-white font-medium'

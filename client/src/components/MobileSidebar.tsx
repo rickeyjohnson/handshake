@@ -1,7 +1,5 @@
 const MobileSidebar = () => {
-  return (
-    <div>MobileSidebar</div>
-  )
+	return <nav></nav>
 }
 
 export default MobileSidebar

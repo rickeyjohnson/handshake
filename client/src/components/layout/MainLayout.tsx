@@ -51,7 +51,7 @@ const MainLayout = ({ children }: { children?: React.ReactNode }) => {
 
 	return (
 		<div className="min-w-screen min-h-dvh bg-stone-50 text-slate-950 grid gap-4 p-4 lg:grid-cols-[16rem_1fr]">
-			<div className='hidden lg:block'>
+			<div className="hidden lg:block">
 				<Sidebar />
 			</div>
 
