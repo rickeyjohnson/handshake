@@ -3,6 +3,7 @@ import Sidebar from '../Sidebar'
 import { useEffect } from 'react'
 import { useAccount } from '../../contexts/AccountContext'
 import { useTransactions } from '../../contexts/TransactionsContext'
+import MobileSidebar from '../MobileSidebar'
 
 const MainLayout = ({ children }: { children?: React.ReactNode }) => {
 	const { setAccounts } = useAccount()
@@ -58,6 +59,8 @@ const MainLayout = ({ children }: { children?: React.ReactNode }) => {
 			<main className="box-border bg-white rounded-2xl shadow min-h-[100vh-16px] min-w-3xl w-full p-8 pt-5 flex flex-col">
 				{children}
 			</main>
+
+			<MobileSidebar />
 		</div>
 	)
 }
