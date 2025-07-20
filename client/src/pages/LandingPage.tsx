@@ -1,10 +1,12 @@
 import { Link } from 'react-router'
 import { Button } from '../components/ui/Button'
+import Logo from '../components/Logo'
 
 const LandingPage = () => {
 	return (
 		<>
 			<div className="flex flex-col h-screen relative">
+				<Logo />
 				<nav className="flex justify-end gap-6 absolute right-6 top-6">
 					<Link to="/login">
 						<Button variant="ghost" className="flex gap">
