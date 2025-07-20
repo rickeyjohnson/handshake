@@ -1,42 +1,14 @@
-import {
-	IconDashboard,
-	IconDotsVertical,
-	IconMoneybag,
-	IconTable,
-	IconTargetArrow,
-} from '@tabler/icons-react'
+import { IconDotsVertical } from '@tabler/icons-react'
 import { LogoutButton } from './LogoutButton'
 import { Button } from './ui/Button'
 import { useLocation, useNavigate } from 'react-router'
 import { useUser } from '../contexts/UserContext'
-import type { navItem } from '../types/types'
+import { nav } from '../constants/constants'
 
 const Sidebar = () => {
 	const { user } = useUser()
 	const location = useLocation()
 	const naviagte = useNavigate()
-	const nav: navItem[] = [
-		{
-			title: 'Dashboard',
-			url: '/dashboard',
-			icon: IconDashboard,
-		},
-		{
-			title: 'Transactions',
-			url: '/transactions',
-			icon: IconTable,
-		},
-		{
-			title: 'Budget',
-			url: '/budgets',
-			icon: IconMoneybag,
-		},
-		{
-			title: 'Goals',
-			url: '/goals',
-			icon: IconTargetArrow,
-		},
-	]
 	const selectedStyle = (url: string) => {
 		if (location.pathname.includes(url)) {
 			return 'bg-slate-950 text-white font-medium'
@@ -47,7 +19,7 @@ const Sidebar = () => {
 
 	return (
 		<nav className="overflow-y-scroll sticky top-4 h-[calc(100dvh-2rem)] flex flex-col">
-			<div className="grow-1">
+			<div className="flex-grow">
 				<h1 className="text-lg font-medium px-2 py-2 border-b-1 border-b-stone-300 mb-2">
 					Handshake
 				</h1>

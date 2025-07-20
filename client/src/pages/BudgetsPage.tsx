@@ -129,7 +129,7 @@ const BudgetsPage = () => {
 						Create New Budget
 					</Button>
 				) : (
-					<div className='relative'>
+					<div className="relative">
 						<Button
 							onClick={async () => {
 								await saveNewBudget()
@@ -143,7 +143,7 @@ const BudgetsPage = () => {
 						>
 							Save
 						</Button>
-					
+
 						<Button
 							variant="ghost"
 							className="flex gap-2 align-center items-center self-center"
@@ -155,21 +155,21 @@ const BudgetsPage = () => {
 				)}
 			</MainHeader>
 
-			<div className="flex items-start justify-center gap-5">
-				<div className="shadow overflow-hidden rounded-xl border border-stone-200">
-					<table className="flex-3 bg-white w-full rounded-xl overflow-hidden">
+			<div className="flex flex-wrap items-start justify-center gap-5">
+				<div className="shadow overflow-hidden rounded-xl border border-stone-200 w-full overflow-x-auto">
+					<table className="flex-3 bg-white rounded-xl w-full">
 						<thead>
 							<tr className="text-left bg-stone-100 *:py-3">
-								<th className="text-lg font-medium w-sm p-1 pl-6">
+								<th className="text-lg font-medium w-sm p-1 pl-6 px-3">
 									Category
 								</th>
-								<th className="text-lg font-medium w-xs">
+								<th className="text-lg font-medium w-xs px-3">
 									Budgeted
 								</th>
-								<th className="text-lg font-medium w-2xs">
+								<th className="text-lg font-medium w-2xs px-3">
 									Actual
 								</th>
-								<th className="text-lg font-medium pr-6">
+								<th className="text-lg font-medium pr-6 px-3">
 									Remaining
 								</th>
 							</tr>
@@ -187,17 +187,17 @@ const BudgetsPage = () => {
 										key={budget.id}
 										className="border-t border-stone-200 *:py-3"
 									>
-										<td className="p-1 pl-6">
+										<td className="p-1 pl-6 px-3">
 											{formatCategory(budget.category)}
 										</td>
-										<td className="p-1">
+										<td className="p-1 px-3">
 											{formatCurrency(budget.budgeted)}
 										</td>
-										<td className="p-1">
+										<td className="p-1 px-3">
 											{formatCurrency(actual)}
 										</td>
 										<td
-											className={`text-right pr-6 ${
+											className={`text-right pr-6 px-3 ${
 												remaining < 0
 													? 'text-red-600'
 													: 'text-lime-700'
@@ -211,7 +211,7 @@ const BudgetsPage = () => {
 
 							{isAdding && (
 								<tr className="border-t border-stone-200">
-									<td className="p-1 pl-6">
+									<td className="p-1 pl-6 px-3">
 										<select
 											value={selectedCategory}
 											onChange={(e) => {
@@ -234,7 +234,7 @@ const BudgetsPage = () => {
 											))}
 										</select>
 									</td>
-									<td className="p-1">
+									<td className="p-1 px-3">
 										<Input
 											type="number"
 											min={0}
@@ -247,15 +247,17 @@ const BudgetsPage = () => {
 											}
 										/>
 									</td>
-									<td className="p-1">---</td>
-									<td className="text-right pr-6">---</td>
+									<td className="p-1 px-3">---</td>
+									<td className="text-right pr-6 px-3">
+										---
+									</td>
 								</tr>
 							)}
 						</tbody>
 					</table>
 				</div>
 				<div className="flex-1 p-10 border-2 border-stone-100 rounded-lg shadow">
-					<h1 className="text-7xl font-medium pb-10">
+					<h1 className="text-7xl font-medium py-7">
 						{formatCurrency(remaining, true)}
 					</h1>
 

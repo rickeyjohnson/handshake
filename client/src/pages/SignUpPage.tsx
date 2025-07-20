@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router'
 import { useUser } from '../contexts/UserContext'
 import { Input } from '../components/ui/Input'
 import { Label } from '../components/ui/Label'
+import Logo from '../components/Logo'
 
 const SignUpPage = () => {
 	const defaultSignUpDate = {
@@ -48,6 +49,7 @@ const SignUpPage = () => {
 
 	return (
 		<div className="flex justify-center items-center h-screen min-h-svh">
+			<Logo />
 			<div className="bg-white flex flex-col rounded-2xl border border-gray-300 max-w-md min-w-sm items-center p-8 gap-2">
 				<h1 className="text-xl font-semibold self-start">Sign Up</h1>
 				<p className="self-start text-gray-500 font-light text-md">
@@ -92,7 +94,11 @@ const SignUpPage = () => {
 						Sign Up
 					</Button>
 
-					{error ? <p>{error}</p> : <></>}
+					{error ? (
+						<p className="py-4 text-center font-medium">{error}</p>
+					) : (
+						<></>
+					)}
 				</form>
 				<p>
 					Already have an account?{' '}

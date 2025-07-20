@@ -44,7 +44,8 @@ const GoalsPage = () => {
 			try {
 				const data = JSON.parse(event.data)
 
-				if (data.object === 'goal') {	// Stretch Goals: pair_id for pairs account refresh
+				if (data.object === 'goal') {
+					// Stretch Goals: pair_id for pairs account refresh
 					fetchGoals()
 				}
 			} catch (error) {
@@ -74,7 +75,7 @@ const GoalsPage = () => {
 						Add Goal
 					</Button>
 				</MainHeader>
-				<div className="flex flex-wrap gap-5 p-4 pt-0">
+				<div className="flex flex-wrap gap-10 p-4 pt-0 justify-center">
 					{goals && goals.length > 0 ? (
 						goals.map((goal) => {
 							return (

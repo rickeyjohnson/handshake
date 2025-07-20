@@ -28,7 +28,7 @@ const Balances = () => {
 							{acc.account_name}
 						</p>
 
-						<p className="flex-[2] min-w-0 font-medium text-right">
+						<p className="flex-[2] min-w-0 font-medium text-right truncate">
 							{formatCurrency(acc.balances.available)}
 						</p>
 					</div>

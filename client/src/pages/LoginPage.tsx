@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useUser } from '../contexts/UserContext'
 import { Label } from '../components/ui/Label'
 import { Input } from '../components/ui/Input'
+import Logo from '../components/Logo'
 
 const LoginPage = () => {
 	const [loginData, setLoginData] = useState({ email: '', password: '' })
@@ -49,7 +50,8 @@ const LoginPage = () => {
 	}
 
 	return (
-		<div className="flex justify-center items-center h-screen min-h-svh">
+		<div className="flex justify-center items-center h-screen min-h-svh relative">
+			<Logo />
 			<div className="bg-white flex flex-col rounded-2xl border border-gray-300 max-w-md min-w-sm items-center p-8 gap-2">
 				<h1 className="text-xl font-semibold self-start">Login</h1>
 				<p className="self-start text-gray-500 font-light text-md">
@@ -78,9 +80,15 @@ const LoginPage = () => {
 						onChange={handleChange}
 					/>
 
-					<Button type="submit">Log In</Button>
+					<Button type="submit" className="my-2">
+						Log In
+					</Button>
 
-					{error ? <p>{error}</p> : <></>}
+					{error ? (
+						<p className="py-4 text-center font-medium">{error}</p>
+					) : (
+						<></>
+					)}
 				</form>
 				<p>
 					Don't have an account?{' '}
