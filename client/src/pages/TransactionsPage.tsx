@@ -91,7 +91,7 @@ const TransactionsPage = () => {
 					{openPopover && <AddExpensePopover />}
 				</div>
 			</MainHeader>
-			<div className='shadow rounded-xl border border-stone-200 w-full overflow-x-auto lg:overflow-visible'>
+			<div className='shadow rounded-xl border border-stone-200 w-full overflow-x-auto'>
 				<table className="flex-3 bg-white w-full table-auto rounded-xl px-4 sm:px-6 md:px-8">
 					<thead>
 						<tr className="text-left bg-stone-100 *:py-2">

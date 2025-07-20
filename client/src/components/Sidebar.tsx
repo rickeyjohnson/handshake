@@ -19,7 +19,7 @@ const Sidebar = () => {
 
 	return (
 		<nav className="overflow-y-scroll sticky top-4 h-[calc(100dvh-2rem)] flex flex-col">
-			<div className="grow-1">
+			<div className="flex-grow">
 				<h1 className="text-lg font-medium px-2 py-2 border-b-1 border-b-stone-300 mb-2">
 					Handshake
 				</h1>
