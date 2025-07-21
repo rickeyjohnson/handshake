@@ -37,6 +37,7 @@ expenses.post('/', async (req, res) => {
 
 		res.status(201).json({ message: 'New expense added' })
 	} catch (error) {
+		console.error('POST /api/expenses error:', error)
 		res.status(500).json({ error: error.message })
 	}
 })
