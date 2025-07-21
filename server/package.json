@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "jest --timeout=10000 --detectOpenHandles",
+    "test": "jest",
     "start": "nodemon --exec ts-node ./server.ts"
   },
   "author": "",
