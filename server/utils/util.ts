@@ -319,6 +319,10 @@ export const sendWebsocketMessage = (message: {
 	pair_id: string
 	content: string | number | boolean | null
 }) => {
+
+	
+
+
 	connectedClients.forEach((client) => {
 		if (client.readyState === 1) {
 			client.send(JSON.stringify(message))
