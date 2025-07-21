@@ -7,9 +7,9 @@ module.exports = {
 	preset: 'ts-jest',
 	collectCoverage: true,
 	coverageReporters: ['json', 'text', 'lcov', 'clover'],
-	// setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
+	setupFilesAfterEnv: ['<rootDir>/singleton.ts'],
 	moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],
-  testMatch: ['**/*.test.ts'],
+  	testMatch: ['**/*.test.ts'],
 	transform: {
 		'^.+\\.(ts|tsx)$': [
 			'ts-jest',

@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt'
 import { PrismaClient } from '../generated/prisma'
 
 const auth = Router()
-const prisma = new PrismaClient()
+export const prisma = new PrismaClient()
 
 const loginLimiter = rateLimit({
 	windowMs: 15 * 60 * 1000,
