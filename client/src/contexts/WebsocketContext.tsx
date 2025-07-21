@@ -30,8 +30,10 @@ export const WebSocketProvider = ({
 			}
 
 			ws.onclose = (e) => {
-				console.warn('Websocket closed, will retry soon.', e)
-				const delay = Math.min(1000 * 2 ** backoffRef.current)
+				const delay = Math.pow(2, backoffRef.current) * 1000
+				console.warn(
+					`'Websocket closed, will retry soon in ${delay / 1000}s.`
+				)
 				backoffRef.current += 1
 				retryTimeoutRef.current = setTimeout(connect, delay)
 			}
@@ -57,7 +59,7 @@ export const WebSocketProvider = ({
 			if (retryTimeoutRef.current) {
 				clearTimeout(retryTimeoutRef.current)
 			}
-			
+
 			if (socket) {
 				socket.close()
 			}
