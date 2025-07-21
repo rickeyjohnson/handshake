@@ -5,11 +5,9 @@ import { connectedClients } from '../websocket/wsStore'
 
 const prisma = new PrismaClient()
 
-export const isAuthenticated = (req, res, next) => {
+export const isAuthenticated = (req, res, next?) => {
 	if (!req.session.user) {
-		return res
-			.status(401)
-			.json({ error: 'You must be logged in to perform this action. ' })
+		return res.status(401).json({ error: 'You must be logged in to perform this action. ' })
 	}
 
 	next()

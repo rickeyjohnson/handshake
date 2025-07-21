@@ -29,10 +29,9 @@ declare module 'express-serve-static-core' {
 	}
 }
 
-const app = express()
+export const app = express()
 expressWs(app)
 const prisma = new PrismaClient()
-const PORT = process.env.PORT || 3001
 
 app.use(express.json())
 app.use(cors())
@@ -93,8 +92,4 @@ app.ws('/', (ws, req) => {
 		if (index !== -1) connectedClients.splice(index, 1)
 		console.log('WebSocket closed.')
 	})
-})
-
-app.listen(PORT, () => {
-	console.log(`Server is running on http://localhost:${PORT}`)
 })
