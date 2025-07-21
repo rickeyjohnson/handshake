@@ -29,7 +29,7 @@ export const WebSocketProvider = ({
 				console.log('Websocket connected')
 			}
 
-			ws.onclose = (e) => {
+			ws.onclose = () => {
 				const delay = Math.pow(2, backoffRef.current) * 1000
 				console.warn(
 					`'Websocket closed, will retry soon in ${delay / 1000}s.`
