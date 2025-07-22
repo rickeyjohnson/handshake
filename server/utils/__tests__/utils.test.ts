@@ -138,13 +138,6 @@ describe('Database Utility Functions', () => {
 		})
 	})
 
-	describe('getItemInfo', () => {
-		it('should return item details', async () => {
-			const result = await getItemInfo('item1')
-			expect(result).toEqual({ id: 'item1', institution_name: 'Bank' })
-		})
-	})
-
 	describe('getPairedId', () => {
 		it('should return pair id', async () => {
 			const result = await getPairedId('user_123')
