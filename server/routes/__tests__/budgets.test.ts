@@ -1,6 +1,8 @@
 import request from 'supertest'
 import express, { Express } from 'express'
 import session from 'express-session'
+import budgetsRouter, { prisma } from '../../routes/budgets'
+import * as util from '../../utils/util'
 
 jest.mock('../../generated/prisma', () => {
 	return {
@@ -15,25 +17,13 @@ jest.mock('../../generated/prisma', () => {
 	}
 })
 
-import budgetsRouter from '../../routes/budgets'
-import { PrismaClient } from '../../generated/prisma'
-import * as util from '../../utils/util'
-
 jest.mock('../../utils/util', () => ({
 	...jest.requireActual('../../utils/util'),
 	getPairedId: jest.fn(),
 	getSpendingOnCategory: jest.fn(),
 	sendWebsocketMessage: jest.fn(),
+	formatCategory: jest.fn((cat) => cat),
 }))
-
-const prisma = new PrismaClient() as unknown as {
-	budgets: {
-		findMany: jest.Mock
-		create: jest.Mock
-		update: jest.Mock
-		delete: jest.Mock
-	}
-}
 
 const mockUser = {
 	id: '123',
@@ -59,8 +49,6 @@ beforeEach(() => {
 		;(req.session as any).user = mockUser
 		next()
 	})
-
-	// Mount router on /api/budgets
 	app.use('/api/budgets', budgetsRouter)
 })
 
@@ -71,7 +59,7 @@ afterEach(() => {
 describe('GET /api/budgets', () => {
 	it('should return budgets for current month', async () => {
 		const mockBudgets = [{ id: '1', category: 'FOOD', budgeted: 200 }]
-		prisma.budgets.findMany.mockResolvedValue(mockBudgets)
+		;(prisma.budgets.findMany as jest.Mock).mockResolvedValue(mockBudgets)
 		;(util.getPairedId as jest.Mock).mockResolvedValue('pair123')
 
 		const res = await request(app).get('/api/budgets')
@@ -84,10 +72,16 @@ describe('GET /api/budgets', () => {
 
 describe('POST /api/budgets', () => {
 	it('should create a new budget', async () => {
-		prisma.budgets.create.mockResolvedValue({ id: '1', category: 'FOOD' })
+		;(prisma.budgets.create as jest.Mock).mockResolvedValue({
+			id: '1',
+			category: 'FOOD',
+			budgeted: 200,
+			actual: 50,
+		})
 		;(util.getPairedId as jest.Mock).mockResolvedValue('pair123')
 		;(util.getSpendingOnCategory as jest.Mock).mockResolvedValue(50)
 		;(util.sendWebsocketMessage as jest.Mock).mockImplementation(() => {})
+		;(util.formatCategory as jest.Mock).mockReturnValue('Food')
 
 		const res = await request(app).post('/api/budgets').send({
 			category: 'FOOD',
@@ -105,14 +99,25 @@ describe('POST /api/budgets', () => {
 				}),
 			})
 		)
-		expect(util.sendWebsocketMessage).toHaveBeenCalled()
-		expect(res.body.message).toMatch(/Budget successfully created/i)
+		expect(util.sendWebsocketMessage).toHaveBeenCalledWith(
+			expect.objectContaining({
+				action: 'ADD',
+				object: 'budget',
+				user_id: mockUser.id,
+				pair_id: 'pair123',
+				content: 'Food - $200',
+			})
+		)
+		expect(res.body.message).toMatch(/successfully created/i)
 	})
 })
 
 describe('POST /api/budgets/update', () => {
 	it('should update a budget', async () => {
-		prisma.budgets.update.mockResolvedValue({ id: '1', budgeted: 300 })
+		;(prisma.budgets.update as jest.Mock).mockResolvedValue({
+			id: '1',
+			budgeted: 300,
+		})
 
 		const res = await request(app).post('/api/budgets/update').send({
 			budgetId: '1',
@@ -132,11 +137,11 @@ describe('POST /api/budgets/update', () => {
 
 describe('DELETE /api/budgets', () => {
 	it('should delete a budget', async () => {
-		prisma.budgets.delete.mockResolvedValue({ id: '1' })
+		;(prisma.budgets.delete as jest.Mock).mockResolvedValue({ id: '1' })
 
-		const res = await request(app)
-			.delete('/api/budgets')
-			.send({ budgetId: '1' })
+		const res = await request(app).delete('/api/budgets').send({
+			budgetId: '1',
+		})
 
 		expect(res.statusCode).toBe(204)
 		expect(prisma.budgets.delete).toHaveBeenCalledWith(

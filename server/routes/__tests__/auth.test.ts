@@ -4,7 +4,6 @@ import session from 'express-session'
 import authRouter, { prisma } from '../../routes/auth'
 import bcrypt from 'bcrypt'
 
-// Mock Prisma client
 jest.mock('../../generated/prisma', () => {
 	return {
 		PrismaClient: jest.fn().mockImplementation(() => ({
@@ -16,7 +15,6 @@ jest.mock('../../generated/prisma', () => {
 	}
 })
 
-// Mock bcrypt
 jest.mock('bcrypt', () => ({
 	hash: jest.fn(),
 	compare: jest.fn(),
