@@ -32,6 +32,7 @@ const TransactionsPage = () => {
 		transaction_name: '',
 		currency_code: 'USD',
 		is_removed: false,
+		update_counter: 0,
 	}
 
 	const [openPopover, setOpenPopover] = useState(false)
@@ -51,11 +52,12 @@ const TransactionsPage = () => {
 
 	const saveEdit = async () => {
 		try {
+			console.log(editedTx)
 			const response = await fetch('/api/expenses/update', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				credentials: 'include',
-				body: JSON.stringify(editedTx),
+				body: JSON.stringify({ ...editedTx }),
 			})
 
 			if (!response.ok) {
@@ -183,7 +185,9 @@ const TransactionsPage = () => {
 							return (
 								<tr
 									key={tx.id}
-									className={`border-t border-stone-200 ${!isEditing && 'cursor-pencil'} *:py-2`}
+									className={`border-t border-stone-200 ${
+										!isEditing && 'cursor-pencil'
+									} *:py-2`}
 									onClick={() =>
 										!isEditing && startEditing(tx)
 									}
