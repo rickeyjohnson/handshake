@@ -86,18 +86,26 @@ app.get('/api/me', isAuthenticated, async (req: Request, res: Response) => {
 // WEBSOCKET
 app.ws('/', async (ws, req) => {
 	console.log('WebSocket connected.')
-	const userId = req.session.user.id
-
-	connectedClients.push({
+	const clientInfo = {
 		ws: ws,
-		user: {
+		user: null
+	}
+
+	if (req.session.user) {
+		const userId = req.session.user.id
+		const index = connectedClients.findIndex((client) => client.ws === ws)
+		if (index !== -1) connectedClients.splice(index, 1)
+
+		connectedClients.push({...clientInfo, user: {
 			id: userId,
 			pair_id: await getPairedId(userId)
-		}
-	})
+		}})
+	} else {
+		connectedClients.push(clientInfo)
+	}
 
 	ws.on('close', () => {
-		const index = connectedClients.findIndex(client => client.ws === ws)
+		const index = connectedClients.findIndex((client) => client.ws === ws)
 		if (index !== -1) connectedClients.splice(index, 1)
 		console.log('WebSocket closed.')
 	})
