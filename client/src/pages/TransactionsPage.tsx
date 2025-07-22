@@ -125,14 +125,6 @@ const TransactionsPage = () => {
 		return () => socket.removeEventListener('message', handleNewExpense)
 	}, [socket])
 
-	useEffect(() => {
-		console.log('editingTxId:', editingTxId)
-	}, [editingTxId])
-
-	useEffect(() => {
-		console.log('transactions updated:', transactions)
-	}, [transactions])
-
 	return (
 		<MainLayout>
 			<MainHeader
@@ -175,7 +167,7 @@ const TransactionsPage = () => {
 			<div className="shadow rounded-xl border border-stone-200 w-full overflow-x-auto">
 				<table className="w-full table-auto rounded-xl">
 					<thead>
-						<tr className="bg-stone-100 text-left *:py-2">
+						<tr className="bg-stone-100 text-left *:py-2 *:font-medium">
 							<th className="w-[20%] px-6">Category</th>
 							<th className="w-[25%] px-6">Name</th>
 							<th className="w-[10%] px-6">Date</th>
@@ -191,11 +183,7 @@ const TransactionsPage = () => {
 							return (
 								<tr
 									key={tx.id}
-									className={`border-t border-stone-200 cursor-[${
-										isEditing
-											? ''
-											: 'url(../../public/pencil.svg)'
-									},pointer] *:py-2`}
+									className={`border-t border-stone-200 ${!isEditing && 'cursor-pencil'} *:py-2`}
 									onClick={() =>
 										!isEditing && startEditing(tx)
 									}
