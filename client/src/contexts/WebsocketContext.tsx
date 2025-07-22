@@ -64,11 +64,11 @@ export const WebSocketProvider = ({
 				socket.close()
 			}
 		}
-	}, [user])
+	}, [])
 
 	return (
 		<WebSocketContext.Provider value={{ socket }}>
-			{notification && (
+			{user && notification && (
 				<NotificationToast
 					notification={notification}
 					onHide={() => setNotification(null)}
