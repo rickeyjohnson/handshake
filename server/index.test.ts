@@ -3,13 +3,11 @@ import { Request, Response } from 'express'
 import { app } from './index' // Adjust path to your Express app
 import prisma from './prismaClient' // Adjust path to your Prisma client
 
-// Mock the isAuthenticated middleware to always call next()
 jest.mock('./utils/util', () => ({
 	isAuthenticated: (req: Request, res: Response, next: Function) => next(),
 	getPairedId: jest.fn(),
 }))
 
-// Mock prisma client
 jest.mock('./prismaClient', () => ({
 	user: {
 		findUnique: jest.fn(),
@@ -22,7 +20,6 @@ describe('GET /api/me', () => {
 	})
 
 	it('returns 200 and user data when user is found', async () => {
-		// Arrange: mock prisma.user.findUnique to return a user
 		;(prisma.user.findUnique as jest.Mock).mockResolvedValue({
 			id: '123',
 			name: 'Test User',
@@ -30,12 +27,10 @@ describe('GET /api/me', () => {
 			partner: { id: 'partner123' },
 		})
 
-		// Act
 		const res = await request(app)
 			.get('/api/me')
 			.set('Cookie', ['sessionId=valid-session'])
 
-		// Assert
 		expect(res.status).toBe(200)
 		expect(res.body).toMatchObject({
 			message: 'User found!',
@@ -45,7 +40,7 @@ describe('GET /api/me', () => {
 			partner: { id: 'partner123' },
 		})
 		expect(prisma.user.findUnique).toHaveBeenCalledWith({
-			where: { id: undefined }, // Because req.session.user?.id is undefined in this test context
+			where: { id: undefined },
 			include: { partner: true },
 		})
 	})
