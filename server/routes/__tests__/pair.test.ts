@@ -63,7 +63,7 @@ app.use(
 	})
 )
 app.use((req, _, next) => {
-	req.session = { user: { id: 'user123' } } as any // cast session for TS
+	req.session.user = { id: 'user123', email: '', name: '' }
 	next()
 })
 app.use('/pair', pairRouter)
@@ -120,7 +120,6 @@ describe('Pair API', () => {
 
 	describe('POST /pair/enter', () => {
 		it('should reject if already paired', async () => {
-			// Simulate session user already has partner_id
 			app.use((req, _, next) => {
 				req.session = {
 					user: { id: 'user123', partner_id: 'partner456' },
