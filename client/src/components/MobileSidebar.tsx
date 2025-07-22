@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router'
 import { nav } from '../constants/constants'
 import { Button } from './ui/Button'
+import { LogoutButton } from './LogoutButton'
 
 const MobileSidebar = () => {
 	const navigate = useNavigate()
@@ -28,6 +29,8 @@ const MobileSidebar = () => {
 					</Button>
 				)
 			})}
+
+			<LogoutButton className="hover:bg-stone-200/40 flex flex-col" />
 		</nav>
 	)
 }
