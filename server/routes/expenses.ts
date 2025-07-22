@@ -9,7 +9,7 @@ import {
 } from '../utils/util'
 
 const expenses = Router()
-const prisma = new PrismaClient()
+export const prisma = new PrismaClient()
 
 expenses.post('/', isAuthenticated, async (req, res) => {
 	try {
@@ -82,7 +82,7 @@ expenses.post('/update', isAuthenticated, async (req, res) => {
 				object: 'expense',
 				user_id: userId,
 				pair_id: pair_id,
-				content: `$${body.amount} for ${body.name}`,
+				content: `$${body.amount} for ${body.transaction_name}`,
 			})
 
 			res.status(200).json({ message: 'updated succesfully' })
