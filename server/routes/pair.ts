@@ -10,7 +10,7 @@ import {
 } from '../utils/util'
 import { connectedClients } from '../websocket/wsStore'
 
-const pair = Router()
+export const pair = Router()
 const prisma = new PrismaClient()
 
 const EXPIRATION_DURATION = 60 * 10 // seconds

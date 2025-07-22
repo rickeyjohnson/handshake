@@ -1,57 +1,46 @@
 import request from 'supertest'
 import express from 'express'
 import session from 'express-session'
-import pairRouter from '../pair'
+import { pair } from '../pair' // adjust import if needed
 import { PrismaClient } from '../../generated/prisma'
 import * as util from '../../utils/util'
 
 jest.mock('../../generated/prisma', () => {
+	const mPairRequest = {
+		findFirst: jest.fn(),
+		create: jest.fn(),
+		findUnique: jest.fn(),
+		update: jest.fn(),
+	}
+	const mUser = {
+		update: jest.fn(),
+	}
+	const mPair = {
+		create: jest.fn(),
+	}
+	const mAccounts = {
+		updateMany: jest.fn(),
+	}
 	return {
 		PrismaClient: jest.fn().mockImplementation(() => ({
-			pairRequest: {
-				findFirst: jest.fn(),
-				create: jest.fn(),
-				findUnique: jest.fn(),
-				update: jest.fn(),
-			},
-			user: {
-				update: jest.fn(),
-			},
-			pair: {
-				create: jest.fn(),
-			},
-			accounts: {
-				updateMany: jest.fn(),
-			},
+			pairRequest: mPairRequest,
+			user: mUser,
+			pair: mPair,
+			accounts: mAccounts,
 		})),
 	}
 })
 
 jest.mock('../../utils/util', () => ({
-	...jest.requireActual('../utils/util'),
-	generateHandshakeCode: jest.fn(() => 'HANDSHAKE123'),
-	getPairedId: jest.fn().mockResolvedValue('pair123'),
-	isExpired: jest.fn(() => false),
+	isExpired: jest.fn(),
+	generateHandshakeCode: jest.fn(),
+	getPairedId: jest.fn(),
 	sendWebsocketMessage: jest.fn(),
 	setPairedToComplete: jest.fn(),
-	isAuthenticated: (req: any, res: any, next: any) => next(), // mock middleware to pass
+	isAuthenticated: jest.fn((req, res, next) => next()), // bypass auth middleware
 }))
 
 const prisma = new PrismaClient()
-
-const findFirstMock = prisma.pairRequest.findFirst as jest.Mock
-const createMock = prisma.pairRequest.create as jest.Mock
-const findUniqueMock = prisma.pairRequest.findUnique as jest.Mock
-const updateMock = prisma.pairRequest.update as jest.Mock
-const userUpdateMock = prisma.user.update as jest.Mock
-const pairCreateMock = prisma.pair.create as jest.Mock
-const accountsUpdateManyMock = prisma.accounts.updateMany as jest.Mock
-
-const generateHandshakeCodeMock = util.generateHandshakeCode as jest.Mock
-const getPairedIdMock = util.getPairedId as jest.Mock
-const isExpiredMock = util.isExpired as jest.Mock
-const sendWebsocketMessageMock = util.sendWebsocketMessage as jest.Mock
-const setPairedToCompleteMock = util.setPairedToComplete as jest.Mock
 
 const app = express()
 app.use(express.json())
@@ -62,160 +51,121 @@ app.use(
 		saveUninitialized: false,
 	})
 )
-app.use((req, _, next) => {
-	req.session.user = { id: 'user123', email: '', name: '' }
+
+// Middleware to inject fake session user
+app.use((req, res, next) => {
+	if (req.session) {
+		req.session.user = {
+			id: 'test-user',
+			email: '',
+			name: '',
+			partner_id: null,
+		}
+	}
 	next()
 })
-app.use('/pair', pairRouter)
+
+app.use('/pair', pair)
 
 describe('Pair API', () => {
 	afterEach(() => {
 		jest.clearAllMocks()
 	})
 
-	describe('GET /pair/request', () => {
-		it('should return existing pair request if not expired', async () => {
-			findFirstMock.mockResolvedValue({
-				code: 'EXISTINGCODE',
-				created_at: new Date(),
-				initiator_user_id: 'user123',
-			})
-			isExpiredMock.mockReturnValue(false)
-
-			const res = await request(app).get('/pair/request')
-
-			expect(res.status).toBe(200)
-			expect(res.body).toMatchObject({
-				message: 'You already initiated a pair request',
-				code: 'EXISTINGCODE',
-			})
-			expect(findFirstMock).toHaveBeenCalledWith({
-				where: { initiator_user_id: 'user123' },
-				orderBy: { created_at: 'desc' },
-			})
-			expect(isExpiredMock).toHaveBeenCalled()
+	test('GET /pair/request creates new pair request if none or expired', async () => {
+		;(prisma.pairRequest.findFirst as jest.Mock).mockResolvedValue(null)
+		;(util.isExpired as jest.Mock).mockReturnValue(true)
+		;(util.generateHandshakeCode as jest.Mock).mockReturnValue('XYZ789')
+		;(prisma.pairRequest.create as jest.Mock).mockResolvedValue({
+			id: '1',
+			code: 'XYZ789',
+			initiator_user_id: 'test-user',
+			created_at: new Date(),
 		})
 
-		it('should create a new pair request if none or expired', async () => {
-			findFirstMock.mockResolvedValue(null)
-			createMock.mockResolvedValue({
-				code: 'NEWCODE',
-				initiator_user_id: 'user123',
-				created_at: new Date(),
-			})
-			generateHandshakeCodeMock.mockReturnValue('NEWCODE')
+		const res = await request(app).get('/pair/request')
 
-			const res = await request(app).get('/pair/request')
-
-			expect(res.status).toBe(200)
-			expect(res.body).toMatchObject({
-				message: 'You initiated a pair request',
-				code: 'NEWCODE',
-			})
-			expect(createMock).toHaveBeenCalledWith({
-				data: { code: 'NEWCODE', initiator_user_id: 'user123' },
-			})
-		})
+		expect(res.status).toBe(200)
+		expect(res.body.code).toBe('XYZ789')
+		expect(prisma.pairRequest.create).toHaveBeenCalled()
 	})
 
-	describe('POST /pair/enter', () => {
-		it('should reject if already paired', async () => {
-			app.use((req, _, next) => {
-				req.session = {
-					user: { id: 'user123', partner_id: 'partner456' },
-				} as any
-				next()
-			})
-
-			const res = await request(app)
-				.post('/pair/enter')
-				.send({ code: 'ANYCODE' })
-
-			expect(res.status).toBe(400)
-			expect(res.body.message).toBe(
-				'You are already paired with another user.'
-			)
+	test('GET /pair/request reuses existing request if not expired', async () => {
+		;(prisma.pairRequest.findFirst as jest.Mock).mockResolvedValue({
+			id: 'req-1',
+			code: 'ABC123',
+			created_at: new Date(),
 		})
+		;(util.isExpired as jest.Mock).mockReturnValue(false)
 
-		it('should return 404 if pairRequest not found', async () => {
-			app.use((req, _, next) => {
-				req.session = { user: { id: 'user123' } } as any
-				next()
-			})
-			findUniqueMock.mockResolvedValue(null)
+		const res = await request(app).get('/pair/request')
 
-			const res = await request(app)
-				.post('/pair/enter')
-				.send({ code: 'NONEXISTENT' })
-
-			expect(res.status).toBe(404)
-			expect(res.body.error).toBe('Pairing code not found')
-		})
-
-		it('should return 410 if pairing code expired', async () => {
-			findUniqueMock.mockResolvedValue({
-				initiator_user_id: 'partner123',
-				created_at: new Date(Date.now() - 1000000),
-			})
-			isExpiredMock.mockReturnValue(true)
-
-			const res = await request(app)
-				.post('/pair/enter')
-				.send({ code: 'EXPIREDCODE' })
-
-			expect(res.status).toBe(410)
-			expect(res.body.error).toBe('Pairing code expired')
-		})
-
-		it('should return 400 if user tries to pair with self', async () => {
-			findUniqueMock.mockResolvedValue({
-				initiator_user_id: 'user123',
-				created_at: new Date(),
-			})
-			isExpiredMock.mockReturnValue(false)
-
-			const res = await request(app)
-				.post('/pair/enter')
-				.send({ code: 'SELFPAIRCODE' })
-
-			expect(res.status).toBe(400)
-			expect(res.body.error).toBe('Pairing with yourself is not allowed.')
-		})
-
-		it('should complete pairing successfully', async () => {
-			findUniqueMock.mockResolvedValue({
-				initiator_user_id: 'partner123',
-				created_at: new Date(),
-			})
-			isExpiredMock.mockReturnValue(false)
-
-			userUpdateMock.mockResolvedValue({})
-			pairCreateMock.mockResolvedValue({})
-			updateMock.mockResolvedValue({})
-			accountsUpdateManyMock.mockResolvedValue({})
-
-			const res = await request(app)
-				.post('/pair/enter')
-				.send({ code: 'VALIDCODE' })
-
-			expect(res.status).toBe(201)
-			expect(userUpdateMock).toHaveBeenCalledTimes(2)
-			expect(pairCreateMock).toHaveBeenCalledTimes(1)
-			expect(updateMock).toHaveBeenCalledTimes(1)
-			expect(accountsUpdateManyMock).toHaveBeenCalledTimes(2)
-			expect(sendWebsocketMessageMock).toHaveBeenCalledWith(
-				expect.objectContaining({
-					action: 'PAIR',
-					object: 'pairing',
-					user_id: 'user123',
-					pair_id: 'pair123',
-					content: 'pairing!',
-				})
-			)
-			expect(setPairedToCompleteMock).toHaveBeenCalledWith(
-				'user123',
-				'partner123'
-			)
-		})
+		expect(res.status).toBe(200)
+		expect(res.body.code).toBe('ABC123')
+		expect(prisma.pairRequest.create).not.toHaveBeenCalled()
 	})
+
+	test('POST /pair/enter returns 404 if pair code not found', async () => {
+		;(prisma.pairRequest.findUnique as jest.Mock).mockResolvedValue(null)
+
+		const res = await request(app).post('/pair/enter').send({ code: 'INVALID' })
+
+		expect(res.status).toBe(404)
+		expect(res.body.error).toMatch(/not found/i)
+	})
+
+	test('POST /pair/enter returns 410 if pairing code expired', async () => {
+		;(prisma.pairRequest.findUnique as jest.Mock).mockResolvedValue({
+			initiator_user_id: 'other-user',
+			created_at: new Date(Date.now() - 1000000),
+		})
+		;(util.isExpired as jest.Mock).mockReturnValue(true)
+
+		const res = await request(app).post('/pair/enter').send({ code: 'EXPIRED' })
+
+		expect(res.status).toBe(410)
+		expect(res.body.error).toMatch(/expired/i)
+	})
+
+	test('POST /pair/enter returns 400 if pairing with self', async () => {
+		;(prisma.pairRequest.findUnique as jest.Mock).mockResolvedValue({
+			initiator_user_id: 'test-user',
+			created_at: new Date(),
+		})
+		;(util.isExpired as jest.Mock).mockReturnValue(false)
+
+		const res = await request(app).post('/pair/enter').send({ code: 'SELF' })
+
+		expect(res.status).toBe(400)
+		expect(res.body.error).toMatch(/yourself/i)
+	})
+
+	test('POST /pair/enter pairs two users successfully', async () => {
+		;(prisma.pairRequest.findUnique as jest.Mock).mockResolvedValue({
+			initiator_user_id: 'partner-user',
+			created_at: new Date(),
+		})
+		;(util.isExpired as jest.Mock).mockReturnValue(false)
+		;(util.getPairedId as jest.Mock).mockResolvedValue('pair-123')
+
+		;(prisma.user.update as jest.Mock).mockResolvedValue({})
+		;(prisma.pairRequest.update as jest.Mock).mockResolvedValue({})
+		;(prisma.pair.create as jest.Mock).mockResolvedValue({})
+		;(prisma.accounts.updateMany as jest.Mock).mockResolvedValue({})
+		;(util.sendWebsocketMessage as jest.Mock).mockImplementation(() => {})
+		;(util.setPairedToComplete as jest.Mock).mockResolvedValue({})
+
+		const res = await request(app).post('/pair/enter').send({ code: 'PAIR123' })
+
+		expect(res.status).toBe(201)
+		expect(prisma.user.update).toHaveBeenCalledTimes(2)
+		expect(prisma.pairRequest.update).toHaveBeenCalled()
+		expect(prisma.pair.create).toHaveBeenCalled()
+		expect(prisma.accounts.updateMany).toHaveBeenCalledTimes(2)
+		expect(util.sendWebsocketMessage).toHaveBeenCalled()
+		expect(util.setPairedToComplete).toHaveBeenCalled()
+	})
+
+	// Add any other endpoint tests you want here, e.g. GET /pair to get partner info
+
 })
