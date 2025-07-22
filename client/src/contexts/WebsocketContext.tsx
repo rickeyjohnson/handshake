@@ -64,7 +64,7 @@ export const WebSocketProvider = ({
 				socket.close()
 			}
 		}
-	}, [])
+	}, [user])
 
 	return (
 		<WebSocketContext.Provider value={{ socket }}>
