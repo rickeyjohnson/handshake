@@ -319,13 +319,13 @@ export const sendWebsocketMessage = (message: {
 	pair_id: string
 	content: string | number | boolean | null
 }) => {
+	const connectedPair = connectedClients.filter((client) => {
+		return client.user.pair_id === message.pair_id
+	})
 
-	
-
-
-	connectedClients.forEach((client) => {
-		if (client.readyState === 1) {
-			client.send(JSON.stringify(message))
+	connectedPair.forEach((client) => {
+		if (client.ws.readyState === 1) {
+			client.ws.send(JSON.stringify(message))
 		}
 	})
 }
