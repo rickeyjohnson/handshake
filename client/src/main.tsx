@@ -10,13 +10,13 @@ import { WebSocketProvider } from './contexts/WebsocketContext.tsx'
 createRoot(document.getElementById('root')!).render(
 	<BrowserRouter>
 		<UserProvider>
-			<WebSocketProvider>
-				<AccountProvider>
-					<TransactionProvider>
+			<AccountProvider>
+				<TransactionProvider>
+					<WebSocketProvider>
 						<App />
-					</TransactionProvider>
-				</AccountProvider>
-			</WebSocketProvider>
+					</WebSocketProvider>
+				</TransactionProvider>
+			</AccountProvider>
 		</UserProvider>
 	</BrowserRouter>
 )

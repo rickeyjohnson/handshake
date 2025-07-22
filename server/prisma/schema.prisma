@@ -80,6 +80,7 @@ model Transactions {
   amount          Float
   currency_code   String
   is_removed      Boolean @default(false)
+  update_counter  Int   @default(0)
 }
 
 model Goals {

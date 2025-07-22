@@ -3,6 +3,7 @@ import { formatCurrency } from '../utils/utils'
 
 const Transactions = () => {
 	const { transactions } = useTransactions()
+	
 	return (
 		<div>
 			<h1 className="py-2">Transactions</h1>
@@ -29,28 +30,29 @@ const Transactions = () => {
 					</thead>
 
 					<tbody>
-						{transactions.slice(0, 10).map((tx) => (
-							<tr
-								key={tx.id}
-								className="border-t border-stone-200"
-							>
-								<td className="pl-6 py-3">
-									{tx.authorized_date || tx.date}
-								</td>
-								<td className="px-3 py-3">
-									{tx.transaction_name}
-								</td>
-								<td className="px-3 py-3 capitalize">
-									{tx.user_name}
-								</td>
-								<td className="px-3 py-3 capitalize">
-									{tx.account_name}
-								</td>
-								<td className="pr-6 py-3 text-right">
-									{formatCurrency(tx.amount)}
-								</td>
-							</tr>
-						))}
+						{transactions &&
+							transactions.slice(0, 10).map((tx) => (
+								<tr
+									key={tx.id}
+									className="border-t border-stone-200"
+								>
+									<td className="pl-6 py-3">
+										{tx.authorized_date || tx.date}
+									</td>
+									<td className="px-3 py-3">
+										{tx.transaction_name}
+									</td>
+									<td className="px-3 py-3 capitalize">
+										{tx.user_name}
+									</td>
+									<td className="px-3 py-3 capitalize">
+										{tx.account_name}
+									</td>
+									<td className="pr-6 py-3 text-right">
+										{formatCurrency(tx.amount)}
+									</td>
+								</tr>
+							))}
 					</tbody>
 				</table>
 			</div>

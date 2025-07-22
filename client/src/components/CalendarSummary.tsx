@@ -60,10 +60,8 @@ const CalendarSummary = () => {
 							)
 
 							return (
-								<div>
+								<div key={idx}>
 									<div
-										key={idx}
-										id={`${idx}`}
 										className={`day-${idx} relative flex h-14 items-center justify-center rounded-xl text-sm hover:bg-stone-50 hover:cursor-default bg-white ${
 											isCurrentMonth
 												? 'text-black'

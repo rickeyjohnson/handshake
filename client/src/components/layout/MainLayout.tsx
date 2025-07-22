@@ -4,14 +4,18 @@ import { useEffect } from 'react'
 import { useAccount } from '../../contexts/AccountContext'
 import { useTransactions } from '../../contexts/TransactionsContext'
 import MobileSidebar from '../MobileSidebar'
+import { WebSocketProvider } from '../../contexts/WebsocketContext'
+import { useUser } from '../../contexts/UserContext'
 
 const MainLayout = ({ children }: { children?: React.ReactNode }) => {
+	const { user, loading } = useUser()
 	const { setAccounts } = useAccount()
 	const { setTransactions } = useTransactions()
 
 	const fetchAccounts = async () => {
 		try {
 			const response = await fetch('/api/plaid/accounts/get', {
+				credentials: 'include',
 				headers: { 'Content-Type': 'application/json' },
 			})
 			const data = await response.json()
@@ -24,7 +28,9 @@ const MainLayout = ({ children }: { children?: React.ReactNode }) => {
 
 	const fetchTransactions = async () => {
 		try {
+			await syncTransactions()
 			const response = await fetch('/api/plaid/transactions/list', {
+				credentials: 'include',
 				headers: { 'Content-Type': 'application/json' },
 			})
 			const data = await response.json()
@@ -37,6 +43,7 @@ const MainLayout = ({ children }: { children?: React.ReactNode }) => {
 	const syncTransactions = async () => {
 		try {
 			await fetch('/api/plaid/transactions/sync', {
+				credentials: 'include',
 				headers: { 'Content-Type': 'application/json' },
 			})
 		} catch (err) {
@@ -45,10 +52,11 @@ const MainLayout = ({ children }: { children?: React.ReactNode }) => {
 	}
 
 	useEffect(() => {
-		fetchAccounts()
-		syncTransactions()
-		fetchTransactions()
-	}, [])
+		if (!loading && user) {
+			fetchTransactions()
+			fetchAccounts()
+		}
+	}, [loading, user])
 
 	return (
 		<div className="min-h-dvh w-full bg-stone-50 text-slate-950 p-4 gap-4 flex flex-col lg:grid lg:grid-cols-[16rem_1fr]">

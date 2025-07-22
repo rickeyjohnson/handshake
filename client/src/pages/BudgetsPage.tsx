@@ -55,6 +55,7 @@ const BudgetsPage = () => {
 					category: newBudget.category,
 					budgeted: newBudget.budgeted,
 				}),
+				credentials: 'include',
 			})
 
 			setIsAdding(false)
@@ -82,6 +83,7 @@ const BudgetsPage = () => {
 		try {
 			const response = await fetch('/api/budgets', {
 				headers: { 'Content-Type': 'application/json' },
+				credentials: 'include',
 			})
 			const data = await response.json()
 			setBudgets(data)

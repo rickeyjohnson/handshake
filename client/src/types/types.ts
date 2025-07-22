@@ -90,6 +90,7 @@ export type Transactions = {
 	amount: number
 	currency_code: string
 	is_removed: boolean
+	update_counter: number
 }
 
 export type TransactionsContextType = {

@@ -30,3 +30,7 @@
 		font-family: 'Geist', monospace;
 	}
 }
+
+.cursor-pencil {
+  cursor: url('/pencil.svg'), pointer;
+}

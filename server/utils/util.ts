@@ -196,6 +196,7 @@ export const getTransactionsForUserOrPair = async (id, max_num) => {
 		amount: tx.amount,
 		currency_code: tx.currency_code,
 		is_removed: tx.is_removed,
+		update_counter: tx.update_counter,
 	}))
 
 	return customTransactions
@@ -318,8 +319,8 @@ export const sendWebsocketMessage = (message: {
 	content: string | number | boolean | null
 }) => {
 	connectedClients.forEach((client) => {
-		if (client.readyState === 1) {
-			client.send(JSON.stringify(message))
+		if (client.ws.readyState === 1 && client.pair_id === message.pair_id) {
+			client.ws.send(JSON.stringify(message))
 		}
 	})
 }
