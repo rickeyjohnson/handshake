@@ -2,7 +2,11 @@ import { Router, Request, Response } from 'express'
 import { PrismaClient } from '../generated/prisma'
 import { randomUUID } from 'crypto'
 import { connectedClients } from '../websocket/wsStore'
-import { getPairedId, isAuthenticated, sendWebsocketMessage } from '../utils/util'
+import {
+	getPairedId,
+	isAuthenticated,
+	sendWebsocketMessage,
+} from '../utils/util'
 
 const expenses = Router()
 const prisma = new PrismaClient()
@@ -48,28 +52,51 @@ expenses.post('/update', isAuthenticated, async (req, res) => {
 		console.log(userId, pair_id)
 		const body = req.body
 
-		const updatedExpense = await prisma.transactions.update({
+		const data = await prisma.transactions.findUnique({
 			where: { id: body.id },
-			data: {
-				user_id: userId,
-				account_id: body.account_id,
-				category: body.category,
-				date: body.date,
-				authorized_date: body.date,
-				name: body.transaction_name,
-				amount: Number(body.amount),
+			select: {
+				update_counter: true,
 			},
 		})
 
-		sendWebsocketMessage({
-			action: 'UPDATE',
-			object: 'expense',
-			user_id: userId,
-			pair_id: pair_id,
-			content: `$${body.amount} for ${body.name}`,
-		})
+		console.log('UPDATECOUNTER', data.update_counter, body.update_counter)
 
-		res.send(200).json({message: 'updated succesfully'})
+		if (data.update_counter === body.update_counter) {
+			const updatedExpense = await prisma.transactions.update({
+				where: { id: body.id },
+				data: {
+					user_id: userId,
+					account_id: body.account_id,
+					category: body.category,
+					date: body.date,
+					authorized_date: body.date,
+					name: body.transaction_name,
+					amount: Number(body.amount),
+					update_counter: data.update_counter + 1
+				},
+			})
+
+			sendWebsocketMessage({
+				action: 'UPDATE',
+				object: 'expense',
+				user_id: userId,
+				pair_id: pair_id,
+				content: `$${body.amount} for ${body.name}`,
+			})
+
+			res.status(200).json({ message: 'updated succesfully' })
+		} else {
+			sendWebsocketMessage({
+				action: 'FAILED_UPDATE',
+				object: 'expense',
+				user_id: userId,
+				pair_id: pair_id,
+				content: `FAILED UPDATE`
+			})
+
+			res.status(400).json({message: 'failed to update expense/transaction'})
+		}
+
 	} catch (error) {
 		console.error(error)
 		res.status(500).json({ error: error.message })

@@ -1,6 +1,7 @@
 import {
 	IconBellRingingFilled,
 	IconCircleCheck,
+	IconCircleXFilled,
 	IconMoneybag,
 	IconTargetArrow,
 } from '@tabler/icons-react'
@@ -18,6 +19,7 @@ const NotificationToast = ({
 	const NOTIFICATION_TIMER = 1000 * 10
 	const { user } = useUser()
 	const [show, setShow] = useState(false)
+	const [success, setSuccess] = useState(false)
 
 	const actionToVerb = {
 		ADD: 'created',
@@ -40,6 +42,10 @@ const NotificationToast = ({
 		if (notification) {
 			setShow(true)
 
+			if (!notification.action.includes('FAILED')) {
+				setSuccess(true)
+			}
+
 			const hideTimer = setTimeout(() => {
 				setShow(false)
 				// Give time for animation to finish before unmounting
@@ -59,26 +65,44 @@ const NotificationToast = ({
 			}`}
 		>
 			{notification.user_id === user?.id ? (
-				<>
-					<IconCircleCheck size={20} className="mt-0.5" />
-					<div>
-						<h1 className="font-medium text-md">
-							Success! Your changes have been saved.
-						</h1>
-						<p className="font-light text-stone-400 text-sm">
-							<span className="capitalize">
-								{user.partner.name}
-							</span>{' '}
-							will be notified of your changes.
-						</p>
-					</div>
-				</>
+				success ? (
+					<>
+						<IconCircleCheck size={20} className="mt-0.5" />
+						<div>
+							<h1 className="font-medium text-md">
+								Success! Your changes have been saved.
+							</h1>
+							<p className="font-light text-stone-400 text-sm">
+								<span className="capitalize">
+									{user.partner.name}
+								</span>{' '}
+								will be notified of your changes.
+							</p>
+						</div>
+					</>
+				) : (
+					<>
+						<IconCircleXFilled size={20} className="mt-0.5" color='red'/>
+						<div>
+							<h1 className="font-medium text-md text-red-600">
+								Error! Your changes could not be saved.
+							</h1>
+							<p className="font-light text-red-400 text-sm">
+								<span className="capitalize">
+									{user.partner.name}
+								</span>{' '}
+								will not be notified until your changes are
+								saved successfully. Please refresh your page to see updates.
+							</p>
+						</div>
+					</>
+				)
 			) : (
 				<>
 					{displayIcon(notification.object)}
 					<div>
 						<h1 className="capitalize font-medium text-md">{`${
-							notification.action === 'ADD' && 'New'
+							notification.action === 'ADD' ? 'New' : ''
 						} ${notification.object} ${
 							actionToVerb[notification.action]
 						}!`}</h1>
