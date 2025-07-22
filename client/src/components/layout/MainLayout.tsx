@@ -59,19 +59,19 @@ const MainLayout = ({ children }: { children?: React.ReactNode }) => {
 	}, [loading, user])
 
 	return (
-			<div className="min-h-dvh w-full bg-stone-50 text-slate-950 p-4 gap-4 flex flex-col lg:grid lg:grid-cols-[16rem_1fr]">
-				<div className="hidden lg:block">
-					<Sidebar />
-				</div>
-
-				<main className="bg-white rounded-2xl shadow w-full h-full p-5 not-lg:pb-20 flex flex-col overflow-hidden">
-					{children}
-				</main>
-
-				<div className="lg:hidden">
-					<MobileSidebar />
-				</div>
+		<div className="min-h-dvh w-full bg-stone-50 text-slate-950 p-4 gap-4 flex flex-col lg:grid lg:grid-cols-[16rem_1fr]">
+			<div className="hidden lg:block">
+				<Sidebar />
 			</div>
+
+			<main className="bg-white rounded-2xl shadow w-full h-full p-5 not-lg:pb-20 flex flex-col overflow-hidden">
+				{children}
+			</main>
+
+			<div className="lg:hidden">
+				<MobileSidebar />
+			</div>
+		</div>
 	)
 }
 

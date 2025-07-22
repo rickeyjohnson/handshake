@@ -54,7 +54,10 @@ const Accounts = () => {
 			<h1 className="py-2">Accounts Summary</h1>
 			<div className="shadow rounded-xl border-1 border-stone-200 py-6 px-8 w-full h-[calc(100%-40px)] flex flex-col text-lg justify-center">
 				{accountsData.map((acc) => (
-					<div key={acc.subtype} className="flex gap-3 flex-row align-center border-b-2 border-stone-200 p-4 last:border-0">
+					<div
+						key={acc.subtype}
+						className="flex gap-3 flex-row align-center border-b-2 border-stone-200 p-4 last:border-0"
+					>
 						{<acc.icon size={24} />}
 						<h1 className="self-center capitalize">
 							{acc.subtype}
