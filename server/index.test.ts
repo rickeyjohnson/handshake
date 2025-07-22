@@ -1,12 +1,12 @@
 import request from 'supertest'
-import express, { Request, Response } from 'express'
+import { Request, Response } from 'express'
 import { app } from './index' // Adjust path to your Express app
 import prisma from './prismaClient' // Adjust path to your Prisma client
-import * as util from './utils/util' // Adjust path to your isAuthenticated middleware
 
 // Mock the isAuthenticated middleware to always call next()
 jest.mock('./utils/util', () => ({
 	isAuthenticated: (req: Request, res: Response, next: Function) => next(),
+	getPairedId: jest.fn(),
 }))
 
 // Mock prisma client

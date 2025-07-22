@@ -101,8 +101,7 @@ app.ws('/', async (ws, req) => {
 	}
 
 	ws.on('close', () => {
-		const index = connectedClients.indexOf(ws)
+		const index = connectedClients.findIndex((client) => client.ws === ws)
 		if (index !== -1) connectedClients.splice(index, 1)
-		console.log('WebSocket closed.')
 	})
 })
