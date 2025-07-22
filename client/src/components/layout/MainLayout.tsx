@@ -59,7 +59,6 @@ const MainLayout = ({ children }: { children?: React.ReactNode }) => {
 	}, [loading, user])
 
 	return (
-		<WebSocketProvider>
 			<div className="min-h-dvh w-full bg-stone-50 text-slate-950 p-4 gap-4 flex flex-col lg:grid lg:grid-cols-[16rem_1fr]">
 				<div className="hidden lg:block">
 					<Sidebar />
@@ -73,7 +72,6 @@ const MainLayout = ({ children }: { children?: React.ReactNode }) => {
 					<MobileSidebar />
 				</div>
 			</div>
-		</WebSocketProvider>
 	)
 }
 
