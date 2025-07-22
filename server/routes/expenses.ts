@@ -72,7 +72,7 @@ expenses.post('/update', isAuthenticated, async (req, res) => {
 					authorized_date: body.date,
 					name: body.transaction_name,
 					amount: Number(body.amount),
-					update_counter: data.update_counter + 1
+					update_counter: data.update_counter + 1,
 				},
 			})
 
@@ -91,12 +91,13 @@ expenses.post('/update', isAuthenticated, async (req, res) => {
 				object: 'expense',
 				user_id: userId,
 				pair_id: pair_id,
-				content: `FAILED UPDATE`
+				content: `FAILED UPDATE`,
 			})
 
-			res.status(400).json({message: 'failed to update expense/transaction'})
+			res.status(400).json({
+				message: 'failed to update expense/transaction',
+			})
 		}
-
 	} catch (error) {
 		console.error(error)
 		res.status(500).json({ error: error.message })

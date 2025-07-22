@@ -82,7 +82,11 @@ const NotificationToast = ({
 					</>
 				) : (
 					<>
-						<IconCircleXFilled size={20} className="mt-0.5" color='red'/>
+						<IconCircleXFilled
+							size={20}
+							className="mt-0.5"
+							color="red"
+						/>
 						<div>
 							<h1 className="font-medium text-md text-red-600">
 								Error! Your changes could not be saved.
@@ -92,7 +96,8 @@ const NotificationToast = ({
 									{user.partner.name}
 								</span>{' '}
 								will not be notified until your changes are
-								saved successfully. Please refresh your page to see updates.
+								saved successfully. Please refresh your page to
+								see updates.
 							</p>
 						</div>
 					</>
