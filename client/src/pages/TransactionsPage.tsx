@@ -45,15 +45,12 @@ const TransactionsPage = () => {
 	}
 
 	const cancelEditing = () => {
-		console.log('cancelling')
 		setEditingTxId(null)
 		setEditedTx(defaultTransaction)
 	}
 
 	const saveEdit = async () => {
 		try {
-			cancelEditing()
-
 			const response = await fetch('/api/expenses/update', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
@@ -64,6 +61,8 @@ const TransactionsPage = () => {
 			if (!response.ok) {
 				throw new Error('Failed to update transaction')
 			}
+
+			cancelEditing()
 
 			await fetchTransactions()
 		} catch (error) {
@@ -100,7 +99,7 @@ const TransactionsPage = () => {
 
 	useEffect(() => {
 		fetchTransactions()
-	}, [editingTxId])
+	}, [])
 
 	useEffect(() => {
 		if (!socket) return

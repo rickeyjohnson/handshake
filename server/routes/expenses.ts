@@ -68,6 +68,8 @@ expenses.post('/update', isAuthenticated, async (req, res) => {
 			pair_id: pair_id,
 			content: `$${body.amount} for ${body.name}`,
 		})
+
+		res.send(200).json({message: 'updated succesfully'})
 	} catch (error) {
 		console.error(error)
 		res.status(500).json({ error: error.message })
