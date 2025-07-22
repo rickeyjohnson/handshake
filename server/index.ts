@@ -88,7 +88,7 @@ app.ws('/', async (ws, req) => {
 	console.log('WebSocket connected.')
 	const clientInfo = {
 		ws: ws,
-		user: null
+		user: null,
 	}
 
 	if (req.session.user) {
@@ -96,10 +96,13 @@ app.ws('/', async (ws, req) => {
 		const index = connectedClients.findIndex((client) => client.ws === ws)
 		if (index !== -1) connectedClients.splice(index, 1)
 
-		connectedClients.push({...clientInfo, user: {
-			id: userId,
-			pair_id: await getPairedId(userId)
-		}})
+		connectedClients.push({
+			...clientInfo,
+			user: {
+				id: userId,
+				pair_id: await getPairedId(userId),
+			},
+		})
 	} else {
 		connectedClients.push(clientInfo)
 	}
