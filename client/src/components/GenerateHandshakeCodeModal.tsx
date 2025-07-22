@@ -6,7 +6,9 @@ const GenerateHandshakeCodeModal = ({ onClick }: { onClick: () => void }) => {
 	const [code, setCode] = useState('')
 
 	useEffect(() => {
-		fetch('/api/pair/request')
+		fetch('/api/pair/request', {
+			credentials: 'include',
+		})
 			.then((res) => res.json())
 			.then((data) => setCode(data.code))
 			.catch((err) => console.error(err))

@@ -9,6 +9,7 @@ const EnterHandshakeCodeModal = ({ onClick }: { onClick: () => void }) => {
 		try {
 			const response = await fetch('/api/pair/enter', {
 				method: 'POST',
+				credentials: 'include',
 				headers: {
 					'Content-Type': 'application/json',
 				},

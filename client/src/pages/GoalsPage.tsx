@@ -21,6 +21,7 @@ const GoalsPage = () => {
 		try {
 			const response = await fetch('/api/goals', {
 				headers: { 'Content-Type': 'application/json' },
+				credentials: 'include',
 			})
 			const goals = await response.json()
 			setGoals(goals)

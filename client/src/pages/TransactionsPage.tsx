@@ -20,6 +20,7 @@ const TransactionsPage = () => {
 			syncTransactions()
 			const response = await fetch('/api/plaid/transactions/list', {
 				headers: { 'Content-Type': 'application/json' },
+				credentials: 'include',
 			})
 			const data = await response.json()
 			setTransactions(data)
@@ -32,6 +33,7 @@ const TransactionsPage = () => {
 		try {
 			await fetch('/api/plaid/transactions/sync', {
 				headers: { 'Content-Type': 'application/json' },
+				credentials: 'include',
 			})
 		} catch (err) {
 			console.error(err)

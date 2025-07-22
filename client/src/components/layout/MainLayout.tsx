@@ -13,6 +13,7 @@ const MainLayout = ({ children }: { children?: React.ReactNode }) => {
 	const fetchAccounts = async () => {
 		try {
 			const response = await fetch('/api/plaid/accounts/get', {
+				credentials: 'include',
 				headers: { 'Content-Type': 'application/json' },
 			})
 			const data = await response.json()
@@ -26,6 +27,7 @@ const MainLayout = ({ children }: { children?: React.ReactNode }) => {
 	const fetchTransactions = async () => {
 		try {
 			const response = await fetch('/api/plaid/transactions/list', {
+				credentials: 'include',
 				headers: { 'Content-Type': 'application/json' },
 			})
 			const data = await response.json()
@@ -38,6 +40,7 @@ const MainLayout = ({ children }: { children?: React.ReactNode }) => {
 	const syncTransactions = async () => {
 		try {
 			await fetch('/api/plaid/transactions/sync', {
+				credentials: 'include',
 				headers: { 'Content-Type': 'application/json' },
 			})
 		} catch (err) {

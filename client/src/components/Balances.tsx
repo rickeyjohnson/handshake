@@ -11,7 +11,7 @@ const Balances = () => {
 					Balances
 				</h1>
 
-				{accounts.map((acc) => (
+				{accounts && accounts.map((acc) => (
 					<div
 						key={acc.id}
 						className="flex flex-wrap md:flex-nowrap gap-4 text-base border-b border-stone-200 py-4 items-center last:border-0"

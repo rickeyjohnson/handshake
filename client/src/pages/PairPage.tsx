@@ -29,7 +29,7 @@ const PairPage = () => {
 			try {
 				const data = JSON.parse(event.data)
 
-				if (data.type === 'paired') {
+				if (data.action === 'PAIR') {
 					navigate('/dashboard')
 				}
 			} catch (error) {
