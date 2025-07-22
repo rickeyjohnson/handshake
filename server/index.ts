@@ -2,7 +2,7 @@ import express, { Request, Response, NextFunction } from 'express'
 import cors from 'cors'
 import session from 'express-session'
 import expressWs from 'express-ws'
-import { PrismaClient } from './generated/prisma'
+import prisma from './prismaClient'
 import authRouter from './routes/auth'
 import plaidRouter from './routes/plaid'
 import pairRouter from './routes/pair'
@@ -31,7 +31,6 @@ declare module 'express-serve-static-core' {
 
 export const app = express()
 expressWs(app)
-const prisma = new PrismaClient()
 
 app.use(express.json())
 app.use(cors())
