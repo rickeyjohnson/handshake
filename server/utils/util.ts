@@ -198,7 +198,7 @@ export const getTransactionsForUserOrPair = async (id, max_num) => {
 		amount: tx.amount,
 		currency_code: tx.currency_code,
 		is_removed: tx.is_removed,
-		update_counter: tx.update_counter
+		update_counter: tx.update_counter,
 	}))
 
 	return customTransactions

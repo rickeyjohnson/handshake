@@ -171,7 +171,6 @@ const fetchNewSyncData = async (accessToken, initialCursor) => {
 		keepGoing = newData.has_more
 	} while (keepGoing === true)
 
-	console.log(allData)
 	return allData
 }
 
