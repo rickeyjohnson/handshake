@@ -12,6 +12,23 @@ jest.mock('../../generated/prisma', () => {
 	}
 })
 
+jest.mock('../util', () => {
+	const actual = jest.requireActual('../util')
+	return {
+		...actual,
+		prisma: {
+			plaidItem: {
+				findFirst: jest.fn(),
+				findMany: jest.fn(),
+				findUnique: jest.fn(),
+			},
+			pair: {
+				findFirst: jest.fn(),
+			},
+		},
+	}
+})
+
 describe('Utility Functions', () => {
 	beforeEach(() => {
 		jest.clearAllMocks()
