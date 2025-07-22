@@ -29,7 +29,7 @@ const Transactions = () => {
 					</thead>
 
 					<tbody>
-						{transactions.slice(0, 10).map((tx) => (
+						{transactions && transactions.slice(0, 10).map((tx) => (
 							<tr
 								key={tx.id}
 								className="border-t border-stone-200"

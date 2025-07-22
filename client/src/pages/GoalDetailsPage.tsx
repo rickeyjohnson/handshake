@@ -92,7 +92,9 @@ const GoalDetailsPage = () => {
 
 	const fetchGoal = async () => {
 		try {
-			const response = await fetch(`/api/goals/details/${id}`)
+			const response = await fetch(`/api/goals/details/${id}`, {
+				credentials: 'include',
+			})
 			const data = await response.json()
 
 			setGoal(data)

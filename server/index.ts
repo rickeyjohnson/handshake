@@ -9,7 +9,7 @@ import pairRouter from './routes/pair'
 import goalsRouter from './routes/goals'
 import budgetsRouter from './routes/budgets'
 import expensesRouter from './routes/expenses'
-import { isAuthenticated } from './utils/util'
+import { getPairedId, isAuthenticated } from './utils/util'
 import { connectedClients } from './websocket/wsStore'
 
 declare module 'express-session' {
@@ -84,9 +84,20 @@ app.get('/api/me', isAuthenticated, async (req: Request, res: Response) => {
 })
 
 // WEBSOCKET
-app.ws('/', (ws, req) => {
+app.ws('/', async (ws, req) => {
 	console.log('WebSocket connected.')
-	connectedClients.push(ws)
+	try {
+		const userId = req.session?.user?.id || null
+		const pair_id = await getPairedId(userId)
+
+		connectedClients.push({
+			ws: ws,
+			user_id: userId,
+			pair_id: pair_id,
+		})
+	} catch (err) {
+		console.error(err)
+	}
 
 	ws.on('close', () => {
 		const index = connectedClients.indexOf(ws)

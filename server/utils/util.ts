@@ -320,8 +320,8 @@ export const sendWebsocketMessage = (message: {
 	content: string | number | boolean | null
 }) => {
 	connectedClients.forEach((client) => {
-		if (client.readyState === 1) {
-			client.send(JSON.stringify(message))
+		if (client.ws.readyState === 1 && client.pair_id === message.pair_id) {
+			client.ws.send(JSON.stringify(message))
 		}
 	})
 }

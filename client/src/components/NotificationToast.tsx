@@ -6,7 +6,7 @@ import {
 } from '@tabler/icons-react'
 import type { Notification } from '../types/types'
 import { useUser } from '../contexts/UserContext'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 const NotificationToast = ({
 	notification,
@@ -17,6 +17,8 @@ const NotificationToast = ({
 }) => {
 	const NOTIFICATION_TIMER = 1000 * 10
 	const { user } = useUser()
+	const [show, setShow] = useState(false)
+
 	const actionToVerb = {
 		ADD: 'created',
 		UPDATE: 'modified',
@@ -36,21 +38,32 @@ const NotificationToast = ({
 
 	useEffect(() => {
 		if (notification) {
-			const timer = setTimeout(() => onHide(), NOTIFICATION_TIMER)
-			return () => clearTimeout(timer)
+			setShow(true)
+
+			const hideTimer = setTimeout(() => {
+				setShow(false)
+				// Give time for animation to finish before unmounting
+				setTimeout(() => onHide(), 500)
+			}, NOTIFICATION_TIMER)
+
+			return () => clearTimeout(hideTimer)
 		}
 	}, [notification, onHide])
 
 	if (!notification) return null
 
 	return (
-		<div className="flex justify-center col-span-full gap-2 rounded-2xl w-fit bg-white fixed right-3 top-3 py-3 px-8 border-1 border-stone-200 z-99">
+		<div
+			className={`flex justify-center col-span-full gap-2 rounded-2xl w-fit bg-white fixed right-3 top-3 py-3 px-8 border border-stone-200 z-99 transform transition-all duration-500 ease-in-out ${
+				show ? 'translate-y-0 opacity-100' : '-translate-y-12 opacity-0'
+			}`}
+		>
 			{notification.user_id === user?.id ? (
 				<>
 					<IconCircleCheck size={20} className="mt-0.5" />
 					<div>
 						<h1 className="font-medium text-md">
-							Success! Your chnages have been saved.
+							Success! Your changes have been saved.
 						</h1>
 						<p className="font-light text-stone-400 text-sm">
 							<span className="capitalize">

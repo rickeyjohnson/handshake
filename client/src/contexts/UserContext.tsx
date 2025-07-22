@@ -1,5 +1,6 @@
 import { createContext, useState, useContext, useEffect } from 'react'
 import { type User, type UserContextType } from '../types/types'
+import { useNavigate } from 'react-router'
 
 const defaultUserContext: UserContextType = {
 	user: null,
@@ -12,6 +13,7 @@ const UserContext = createContext<UserContextType>(defaultUserContext)
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 	const [user, setUser] = useState<User | null>(null)
 	const [loading, setLoading] = useState(true)
+	const navigate = useNavigate()
 
 	useEffect(() => {
 		const fetchUser = async () => {
@@ -24,6 +26,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 					setUser(data)
 				} else {
 					setUser(null)
+					navigate('/login')
 				}
 			} catch (err) {
 				setUser(null)

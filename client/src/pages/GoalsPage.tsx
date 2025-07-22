@@ -21,6 +21,7 @@ const GoalsPage = () => {
 		try {
 			const response = await fetch('/api/goals', {
 				headers: { 'Content-Type': 'application/json' },
+				credentials: 'include',
 			})
 			const goals = await response.json()
 			setGoals(goals)
@@ -75,7 +76,7 @@ const GoalsPage = () => {
 						Add Goal
 					</Button>
 				</MainHeader>
-				<div className="flex flex-wrap gap-10 p-4 pt-0 justify-center">
+				<div className="flex flex-wrap gap-10 p-4 pt-0 justify-center transition-transform duration-300 ease-in-out will-change-transform">
 					{goals && goals.length > 0 ? (
 						goals.map((goal) => {
 							return (

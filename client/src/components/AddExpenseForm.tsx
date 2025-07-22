@@ -44,6 +44,7 @@ const AddExpenseForm = ({
 		try {
 			const response = await fetch('/api/expenses/', {
 				method: 'POST',
+				credentials: 'include',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(newExpense),
 			})

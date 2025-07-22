@@ -20,6 +20,7 @@ const LinkPlaid = () => {
 		console.log('generating link_token')
 		const response = await fetch('/api/plaid/create_link_token', {
 			method: 'POST',
+			credentials: 'include',
 		})
 
 		const data = await response.json()
