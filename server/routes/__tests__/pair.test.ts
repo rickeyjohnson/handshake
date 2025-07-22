@@ -1,7 +1,7 @@
 import request from 'supertest'
 import express from 'express'
 import session from 'express-session'
-import { pair } from '../pair' // adjust import if needed
+import { pair } from '../pair'
 import { PrismaClient } from '../../generated/prisma'
 import * as util from '../../utils/util'
 
@@ -37,7 +37,7 @@ jest.mock('../../utils/util', () => ({
 	getPairedId: jest.fn(),
 	sendWebsocketMessage: jest.fn(),
 	setPairedToComplete: jest.fn(),
-	isAuthenticated: jest.fn((req, res, next) => next()), // bypass auth middleware
+	isAuthenticated: jest.fn((req, res, next) => next()),
 }))
 
 const prisma = new PrismaClient()
@@ -52,7 +52,6 @@ app.use(
 	})
 )
 
-// Middleware to inject fake session user
 app.use((req, res, next) => {
 	if (req.session) {
 		req.session.user = {
@@ -108,7 +107,9 @@ describe('Pair API', () => {
 	test('POST /pair/enter returns 404 if pair code not found', async () => {
 		;(prisma.pairRequest.findUnique as jest.Mock).mockResolvedValue(null)
 
-		const res = await request(app).post('/pair/enter').send({ code: 'INVALID' })
+		const res = await request(app)
+			.post('/pair/enter')
+			.send({ code: 'INVALID' })
 
 		expect(res.status).toBe(404)
 		expect(res.body.error).toMatch(/not found/i)
@@ -121,7 +122,9 @@ describe('Pair API', () => {
 		})
 		;(util.isExpired as jest.Mock).mockReturnValue(true)
 
-		const res = await request(app).post('/pair/enter').send({ code: 'EXPIRED' })
+		const res = await request(app)
+			.post('/pair/enter')
+			.send({ code: 'EXPIRED' })
 
 		expect(res.status).toBe(410)
 		expect(res.body.error).toMatch(/expired/i)
@@ -134,7 +137,9 @@ describe('Pair API', () => {
 		})
 		;(util.isExpired as jest.Mock).mockReturnValue(false)
 
-		const res = await request(app).post('/pair/enter').send({ code: 'SELF' })
+		const res = await request(app)
+			.post('/pair/enter')
+			.send({ code: 'SELF' })
 
 		expect(res.status).toBe(400)
 		expect(res.body.error).toMatch(/yourself/i)
@@ -147,7 +152,6 @@ describe('Pair API', () => {
 		})
 		;(util.isExpired as jest.Mock).mockReturnValue(false)
 		;(util.getPairedId as jest.Mock).mockResolvedValue('pair-123')
-
 		;(prisma.user.update as jest.Mock).mockResolvedValue({})
 		;(prisma.pairRequest.update as jest.Mock).mockResolvedValue({})
 		;(prisma.pair.create as jest.Mock).mockResolvedValue({})
@@ -155,7 +159,9 @@ describe('Pair API', () => {
 		;(util.sendWebsocketMessage as jest.Mock).mockImplementation(() => {})
 		;(util.setPairedToComplete as jest.Mock).mockResolvedValue({})
 
-		const res = await request(app).post('/pair/enter').send({ code: 'PAIR123' })
+		const res = await request(app)
+			.post('/pair/enter')
+			.send({ code: 'PAIR123' })
 
 		expect(res.status).toBe(201)
 		expect(prisma.user.update).toHaveBeenCalledTimes(2)
@@ -165,7 +171,4 @@ describe('Pair API', () => {
 		expect(util.sendWebsocketMessage).toHaveBeenCalled()
 		expect(util.setPairedToComplete).toHaveBeenCalled()
 	})
-
-	// Add any other endpoint tests you want here, e.g. GET /pair to get partner info
-
 })
