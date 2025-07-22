@@ -12,6 +12,7 @@ import type { DashboardData } from '../types/types'
 import { useTransactions } from '../contexts/TransactionsContext'
 import { calculateSpendingData, calculateTotalSpending } from '../utils/utils'
 import Balances from '../components/Balances'
+import { IconLoader2 } from '@tabler/icons-react'
 
 const Dashboard = () => {
 	const { user } = useUser()
@@ -59,29 +60,39 @@ const Dashboard = () => {
 				title={`Welcome ${user?.name || 'Partner'}`}
 				caption={`Today is ${new Date().toDateString()}`}
 			/>
-			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:grid-rows-[1fr_3fr] items-start gap-7">
-				<NetWorth
-					networth={dashboard.netWorth}
-					userNetworth={dashboard.userNetWorth}
-					partnerNetworth={dashboard.partnerNetWorth}
-				/>
+			{accounts && transactions ? (
+				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:grid-rows-[1fr_3fr] items-start gap-7">
+					<NetWorth
+						networth={dashboard.netWorth}
+						userNetworth={dashboard.userNetWorth}
+						partnerNetworth={dashboard.partnerNetWorth}
+					/>
 
-				<Spending
-					total={dashboard.spending}
-					data={dashboard.spending_data}
-				/>
+					<Spending
+						total={dashboard.spending}
+						data={dashboard.spending_data}
+					/>
 
-				<Accounts />
+					<Accounts />
 
-				<div className="order-last lg:order-none md:col-span-2 lg:col-span-2 overflow-x-auto">
-					<Transactions />
+					<div className="order-last lg:order-none md:col-span-2 lg:col-span-2 overflow-x-auto">
+						<Transactions />
+					</div>
+
+					<div className="grid grid-rows-2 grid-cols-1">
+						<Balances />
+						<CalendarSummary />
+					</div>
 				</div>
-
-				<div className="grid grid-rows-2 grid-cols-1">
-					<Balances />
-					<CalendarSummary />
+			) : (
+				<div className='w-full h-full flex justify-center items-center'>
+					<IconLoader2
+						color="#ededed"
+						size={75}
+						className="animate-spin"
+					/>
 				</div>
-			</div>
+			)}
 		</MainLayout>
 	)
 }

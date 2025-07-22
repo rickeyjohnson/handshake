@@ -3,6 +3,7 @@ import { formatCurrency } from '../utils/utils'
 
 const Transactions = () => {
 	const { transactions } = useTransactions()
+	
 	return (
 		<div>
 			<h1 className="py-2">Transactions</h1>

@@ -5,8 +5,10 @@ import { useAccount } from '../../contexts/AccountContext'
 import { useTransactions } from '../../contexts/TransactionsContext'
 import MobileSidebar from '../MobileSidebar'
 import { WebSocketProvider } from '../../contexts/WebsocketContext'
+import { useUser } from '../../contexts/UserContext'
 
 const MainLayout = ({ children }: { children?: React.ReactNode }) => {
+	const { user, loading } = useUser()
 	const { setAccounts } = useAccount()
 	const { setTransactions } = useTransactions()
 
@@ -26,6 +28,7 @@ const MainLayout = ({ children }: { children?: React.ReactNode }) => {
 
 	const fetchTransactions = async () => {
 		try {
+			await syncTransactions()
 			const response = await fetch('/api/plaid/transactions/list', {
 				credentials: 'include',
 				headers: { 'Content-Type': 'application/json' },
@@ -49,10 +52,11 @@ const MainLayout = ({ children }: { children?: React.ReactNode }) => {
 	}
 
 	useEffect(() => {
-		fetchAccounts()
-		syncTransactions()
-		fetchTransactions()
-	}, [])
+		if (!loading && user) {
+			fetchTransactions()
+			fetchAccounts()
+		}
+	}, [loading, user])
 
 	return (
 		<WebSocketProvider>

@@ -29,7 +29,9 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 					navigate('/login')
 				}
 			} catch (err) {
+				console.error(err)
 				setUser(null)
+				navigate('/login')
 			} finally {
 				setLoading(false)
 			}
