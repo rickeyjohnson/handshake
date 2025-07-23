@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-import type { SpendingData } from '../types/types'
-import { formatCurrency } from '../utils/utils'
+import type { SpendingData } from '../../types/types'
+import { formatCurrency } from '../../utils/utils'
 
 type SimpleLinePlotProps = {
 	data: SpendingData[]

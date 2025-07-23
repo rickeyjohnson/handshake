@@ -1,6 +1,6 @@
 import { formatCurrency } from '../utils/utils'
 import type { SpendingData } from '../types/types'
-import GraphChart from './GraphChart'
+import GraphChart from './ui/GraphChart'
 
 const Spending = ({ total, data }: { total: number; data: SpendingData[] }) => {
 	return (
