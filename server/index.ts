@@ -2,7 +2,7 @@ import express, { Request, Response, NextFunction } from 'express'
 import cors from 'cors'
 import session from 'express-session'
 import expressWs from 'express-ws'
-import { PrismaClient } from './generated/prisma'
+import prisma from './prismaClient'
 import authRouter from './routes/auth'
 import plaidRouter from './routes/plaid'
 import pairRouter from './routes/pair'
@@ -29,10 +29,8 @@ declare module 'express-serve-static-core' {
 	}
 }
 
-const app = express()
+export const app = express()
 expressWs(app)
-const prisma = new PrismaClient()
-const PORT = process.env.PORT || 3001
 
 app.use(express.json())
 app.use(cors())
@@ -103,12 +101,7 @@ app.ws('/', async (ws, req) => {
 	}
 
 	ws.on('close', () => {
-		const index = connectedClients.indexOf(ws)
+		const index = connectedClients.findIndex((client) => client.ws === ws)
 		if (index !== -1) connectedClients.splice(index, 1)
-		console.log('WebSocket closed.')
 	})
-})
-
-app.listen(PORT, () => {
-	console.log(`Server is running on http://localhost:${PORT}`)
 })

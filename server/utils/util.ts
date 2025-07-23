@@ -3,9 +3,9 @@ import { PrismaClient } from '../generated/prisma'
 import { format } from 'date-fns'
 import { connectedClients } from '../websocket/wsStore'
 
-const prisma = new PrismaClient()
+export const prisma = new PrismaClient()
 
-export const isAuthenticated = (req, res, next) => {
+export const isAuthenticated = (req, res, next?) => {
 	if (!req.session.user) {
 		return res
 			.status(401)

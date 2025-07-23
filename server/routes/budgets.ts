@@ -4,7 +4,7 @@ import { formatCategory, getPairedId, getSpendingOnCategory, sendWebsocketMessag
 import { connectedClients } from '../websocket/wsStore'
 
 const budgets = Router()
-const prisma = new PrismaClient()
+export const prisma = new PrismaClient()
 
 budgets.get('/', async (req, res) => {
 	try {
