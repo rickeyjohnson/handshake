@@ -1,14 +1,15 @@
 import type React from 'react'
 import Sidebar from '../Sidebar'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useAccount } from '../../contexts/AccountContext'
 import { useTransactions } from '../../contexts/TransactionsContext'
 import MobileSidebar from '../MobileSidebar'
-import { WebSocketProvider } from '../../contexts/WebsocketContext'
 import { useUser } from '../../contexts/UserContext'
+import Loader from '../Loader'
 
 const MainLayout = ({ children }: { children?: React.ReactNode }) => {
 	const { user, loading } = useUser()
+	const [mainLoading, setMainLoading] = useState<boolean>(true)
 	const { setAccounts } = useAccount()
 	const { setTransactions } = useTransactions()
 
@@ -55,6 +56,7 @@ const MainLayout = ({ children }: { children?: React.ReactNode }) => {
 		if (!loading && user) {
 			fetchTransactions()
 			fetchAccounts()
+			setMainLoading(false)
 		}
 	}, [loading, user])
 
@@ -65,7 +67,7 @@ const MainLayout = ({ children }: { children?: React.ReactNode }) => {
 			</div>
 
 			<main className="bg-white rounded-2xl shadow w-full h-full p-5 not-lg:pb-20 flex flex-col overflow-hidden">
-				{children}
+				{mainLoading ? <Loader /> : children}
 			</main>
 
 			<div className="lg:hidden">
