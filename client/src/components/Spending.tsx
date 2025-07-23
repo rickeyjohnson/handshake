@@ -1,6 +1,6 @@
 import { formatCurrency } from '../utils/utils'
 import type { SpendingData } from '../types/types'
-import Chart from './Chart'
+import GraphChart from './GraphChart'
 
 const Spending = ({ total, data }: { total: number; data: SpendingData[] }) => {
 	return (
@@ -12,7 +12,7 @@ const Spending = ({ total, data }: { total: number; data: SpendingData[] }) => {
 					{formatCurrency(Math.abs(total))}
 				</p>
 				<div className="w-full h-45">
-					<Chart data={data} height={300} />
+					<GraphChart data={data} height={300} />
 				</div>
 			</div>
 		</div>

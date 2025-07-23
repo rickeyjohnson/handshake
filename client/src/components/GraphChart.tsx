@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
 import type { SpendingData } from '../types/types'
-import { format } from 'date-fns'
 import { formatCurrency } from '../utils/utils'
 
 type SimpleLinePlotProps = {
@@ -13,7 +12,7 @@ type SimpleLinePlotProps = {
 	animationDuration?: number
 }
 
-const Chart: React.FC<SimpleLinePlotProps> = ({
+const GraphChart: React.FC<SimpleLinePlotProps> = ({
 	data,
 	width,
 	height,
@@ -292,4 +291,4 @@ const Chart: React.FC<SimpleLinePlotProps> = ({
 	)
 }
 
-export default Chart
+export default GraphChart
