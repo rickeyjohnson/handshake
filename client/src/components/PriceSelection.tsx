@@ -203,7 +203,7 @@ const PriceSelection = ({
 			/>
 			<canvas ref={processCanvasRef} style={{ display: 'none' }} />
 			{loading && (
-				<Loader />
+				<Loader className='absolute'/>
 			)}
 		</div>
 	)

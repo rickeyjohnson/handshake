@@ -66,8 +66,8 @@ const MainLayout = ({ children }: { children?: React.ReactNode }) => {
 				<Sidebar />
 			</div>
 
-			<main className="bg-white rounded-2xl shadow w-full h-full p-5 not-lg:pb-20 flex flex-col overflow-hidden">
-				{mainLoading ? <Loader /> : children}
+			<main className="box-border bg-white rounded-2xl shadow w-full h-full p-5 not-lg:pb-20 flex flex-col overflow-hidden relative">
+				{children}
 			</main>
 
 			<div className="lg:hidden">
