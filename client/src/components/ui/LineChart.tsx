@@ -29,7 +29,6 @@ const LineChart: React.FC<SimpleLinePlotProps> = ({
 		height || 400
 	)
 	const pathRef = useRef<SVGPathElement>(null)
-	const [animationProgress, setAnimationProgress] = useState<number>(0)
 	const [hoverIndex, setHoverIndex] = useState<number | null>(null)
 
 	const chartWidth = containerWidth - margin.left - margin.right
@@ -138,7 +137,7 @@ const LineChart: React.FC<SimpleLinePlotProps> = ({
 			const easedProgress = 1 - Math.pow(1 - progress, 3)
 
 			path.style.strokeDashoffset = `${pathLength * (1 - easedProgress)}`
-			setAnimationProgress(easedProgress)
+			
 
 			if (progress < 1) {
 				requestAnimationFrame(animate)
