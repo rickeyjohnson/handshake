@@ -71,6 +71,7 @@ const GoalsPage = () => {
 					<Button
 						className="flex items-center gap-2 h-fit"
 						onClick={() => setOpenAddGoalsModal(true)}
+						title="Add Goals Button"
 					>
 						<IconCirclePlusFilled size={18} />
 						Add Goal

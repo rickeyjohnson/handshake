@@ -9,7 +9,11 @@ const LandingPage = () => {
 				<Logo />
 				<nav className="flex justify-end gap-6 absolute right-6 top-6">
 					<Link to="/login">
-						<Button variant="ghost" className="flex gap">
+						<Button
+							variant="ghost"
+							className="flex gap"
+							title="Log In"
+						>
 							Login
 							<span className="material-icons pl-1.5">
 								arrow_right_alt
@@ -18,7 +22,9 @@ const LandingPage = () => {
 					</Link>
 
 					<Link to="/signup">
-						<Button className="flex gap-2">Sign Up</Button>
+						<Button className="flex gap-2" title="Sign Up">
+							Sign Up
+						</Button>
 					</Link>
 				</nav>
 
@@ -33,7 +39,7 @@ const LandingPage = () => {
 
 						<section className="flex gap-6 justify-center">
 							<Link to="/signup">
-								<Button>Get Started</Button>
+								<Button title="Get Started">Get Started</Button>
 							</Link>
 							<a
 								href="https://github.com/rickeyjohnson/handshake/"
@@ -42,6 +48,7 @@ const LandingPage = () => {
 								<Button
 									className="flex items-center"
 									variant="ghost"
+									title="Github"
 								>
 									Github
 									<span className="material-icons pl-1.5">

@@ -31,6 +31,7 @@ const Sidebar = () => {
 							className={`my-1 ${selectedStyle(item.url)}`}
 							onClick={() => naviagte(item.url)}
 							key={item.title}
+							title={item.title}
 						>
 							<item.icon size={18} />
 							{item.title}

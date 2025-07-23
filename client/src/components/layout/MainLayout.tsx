@@ -4,13 +4,13 @@ import { useEffect } from 'react'
 import { useAccount } from '../../contexts/AccountContext'
 import { useTransactions } from '../../contexts/TransactionsContext'
 import MobileSidebar from '../MobileSidebar'
-import { WebSocketProvider } from '../../contexts/WebsocketContext'
 import { useUser } from '../../contexts/UserContext'
+import Loader from '../Loader'
 
 const MainLayout = ({ children }: { children?: React.ReactNode }) => {
 	const { user, loading } = useUser()
-	const { setAccounts } = useAccount()
-	const { setTransactions } = useTransactions()
+	const { accounts, setAccounts } = useAccount()
+	const { transactions, setTransactions } = useTransactions()
 
 	const fetchAccounts = async () => {
 		try {
@@ -64,8 +64,12 @@ const MainLayout = ({ children }: { children?: React.ReactNode }) => {
 				<Sidebar />
 			</div>
 
-			<main className="bg-white rounded-2xl shadow w-full h-full p-5 not-lg:pb-20 flex flex-col overflow-hidden">
-				{children}
+			<main className="box-border bg-white rounded-2xl shadow w-full h-full p-5 not-lg:pb-20 flex flex-col overflow-hidden relative">
+				{accounts.length && transactions.length ? (
+					children
+				) : (
+					<Loader backgroundColor="bg-transparent" color="#d4d4d4" />
+				)}
 			</main>
 
 			<div className="lg:hidden">

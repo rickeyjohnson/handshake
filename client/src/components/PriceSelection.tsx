@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { extractTextFromImage } from '../utils/ocr'
 import type { OCRResult } from '../types/types'
 import { getOpenCv } from '../utils/opencv'
-import { IconLoader2 } from '@tabler/icons-react'
+import Loader from './Loader'
 
 const PriceSelection = ({
 	image_url,
@@ -203,13 +203,7 @@ const PriceSelection = ({
 			/>
 			<canvas ref={processCanvasRef} style={{ display: 'none' }} />
 			{loading && (
-				<div className="absolute flex justify-center items-center w-full h-full bg-stone-950/60">
-					<IconLoader2
-						color="#ededed"
-						size={75}
-						className="animate-spin"
-					/>
-				</div>
+				<Loader className='absolute'/>
 			)}
 		</div>
 	)
