@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import type { SpendingData } from '../types/types'
 import { format } from 'date-fns'
+import { formatCurrency } from '../utils/utils'
 
 type SimpleLinePlotProps = {
 	data: SpendingData[]
@@ -167,8 +168,8 @@ const Chart: React.FC<SimpleLinePlotProps> = ({
 						ref={pathRef}
 						d={pathData}
 						fill="none"
-						stroke="blue"
-						strokeWidth={2}
+						stroke="black"
+						strokeWidth={3}
 						strokeLinecap="round"
 						strokeLinejoin="round"
 					/>
@@ -213,7 +214,7 @@ const Chart: React.FC<SimpleLinePlotProps> = ({
 								y1={y}
 								x2={chartWidth + 5} // Tick extends right of axis line
 								y2={y}
-								stroke="#666"
+								stroke="black"
 								strokeWidth="1"
 							/>
 							<text
@@ -221,9 +222,9 @@ const Chart: React.FC<SimpleLinePlotProps> = ({
 								y={y + 4}
 								textAnchor="start" // Align text to the start (left) for right side axis
 								fontSize="12"
-								fill="#666"
+								fill="black"
 							>
-								{val.toFixed(1)}
+								{formatCurrency(val, true)}
 							</text>
 						</g>
 					))}
