@@ -1,3 +1,5 @@
+import { useEffect, useRef, useState } from "react"
+
 type SimpleLinePlotProps = {
 	data: any[]
 	width?: number
@@ -15,6 +17,9 @@ const Chart: React.FC<SimpleLinePlotProps> = ({
 	xTickCount = 5,
 	yTickCount = 5,
 }) => {
+    const pathRef = useRef<SVGPathElement>(null)
+    const [animationProgress, setAnimationProgress] = useState<number>(0)
+
 	if (!data.length) return <p>No data to display</p>
 
 	const chartWidth = width - margin.left - margin.right
@@ -52,6 +57,18 @@ const Chart: React.FC<SimpleLinePlotProps> = ({
 		const y = scaleY(val)
 		yTicks.push({ val, y })
 	}
+
+    useEffect(() => {
+        if (!pathRef.current || data.length === 0) return
+
+        const path = pathRef.current
+        const pathLength = path.getTotalLength()
+
+        path.style.strokeDasharray = `${pathLength}`
+        path.style.strokeDashoffset = `${pathLength}`
+
+        
+    }, [data])
 
 	return (
 		<svg width={width} height={height} className="border-1">
@@ -102,4 +119,3 @@ const Chart: React.FC<SimpleLinePlotProps> = ({
 	)
 }
 
-export default Chart
