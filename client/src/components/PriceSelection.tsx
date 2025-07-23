@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react'
 import { extractTextFromImage } from '../utils/ocr'
 import type { OCRResult } from '../types/types'
 import { getOpenCv } from '../utils/opencv'
-import { IconLoader2 } from '@tabler/icons-react'
 import Loader from './Loader'
 
 const PriceSelection = ({

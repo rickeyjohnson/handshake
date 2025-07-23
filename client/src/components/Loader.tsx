@@ -1,9 +1,9 @@
 import { IconLoader2 } from "@tabler/icons-react"
 
-const Loader = () => {
+const Loader = ({ color }: { color?: string }) => {
 	return (
 		<div className="absolute flex justify-center items-center w-full h-full bg-stone-950/60">
-			<IconLoader2 color="#ededed" size={75} className="animate-spin" />
+			<IconLoader2 color={color || `#ededed`} size={75} className="animate-spin" />
 		</div>
 	)
 }
