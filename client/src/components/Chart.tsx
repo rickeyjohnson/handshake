@@ -15,22 +15,24 @@ type SimpleLinePlotProps = {
 const Chart: React.FC<SimpleLinePlotProps> = ({
 	data,
 	width,
-	height = 400,
+	height,
 	margin = { top: 20, right: 50, bottom: 30, left: 20 },
-	xTickCount = 5,
-	yTickCount = 5,
+	xTickCount = 4,
+	yTickCount = 4,
 	animationDuration = 3000,
 }) => {
-	if (!data.length) return <p>No data to display</p>
-	if (data.length === 1) return <p>No meaningful data to display.</p>
+	if (data.length < 2) return <p>No data to display</p>
 
 	const containerRef = useRef<HTMLDivElement>(null)
 	const [containerWidth, setContainerWidth] = useState<number>(width || 600)
+	const [containerHeight, setContainerHeight] = useState<number>(
+		height || 400
+	)
 	const pathRef = useRef<SVGPathElement>(null)
 	const [animationProgress, setAnimationProgress] = useState<number>(0)
 
 	const chartWidth = containerWidth - margin.left - margin.right
-	const chartHeight = height - margin.top - margin.bottom
+	const chartHeight = containerHeight - margin.top - margin.bottom
 
 	const xValues = data.map((d) => d.date.getTime())
 	const yValues = data.map((d) => d.total)
@@ -46,7 +48,7 @@ const Chart: React.FC<SimpleLinePlotProps> = ({
 	const getSmoothPath = (points: { x: number; y: number }[]) => {
 		if (points.length < 2) return ''
 
-		const smoothing = 0.08 // lower = less curve, try 0.1–0.25
+		const smoothing = 0.04 // lower = less curve, try 0.1–0.25
 
 		const d = [`M${points[0].x} ${points[0].y}`]
 
@@ -125,18 +127,21 @@ const Chart: React.FC<SimpleLinePlotProps> = ({
 	useEffect(() => {
 		if (width) {
 			setContainerWidth(width)
-			return
+		}
+
+		if (containerRef.current) {
+			const rect = containerRef.current.getBoundingClientRect()
+			setContainerWidth(width || rect.width)
+			setContainerHeight(rect.height || height!)
 		}
 
 		const handleResize = () => {
 			if (containerRef.current) {
-				const newWidth =
-					containerRef.current.getBoundingClientRect().width
-				setContainerWidth(newWidth)
+				const rect = containerRef.current.getBoundingClientRect()
+				setContainerWidth(width || rect.width)
+				setContainerHeight(rect.height || height!)
 			}
 		}
-
-		handleResize()
 
 		const resizeObserver = new ResizeObserver(() => {
 			handleResize()
@@ -152,11 +157,11 @@ const Chart: React.FC<SimpleLinePlotProps> = ({
 			resizeObserver.disconnect()
 			window.removeEventListener('resize', handleResize)
 		}
-	}, [width])
+	}, [width, height])
 
 	return (
-		<div ref={containerRef} className="w-full">
-			<svg width={containerWidth} height={height} className="border-1">
+		<div ref={containerRef} className="w-full h-full">
+			<svg width={containerWidth} height={containerHeight} className="">
 				<g transform={`translate(${margin.left},${margin.top})`}>
 					<path
 						ref={pathRef}
