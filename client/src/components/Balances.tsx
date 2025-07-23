@@ -6,10 +6,7 @@ const Balances = () => {
 	return (
 		<div className="w-full">
 			<h1 className="py-2">Account Balances</h1>
-			<div className="shadow rounded-xl border border-stone-200 py-6 px-4 sm:px-6 md:px-8 flex flex-col w-full">
-				<h1 className="mb-4 text-xl font-medium border-b-2 border-stone-500">
-					Balances
-				</h1>
+			<div className="item-shadow rounded-xl border border-stone-200 py-6 px-4 sm:px-6 md:px-8 flex flex-col w-full">
 
 				{accounts && accounts.map((acc) => (
 					<div
