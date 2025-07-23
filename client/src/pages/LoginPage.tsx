@@ -81,7 +81,7 @@ const LoginPage = () => {
 						onChange={handleChange}
 					/>
 
-					<Button type="submit" className="my-2">
+					<Button type="submit" className="my-2" title="Log In">
 						Log In
 					</Button>
 

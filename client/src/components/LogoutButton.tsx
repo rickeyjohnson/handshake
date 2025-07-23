@@ -25,6 +25,7 @@ export const LogoutButton = ({ className }: { className?: string }) => {
 			className={`${className}`}
 			variant="dashboard"
 			onClick={handleLogout}
+			title="Log Out"
 		>
 			<IconLogout size={18} />
 			Log Out

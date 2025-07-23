@@ -129,7 +129,7 @@ const BudgetsPage = () => {
 					<Button
 						className="flex gap-2 align-center items-center h-fit"
 						onClick={startAddBudget}
-						title='Create New Budget Button'
+						title="Create New Budget Button"
 					>
 						<IconCirclePlusFilled size={18} />
 						Create New Budget
@@ -140,7 +140,7 @@ const BudgetsPage = () => {
 							onClick={async () => {
 								await saveNewBudget()
 							}}
-							title='Save Budget Button'
+							title="Save Budget Button"
 							disabled={
 								!newBudget.category ||
 								!newBudget.budgeted ||
@@ -152,7 +152,7 @@ const BudgetsPage = () => {
 
 						<Button
 							variant="ghost"
-							title='Cancel Budget Button'
+							title="Cancel Budget Button"
 							onClick={cancelNewBudget}
 						>
 							Cancel
@@ -161,145 +161,153 @@ const BudgetsPage = () => {
 				)}
 			</MainHeader>
 
-			{!loading ? <div className="flex flex-wrap items-start justify-center gap-5">
-				<div className="shadow overflow-hidden rounded-xl border border-stone-200 w-full overflow-x-auto">
-					<table className="flex-3 bg-white rounded-xl w-full">
-						<thead>
-							<tr className="text-left bg-stone-100 *:py-3">
-								<th className="text-lg font-medium w-sm p-1 pl-6 px-3">
-									Category
-								</th>
-								<th className="text-lg font-medium w-xs px-3">
-									Budgeted
-								</th>
-								<th className="text-lg font-medium w-2xs px-3">
-									Actual
-								</th>
-								<th className="text-lg font-medium pr-6 px-3">
-									Remaining
-								</th>
-							</tr>
-						</thead>
-						<tbody>
-							{budgets.map((budget) => {
-								const actual =
-									calculatBudgetSpendingBasedOffCategory(
-										budget.category,
-										transactions
-									)
-								const remaining = budget.budgeted - actual
-								return (
-									<tr
-										key={budget.id}
-										className="border-t border-stone-200 *:py-3"
-									>
-										<td className="p-1 pl-6 px-3">
-											{formatCategory(budget.category)}
-										</td>
-										<td className="p-1 px-3">
-											{formatCurrency(budget.budgeted)}
-										</td>
-										<td className="p-1 px-3">
-											{formatCurrency(actual)}
-										</td>
-										<td
-											className={`text-right pr-6 px-3 ${
-												remaining < 0
-													? 'text-red-600'
-													: 'text-lime-700'
-											}`}
+			{!loading ? (
+				<div className="flex flex-wrap items-start justify-center gap-5">
+					<div className="shadow overflow-hidden rounded-xl border border-stone-200 w-full overflow-x-auto">
+						<table className="flex-3 bg-white rounded-xl w-full">
+							<thead>
+								<tr className="text-left bg-stone-100 *:py-3">
+									<th className="text-lg font-medium w-sm p-1 pl-6 px-3">
+										Category
+									</th>
+									<th className="text-lg font-medium w-xs px-3">
+										Budgeted
+									</th>
+									<th className="text-lg font-medium w-2xs px-3">
+										Actual
+									</th>
+									<th className="text-lg font-medium pr-6 px-3">
+										Remaining
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								{budgets.map((budget) => {
+									const actual =
+										calculatBudgetSpendingBasedOffCategory(
+											budget.category,
+											transactions
+										)
+									const remaining = budget.budgeted - actual
+									return (
+										<tr
+											key={budget.id}
+											className="border-t border-stone-200 *:py-3"
 										>
-											{formatCurrency(remaining)}
+											<td className="p-1 pl-6 px-3">
+												{formatCategory(
+													budget.category
+												)}
+											</td>
+											<td className="p-1 px-3">
+												{formatCurrency(
+													budget.budgeted
+												)}
+											</td>
+											<td className="p-1 px-3">
+												{formatCurrency(actual)}
+											</td>
+											<td
+												className={`text-right pr-6 px-3 ${
+													remaining < 0
+														? 'text-red-600'
+														: 'text-lime-700'
+												}`}
+											>
+												{formatCurrency(remaining)}
+											</td>
+										</tr>
+									)
+								})}
+
+								{isAdding && (
+									<tr className="border-t border-stone-200">
+										<td className="p-1 pl-6 px-3">
+											<select
+												value={selectedCategory}
+												onChange={(e) => {
+													handleNewBudgetChange(
+														'category',
+														e.target.value
+													)
+													setSelectedCategory(
+														e.target.value
+													)
+												}}
+											>
+												{categories.map((cat) => (
+													<option
+														key={cat.value}
+														value={cat.value}
+													>
+														{cat.label}
+													</option>
+												))}
+											</select>
+										</td>
+										<td className="p-1 px-3">
+											<Input
+												type="number"
+												min={0}
+												value={newBudget.budgeted}
+												onChange={(e) =>
+													handleNewBudgetChange(
+														'budgeted',
+														e.target.value
+													)
+												}
+											/>
+										</td>
+										<td className="p-1 px-3">---</td>
+										<td className="text-right pr-6 px-3">
+											---
 										</td>
 									</tr>
-								)
-							})}
+								)}
+							</tbody>
+						</table>
+					</div>
+					<div className="flex-1 p-10 border-2 border-stone-100 rounded-lg shadow">
+						<h1 className="text-7xl font-medium py-7">
+							{formatCurrency(remaining, true)}
+						</h1>
 
-							{isAdding && (
-								<tr className="border-t border-stone-200">
-									<td className="p-1 pl-6 px-3">
-										<select
-											value={selectedCategory}
-											onChange={(e) => {
-												handleNewBudgetChange(
-													'category',
-													e.target.value
-												)
-												setSelectedCategory(
-													e.target.value
-												)
-											}}
-										>
-											{categories.map((cat) => (
-												<option
-													key={cat.value}
-													value={cat.value}
-												>
-													{cat.label}
-												</option>
-											))}
-										</select>
-									</td>
-									<td className="p-1 px-3">
-										<Input
-											type="number"
-											min={0}
-											value={newBudget.budgeted}
-											onChange={(e) =>
-												handleNewBudgetChange(
-													'budgeted',
-													e.target.value
-												)
-											}
-										/>
-									</td>
-									<td className="p-1 px-3">---</td>
-									<td className="text-right pr-6 px-3">
-										---
-									</td>
-								</tr>
-							)}
-						</tbody>
-					</table>
-				</div>
-				<div className="flex-1 p-10 border-2 border-stone-100 rounded-lg shadow">
-					<h1 className="text-7xl font-medium py-7">
-						{formatCurrency(remaining, true)}
-					</h1>
+						<div className="*:p-4">
+							<div className="flex gap-2 items-center border-t-2 p-2 pb-0 border-stone-200">
+								<p className="flex grow items-center gap-2 font-normal text-lg">
+									<IconCash size={18} />
+									Spending Budget
+								</p>
+								<p className="font-medium text-lg text-right">
+									{formatCurrency(spendingBudget, true)}
+								</p>
+							</div>
 
-					<div className="*:p-4">
-						<div className="flex gap-2 items-center border-t-2 p-2 pb-0 border-stone-200">
-							<p className="flex grow items-center gap-2 font-normal text-lg">
-								<IconCash size={18} />
-								Spending Budget
-							</p>
-							<p className="font-medium text-lg text-right">
-								{formatCurrency(spendingBudget, true)}
-							</p>
-						</div>
+							<div className="flex gap-2 items-center border-t-2 p-2 pb-0 border-stone-200">
+								<p className="flex grow items-center gap-2 font-normal text-lg">
+									<IconPigMoney size={18} />
+									Current Spending
+								</p>
+								<p className="font-medium text-lg text-right">
+									{formatCurrency(currentSpending, true)}
+								</p>
+							</div>
 
-						<div className="flex gap-2 items-center border-t-2 p-2 pb-0 border-stone-200">
-							<p className="flex grow items-center gap-2 font-normal text-lg">
-								<IconPigMoney size={18} />
-								Current Spending
-							</p>
-							<p className="font-medium text-lg text-right">
-								{formatCurrency(currentSpending, true)}
-							</p>
-						</div>
-
-						<div className="flex gap-2 items-center border-t-2 p-2 pb-0 border-stone-200">
-							<p className="flex grow items-center gap-2 font-normal text-lg">
-								<IconCoin size={18} />
-								Remaining
-							</p>
-							<p className="font-medium text-lg text-right">
-								{formatCurrency(remaining, true)}
-							</p>
+							<div className="flex gap-2 items-center border-t-2 p-2 pb-0 border-stone-200">
+								<p className="flex grow items-center gap-2 font-normal text-lg">
+									<IconCoin size={18} />
+									Remaining
+								</p>
+								<p className="font-medium text-lg text-right">
+									{formatCurrency(remaining, true)}
+								</p>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div> : <Loader backgroundColor='bg-transparent' color='#d4d4d4'/>}
+			) : (
+				<Loader backgroundColor="bg-transparent" color="#d4d4d4" />
+			)}
 		</MainLayout>
 	)
 }
