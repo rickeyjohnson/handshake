@@ -1,6 +1,6 @@
 import type React from 'react'
 import Sidebar from '../Sidebar'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useAccount } from '../../contexts/AccountContext'
 import { useTransactions } from '../../contexts/TransactionsContext'
 import MobileSidebar from '../MobileSidebar'
@@ -9,7 +9,6 @@ import Loader from '../Loader'
 
 const MainLayout = ({ children }: { children?: React.ReactNode }) => {
 	const { user, loading } = useUser()
-	const [mainLoading, setMainLoading] = useState<boolean>(true)
 	const { accounts, setAccounts } = useAccount()
 	const { transactions, setTransactions } = useTransactions()
 
@@ -56,7 +55,6 @@ const MainLayout = ({ children }: { children?: React.ReactNode }) => {
 		if (!loading && user) {
 			fetchTransactions()
 			fetchAccounts()
-			setMainLoading(false)
 		}
 	}, [loading, user])
 

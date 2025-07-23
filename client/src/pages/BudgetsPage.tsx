@@ -129,17 +129,18 @@ const BudgetsPage = () => {
 					<Button
 						className="flex gap-2 align-center items-center h-fit"
 						onClick={startAddBudget}
+						title='Create New Budget Button'
 					>
 						<IconCirclePlusFilled size={18} />
 						Create New Budget
 					</Button>
 				) : (
-					<div className="relative">
+					<div className="flex gap-4 self-start">
 						<Button
 							onClick={async () => {
 								await saveNewBudget()
 							}}
-							className="flex gap-2 align-center items-center h-fit"
+							title='Save Budget Button'
 							disabled={
 								!newBudget.category ||
 								!newBudget.budgeted ||
@@ -151,7 +152,7 @@ const BudgetsPage = () => {
 
 						<Button
 							variant="ghost"
-							className="flex gap-2 align-center items-center self-center"
+							title='Cancel Budget Button'
 							onClick={cancelNewBudget}
 						>
 							Cancel

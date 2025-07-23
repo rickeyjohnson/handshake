@@ -15,6 +15,7 @@ const AddExpensePopover = () => {
 					variant="ghost"
 					className="flex gap-2 w-full"
 					onClick={handleNavigation}
+					title='Capture Receipt'
 				>
 					<IconCamera />
 					Capture Reciept

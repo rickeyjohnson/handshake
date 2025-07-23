@@ -136,7 +136,7 @@ const TransactionsPage = () => {
 				}'s transaction history.`}
 			>
 				{editingTxId ? (
-					<div className="flex gap-4">
+					<div className="flex gap-4 self-start">
 						<Button onClick={saveEdit}>Save</Button>
 						<Button variant="ghost" onClick={cancelEditing}>
 							Cancel
@@ -146,6 +146,7 @@ const TransactionsPage = () => {
 					<div className="relative">
 						<Button
 							className="flex gap-2 align-center items-center self-center"
+							title={!openPopover ? 'Add Expense Button' : 'Cancel Expense Button'}
 							onClick={() => setOpenPopover(!openPopover)}
 						>
 							{!openPopover ? (
