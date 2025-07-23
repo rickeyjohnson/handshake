@@ -13,6 +13,7 @@ import { useTransactions } from '../contexts/TransactionsContext'
 import { calculateSpendingData, calculateTotalSpending } from '../utils/utils'
 import Balances from '../components/Balances'
 import { IconLoader2 } from '@tabler/icons-react'
+import Chart from '../components/Chart'
 
 const Dashboard = () => {
 	const { user } = useUser()
@@ -93,6 +94,8 @@ const Dashboard = () => {
 					/>
 				</div>
 			)}
+
+			<Chart />
 		</MainLayout>
 	)
 }
