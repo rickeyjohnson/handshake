@@ -49,6 +49,7 @@ const PairPage = () => {
 					<Button
 						variant="ghost"
 						className="flex justify-center items-center"
+						title='Back'
 					>
 						<span className="material-icons">arrow_back</span>
 					</Button>
@@ -62,6 +63,7 @@ const PairPage = () => {
 					<Button
 						variant="clear"
 						className="w-md"
+						title='Generate Code'
 						onClick={() => {
 							setShowGenerateHandshakeCodeModal(true)
 						}}
@@ -72,6 +74,7 @@ const PairPage = () => {
 					<Button
 						variant=""
 						className="w-md"
+						title='Enter Code'
 						onClick={() => setShowEnterHandshakeCodeModal(true)}
 					>
 						Enter Code

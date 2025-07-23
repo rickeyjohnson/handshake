@@ -8,7 +8,7 @@ const NotFound = () => {
 				This page does not exist.
 			</h1>
 			<Link to="/">
-				<Button variant="ghost sm: hover: bg-red">Home</Button>
+				<Button variant="ghost sm: hover: bg-red" title='Return Home'>Home</Button>
 			</Link>
 		</div>
 	)

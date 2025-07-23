@@ -69,6 +69,7 @@ const LinkPlaid = () => {
 				<Button
 					variant="ghost"
 					className="flex justify-center items-center"
+					title='Back'
 				>
 					<span className="material-icons">arrow_back</span>
 				</Button>
@@ -78,20 +79,19 @@ const LinkPlaid = () => {
 				Connect bank via Plaid to continue creating your account.
 			</h1>
 
-			{isError ? (
+			{isError && (
 				<p className="bg-red-200 py-4 px-8 rounded-md border-red-700 border-4 text-red-700 font-medium text-lg">
 					Error connecting bank
 				</p>
-			) : (
-				<></>
 			)}
 
 			<Button
 				onClick={() => open()}
 				disabled={!ready}
 				className={loading ? 'bg-amber-300' : ''}
+				title='Connect to Plaid'
 			>
-				Connect Bank
+				Connect To Plaid
 			</Button>
 		</div>
 	)
