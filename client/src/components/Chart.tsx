@@ -12,19 +12,21 @@ type SimpleLinePlotProps = {
 
 const Chart: React.FC<SimpleLinePlotProps> = ({
 	data,
-	width = 600,
+	width,
 	height = 400,
-	margin = { top: 20, right: 40, bottom: 30, left: 20 },
+	margin = { top: 20, right: 50, bottom: 30, left: 20 },
 	xTickCount = 5,
 	yTickCount = 5,
 	animationDuration = 3000,
 }) => {
+    const containerRef = useRef<HTMLDivElement>(null)
+    const [containerWidth, setContainerWidth] = useState<number>(width || 600)
 	const pathRef = useRef<SVGPathElement>(null)
 	const [animationProgress, setAnimationProgress] = useState<number>(0)
 
 	if (!data.length) return <p>No data to display</p>
 
-	const chartWidth = width - margin.left - margin.right
+	const chartWidth = containerWidth - margin.left - margin.right
 	const chartHeight = height - margin.top - margin.bottom
 
 	const xValues = data.map((d) => d.x)
@@ -111,74 +113,108 @@ const Chart: React.FC<SimpleLinePlotProps> = ({
 		}
 
 		requestAnimationFrame(animate)
-	}, [data, animationDuration])
+	}, [data, animationDuration, containerWidth])
+
+    useEffect(() => {
+        if (width) {
+            setContainerWidth(width)
+            return
+        }
+
+        const handleResize = () => {
+            if (containerRef.current) {
+                const newWidth = containerRef.current.getBoundingClientRect().width
+                setContainerWidth(newWidth)
+            }
+        }
+
+        handleResize()
+
+        const resizeObserver = new ResizeObserver(() => {
+            handleResize()
+        })
+
+        if (containerRef.current) {
+            resizeObserver.observe(containerRef.current)
+        }
+
+        window.addEventListener('resize', handleResize)
+
+        return () => {
+            resizeObserver.disconnect()
+            window.removeEventListener('resize', handleResize)
+        }
+
+    }, [width])
 
 	return (
-		<svg width={width} height={height} className="border-1">
-			<g transform={`translate(${margin.left},${margin.top})`}>
-				<path
-					ref={pathRef}
-					d={pathData}
-					fill="none"
-					stroke="blue"
-					strokeWidth={2}
-					strokeLinecap="round"
-					strokeLinejoin="round"
-				/>
-
-				<line
-					x1={0}
-					y1={chartHeight}
-					x2={chartWidth}
-					y2={chartHeight}
-					stroke="black"
-				/>
-
-				<line
-					x1={yAxisX}
-					y1={0}
-					x2={yAxisX}
-					y2={chartHeight}
-					stroke="black"
-				/>
-
-				{xTicks.map(({ val, x }, i) => (
-					<g key={i} transform={`translate(${x},${chartHeight})`}>
-						<line y2={6} stroke="black" />
-						<text
-							y={20}
-							textAnchor="middle"
-							fontSize={12}
-							fill="black"
-						>
-							{val.toFixed(1)}
-						</text>
-					</g>
-				))}
-
-				{yTicks.map(({ val, y }, i: number) => (
-					<g key={`y-tick-${i}`}>
-						<line
-							x1={yAxisX}
-							y1={y}
-							x2={yAxisX + 5} // Tick extends right of axis line
-							y2={y}
-							stroke="#666"
-							strokeWidth="1"
-						/>
-						<text
-							x={yAxisX + 10} // Label further right from tick
-							y={y + 4}
-							textAnchor="start" // Align text to the start (left) for right side axis
-							fontSize="12"
-							fill="#666"
-						>
-							{val.toFixed(1)}
-						</text>
-					</g>
-				))}
-			</g>
-		</svg>
+		<div ref={containerRef} className='w-full'>
+            <svg width={containerWidth} height={height} className="border-1">
+                <g transform={`translate(${margin.left},${margin.top})`}>
+                    <path
+                        ref={pathRef}
+                        d={pathData}
+                        fill="none"
+                        stroke="blue"
+                        strokeWidth={2}
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    />
+            
+                    <line
+                        x1={0}
+                        y1={chartHeight}
+                        x2={chartWidth}
+                        y2={chartHeight}
+                        stroke="black"
+                    />
+            
+                    <line
+                        x1={yAxisX}
+                        y1={0}
+                        x2={yAxisX}
+                        y2={chartHeight}
+                        stroke="black"
+                    />
+            
+                    {xTicks.map(({ val, x }, i) => (
+                        <g key={i} transform={`translate(${x},${chartHeight})`}>
+                            <line y2={6} stroke="black" />
+                            <text
+                                y={20}
+                                textAnchor="middle"
+                                fontSize={12}
+                                fill="black"
+                            >
+                                {val.toFixed(1)}
+                            </text>
+                        </g>
+                    ))}
+            
+                    {yTicks.map(({ val, y }, i: number) => (
+                        <g key={`y-tick-${i}`}>
+                            <line
+                                x1={yAxisX}
+                                y1={y}
+                                x2={yAxisX + 5} // Tick extends right of axis line
+                                y2={y}
+                                stroke="#666"
+                                strokeWidth="1"
+                            />
+                            <text
+                                x={yAxisX + 10} // Label further right from tick
+                                y={y + 4}
+                                textAnchor="start" // Align text to the start (left) for right side axis
+                                fontSize="12"
+                                fill="#666"
+                            >
+                                {val.toFixed(1)}
+                            </text>
+                        </g>
+                    ))}
+                </g>
+            </svg>
+        </div>
 	)
 }
 
