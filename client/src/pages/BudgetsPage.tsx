@@ -76,9 +76,10 @@ const BudgetsPage = () => {
 		0
 	)
 	const currentSpending = budgets.reduce(
-		(sum, budget) => sum + budget.actual,
+		(sum, budget) => sum + calculatBudgetSpendingBasedOffCategory(budget.category, transactions),
 		0
 	)
+
 	const remaining = spendingBudget - currentSpending
 
 	const fetchBudgets = async () => {
