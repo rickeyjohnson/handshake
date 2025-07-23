@@ -176,7 +176,7 @@ const BudgetsPage = () => {
 									<th className="text-lg font-medium w-2xs px-3">
 										Actual
 									</th>
-									<th className="text-lg font-medium pr-6 px-3">
+									<th className="text-lg font-medium pr-6 px-3 text-right">
 										Remaining
 									</th>
 								</tr>
