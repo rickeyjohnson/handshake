@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from 'react'
 
 type SimpleLinePlotProps = {
 	data: any[]
@@ -7,6 +7,7 @@ type SimpleLinePlotProps = {
 	margin?: { top: number; right: number; bottom: number; left: number }
 	xTickCount?: number
 	yTickCount?: number
+	animationDuration?: number
 }
 
 const Chart: React.FC<SimpleLinePlotProps> = ({
@@ -16,9 +17,10 @@ const Chart: React.FC<SimpleLinePlotProps> = ({
 	margin = { top: 20, right: 20, bottom: 30, left: 40 },
 	xTickCount = 5,
 	yTickCount = 5,
+	animationDuration = 3000,
 }) => {
-    const pathRef = useRef<SVGPathElement>(null)
-    const [animationProgress, setAnimationProgress] = useState<number>(0)
+	const pathRef = useRef<SVGPathElement>(null)
+	const [animationProgress, setAnimationProgress] = useState<number>(0)
 
 	if (!data.length) return <p>No data to display</p>
 
@@ -58,22 +60,41 @@ const Chart: React.FC<SimpleLinePlotProps> = ({
 		yTicks.push({ val, y })
 	}
 
-    useEffect(() => {
-        if (!pathRef.current || data.length === 0) return
+	useEffect(() => {
+		if (!pathRef.current || data.length === 0) return
 
-        const path = pathRef.current
-        const pathLength = path.getTotalLength()
+		const path = pathRef.current
+		const pathLength = path.getTotalLength()
 
-        path.style.strokeDasharray = `${pathLength}`
-        path.style.strokeDashoffset = `${pathLength}`
+		path.style.strokeDasharray = `${pathLength}`
+		path.style.strokeDashoffset = `${pathLength}`
 
-        
-    }, [data])
+		let startTime: number | null = null
+
+		const animate = (time: number) => {
+			if (!startTime) startTime = time
+			const elasped = time - startTime
+			const progress = Math.min(elasped / animationDuration, 1)
+			const easedProgress = 1 - Math.pow(1 - progress, 3)
+
+			path.style.strokeDashoffset = `${pathLength * (1 - easedProgress)}`
+			setAnimationProgress(easedProgress)
+
+			if (progress < 1) {
+				requestAnimationFrame(animate)
+			} else {
+				path.style.strokeDasharray = ''
+				path.style.strokeDashoffset = ''
+			}
+		}
+
+		requestAnimationFrame(animate)
+	}, [data, animationDuration])
 
 	return (
 		<svg width={width} height={height} className="border-1">
 			<g transform={`translate(${margin.left},${margin.top})`}>
-				<path d={pathData} fill="none" stroke="blue" strokeWidth={2} />
+				<path ref={pathRef} d={pathData} fill="none" stroke="blue" strokeWidth={2} strokeLinecap='round' strokeLinejoin='round'/>
 
 				<line
 					x1={0}
@@ -119,3 +140,4 @@ const Chart: React.FC<SimpleLinePlotProps> = ({
 	)
 }
 
+export default Chart
