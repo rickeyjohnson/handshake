@@ -12,7 +12,7 @@ type SimpleLinePlotProps = {
 	animationDuration?: number
 }
 
-const GraphChart: React.FC<SimpleLinePlotProps> = ({
+const LineChart: React.FC<SimpleLinePlotProps> = ({
 	data,
 	width,
 	height,
@@ -49,7 +49,7 @@ const GraphChart: React.FC<SimpleLinePlotProps> = ({
 	const getSmoothPath = (points: { x: number; y: number }[]) => {
 		if (points.length < 2) return ''
 
-		const smoothing = 0.1 // lower = less curve, try 0.1–0.25
+		const smoothing = 0.1
 
 		const d = [`M${points[0].x} ${points[0].y}`]
 
@@ -81,7 +81,6 @@ const GraphChart: React.FC<SimpleLinePlotProps> = ({
 		const bounds = containerRef.current.getBoundingClientRect()
 		const mouseX = event.clientX - bounds.left - margin.left
 
-		// Find closest point by X distance
 		let closestIndex = 0
 		let closestDistance = Infinity
 
@@ -244,15 +243,15 @@ const GraphChart: React.FC<SimpleLinePlotProps> = ({
 							<line
 								x1={chartWidth}
 								y1={y}
-								x2={chartWidth + 5} // Tick extends right of axis line
+								x2={chartWidth + 5}
 								y2={y}
 								stroke="black"
 								strokeWidth="1"
 							/>
 							<text
-								x={chartWidth + 10} // Label further right from tick
+								x={chartWidth + 10}
 								y={y + 4}
-								textAnchor="start" // Align text to the start (left) for right side axis
+								textAnchor="start"
 								fontSize="12"
 								fill="black"
 							>
@@ -291,4 +290,4 @@ const GraphChart: React.FC<SimpleLinePlotProps> = ({
 	)
 }
 
-export default GraphChart
+export default LineChart
