@@ -189,8 +189,13 @@ const Chart: React.FC<SimpleLinePlotProps> = ({
 	}, [width, height])
 
 	return (
-		<div ref={containerRef} className="w-full h-full">
-			<svg width={containerWidth} height={containerHeight} className="">
+		<div ref={containerRef} className="w-full h-full z-10">
+			<svg
+				width={containerWidth}
+				height={containerHeight}
+				onMouseMove={handleMouseMove}
+				onMouseLeave={handleMouseLeave}
+			>
 				<g transform={`translate(${margin.left},${margin.top})`}>
 					<path
 						ref={pathRef}
@@ -256,6 +261,37 @@ const Chart: React.FC<SimpleLinePlotProps> = ({
 							</text>
 						</g>
 					))}
+
+					{hoverIndex !== null && (
+						<>
+							<circle
+								cx={points[hoverIndex].x}
+								cy={points[hoverIndex].y}
+								r={6}
+								fill="white"
+								stroke="black"
+								strokeWidth={2}
+							/>
+							<circle
+								cx={points[hoverIndex].x}
+								cy={points[hoverIndex].y}
+								r={3}
+								fill="black"
+							/>
+
+							<text
+								x={points[hoverIndex].x}
+								y={points[hoverIndex].y - 13}
+								textAnchor="middle"
+								fontSize={12}
+								fill="black"
+								fontWeight="semibold"
+								alignmentBaseline="middle"
+							>
+								{formatCurrency(data[hoverIndex].total, true)}
+							</text>
+						</>
+					)}
 				</g>
 			</svg>
 		</div>
