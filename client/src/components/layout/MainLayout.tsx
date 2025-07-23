@@ -67,7 +67,7 @@ const MainLayout = ({ children }: { children?: React.ReactNode }) => {
 			</div>
 
 			<main className="box-border bg-white rounded-2xl shadow w-full h-full p-5 not-lg:pb-20 flex flex-col overflow-hidden relative">
-				{(accounts.length && transactions.length) ? children : <Loader backgroundColor='bg-transparent' color='#e5e7eb'/>}
+				{(accounts.length && transactions.length) ? children : <Loader backgroundColor='bg-transparent' color='#d4d4d4'/>}
 			</main>
 
 			<div className="lg:hidden">

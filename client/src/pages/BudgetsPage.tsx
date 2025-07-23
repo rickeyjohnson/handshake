@@ -19,6 +19,7 @@ import { useWebSocket } from '../contexts/WebsocketContext'
 import type { Budget } from '../types/types'
 import { categories } from '../constants/constants'
 import { useTransactions } from '../contexts/TransactionsContext'
+import Loader from '../components/Loader'
 
 const BudgetsPage = () => {
 	const { user } = useUser()
@@ -27,6 +28,7 @@ const BudgetsPage = () => {
 	const [budgets, setBudgets] = useState<Budget[]>([])
 	const [isAdding, setIsAdding] = useState<boolean>(false)
 	const [selectedCategory, setSelectedCategory] = useState('FOOD_AND_DRINK')
+	const [loading, setLoading] = useState<boolean>(true)
 
 	const defaultNewBudget = {
 		id: '',
@@ -87,6 +89,7 @@ const BudgetsPage = () => {
 			})
 			const data = await response.json()
 			setBudgets(data)
+			setLoading(false)
 		} catch (error) {
 			console.error(error)
 		}
@@ -157,7 +160,7 @@ const BudgetsPage = () => {
 				)}
 			</MainHeader>
 
-			<div className="flex flex-wrap items-start justify-center gap-5">
+			{!loading ? <div className="flex flex-wrap items-start justify-center gap-5">
 				<div className="shadow overflow-hidden rounded-xl border border-stone-200 w-full overflow-x-auto">
 					<table className="flex-3 bg-white rounded-xl w-full">
 						<thead>
@@ -295,7 +298,7 @@ const BudgetsPage = () => {
 						</div>
 					</div>
 				</div>
-			</div>
+			</div> : <Loader backgroundColor='bg-transparent' color='#d4d4d4'/>}
 		</MainLayout>
 	)
 }
