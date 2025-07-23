@@ -31,6 +31,7 @@ const Chart: React.FC<SimpleLinePlotProps> = ({
 	)
 	const pathRef = useRef<SVGPathElement>(null)
 	const [animationProgress, setAnimationProgress] = useState<number>(0)
+	const [hoverIndex, setHoverIndex] = useState<number | null>(null)
 
 	const chartWidth = containerWidth - margin.left - margin.right
 	const chartHeight = containerHeight - margin.top - margin.bottom
@@ -71,6 +72,33 @@ const Chart: React.FC<SimpleLinePlotProps> = ({
 		}
 
 		return d.join(' ')
+	}
+
+	const handleMouseMove = (
+		event: React.MouseEvent<SVGSVGElement, MouseEvent>
+	) => {
+		if (!containerRef.current) return
+
+		const bounds = containerRef.current.getBoundingClientRect()
+		const mouseX = event.clientX - bounds.left - margin.left
+
+		// Find closest point by X distance
+		let closestIndex = 0
+		let closestDistance = Infinity
+
+		points.forEach((p, i) => {
+			const dist = Math.abs(p.x - mouseX)
+			if (dist < closestDistance) {
+				closestDistance = dist
+				closestIndex = i
+			}
+		})
+
+		setHoverIndex(closestIndex)
+	}
+
+	const handleMouseLeave = () => {
+		setHoverIndex(null)
 	}
 
 	const points = data.map((d) => ({
