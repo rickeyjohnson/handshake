@@ -27,7 +27,7 @@ const BudgetsPage = () => {
 	const { transactions } = useTransactions()
 	const [budgets, setBudgets] = useState<Budget[]>([])
 	const [isAdding, setIsAdding] = useState<boolean>(false)
-	const [selectedCategory, setSelectedCategory] = useState('FOOD_AND_DRINK')
+	const [selectedCategory, setSelectedCategory] = useState('')
 	const [loading, setLoading] = useState<boolean>(true)
 
 	const defaultNewBudget = {
@@ -76,7 +76,12 @@ const BudgetsPage = () => {
 		0
 	)
 	const currentSpending = budgets.reduce(
-		(sum, budget) => sum + calculatBudgetSpendingBasedOffCategory(budget.category, transactions),
+		(sum, budget) =>
+			sum +
+			calculatBudgetSpendingBasedOffCategory(
+				budget.category,
+				transactions
+			),
 		0
 	)
 
@@ -222,10 +227,11 @@ const BudgetsPage = () => {
 								})}
 
 								{isAdding && (
-									<tr className="border-t border-stone-200">
+									<tr className="border-t border-stone-200 *:py-2">
 										<td className="p-1 pl-6 px-3">
 											<select
 												value={selectedCategory}
+												className='border rounded px-2 py-1 w-full'
 												onChange={(e) => {
 													handleNewBudgetChange(
 														'category',
@@ -236,21 +242,31 @@ const BudgetsPage = () => {
 													)
 												}}
 											>
-												{categories.map((cat) => (
-													<option
-														key={cat.value}
-														value={cat.value}
-													>
-														{cat.label}
-													</option>
-												))}
+												{categories
+													.filter(
+														(cat) =>
+															!budgets.some(
+																(budget) =>
+																	budget.category ===
+																	cat.value
+															)
+													)
+													.map((cat) => (
+														<option
+															key={cat.value}
+															value={cat.value}
+														>
+															{cat.label}
+														</option>
+													))}
 											</select>
 										</td>
 										<td className="p-1 px-3">
-											<Input
+											<input
 												type="number"
 												min={0}
 												value={newBudget.budgeted}
+												className="border rounded px-2 py-1 w-full"
 												onChange={(e) =>
 													handleNewBudgetChange(
 														'budgeted',

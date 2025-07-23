@@ -11,6 +11,7 @@ import { useWebSocket } from '../contexts/WebsocketContext'
 import { categories } from '../constants/constants'
 import { useAccount } from '../contexts/AccountContext'
 import type { Transactions } from '../types/types'
+import { Input } from '../components/ui/Input'
 
 const TransactionsPage = () => {
 	const { transactions, setTransactions } = useTransactions()
