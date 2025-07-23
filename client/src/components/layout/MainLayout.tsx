@@ -10,8 +10,8 @@ import Loader from '../Loader'
 const MainLayout = ({ children }: { children?: React.ReactNode }) => {
 	const { user, loading } = useUser()
 	const [mainLoading, setMainLoading] = useState<boolean>(true)
-	const { setAccounts } = useAccount()
-	const { setTransactions } = useTransactions()
+	const { accounts, setAccounts } = useAccount()
+	const { transactions, setTransactions } = useTransactions()
 
 	const fetchAccounts = async () => {
 		try {
@@ -67,7 +67,7 @@ const MainLayout = ({ children }: { children?: React.ReactNode }) => {
 			</div>
 
 			<main className="box-border bg-white rounded-2xl shadow w-full h-full p-5 not-lg:pb-20 flex flex-col overflow-hidden relative">
-				{children}
+				{(accounts.length && transactions.length) ? children : <Loader backgroundColor='bg-transparent' color='#e5e7eb'/>}
 			</main>
 
 			<div className="lg:hidden">

@@ -12,21 +12,12 @@ import type { DashboardData } from '../types/types'
 import { useTransactions } from '../contexts/TransactionsContext'
 import { calculateSpendingData, calculateTotalSpending } from '../utils/utils'
 import Balances from '../components/Balances'
-import { IconLoader2 } from '@tabler/icons-react'
 import Loader from '../components/Loader'
 
 const Dashboard = () => {
 	const { user } = useUser()
 	const { accounts } = useAccount()
 	const { transactions } = useTransactions()
-
-	// const [dashboard, setDashboard] = useState<DashboardData>({
-	// 	netWorth: 0,
-	// 	userNetWorth: 0,
-	// 	partnerNetWorth: 0,
-	// 	spending: 0,
-	// 	spending_data: [],
-	// })
 
 	const [dashboard, setDashboard] = useState<DashboardData | null>(null)
 
@@ -92,7 +83,7 @@ const Dashboard = () => {
 					</div>
 				</>
 			) : (
-				<Loader backgroundColor='bg-transparent' color='black'/>
+				<Loader backgroundColor='bg-transparent' color='#e5e7eb'/>
 			)}
 		</MainLayout>
 	)
