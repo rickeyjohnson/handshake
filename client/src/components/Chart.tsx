@@ -50,7 +50,7 @@ const Chart: React.FC<SimpleLinePlotProps> = ({
 	const getSmoothPath = (points: { x: number; y: number }[]) => {
 		if (points.length < 2) return ''
 
-		const smoothing = 0.04 // lower = less curve, try 0.1–0.25
+		const smoothing = 0.1 // lower = less curve, try 0.1–0.25
 
 		const d = [`M${points[0].x} ${points[0].y}`]
 
