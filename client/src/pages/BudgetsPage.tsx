@@ -14,7 +14,6 @@ import {
 	formatCategory,
 	formatCurrency,
 } from '../utils/utils'
-import { Input } from '../components/ui/Input'
 import { useWebSocket } from '../contexts/WebsocketContext'
 import type { Budget } from '../types/types'
 import { categories } from '../constants/constants'
@@ -168,8 +167,8 @@ const BudgetsPage = () => {
 			</MainHeader>
 
 			{!loading ? (
-				<div className="flex flex-wrap items-start justify-center gap-5">
-					<div className="shadow overflow-hidden rounded-xl border border-stone-200 w-full overflow-x-auto">
+				<div className="grid grid-cols-1 lg:grid-cols-[25rem_5fr] h-full gap-5">
+					<div className="shadow overflow-hidden rounded-xl border border-stone-200 w-full h-fit overflow-x-auto order-1">
 						<table className="flex-3 bg-white rounded-xl w-full">
 							<thead>
 								<tr className="text-left bg-stone-100 *:py-3">
@@ -214,10 +213,10 @@ const BudgetsPage = () => {
 												{formatCurrency(actual)}
 											</td>
 											<td
-												className={`text-right pr-6 px-3 ${
+												className={`text-right pr-6 px-3 font-semibold ${
 													remaining < 0
-														? 'text-red-600'
-														: 'text-lime-700'
+														? 'text-red-700'
+														: 'text-lime-800'
 												}`}
 											>
 												{formatCurrency(remaining)}
@@ -284,13 +283,16 @@ const BudgetsPage = () => {
 							</tbody>
 						</table>
 					</div>
-					<div className="flex-1 p-10 border-2 border-stone-100 rounded-lg shadow">
-						<h1 className="text-7xl font-medium py-7">
-							{formatCurrency(remaining, true)}
-						</h1>
+					<div className="p-10 border-2 border-stone-100 rounded-lg shadow flex items-center justify-center flex-wrap gap-x-10 gap-y-2 h-fit">
+						<div>
+							<h1>Budget Left To Spend:</h1>
+							<h1 className="text-7xl font-medium py-7">
+								{formatCurrency(remaining, true)}
+							</h1>
+						</div>
 
-						<div className="*:p-4">
-							<div className="flex gap-2 items-center border-t-2 p-2 pb-0 border-stone-200">
+						<div className="max-w-md w-md">
+							<div className="flex gap-2 items-center py-2 px-4">
 								<p className="flex grow items-center gap-2 font-normal text-lg">
 									<IconCash size={18} />
 									Spending Budget
@@ -300,7 +302,7 @@ const BudgetsPage = () => {
 								</p>
 							</div>
 
-							<div className="flex gap-2 items-center border-t-2 p-2 pb-0 border-stone-200">
+							<div className="flex gap-2 items-center py-2 px-4">
 								<p className="flex grow items-center gap-2 font-normal text-lg">
 									<IconPigMoney size={18} />
 									Current Spending
@@ -310,7 +312,7 @@ const BudgetsPage = () => {
 								</p>
 							</div>
 
-							<div className="flex gap-2 items-center border-t-2 p-2 pb-0 border-stone-200">
+							<div className="flex gap-2 items-center border-t-3 border-stone-200 p-4">
 								<p className="flex grow items-center gap-2 font-normal text-lg">
 									<IconCoin size={18} />
 									Remaining
