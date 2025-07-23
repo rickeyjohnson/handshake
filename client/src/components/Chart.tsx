@@ -267,16 +267,10 @@ const Chart: React.FC<SimpleLinePlotProps> = ({
 							<circle
 								cx={points[hoverIndex].x}
 								cy={points[hoverIndex].y}
-								r={6}
-								fill="white"
-								stroke="black"
-								strokeWidth={2}
-							/>
-							<circle
-								cx={points[hoverIndex].x}
-								cy={points[hoverIndex].y}
-								r={3}
+								r={4}
 								fill="black"
+								stroke="white"
+								strokeWidth={2}
 							/>
 
 							<text
