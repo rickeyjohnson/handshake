@@ -49,7 +49,7 @@ const Chart: React.FC<SimpleLinePlotProps> = ({
 	const yTicks = []
 	for (let i = 0; i <= yTickCount; i++) {
 		const val = minY + ((maxY - minY) / yTickCount) * i
-		const y = scaleX(val)
+		const y = scaleY(val)
 		yTicks.push({ val, y })
 	}
 
@@ -66,7 +66,37 @@ const Chart: React.FC<SimpleLinePlotProps> = ({
 					stroke="black"
 				/>
 
-                <line x1={0} y1={0} x2={0} y2={chartHeight} stroke="black" />
+				<line x1={0} y1={0} x2={0} y2={chartHeight} stroke="black" />
+
+				{xTicks.map(({ val, x }, i) => (
+					<g key={i} transform={`translate(${x},${chartHeight})`}>
+						<line y2={6} stroke="black" />
+						<text
+							y={20}
+							textAnchor="middle"
+							fontSize={12}
+							fill="black"
+						>
+							{val.toFixed(1)}
+						</text>
+					</g>
+				))}
+
+				{yTicks.map(({ val, y }, i) => (
+					<g key={i} transform={`translate(0,${y})`}>
+						<line x2={-6} stroke="black" />
+
+						<text
+							x={-10}
+							y={4} // roughly vertically center text relative to tick line
+							textAnchor="end"
+							fontSize={12}
+							fill="black"
+						>
+							{val.toFixed(1)}
+						</text>
+					</g>
+				))}
 			</g>
 		</svg>
 	)
