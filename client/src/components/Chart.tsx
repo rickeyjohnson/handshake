@@ -34,17 +34,37 @@ const Chart: React.FC<SimpleLinePlotProps> = ({
 	const minY = Math.min(...yValues)
 	const maxY = Math.max(...yValues)
 
+	const getSmoothPath = (points: { x: number; y: number }[]) => {
+		if (points.length < 2) return ''
+
+		const d = [`M${points[0].x} ${points[1].y}`]
+
+		for (let i = 0; i < points.length - 1; i++) {
+			const curr = points[i]
+			const next = points[i + 1]
+			const prev = points[i - 1] || curr
+			const next2 = points[i + 2] || next
+
+			const ctrl1x = curr.x + (next.x - prev.x) / 6
+			const ctrl1y = curr.y + (next.y - prev.y) / 6
+
+			const ctrl2x = next.x - (next2.x - curr.x) / 6
+			const ctrl2y = next.y - (next2.y - curr.y) / 6
+
+			d.push(
+				`C${ctrl1x} ${ctrl1y}, ${ctrl2x} ${ctrl2y}, ${next.x} ${next.y}`
+			)
+		}
+
+		return d.join(' ')
+	}
+
 	const scaleX = (x: number) => ((x - minX) / (maxX - minX)) * chartWidth
 	const scaleY = (y: number) =>
 		chartHeight - ((y - minY) / (maxY - minY)) * chartHeight
 
-	const pathData = data
-		.map((d, i) => {
-			const x = scaleX(d.x)
-			const y = scaleY(d.y)
-			return i === 0 ? `M${x} ${y}` : `L${x} ${y}`
-		})
-		.join(' ')
+	const points = data.map((d) => ({ x: scaleX(d.x), y: scaleY(d.y) }))
+	const pathData = getSmoothPath(points)
 
 	const xTicks = []
 	for (let i = 0; i <= xTickCount; i++) {
@@ -94,7 +114,15 @@ const Chart: React.FC<SimpleLinePlotProps> = ({
 	return (
 		<svg width={width} height={height} className="border-1">
 			<g transform={`translate(${margin.left},${margin.top})`}>
-				<path ref={pathRef} d={pathData} fill="none" stroke="blue" strokeWidth={2} strokeLinecap='round' strokeLinejoin='round'/>
+				<path
+					ref={pathRef}
+					d={pathData}
+					fill="none"
+					stroke="blue"
+					strokeWidth={2}
+					strokeLinecap="round"
+					strokeLinejoin="round"
+				/>
 
 				<line
 					x1={0}
