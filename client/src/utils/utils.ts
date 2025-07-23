@@ -71,6 +71,7 @@ export const calculateSpendingData = (transactions: Transactions[]) => {
 		(tx) =>
 			isDateInCurrentMonth(new Date(tx.authorized_date)) && tx.amount > 0
 	)
+	filterTransactions.sort((a, b) => new Date(a.authorized_date).getTime() - new Date(b.authorized_date).getTime())
 	let runningTotal = 0
 	for (const tx of filterTransactions) {
 		runningTotal += tx.amount

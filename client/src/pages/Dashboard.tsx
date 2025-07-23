@@ -13,7 +13,6 @@ import { useTransactions } from '../contexts/TransactionsContext'
 import { calculateSpendingData, calculateTotalSpending } from '../utils/utils'
 import Balances from '../components/Balances'
 import { IconLoader2 } from '@tabler/icons-react'
-import Chart from '../components/Chart'
 
 const Dashboard = () => {
 	const { user } = useUser()
@@ -61,17 +60,6 @@ const Dashboard = () => {
 				title={`Welcome ${user?.name || 'Partner'}`}
 				caption={`Today is ${new Date().toDateString()}`}
 			/>
-			<div className='w-full'>
-				<Chart
-					data={[
-						{ x: 0, y: 10 },
-						{ x: 10, y: 50 },
-						{ x: 20, y: 30 },
-						{ x: 30, y: 100 },
-						{ x: 40, y: 60 },
-					]}
-				/>
-			</div>
 			{accounts && transactions ? (
 				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:grid-rows-[1fr_3fr] items-start gap-7">
 					<NetWorth
