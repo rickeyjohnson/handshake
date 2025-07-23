@@ -71,13 +71,26 @@ export const calculateSpendingData = (transactions: Transactions[]) => {
 		(tx) =>
 			isDateInCurrentMonth(new Date(tx.authorized_date)) && tx.amount > 0
 	)
+	filterTransactions.sort(
+		(a, b) =>
+			new Date(a.authorized_date).getTime() -
+			new Date(b.authorized_date).getTime()
+	)
 	let runningTotal = 0
 	for (const tx of filterTransactions) {
 		runningTotal += tx.amount
-		cumulativeData.push({
-			date: new Date(tx.authorized_date),
-			total: runningTotal,
-		})
+
+		if (
+			cumulativeData[cumulativeData.length - 1].date.getTime() ===
+			new Date(tx.authorized_date).getTime()
+		) {
+			cumulativeData[cumulativeData.length - 1].total = runningTotal
+		} else {
+			cumulativeData.push({
+				date: new Date(tx.authorized_date),
+				total: runningTotal,
+			})
+		}
 	}
 
 	return cumulativeData
