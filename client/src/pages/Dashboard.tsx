@@ -95,7 +95,15 @@ const Dashboard = () => {
 				</div>
 			)}
 
-			<Chart />
+			<Chart
+				data={[
+					{ x: 0, y: 10 },
+					{ x: 10, y: 50 },
+					{ x: 20, y: 30 },
+					{ x: 30, y: 100 },
+					{ x: 40, y: 60 },
+				]}
+			/>
 		</MainLayout>
 	)
 }
