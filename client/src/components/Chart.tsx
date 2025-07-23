@@ -14,7 +14,7 @@ const Chart: React.FC<SimpleLinePlotProps> = ({
 	data,
 	width = 600,
 	height = 400,
-	margin = { top: 20, right: 20, bottom: 30, left: 40 },
+	margin = { top: 20, right: 40, bottom: 30, left: 20 },
 	xTickCount = 5,
 	yTickCount = 5,
 	animationDuration = 3000,
@@ -80,6 +80,8 @@ const Chart: React.FC<SimpleLinePlotProps> = ({
 		yTicks.push({ val, y })
 	}
 
+	const yAxisX = chartWidth
+
 	useEffect(() => {
 		if (!pathRef.current || data.length === 0) return
 
@@ -132,7 +134,13 @@ const Chart: React.FC<SimpleLinePlotProps> = ({
 					stroke="black"
 				/>
 
-				<line x1={0} y1={0} x2={0} y2={chartHeight} stroke="black" />
+				<line
+					x1={yAxisX}
+					y1={0}
+					x2={yAxisX}
+					y2={chartHeight}
+					stroke="black"
+				/>
 
 				{xTicks.map(({ val, x }, i) => (
 					<g key={i} transform={`translate(${x},${chartHeight})`}>
@@ -148,16 +156,22 @@ const Chart: React.FC<SimpleLinePlotProps> = ({
 					</g>
 				))}
 
-				{yTicks.map(({ val, y }, i) => (
-					<g key={i} transform={`translate(0,${y})`}>
-						<line x2={-6} stroke="black" />
-
+				{yTicks.map(({ val, y }, i: number) => (
+					<g key={`y-tick-${i}`}>
+						<line
+							x1={yAxisX}
+							y1={y}
+							x2={yAxisX + 5} // Tick extends right of axis line
+							y2={y}
+							stroke="#666"
+							strokeWidth="1"
+						/>
 						<text
-							x={-10}
-							y={4} // roughly vertically center text relative to tick line
-							textAnchor="end"
-							fontSize={12}
-							fill="black"
+							x={yAxisX + 10} // Label further right from tick
+							y={y + 4}
+							textAnchor="start" // Align text to the start (left) for right side axis
+							fontSize="12"
+							fill="#666"
 						>
 							{val.toFixed(1)}
 						</text>
