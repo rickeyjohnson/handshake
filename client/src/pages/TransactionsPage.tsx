@@ -110,10 +110,7 @@ const TransactionsPage = () => {
 				const data = JSON.parse(event.data)
 
 				if (data.object === 'expense') {
-					// cancel edit mode first
 					cancelEditing()
-
-					// then refetch transactions
 					fetchTransactions()
 				}
 			} catch (error) {

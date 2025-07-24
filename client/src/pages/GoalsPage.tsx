@@ -46,7 +46,6 @@ const GoalsPage = () => {
 				const data = JSON.parse(event.data)
 
 				if (data.object === 'goal') {
-					// Stretch Goals: pair_id for pairs account refresh
 					fetchGoals()
 				}
 			} catch (error) {
