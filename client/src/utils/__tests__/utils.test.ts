@@ -1,4 +1,4 @@
-import { formatCurrency, numify } from '../utils'
+import { formatCategory, formatCurrency, numify } from '../utils'
 
 describe('Client Utils Function', () => {
 	test('formatCurrency: positive number', () => {
@@ -19,5 +19,9 @@ describe('Client Utils Function', () => {
 
 	test('numify: invalid string', () => {
 		expect(numify('invalid')).toBe(NaN)
+	})
+
+	test('formatCategory: valid category', () => {
+		expect(formatCategory('foo_bar')).toBe('foo bar')
 	})
 })
