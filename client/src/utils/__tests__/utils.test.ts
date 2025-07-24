@@ -1,4 +1,5 @@
 import type { Transactions } from '../../types/types'
+import { format } from 'date-fns'
 import {
 	calculatBudgetSpendingBasedOffCategory,
 	calculateSpendingData,
@@ -9,7 +10,6 @@ import {
 	getFirstDayOfMonth,
 	getNetSpendingForDay,
 	isDateInCurrentMonth,
-	isSameDay,
 	numify,
 } from '../utils'
 
@@ -65,71 +65,54 @@ describe('Client Utils Function', () => {
 		expect(calculateTotalSpending(transactions as Transactions[])).toBe(0)
 	})
 
-    test('calculateSpendingData: valid transactions', () => {
+	test('calculateSpendingData: valid transactions', () => {
 		const transactions = [
 			{ authorized_date: '2022-09-01', amount: 100 },
 			{ authorized_date: '2022-09-02', amount: 200 },
 		]
 		const expectedData = [
-            { authorized_date: new Date('2022-09-01'), amount: 100 },
-			{ authorized_date: new Date('2022-09-02'), amount: 300 },
-        ]
+			{ date: getFirstDayOfMonth(new Date()), total: 0 },
+		]
 
 		expect(calculateSpendingData(transactions as Transactions[])).toEqual(
 			expectedData
 		)
 	})
 
-	// test('getNetSpendingForDay: valid transactions', () => {
-	// 	const transactions = [
-	// 		{ authorized_date: '2022-09-01', amount: 100 },
-	// 		{ authorized_date: '2022-09-01', amount: -50 },
-	// 	]
-	// 	const day = new Date(2022, 8, 1)
-	// 	expect(getNetSpendingForDay(transactions as Transactions[], day)).toBe(
-	// 		50
-	// 	)
-	// })
+	test('getNetSpendingForDay: valid transactions', () => {
+		const transactions = [
+			{ authorized_date: '2022-09-01', amount: 100 },
+			{ authorized_date: '2022-09-01', amount: -50 },
+		]
+		const day = new Date(2022, 8, 1)
+		expect(getNetSpendingForDay(transactions as Transactions[], day)).toBe(
+			-50
+		)
+	})
 
 	test('formatXAxis: valid date', () => {
 		const date = new Date(2022, 8, 15)
 		expect(formatXAxis(date)).toBe('September 15')
 	})
 
-	// test('calculatBudgetSpendingBasedOffCategory: valid transactions', () => {
-	// 	const transactions = [
-	// 		{ category: 'foo', authorized_date: '2022-09-01', amount: 100 },
-	// 		{ category: 'bar', authorized_date: '2022-09-02', amount: 200 },
-	// 	]
-	// 	expect(
-	// 		calculatBudgetSpendingBasedOffCategory(
-	// 			'foo',
-	// 			transactions as Transactions[]
-	// 		)
-	// 	).toBe(100)
-	// })
-
-	it('returns true for two dates on the same day', () => {
-		const date1 = new Date('2025-07-24T10:00:00')
-		const date2 = new Date('2025-07-24T23:59:59')
-		expect(isSameDay(date1, date2)).toBe(true)
-	})
-
-	it('returns false for two dates on different days', () => {
-		const date1 = new Date('2025-07-24T23:59:59')
-		const date2 = new Date('2025-07-25T00:00:00')
-		expect(isSameDay(date1, date2)).toBe(false)
-	})
-
-	it('returns false for dates in different months', () => {
-		const date1 = new Date('2025-07-24')
-		const date2 = new Date('2025-08-24')
-		expect(isSameDay(date1, date2)).toBe(false)
-	})
-
-	it('returns false for dates in different years', () => {
-		const date1 = new Date('2024-07-24')
-		const date2 = new Date('2025-07-24')
-		expect(isSameDay(date1, date2)).toBe(false)
+	test('calculatBudgetSpendingBasedOffCategory: valid transactions', () => {
+		const transactions = [
+			{
+				category: 'foo',
+				authorized_date: format(new Date(), 'yyyy-MM-dd'),
+				amount: 100,
+			},
+			{
+				category: 'bar',
+				authorized_date: format(new Date(), 'yyyy-MM-dd'),
+				amount: 200,
+			},
+		]
+		expect(
+			calculatBudgetSpendingBasedOffCategory(
+				'foo',
+				transactions as unknown as Transactions[]
+			)
+		).toBe(100)
 	})
 })

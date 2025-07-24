@@ -59,6 +59,8 @@ const CalendarSummary = () => {
 								date
 							)
 
+							console.log(netSpending)
+
 							return (
 								<div key={idx}>
 									<div

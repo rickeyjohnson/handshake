@@ -15,9 +15,9 @@ export const formatCurrency = (amount: number, round: boolean = false) => {
 
 export const isSameDay = (first: Date, second: Date) => {
 	return (
-		first.getFullYear() === second.getFullYear() &&
-		first.getMonth() === second.getMonth() &&
-		first.getDate() === second.getDate()
+		first.getUTCFullYear() === second.getUTCFullYear() &&
+		first.getUTCMonth() === second.getUTCMonth() &&
+		first.getUTCDate() === second.getUTCDate()
 	)
 }
 
@@ -100,12 +100,12 @@ export const getNetSpendingForDay = (
 	day: Date
 ) => {
 	const filteredTransactions = transactions.filter((tx) => {
-		console.log(isSameDay(new Date(tx.authorized_date), day))
-		console.log(new Date(tx.authorized_date), day)
-		isSameDay(new Date(tx.authorized_date), day)
+		return isSameDay(new Date(tx.authorized_date), day)
 	})
 	return filteredTransactions.reduce((sum, tx) => sum - tx.amount, 0)
 }
+
+export const formatYAxis = (val: string) => `$${val}`
 
 export const formatXAxis = (date: Date | string) => {
 	if (typeof date === 'string') {
