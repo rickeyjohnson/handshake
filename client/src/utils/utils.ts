@@ -1,5 +1,4 @@
 import type { SpendingData, Transactions } from '../types/types'
-import { isSameDay } from 'date-fns'
 
 export const formatCurrency = (amount: number, round: boolean = false) => {
 	const value = round ? Math.round(amount) : amount
@@ -12,6 +11,14 @@ export const formatCurrency = (amount: number, round: boolean = false) => {
 	})
 
 	return value < 0 ? `-${formatted}` : formatted
+}
+
+export const isSameDay = (first: Date, second: Date) => {
+	return (
+		first.getFullYear() === second.getFullYear() &&
+		first.getMonth() === second.getMonth() &&
+		first.getDate() === second.getDate()
+	)
 }
 
 export const numify = (str: string) => {
@@ -92,9 +99,11 @@ export const getNetSpendingForDay = (
 	transactions: Transactions[],
 	day: Date
 ) => {
-	const filteredTransactions = transactions.filter((tx) =>
+	const filteredTransactions = transactions.filter((tx) => {
+		console.log(isSameDay(new Date(tx.authorized_date), day))
+		console.log(new Date(tx.authorized_date), day)
 		isSameDay(new Date(tx.authorized_date), day)
-	)
+	})
 	return filteredTransactions.reduce((sum, tx) => sum - tx.amount, 0)
 }
 
