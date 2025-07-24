@@ -52,7 +52,6 @@ const TransactionsPage = () => {
 
 	const saveEdit = async () => {
 		try {
-			console.log(editedTx)
 			const response = await fetch('/api/expenses/update', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
