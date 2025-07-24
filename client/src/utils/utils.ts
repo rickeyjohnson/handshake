@@ -1,14 +1,6 @@
 import type { SpendingData, Transactions } from '../types/types'
 import { isSameDay } from 'date-fns'
 
-export const capitalize = (name: string | null) => {
-	if (!name) {
-		return ''
-	}
-	name = name.toLowerCase()
-	return name.charAt(0).toUpperCase() + name.slice(1)
-}
-
 export const formatCurrency = (amount: number, round: boolean = false) => {
 	const value = round ? Math.round(amount) : amount
 
@@ -30,7 +22,6 @@ export const numify = (str: string) => {
 		sanitized += '.' + parts[1].slice(0, 2)
 	}
 
-	console.log(Number(sanitized))
 	return Number(sanitized)
 }
 
@@ -105,8 +96,6 @@ export const getNetSpendingForDay = (
 	)
 	return filteredTransactions.reduce((sum, tx) => sum - tx.amount, 0)
 }
-
-export const formatYAxis = (value: number) => `$${value}`
 
 export const formatXAxis = (date: Date | string) => {
 	if (typeof date === 'string') {
