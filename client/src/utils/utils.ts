@@ -16,7 +16,8 @@ export const formatCurrency = (amount: number, round: boolean = false) => {
 
 export const numify = (str: string) => {
 	const value = str.split('$').join('')
-	const parts = value.split('.')
+	const removedCommas = value.split(',').join('')
+	const parts = removedCommas.split('.')
 	let sanitized = parts[0]
 	if (parts.length > 1) {
 		sanitized += '.' + parts[1].slice(0, 2)
