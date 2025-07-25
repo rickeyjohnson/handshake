@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import type { SpendingData } from '../../types/types'
-import { formatCurrency } from '../../utils/utils'
+import { formatCurrency, formatXAxis } from '../../utils/utils'
 
 type SimpleLinePlotProps = {
 	data: SpendingData[]
@@ -229,10 +229,7 @@ const LineChart: React.FC<SimpleLinePlotProps> = ({
 								fontSize={12}
 								fill="black"
 							>
-								{new Date(val).toLocaleDateString('en-US', {
-									month: 'short',
-									day: 'numeric',
-								})}
+								{formatXAxis(val)}
 							</text>
 						</g>
 					))}

@@ -48,7 +48,6 @@ const NotificationToast = ({
 
 			const hideTimer = setTimeout(() => {
 				setShow(false)
-				// Give time for animation to finish before unmounting
 				setTimeout(() => onHide(), 500)
 			}, NOTIFICATION_TIMER)
 

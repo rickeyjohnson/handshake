@@ -7,7 +7,7 @@ const EnterHandshakeCodeModal = ({ onClick }: { onClick: () => void }) => {
 
 	const handlePairing = async () => {
 		try {
-			const response = await fetch('/api/pair/enter', {
+			await fetch('/api/pair/enter', {
 				method: 'POST',
 				credentials: 'include',
 				headers: {
@@ -17,8 +17,6 @@ const EnterHandshakeCodeModal = ({ onClick }: { onClick: () => void }) => {
 					code: code,
 				}),
 			})
-			const data = await response.json()
-			console.log(data)
 		} catch (err) {
 			console.error(err)
 		}

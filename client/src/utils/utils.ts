@@ -1,13 +1,4 @@
 import type { SpendingData, Transactions } from '../types/types'
-import { isSameDay } from 'date-fns'
-
-export const capitalize = (name: string | null) => {
-	if (!name) {
-		return ''
-	}
-	name = name.toLowerCase()
-	return name.charAt(0).toUpperCase() + name.slice(1)
-}
 
 export const formatCurrency = (amount: number, round: boolean = false) => {
 	const value = round ? Math.round(amount) : amount
@@ -22,15 +13,23 @@ export const formatCurrency = (amount: number, round: boolean = false) => {
 	return value < 0 ? `-${formatted}` : formatted
 }
 
+export const isSameDay = (first: Date, second: Date) => {
+	return (
+		first.getUTCFullYear() === second.getUTCFullYear() &&
+		first.getUTCMonth() === second.getUTCMonth() &&
+		first.getUTCDate() === second.getUTCDate()
+	)
+}
+
 export const numify = (str: string) => {
 	const value = str.split('$').join('')
-	const parts = value.split('.')
+	const removedCommas = value.split(',').join('')
+	const parts = removedCommas.split('.')
 	let sanitized = parts[0]
 	if (parts.length > 1) {
 		sanitized += '.' + parts[1].slice(0, 2)
 	}
 
-	console.log(Number(sanitized))
 	return Number(sanitized)
 }
 
@@ -100,13 +99,13 @@ export const getNetSpendingForDay = (
 	transactions: Transactions[],
 	day: Date
 ) => {
-	const filteredTransactions = transactions.filter((tx) =>
-		isSameDay(new Date(tx.authorized_date), day)
-	)
+	const filteredTransactions = transactions.filter((tx) => {
+		return isSameDay(new Date(tx.authorized_date), day)
+	})
 	return filteredTransactions.reduce((sum, tx) => sum - tx.amount, 0)
 }
 
-export const formatYAxis = (value: number) => `$${value}`
+export const formatYAxis = (val: string) => `$${val}`
 
 export const formatXAxis = (date: Date | string) => {
 	if (typeof date === 'string') {

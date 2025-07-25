@@ -106,7 +106,6 @@ const ReceiptCapture = ({
 		loadCamera()
 
 		return () => {
-			console.log('unmounted')
 			videoRef.current?.srcObject &&
 				(videoRef.current.srcObject as MediaStream)
 					.getTracks()

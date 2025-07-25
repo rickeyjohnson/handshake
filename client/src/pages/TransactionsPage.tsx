@@ -52,7 +52,6 @@ const TransactionsPage = () => {
 
 	const saveEdit = async () => {
 		try {
-			console.log(editedTx)
 			const response = await fetch('/api/expenses/update', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
@@ -111,10 +110,7 @@ const TransactionsPage = () => {
 				const data = JSON.parse(event.data)
 
 				if (data.object === 'expense') {
-					// cancel edit mode first
 					cancelEditing()
-
-					// then refetch transactions
 					fetchTransactions()
 				}
 			} catch (error) {
