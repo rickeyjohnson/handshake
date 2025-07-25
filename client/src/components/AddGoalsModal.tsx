@@ -80,7 +80,7 @@ const AddGoalsModal = ({
 	}
 
 	return (
-		<div className="h-screen w-screen bg-stone-950/70 absolute top-0 left-0 flex justify-center items-center">
+		<div className="w-screen h-screen bg-stone-950/70 fixed top-0 left-0 flex justify-center items-center overflow-hidden">
 			<div className="bg-white flex flex-col rounded-2xl border border-gray-300 max-w-md min-w-sm p-8 gap-2 relative">
 				<h1 className="text-xl font-semibold self-start capitalize">
 					add new goal
