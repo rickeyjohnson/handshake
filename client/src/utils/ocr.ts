@@ -5,7 +5,7 @@ export const isValid = (str: string) => {
 	return (str.includes('$') && str.length > 1) || !isNaN(Number(str))
 }
 
-const normalize = (str: string) => {
+export const normalize = (str: string) => {
 	let newStr = ''
 	if (str.includes('$')) {
 		newStr = str.split("$").join("")

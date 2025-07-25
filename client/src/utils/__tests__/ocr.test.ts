@@ -17,7 +17,7 @@ beforeEach(() => {
 	})
 })
 
-describe('isValid', () => {
+describe('ocr.ts test cases', () => {
 	const { isValid } = jest.requireActual('../../utils/ocr')
 	it('returns true for string with dollar sign and length > 1', () => {
 		expect(isValid('$1.23')).toBe(true)
@@ -29,5 +29,14 @@ describe('isValid', () => {
 
 	it('returns false for non-numeric short string without $', () => {
 		expect(isValid('a')).toBe(false)
+	})
+
+    const { normalize } = jest.requireActual('../../utils/ocr')
+	it('removes $ symbols', () => {
+		expect(normalize('$123.45')).toBe('123.45')
+	})
+
+	it('returns original string if no $', () => {
+		expect(normalize('99.99')).toBe('99.99')
 	})
 })
