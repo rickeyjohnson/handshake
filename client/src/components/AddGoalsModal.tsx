@@ -138,7 +138,13 @@ const AddGoalsModal = ({
 					</Button>
 				</form>
 
-				{error ? <p className='pt-4 text-center font-medium capitalize'>{error}</p> : <></>}
+				{error ? (
+					<p className="pt-4 text-center font-medium capitalize">
+						{error}
+					</p>
+				) : (
+					<></>
+				)}
 
 				<Button
 					variant="ghost"

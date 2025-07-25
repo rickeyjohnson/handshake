@@ -9,7 +9,6 @@ import {
 import type { Notification } from '../types/types'
 import { useUser } from '../contexts/UserContext'
 import { useEffect, useState } from 'react'
-import { Button } from './ui/Button'
 
 const NotificationToast = ({
 	notification,
