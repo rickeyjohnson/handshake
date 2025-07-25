@@ -65,4 +65,27 @@ describe('ocr.ts test cases', () => {
 			{ text: '12.34', bbox: {x0: 30, y0: 30, x1: 40, y1: 40}, selected: false, hovered: false },
 		])
     })
+
+    it('returns parsed text when recognition succeeds', async () => {
+		mockRecognize.mockResolvedValue({
+			data: {
+				blocks: [
+					{ text: '$8.99', bbox: [0, 0, 1, 1], symbols: [{}] },
+					{ text: 'foo', bbox: [2, 2, 3, 3], symbols: [{}] },
+				],
+			},
+		})
+
+		const result = await extractTextFromImage('mock-url')
+		expect(result).toEqual([
+			{ text: '8.99', bbox: [0, 0, 1, 1], selected: false, hovered: false },
+		])
+		expect(mockTerminate).toHaveBeenCalled()
+	})
+
+	it('returns empty array on error', async () => {
+		;(tesseract.createWorker as jest.Mock).mockRejectedValue(new Error('fail'))
+		const result = await extractTextFromImage('bad-url')
+		expect(result).toEqual([])
+	})
 })

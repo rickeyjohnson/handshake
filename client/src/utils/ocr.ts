@@ -30,7 +30,7 @@ export const extractTextFromImage = async (image_url: string) => {
 		await worker.terminate()
 		return parseOCRData(blocks)
 	} catch (error) {
-		console.error()
+		console.error(error)
 		return []
 	}
 }
