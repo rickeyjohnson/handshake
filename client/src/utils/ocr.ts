@@ -1,8 +1,8 @@
 import { createWorker } from 'tesseract.js'
 import type { OCRNode, OCRResult } from '../types/types'
 
-const isValid = (str: string) => {
-	return (str.includes('$') && str.length > 1) || Number(str)
+export const isValid = (str: string) => {
+	return (str.includes('$') && str.length > 1) || !isNaN(Number(str))
 }
 
 const normalize = (str: string) => {
