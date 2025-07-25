@@ -41,12 +41,12 @@ const AddGoalsModal = ({
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 		if (!newGoalData.target) {
-			setError('Target money goal needed')
+			setError('Target goal needed to continue')
 			return
 		}
 
 		if (!is_number(newGoalData.target)) {
-			setError('Target amount must be a number')
+			setError('Target goal must be a number')
 			return
 		}
 
@@ -80,7 +80,7 @@ const AddGoalsModal = ({
 	}
 
 	return (
-		<div className="h-screen w-screen bg-stone-950/70 absolute top-0 left-0 flex justify-center items-center">
+		<div className="w-screen h-screen bg-stone-950/70 fixed top-0 left-0 flex justify-center items-center overflow-hidden">
 			<div className="bg-white flex flex-col rounded-2xl border border-gray-300 max-w-md min-w-sm p-8 gap-2 relative">
 				<h1 className="text-xl font-semibold self-start capitalize">
 					add new goal
@@ -138,7 +138,13 @@ const AddGoalsModal = ({
 					</Button>
 				</form>
 
-				{error ? <p>{error}</p> : <></>}
+				{error ? (
+					<p className="pt-4 text-center font-medium capitalize">
+						{error}
+					</p>
+				) : (
+					<></>
+				)}
 
 				<Button
 					variant="ghost"

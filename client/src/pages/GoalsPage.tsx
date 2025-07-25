@@ -60,39 +60,37 @@ const GoalsPage = () => {
 
 	return (
 		<MainLayout>
-			<div>
-				<MainHeader
-					title="Goals"
-					caption={`Set goals with ${
-						user?.partner?.name || 'partner'
-					}`}
+			<MainHeader
+				title="Goals"
+				caption={`Set goals with ${
+					user?.partner?.name || 'partner'
+				}`}
+			>
+				<Button
+					className="flex items-center gap-2 h-fit"
+					onClick={() => setOpenAddGoalsModal(true)}
+					title="Add Goals Button"
 				>
-					<Button
-						className="flex items-center gap-2 h-fit"
-						onClick={() => setOpenAddGoalsModal(true)}
-						title="Add Goals Button"
-					>
-						<IconCirclePlusFilled size={18} />
-						Add Goal
-					</Button>
-				</MainHeader>
-				<div className="flex flex-wrap gap-10 p-4 pt-0 justify-center transition-transform duration-300 ease-in-out will-change-transform">
-					{goals && goals.length > 0 ? (
-						goals.map((goal) => {
-							return (
-								<Goal
-									key={goal.id}
-									title={goal.title}
-									current={goal.current}
-									target={goal.target}
-									onClick={() => handleGoalClick(goal.id)}
-								/>
-							)
-						})
-					) : (
-						<div className="">No goals to see here</div>
-					)}
-				</div>
+					<IconCirclePlusFilled size={18} />
+					Add Goal
+				</Button>
+			</MainHeader>
+			<div className="flex flex-wrap gap-10 p-4 pt-0 justify-center transition-transform duration-300 ease-in-out will-change-transform">
+				{goals && goals.length > 0 ? (
+					goals.map((goal) => {
+						return (
+							<Goal
+								key={goal.id}
+								title={goal.title}
+								current={goal.current}
+								target={goal.target}
+								onClick={() => handleGoalClick(goal.id)}
+							/>
+						)
+					})
+				) : (
+					<div className="">No goals to see here</div>
+				)}
 			</div>
 			{openAddGoalsModal && (
 				<AddGoalsModal
