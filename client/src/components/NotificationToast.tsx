@@ -4,10 +4,12 @@ import {
 	IconCircleXFilled,
 	IconMoneybag,
 	IconTargetArrow,
+	IconX,
 } from '@tabler/icons-react'
 import type { Notification } from '../types/types'
 import { useUser } from '../contexts/UserContext'
 import { useEffect, useState } from 'react'
+import { Button } from './ui/Button'
 
 const NotificationToast = ({
 	notification,
@@ -133,6 +135,13 @@ const NotificationToast = ({
 					</div>
 				</>
 			)}
+			<IconX
+				size={15}
+				className="absolute top-3 right-3 p-0.5 rounded hover:bg-stone-100"
+				onClick={() => {
+					setShow(false)
+				}}
+			/>
 		</div>
 	)
 }
