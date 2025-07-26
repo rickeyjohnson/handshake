@@ -21,7 +21,7 @@ export const WebSocketProvider = ({
 
 	useEffect(() => {
 		const connect = () => {
-			const ws = new WebSocket('ws://localhost:3000/')
+			const ws = new WebSocket(`ws://${window.location.hostname}:3000/`)
 			setSocket(ws)
 
 			ws.onopen = () => {
