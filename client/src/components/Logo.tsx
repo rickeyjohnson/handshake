@@ -1,11 +1,11 @@
 import { useNavigate } from 'react-router'
 
-const Logo = () => {
+const Logo = ({ className }: {className?: string}) => {
 	const navigate = useNavigate()
 
 	return (
 		<button
-			className="text-2xl font-medium absolute top-4 left-4"
+			className={`text-2xl font-medium ${className}`}
 			onClick={() => navigate('/')}
 		>
 			Handshake

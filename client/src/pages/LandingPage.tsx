@@ -6,8 +6,8 @@ const LandingPage = () => {
 	return (
 		<>
 			<div className="flex flex-col h-screen relative">
-				<Logo />
-				<nav className="flex justify-end gap-6 absolute right-6 top-6">
+				<nav className="flex gap-6 not-sm:gap-0 absolute top-6 right-6 left-6 items-center flex-wrap">
+					<Logo className='mr-auto'/>
 					<Link to="/login">
 						<Button
 							variant="ghost"
@@ -22,7 +22,7 @@ const LandingPage = () => {
 					</Link>
 
 					<Link to="/signup">
-						<Button className="flex gap-2" title="Sign Up">
+						<Button className="flex gap-2 not-sm:hidden" title="Sign Up">
 							Sign Up
 						</Button>
 					</Link>
