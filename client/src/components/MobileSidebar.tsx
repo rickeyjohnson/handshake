@@ -15,12 +15,12 @@ const MobileSidebar = () => {
 	}
 
 	return (
-		<nav className="fixed bottom-0 left-0 w-screen bg-white border-t border-gray-200 flex justify-around items-center p-2 z-50">
+		<nav className="fixed bottom-0 left-0 w-screen bg-white border-t border-gray-200 flex justify-around items-center p-2 z-50 overflow-x-auto gap-1">
 			{nav.map((item) => {
 				return (
 					<Button
 						variant="dashboard"
-						className={`flex flex-col ${selectedStyle(item.url)}`}
+						className={`flex flex-col ${selectedStyle(item.url)} min-w-25`}
 						onClick={() => navigate(item.url)}
 						key={item.title}
 					>
@@ -30,7 +30,7 @@ const MobileSidebar = () => {
 				)
 			})}
 
-			<LogoutButton className="hover:bg-stone-200/40 flex flex-col" />
+			<LogoutButton className="hover:bg-stone-200/40 flex flex-col min-w-25" />
 		</nav>
 	)
 }

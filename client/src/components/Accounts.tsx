@@ -58,7 +58,7 @@ const Accounts = () => {
 						key={acc.subtype}
 						className="flex gap-3 flex-row align-center border-b-2 border-stone-200 p-4 last:border-0"
 					>
-						{<acc.icon size={24} />}
+						{<acc.icon size={24} className='not-md:hidden'/>}
 						<h1 className="self-center capitalize">
 							{acc.subtype}
 						</h1>
