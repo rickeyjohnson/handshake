@@ -49,9 +49,9 @@ const SignUpPage = () => {
 	}
 
 	return (
-		<div className="flex justify-center items-center h-screen min-h-svh">
-			<Logo />
-			<div className="bg-white flex flex-col rounded-2xl border border-gray-300 max-w-md min-w-sm items-center p-8 gap-2">
+		<div className="flex justify-center items-center h-screen min-h-svh relative">
+			<Logo className='absolute top-6 left-6 not-sm:right-6'/>
+			<div className="bg-white flex flex-col rounded-2xl border border-gray-300 max-w-md items-center p-8 gap-2 m-3 z-10">
 				<h1 className="text-xl font-semibold self-start">Sign Up</h1>
 				<p className="self-start text-gray-500 font-light text-md">
 					Enter your name and email below to create an account
