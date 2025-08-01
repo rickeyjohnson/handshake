@@ -40,8 +40,8 @@ export const formatCategory = (cat: string) => {
 export const isDateInCurrentMonth = (date: Date) => {
 	const now = new Date()
 	return (
-		date.getFullYear() === now.getFullYear() &&
-		date.getMonth() === now.getMonth()
+		date.getUTCFullYear() === now.getUTCFullYear() &&
+		date.getUTCMonth() === now.getUTCMonth()
 	)
 }
 

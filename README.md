@@ -2,19 +2,14 @@
 
 **A modern finance app designed for couples to manage money—together.**
 
-Whether you're saving for a trip, tracking shared expenses, or building a budget, **Handshake** lets you link accounts, set goals, and stay financially aligned — all without needing a joint bank account.
-
 <div align="center">
-  <img src="<!-- INSERT HERO GIF OF SITE HERE -->" alt="Handshake App Preview" width="700"/>
+  <img src="./client/public/images/dashboard.png" alt="Handshake App Preview" width=""/>
 </div>
-
----
 
 ## 🔗 Live Site
 
 👉 [Visit Handshake](https://your-deployed-site.com)
 
----
 
 ## 📌 Overview
 
@@ -31,7 +26,6 @@ Each user links their own bank accounts via Plaid, and Handshake aggregates, org
 -   Managing expenses visually with receipt uploads
 -   Seeing real-time updates across devices
 
----
 
 ## 🧠 Key Features
 
@@ -85,7 +79,6 @@ Each user links their own bank accounts via Plaid, and Handshake aggregates, org
 -   Once accepted, accounts are securely linked
 -   Supports safe unpairing and data separation
 
----
 
 ## 🛠️ Tech Stack
 
@@ -98,7 +91,6 @@ Each user links their own bank accounts via Plaid, and Handshake aggregates, org
 | **Realtime** | WebSockets                                    |
 | **Auth**     | Session-based with `express-session` & bcrypt |
 
----
 
 ## 🧩 System Architecture
 
@@ -121,7 +113,6 @@ Each user links their own bank accounts via Plaid, and Handshake aggregates, org
     -   Relationship-aware data models with support for paired users and shared data access
     -   Used Prisma API for database CRUD operations using functions from Prisma API
 
----
 
 ## 📦 Core API Endpoints
 
@@ -142,7 +133,6 @@ Each user links their own bank accounts via Plaid, and Handshake aggregates, org
 
 > ⚙️ Additional endpoints for updating, deleting, or fetching individual entries exist for each resource.
 
----
 
 ## 🧪 Technical Challenges
 
@@ -160,6 +150,18 @@ Each user links their own bank accounts via Plaid, and Handshake aggregates, org
 -   App dynamically identifies price-like values and displays them in clickable overlays
 -   Selected amount populates the "Add Expense" form automatically
 
----
 
 **Project Plan:** [Handshake- Project Plan](https://docs.google.com/document/d/1RWj0f8nT2Vqfz24rBwgXz-8atkTkplsZzBFWUS4pOO4/edit?usp=sharing)
+
+## 🙌 Acknowledgements
+-   My Intern Manager, Prashant, my MU peers, my recruiter, and my fellow MU interns for their support and for the amazing summer 
+
+##  📸 Screenshots
+
+<p align="center">
+  <img src="./client/public/images/landing-ss.png" width="" />
+  <img src="./client/public/images/dashboard-ss.png" width="" />
+  <img src="./client/public/images/transactions-ss.png" width="" />
+  <img src="./client/public/images/goals-ss.png" width="" />
+  <img src="./client/public/images/budgets-ss.png" width="" />
+</p>

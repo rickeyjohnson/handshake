@@ -1,11 +1,12 @@
 import { Link } from 'react-router'
 import { Button } from '../components/ui/Button'
 import Logo from '../components/Logo'
+import ImageScroller from '../components/ImageScoller'
 
 const LandingPage = () => {
 	return (
 		<>
-			<div className="flex flex-col h-screen relative">
+			<div className="flex flex-col relative">
 				<nav className="flex gap-6 not-sm:gap-0 absolute top-6 right-6 left-6 items-center flex-wrap">
 					<Logo className="mr-auto" />
 					<Link to="/login">
@@ -28,7 +29,7 @@ const LandingPage = () => {
 					</Link>
 				</nav>
 
-				<main className="flex justify-center items-center h-full">
+				<main className="flex justify-center items-center h-screen">
 					<div className="flex flex-col gap-3 items-center text-center p-6">
 						<h1 className="lg:text-7xl font-medium text-4xl">
 							Welcome to Handshake
@@ -57,7 +58,7 @@ const LandingPage = () => {
 					</div>
 				</main>
 
-				<p className="text-center pb-3 font-medium">More coming ...</p>
+				<ImageScroller />
 			</div>
 		</>
 	)
