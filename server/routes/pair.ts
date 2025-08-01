@@ -99,6 +99,20 @@ pair.post('/enter', isAuthenticated, async (req, res) => {
 		data: { partner_id: userId },
 	})
 
+	req.session.user.partner_id = partnerId
+
+	const partner = await prisma.user.findUnique({
+		where: { id: partnerId },
+		select: {
+			id: true,
+			name: true,
+		},
+	})
+
+	req.session.user.partner = partner
+
+	console.log('[PAIR] after pairing: ', req.session.user)
+
 	await prisma.pairRequest.update({
 		where: { code: code },
 		data: {
@@ -128,6 +142,12 @@ pair.post('/enter', isAuthenticated, async (req, res) => {
 			pair_id: pairId,
 		},
 	})
+
+	for (const client of connectedClients) {
+		if (client.user_id === userId || client.user_id === partnerId) {
+			client.pair_id = pairId
+		}
+	}
 
 	sendWebsocketMessage({
 		action: 'PAIR',

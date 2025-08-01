@@ -12,6 +12,7 @@ export const isAuthenticated = (req, res, next?) => {
 			.json({ error: 'You must be logged in to perform this action. ' })
 	}
 
+	console.log('[API] Cookies received:', req.headers.cookie)
 	next()
 }
 
@@ -38,6 +39,7 @@ export const isExpired = (startDate, secondsToAdd) => {
 }
 
 export const getUserAccessToken = async (user_id) => {
+	console.log('getUserAccessToken called with user_id:', user_id)
 	const item = await prisma.plaidItem.findFirst({
 		where: { owner_id: user_id },
 	})
@@ -82,7 +84,7 @@ export const getPairedId = async (user_id) => {
 		},
 	})
 
-	return pair.id
+	return pair ? pair.id : null
 }
 
 export const addNewTransaction = async (transactionObj) => {

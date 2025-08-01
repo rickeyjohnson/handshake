@@ -11,7 +11,7 @@ const PairPage = () => {
 		useState(false)
 	const [showEnterHandshakeCodeModal, setShowEnterHandshakeCodeModal] =
 		useState(false)
-	const { user } = useUser()
+	const { user, fetchUser } = useUser()
 	const navigate = useNavigate()
 	const { socket } = useWebSocket()
 
@@ -25,7 +25,7 @@ const PairPage = () => {
 	useEffect(() => {
 		if (!socket) return
 
-		const handleNewPair = (event: MessageEvent) => {
+		const handleNewPair = async (event: MessageEvent) => {
 			try {
 				const data = JSON.parse(event.data)
 
@@ -49,7 +49,7 @@ const PairPage = () => {
 					<Button
 						variant="ghost"
 						className="flex justify-center items-center"
-						title='Back'
+						title="Back"
 					>
 						<span className="material-icons">arrow_back</span>
 					</Button>
@@ -57,13 +57,13 @@ const PairPage = () => {
 
 				<div className="flex flex-col justify-center items-center gap-4 w-md relative">
 					<h1 className="text-center text-3xl capitalize">
-						{user?.name} it's time to pair with your partner.
+						{user?.name}, it's time to pair with your partner.
 					</h1>
 
 					<Button
 						variant="clear"
 						className="w-md"
-						title='Generate Code'
+						title="Generate Code"
 						onClick={() => {
 							setShowGenerateHandshakeCodeModal(true)
 						}}
@@ -74,7 +74,7 @@ const PairPage = () => {
 					<Button
 						variant=""
 						className="w-md"
-						title='Enter Code'
+						title="Enter Code"
 						onClick={() => setShowEnterHandshakeCodeModal(true)}
 					>
 						Enter Code

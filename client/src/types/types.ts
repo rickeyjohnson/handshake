@@ -102,6 +102,7 @@ export type UserContextType = {
 	user: User | null
 	loading: boolean
 	setUser: Dispatch<SetStateAction<User | null>>
+	fetchUser: () => void
 }
 
 export type WebSocketContextType = {
@@ -119,6 +120,7 @@ export type User = {
 	id: string
 	name: string
 	email: string
+	password: string
 	is_plaid_linked: boolean
 	is_paired: boolean
 	partner: {
@@ -158,7 +160,7 @@ export type Category = {
 }
 
 export type Notification = {
-	action: 'ADD' | 'UPDATE' | 'DELETE'
+	action: 'ADD' | 'UPDATE' | 'DELETE' | 'PAIR'
 	object: 'expense' | 'goal' | 'budget'
 	user_id: string
 	pair_id: string

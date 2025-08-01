@@ -8,7 +8,7 @@ import { useUser } from '../../contexts/UserContext'
 import Loader from '../Loader'
 
 const MainLayout = ({ children }: { children?: React.ReactNode }) => {
-	const { user, loading } = useUser()
+	const { user, loading, fetchUser } = useUser()
 	const { accounts, setAccounts } = useAccount()
 	const { transactions, setTransactions } = useTransactions()
 
@@ -52,11 +52,12 @@ const MainLayout = ({ children }: { children?: React.ReactNode }) => {
 	}
 
 	useEffect(() => {
-		if (!loading && user) {
+		fetchUser()
+		if (!loading && user?.id) {
 			fetchTransactions()
 			fetchAccounts()
 		}
-	}, [loading, user])
+	}, [loading, user?.id])
 
 	return (
 		<div className="min-h-dvh w-full bg-stone-50 text-slate-950 p-4 gap-4 flex flex-col lg:grid lg:grid-cols-[16rem_1fr]">

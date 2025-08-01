@@ -56,6 +56,7 @@ const NotificationToast = ({
 		}
 	}, [notification, onHide])
 
+	if (notification.action === 'PAIR') return null
 	if (!notification) return null
 
 	return (
@@ -74,7 +75,7 @@ const NotificationToast = ({
 							</h1>
 							<p className="font-light text-stone-400 text-sm">
 								<span className="capitalize">
-									{user.partner.name}
+									{user?.partner?.name ?? 'Your partner'}
 								</span>{' '}
 								will be notified of your changes.
 							</p>
@@ -93,7 +94,7 @@ const NotificationToast = ({
 							</h1>
 							<p className="font-light text-red-400 text-sm">
 								<span className="capitalize">
-									{user.partner.name}
+									{user?.partner?.name ?? 'Your Partner'}
 								</span>{' '}
 								will not be notified until your changes are
 								saved successfully. Please refresh your page to
@@ -113,7 +114,7 @@ const NotificationToast = ({
 						}!`}</h1>
 						<p className="font-light text-stone-400 text-sm">
 							<span className="capitalize">
-								{user ? user.partner.name : 'Your partner'}
+								{user?.partner?.name ?? 'Your partner'}
 							</span>{' '}
 							{actionToVerb[notification.action]}{' '}
 							{notification.object === 'expense' ? 'an' : 'a'}{' '}
@@ -139,6 +140,7 @@ const NotificationToast = ({
 				className="absolute top-3 right-3 p-0.5 rounded hover:bg-stone-100"
 				onClick={() => {
 					setShow(false)
+					onHide()
 				}}
 			/>
 		</div>

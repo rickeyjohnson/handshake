@@ -6,6 +6,7 @@ const defaultUserContext: UserContextType = {
 	user: null,
 	loading: true,
 	setUser: () => {},
+	fetchUser: () => {},
 }
 
 const UserContext = createContext<UserContextType>(defaultUserContext)
@@ -15,33 +16,33 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 	const [loading, setLoading] = useState(true)
 	const navigate = useNavigate()
 
-	useEffect(() => {
-		const fetchUser = async () => {
-			try {
-				const response = await fetch('/api/me', {
-					credentials: 'include',
-				})
-				if (response.ok) {
-					const data = await response.json()
-					setUser(data)
-				} else {
-					setUser(null)
-					navigate('/login')
-				}
-			} catch (err) {
-				console.error(err)
+	const fetchUser = async () => {
+		try {
+			const response = await fetch('/api/me', {
+				credentials: 'include',
+			})
+			if (response.ok) {
+				const data = await response.json()
+				setUser(data)
+			} else {
 				setUser(null)
 				navigate('/login')
-			} finally {
-				setLoading(false)
 			}
+		} catch (err) {
+			console.error(err)
+			setUser(null)
+			navigate('/login')
+		} finally {
+			setLoading(false)
 		}
+	}
 
+	useEffect(() => {
 		fetchUser()
 	}, [])
 
 	return (
-		<UserContext.Provider value={{ user, loading, setUser }}>
+		<UserContext.Provider value={{ user, loading, setUser, fetchUser }}>
 			{children}
 		</UserContext.Provider>
 	)

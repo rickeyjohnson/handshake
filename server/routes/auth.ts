@@ -44,7 +44,7 @@ auth.post('/signup', async (req: Request, res: Response) => {
 
 	try {
 		const hashedPassword = await bcrypt.hash(password, 10)
-		const newUser = await prisma.user.create({
+		const createdUser = await prisma.user.create({
 			data: {
 				name,
 				email,
@@ -52,12 +52,18 @@ auth.post('/signup', async (req: Request, res: Response) => {
 			},
 		})
 
-		req.session.user = newUser
-		res.status(201).json(newUser)
+		// Fetch full user including nullable partner field
+		const fullUser = await prisma.user.findUnique({
+			where: { id: createdUser.id },
+			include: { partner: true },
+		})
+
+		req.session.user = fullUser
+		res.status(201).json(fullUser)
 	} catch (error) {
-		console.error('Error creating post: ', error)
+		console.error('Error during signup: ', error)
 		res.status(500).json({
-			error: 'Something went wrong while creating the post.',
+			error: 'Something went wrong while creating the account.',
 		})
 	}
 })

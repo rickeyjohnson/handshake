@@ -19,6 +19,7 @@ declare module 'express-session' {
 			name: string
 			email: string
 			partner_id?: string
+			partner?: { id: string; name: string }
 		}
 	}
 }
@@ -74,6 +75,7 @@ app.get('/api/me', isAuthenticated, async (req: Request, res: Response) => {
 			res.status(404).json({ message: 'User not found' })
 		}
 
+		req.session.user = user
 		res.status(200).json({ message: 'User found!', ...user })
 	} catch (error) {
 		console.error(error)
@@ -88,7 +90,12 @@ app.ws('/', async (ws, req) => {
 		const userId = req.session?.user?.id || null
 
 		if (userId) {
-			const pair_id = await getPairedId(userId)
+			let pair_id = null
+			try {
+				pair_id = await getPairedId(userId)
+			} catch (e) {
+				console.log(`No pair found for user ${userId}`)
+			}
 
 			connectedClients.push({
 				ws: ws,
@@ -103,5 +110,26 @@ app.ws('/', async (ws, req) => {
 	ws.on('close', () => {
 		const index = connectedClients.findIndex((client) => client.ws === ws)
 		if (index !== -1) connectedClients.splice(index, 1)
+	})
+
+	ws.on('message', async (message) => {
+		try {
+			const parsed = JSON.parse(message.toString())
+			if (parsed.action === 'pair_update') {
+				const userId = req.session?.user?.id
+				if (!userId) return
+
+				const newPairId = await getPairedId(userId)
+				const client = connectedClients.find((c) => c.ws === ws)
+				if (client) {
+					client.pair_id = newPairId
+					console.log(
+						`Updated pair_id for user ${userId} to ${newPairId}`
+					)
+				}
+			}
+		} catch (e) {
+			console.error('Error processing WS message:', e)
+		}
 	})
 })

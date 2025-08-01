@@ -231,8 +231,13 @@ const populateAccountNames = async (userId, accessToken) => {
 }
 
 plaid.get('/accounts/get', isAuthenticated, async (req, res) => {
-	const userId = req.session.user.id
-	const partnerId = req.session.user.partner_id
+	console.log('[FETCHING ACCOUNTS] User in session:', req.session.user)
+	const freshUser = await prisma.user.findUnique({
+		where: { id: req.session.user.id },
+		include: { partner: true },
+	})
+	const userId = freshUser.id
+	const partnerId = freshUser.partner_id
 
 	try {
 		const accessToken = await getUserAccessToken(userId)
@@ -241,6 +246,7 @@ plaid.get('/accounts/get', isAuthenticated, async (req, res) => {
 		const accountsResponse = await plaidClient.accountsGet({
 			access_token: accessToken,
 		})
+
 		const partnerAccountsResponse = await plaidClient.accountsGet({
 			access_token: partnerAccessToken,
 		})

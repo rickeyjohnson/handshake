@@ -7,7 +7,7 @@ const LandingPage = () => {
 		<>
 			<div className="flex flex-col h-screen relative">
 				<nav className="flex gap-6 not-sm:gap-0 absolute top-6 right-6 left-6 items-center flex-wrap">
-					<Logo className='mr-auto'/>
+					<Logo className="mr-auto" />
 					<Link to="/login">
 						<Button
 							variant="ghost"
@@ -15,14 +15,14 @@ const LandingPage = () => {
 							title="Log In"
 						>
 							Login
-							<span className="material-icons pl-1.5">
-								arrow_right_alt
-							</span>
 						</Button>
 					</Link>
 
 					<Link to="/signup">
-						<Button className="flex gap-2 not-sm:hidden" title="Sign Up">
+						<Button
+							className="flex gap-2 not-sm:hidden"
+							title="Sign Up"
+						>
 							Sign Up
 						</Button>
 					</Link>
@@ -31,7 +31,7 @@ const LandingPage = () => {
 				<main className="flex justify-center items-center h-full">
 					<div className="flex flex-col gap-3 items-center text-center p-6">
 						<h1 className="lg:text-7xl font-medium text-4xl">
-							Welcome, to Handshake
+							Welcome to Handshake
 						</h1>
 						<p className="text-xl">
 							The modern finance app designed for couples
@@ -51,9 +51,6 @@ const LandingPage = () => {
 									title="Github"
 								>
 									Github
-									<span className="material-icons pl-1.5">
-										arrow_right_alt
-									</span>
 								</Button>
 							</a>
 						</section>
