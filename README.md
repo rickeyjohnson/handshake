@@ -2,10 +2,6 @@
 
 **A modern finance app designed for couples to manage money—together.**
 
-<div align="center">
-  <img src="./client/public/images/dashboard.png" alt="Handshake App Preview" width=""/>
-</div>
-
 ## 🔗 Live Site
 
 👉 [Visit Handshake](https://your-deployed-site.com)
@@ -25,6 +21,10 @@ Each user links their own bank accounts via Plaid, and Handshake aggregates, org
 -   Saving toward financial goals as a team
 -   Managing expenses visually with receipt uploads
 -   Seeing real-time updates across devices
+
+  <div align="center">
+  <img src="./client/public/images/dashboard.png" alt="Handshake App Preview" width=""/>
+</div>
 
 
 ## 🧠 Key Features
