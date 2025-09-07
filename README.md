@@ -165,3 +165,13 @@ Each user links their own bank accounts via Plaid, and Handshake aggregates, org
   <img src="./client/public/images/goals-ss.png" width="" />
   <img src="./client/public/images/budgets-ss.png" width="" />
 </p>
+
+## DEMO
+<div>
+  <a href="https://www.loom.com/share/1f738126a8124db08e4e0ce5da88deeb">
+    <p>Handshake Quick Demo</p>
+  </a>
+  <a href="https://www.loom.com/share/1f738126a8124db08e4e0ce5da88deeb">
+    <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/1f738126a8124db08e4e0ce5da88deeb-a95168ce5231a04e-full-play.gif">
+  </a>
+</div>
